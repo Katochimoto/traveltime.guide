@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:teamtravel/screens/articles/articles_screen.dart';
-import 'package:teamtravel/screens/components/components_screen.dart';
-import 'package:teamtravel/screens/home/home_screen.dart';
-import 'package:teamtravel/screens/profile/profile_screen.dart';
-import 'package:teamtravel/screens/register/register_screen.dart';
-import 'package:teamtravel/screens/settings/settings_screen.dart';
+import 'package:teamtravel/constants/routes.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -67,75 +62,64 @@ class NowDrawer extends StatelessWidget {
               DrawerTile(
                   icon: FontAwesomeIcons.house,
                   onTap: () {
-                    if (currentPage != HomeScreen.routeName) {
-                      Navigator.pushReplacementNamed(
-                          context, HomeScreen.routeName);
+                    if (currentPage != Routes.home) {
+                      Navigator.pushReplacementNamed(context, Routes.home);
                     }
                   },
                   iconColor: NowUIColors.primary,
                   title: "Home",
-                  isSelected:
-                      currentPage == HomeScreen.routeName ? true : false),
+                  isSelected: currentPage == Routes.home ? true : false),
               DrawerTile(
                   icon: FontAwesomeIcons.dharmachakra,
                   onTap: () {
-                    if (currentPage != ComponentsScreen.routeName) {
+                    if (currentPage != Routes.components) {
                       Navigator.pushReplacementNamed(
-                          context, ComponentsScreen.routeName);
+                          context, Routes.components);
                     }
                   },
                   iconColor: NowUIColors.error,
                   title: "Components",
-                  isSelected:
-                      currentPage == ComponentsScreen.routeName ? true : false),
+                  isSelected: currentPage == Routes.components ? true : false),
               DrawerTile(
                   icon: FontAwesomeIcons.newspaper,
                   onTap: () {
-                    if (currentPage != ArticlesScreen.routeName) {
-                      Navigator.pushReplacementNamed(
-                          context, ArticlesScreen.routeName);
+                    if (currentPage != Routes.articles) {
+                      Navigator.pushReplacementNamed(context, Routes.articles);
                     }
                   },
                   iconColor: NowUIColors.primary,
                   title: "Articles",
-                  isSelected:
-                      currentPage == ArticlesScreen.routeName ? true : false),
+                  isSelected: currentPage == Routes.articles ? true : false),
               DrawerTile(
                   icon: FontAwesomeIcons.user,
                   onTap: () {
-                    if (currentPage != ProfileScreen.routeName) {
-                      Navigator.pushReplacementNamed(
-                          context, ProfileScreen.routeName);
+                    if (currentPage != Routes.profile) {
+                      Navigator.pushReplacementNamed(context, Routes.profile);
                     }
                   },
                   iconColor: NowUIColors.warning,
                   title: "Profile",
-                  isSelected:
-                      currentPage == ProfileScreen.routeName ? true : false),
+                  isSelected: currentPage == Routes.profile ? true : false),
               DrawerTile(
                   icon: FontAwesomeIcons.fileInvoice,
                   onTap: () {
-                    if (currentPage != RegisterScreen.routeName) {
-                      Navigator.pushReplacementNamed(
-                          context, RegisterScreen.routeName);
+                    if (currentPage != Routes.account) {
+                      Navigator.pushReplacementNamed(context, Routes.account);
                     }
                   },
                   iconColor: NowUIColors.info,
                   title: "Account",
-                  isSelected:
-                      currentPage == RegisterScreen.routeName ? true : false),
+                  isSelected: currentPage == Routes.account ? true : false),
               DrawerTile(
                   icon: FontAwesomeIcons.cog,
                   onTap: () {
-                    if (currentPage != SettingsScreen.routeName) {
-                      Navigator.pushReplacementNamed(
-                          context, SettingsScreen.routeName);
+                    if (currentPage != Routes.settings) {
+                      Navigator.pushReplacementNamed(context, Routes.settings);
                     }
                   },
                   iconColor: NowUIColors.success,
                   title: "Settings",
-                  isSelected:
-                      currentPage == SettingsScreen.routeName ? true : false),
+                  isSelected: currentPage == Routes.settings ? true : false),
             ],
           ),
         ),

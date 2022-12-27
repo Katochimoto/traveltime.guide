@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:teamtravel/constants/Theme.dart';
 
+@immutable
 class OnboardingScreen extends StatelessWidget {
-  static String routeName = "/onboarding";
+  const OnboardingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +92,8 @@ class OnboardingScreen extends StatelessWidget {
                     width: double.infinity,
                     child: TextButton(
                       style: TextButton.styleFrom(
-                        foregroundColor: NowUIColors.info, shape: RoundedRectangleBorder(
+                        foregroundColor: NowUIColors.info,
+                        shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(4.0),
                         ),
                       ),

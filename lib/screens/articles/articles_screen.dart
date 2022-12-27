@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:teamtravel/constants/Theme.dart';
+import 'package:teamtravel/constants/routes.dart';
 
 //screens
 // import 'package:teamtravel/screens/componentsduct.dart';
@@ -8,7 +9,7 @@ import 'package:teamtravel/constants/Theme.dart';
 
 //widgets
 import 'package:teamtravel/widgets/drawer.dart';
-import 'package:teamtravel/widgets/navbar.dart';
+import 'package:teamtravel/widgets/navbar/navbar.dart';
 import 'package:teamtravel/widgets/card-horizontal.dart';
 import 'package:teamtravel/widgets/card-small.dart';
 import 'package:teamtravel/widgets/card-square.dart';
@@ -86,8 +87,9 @@ final Map<String, dynamic> articlesCards = {
   }
 };
 
+@immutable
 class ArticlesScreen extends StatelessWidget {
-  static String routeName = "/articles";
+  const ArticlesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +99,7 @@ class ArticlesScreen extends StatelessWidget {
           rightOptions: false,
         ),
         backgroundColor: NowUIColors.bgColorScreen,
-        drawer: NowDrawer(currentPage: routeName),
+        drawer: const NowDrawer(currentPage: Routes.articles),
         body: Container(
             padding: const EdgeInsets.only(right: 24, left: 24, bottom: 36),
             child: SingleChildScrollView(
@@ -166,7 +168,8 @@ class ArticlesScreen extends StatelessWidget {
                       title: articlesCards["Music"]["title"],
                       img: articlesCards["Music"]["image"]),
                   Padding(
-                      padding: const EdgeInsets.only(left: 25, right: 25, top: 32),
+                      padding:
+                          const EdgeInsets.only(left: 25, right: 25, top: 32),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: const [

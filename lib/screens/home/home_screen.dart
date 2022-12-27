@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'package:teamtravel/constants/Theme.dart';
+import 'package:teamtravel/constants/routes.dart';
 import 'package:teamtravel/widgets/bottom_navbar.dart';
-import 'package:teamtravel/widgets/navbar.dart';
+import 'package:teamtravel/widgets/navbar/navbar.dart';
 import 'package:teamtravel/widgets/card-horizontal.dart';
 import 'package:teamtravel/widgets/card-small.dart';
 import 'package:teamtravel/widgets/card-square.dart';
 import 'package:teamtravel/widgets/drawer.dart';
+import 'package:teamtravel/widgets/navbar/navbar_categories.dart';
 
 // import 'package:teamtravel/screens/componentsduct.dart';
 
@@ -38,71 +40,22 @@ final Map<String, dynamic> homeCards = {
   }
 };
 
+@immutable
 class HomeScreen extends StatelessWidget {
-  static String routeName = "/home";
+  const HomeScreen({super.key});
 
   // final GlobalKey _scaffoldKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: Navbar(
+        appBar: const Navbar(
           title: "Home",
           searchBar: true,
-          categories: SizedBox(
-            height: UINavbar.hCategories,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => Trending()));
-                  },
-                  child: Row(
-                    children: const [
-                      Icon(Icons.camera, color: NowUIColors.text, size: 18.0),
-                      SizedBox(width: 8),
-                      Text("asdasd",
-                          style: TextStyle(
-                              color: NowUIColors.text, fontSize: 14.0)),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 30),
-                Container(
-                  color: NowUIColors.text,
-                  height: 25,
-                  width: 1,
-                ),
-                const SizedBox(width: 30),
-                GestureDetector(
-                  onTap: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => Fashion()));
-                  },
-                  child: Row(
-                    children: const [
-                      Icon(Icons.shopping_cart,
-                          color: NowUIColors.text, size: 18.0),
-                      SizedBox(width: 8),
-                      Text("dadasdasd",
-                          style: TextStyle(
-                              color: NowUIColors.text, fontSize: 14.0)),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
+          categories: NavbarCategories(),
         ),
         backgroundColor: NowUIColors.bgColorScreen,
         // key: _scaffoldKey,
-        drawer: NowDrawer(currentPage: routeName),
+        drawer: const NowDrawer(currentPage: Routes.home),
         bottomNavigationBar: BottomNavbar(),
         body: Container(
           padding: const EdgeInsets.only(left: 16.0, right: 16.0),

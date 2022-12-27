@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:teamtravel/constants/Theme.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:teamtravel/constants/routes.dart';
 //widgets
-import 'package:teamtravel/widgets/navbar.dart';
+import 'package:teamtravel/widgets/navbar/navbar.dart';
 import 'package:teamtravel/widgets/drawer.dart';
 import 'package:teamtravel/widgets/photo-album.dart';
 
@@ -15,8 +16,9 @@ List<String> imgArray = [
   "assets/imgs/album-6.jpg"
 ];
 
+@immutable
 class ProfileScreen extends StatelessWidget {
-  static String routeName = "/profile";
+  const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class ProfileScreen extends StatelessWidget {
           transparent: true,
         ),
         backgroundColor: NowUIColors.bgColorScreen,
-        drawer: NowDrawer(currentPage: routeName),
+        drawer: const NowDrawer(currentPage: Routes.profile),
         body: Stack(
           children: <Widget>[
             Column(

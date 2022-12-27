@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
 import 'package:teamtravel/constants/Theme.dart';
+import 'package:teamtravel/constants/routes.dart';
 
 //widgets
-import 'package:teamtravel/widgets/navbar.dart';
+import 'package:teamtravel/widgets/navbar/navbar.dart';
 import 'package:teamtravel/widgets/drawer.dart';
 import 'package:teamtravel/widgets/input.dart';
 import 'package:teamtravel/widgets/table-cell.dart';
 
+@immutable
 class ComponentsScreen extends StatefulWidget {
-  static String routeName = "/components";
+  const ComponentsScreen({super.key});
 
   @override
   _ComponentsState createState() => _ComponentsState();
@@ -35,7 +37,7 @@ class _ComponentsState extends State<ComponentsScreen> {
           title: "Components",
         ),
         backgroundColor: NowUIColors.bgColorScreen,
-        drawer: NowDrawer(currentPage: ComponentsScreen.routeName),
+        drawer: const NowDrawer(currentPage: Routes.components),
         body: SingleChildScrollView(
             child: Padding(
           padding: const EdgeInsets.only(right: 16, left: 16, bottom: 36),
@@ -277,8 +279,8 @@ class _ComponentsState extends State<ComponentsScreen> {
                 child: Input(
                   placeholder: "Custom success",
                   borderColor: NowUIColors.success,
-                  suffixIcon: Icon(Icons.check_circle,
-                      color: NowUIColors.success),
+                  suffixIcon:
+                      Icon(Icons.check_circle, color: NowUIColors.success),
                 ),
               ),
               const Padding(

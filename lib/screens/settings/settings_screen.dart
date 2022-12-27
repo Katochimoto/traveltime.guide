@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
 import 'package:teamtravel/constants/Theme.dart';
+import 'package:teamtravel/constants/routes.dart';
 
 //widgets
-import 'package:teamtravel/widgets/navbar.dart';
+import 'package:teamtravel/widgets/navbar/navbar.dart';
 import 'package:teamtravel/widgets/table-cell.dart';
 
 import 'package:teamtravel/widgets/drawer.dart';
 
+@immutable
 class SettingsScreen extends StatefulWidget {
-  static String routeName = "/settings";
+  const SettingsScreen({super.key});
 
   @override
   _SettingsState createState() => _SettingsState();
@@ -34,7 +36,7 @@ class _SettingsState extends State<SettingsScreen> {
         appBar: const Navbar(
           title: "Settings",
         ),
-        drawer: NowDrawer(currentPage: SettingsScreen.routeName),
+        drawer: const NowDrawer(currentPage: Routes.settings),
         body: Container(
             child: SingleChildScrollView(
           child: Padding(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:teamtravel/constants/routes.dart';
 
 import 'package:teamtravel/routes.dart';
 import 'package:teamtravel/screens/onboarding/onboarding_screen.dart';
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
         title: 'Now UI PRO Flutter',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(fontFamily: 'Montserrat'),
-        initialRoute: OnboardingScreen.routeName,
+        initialRoute: Routes.onboarding,
         routes: routes);
   }
 }

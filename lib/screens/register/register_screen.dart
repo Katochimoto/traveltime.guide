@@ -3,15 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:teamtravel/constants/Theme.dart';
+import 'package:teamtravel/constants/routes.dart';
 
 //widgets
-import 'package:teamtravel/widgets/navbar.dart';
+import 'package:teamtravel/widgets/navbar/navbar.dart';
 import 'package:teamtravel/widgets/input.dart';
 
 import 'package:teamtravel/widgets/drawer.dart';
 
+@immutable
 class RegisterScreen extends StatefulWidget {
-  static String routeName = "/account";
+  const RegisterScreen({super.key});
 
   @override
   _RegisterState createState() => _RegisterState();
@@ -31,7 +33,7 @@ class _RegisterState extends State<RegisterScreen> {
           reverseTextcolor: true,
         ),
         extendBodyBehindAppBar: true,
-        drawer: NowDrawer(currentPage: RegisterScreen.routeName),
+        drawer: const NowDrawer(currentPage: Routes.account),
         body: Stack(
           children: [
             Container(
@@ -63,8 +65,8 @@ class _RegisterState extends State<RegisterScreen> {
                                     MainAxisAlignment.spaceAround,
                                 children: [
                                   const Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 24.0, bottom: 8),
+                                    padding:
+                                        EdgeInsets.only(top: 24.0, bottom: 8),
                                     child: Center(
                                         child: Text("Register",
                                             style: TextStyle(
@@ -82,8 +84,10 @@ class _RegisterState extends State<RegisterScreen> {
                                         fillColor: NowUIColors.socialFacebook,
                                         padding: const EdgeInsets.all(15.0),
                                         shape: const CircleBorder(),
-                                        child: const Icon(FontAwesomeIcons.facebook,
-                                            size: 16.0, color: Colors.white),
+                                        child: const Icon(
+                                            FontAwesomeIcons.facebook,
+                                            size: 16.0,
+                                            color: Colors.white),
                                       ),
                                       RawMaterialButton(
                                         onPressed: () {},
@@ -91,8 +95,10 @@ class _RegisterState extends State<RegisterScreen> {
                                         fillColor: NowUIColors.socialTwitter,
                                         padding: const EdgeInsets.all(15.0),
                                         shape: const CircleBorder(),
-                                        child: const Icon(FontAwesomeIcons.twitter,
-                                            size: 16.0, color: Colors.white),
+                                        child: const Icon(
+                                            FontAwesomeIcons.twitter,
+                                            size: 16.0,
+                                            color: Colors.white),
                                       ),
                                       RawMaterialButton(
                                         onPressed: () {},
@@ -100,8 +106,10 @@ class _RegisterState extends State<RegisterScreen> {
                                         fillColor: NowUIColors.socialDribbble,
                                         padding: const EdgeInsets.all(15.0),
                                         shape: const CircleBorder(),
-                                        child: const Icon(FontAwesomeIcons.dribbble,
-                                            size: 16.0, color: Colors.white),
+                                        child: const Icon(
+                                            FontAwesomeIcons.dribbble,
+                                            size: 16.0,
+                                            color: Colors.white),
                                       )
                                     ],
                                   ),
