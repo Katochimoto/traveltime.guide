@@ -12,7 +12,8 @@ class Input extends StatelessWidget {
   final Color borderColor;
 
   const Input(
-      {this.placeholder,
+      {super.key,
+      this.placeholder,
       this.suffixIcon,
       this.prefixIcon,
       this.onTap,

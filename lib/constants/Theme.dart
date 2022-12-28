@@ -75,9 +75,7 @@ class UIGap {
 }
 
 class UINavbar {
-  static const double hPreffered = 240;
-  static const double hMenu = 107;
+  static const double hMenu = 50; // 75;
   static const double hSearch = 40;
   static const double hCategories = 70;
-  static const double hTags = 40;
 }

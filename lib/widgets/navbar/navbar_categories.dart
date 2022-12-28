@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:teamtravel/constants/Theme.dart';
 
 class NavbarCategorieButton extends StatelessWidget {
-  const NavbarCategorieButton({super.key});
+  final String title;
+  final IconData icon;
+
+  const NavbarCategorieButton(
+      {super.key, required this.icon, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +31,7 @@ class NavbarCategorieButton extends StatelessWidget {
       ),
       const Text("Visa",
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(color: NowUIColors.text, fontSize: 10.0)),
+          style: TextStyle(color: NowUIColors.text, fontSize: 12.0)),
     ]);
   }
 }
@@ -45,20 +49,14 @@ class NavbarCategories extends StatelessWidget {
         itemExtent: 60.0,
         scrollDirection: Axis.horizontal,
         children: const <Widget>[
-          NavbarCategorieButton(),
-          NavbarCategorieButton(),
-          NavbarCategorieButton(),
-          NavbarCategorieButton(),
-          NavbarCategorieButton(),
-          NavbarCategorieButton(),
-          NavbarCategorieButton(),
-          NavbarCategorieButton(),
-          // const SizedBox(width: 10),
-          // Container(
-          //   color: NowUIColors.text,
-          //   height: 25,
-          //   width: 1,
-          // ),
+          NavbarCategorieButton(icon: Icons.filter_drama, title: 'asdasd'),
+          NavbarCategorieButton(icon: Icons.filter_drama, title: 'asdasd'),
+          NavbarCategorieButton(icon: Icons.filter_drama, title: 'asdasd'),
+          NavbarCategorieButton(icon: Icons.filter_drama, title: 'asdasd'),
+          NavbarCategorieButton(icon: Icons.filter_drama, title: 'asdasd'),
+          NavbarCategorieButton(icon: Icons.filter_drama, title: 'asdasd'),
+          NavbarCategorieButton(icon: Icons.filter_drama, title: 'asdasd'),
+          NavbarCategorieButton(icon: Icons.filter_drama, title: 'asdasd'),
         ],
       ),
     );

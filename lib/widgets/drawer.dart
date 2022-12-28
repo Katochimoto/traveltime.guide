@@ -67,7 +67,7 @@ class NowDrawer extends StatelessWidget {
                     }
                   },
                   iconColor: NowUIColors.primary,
-                  title: "Home",
+                  title: "Discover",
                   isSelected: currentPage == Routes.home ? true : false),
               DrawerTile(
                   icon: FontAwesomeIcons.dharmachakra,
