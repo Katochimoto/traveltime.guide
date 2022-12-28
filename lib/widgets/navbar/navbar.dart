@@ -238,7 +238,12 @@ class _NavbarState extends State<Navbar> {
                     ? [const SizedBox(height: UIGap.g1)]
                     : []),
                 ...(widget.categories != null
-                    ? [widget.categories ?? const SizedBox()]
+                    ? [
+                        Container(
+                            // padding: const EdgeInsets.symmetric(
+                            //     vertical: UIGap.g0, horizontal: UIGap.g0),
+                            child: widget.categories)
+                      ]
                     : []),
                 ...(widget.categories != null && tagsExist
                     ? [const SizedBox(height: UIGap.g1)]
