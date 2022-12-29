@@ -10,6 +10,7 @@ import 'package:traveltime/widgets/card-square.dart';
 import 'package:traveltime/widgets/drawer.dart';
 import 'package:traveltime/widgets/navbar/navbar_categories.dart';
 import 'package:traveltime/widgets/navbar/navbar_search.dart';
+import 'package:traveltime/widgets/page_layout.dart';
 
 // import 'package:traveltime/screens/componentsduct.dart';
 
@@ -45,74 +46,73 @@ final Map<String, dynamic> homeCards = {
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
+  Widget _content(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 16.0),
+          child: CardHorizontal(
+              cta: "View article",
+              title: homeCards["Ice Cream"]['title'],
+              img: homeCards["Ice Cream"]['image'],
+              tap: () {
+                Navigator.popAndPushNamed(context, '/components');
+              }),
+        ),
+        const SizedBox(height: 8.0),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CardSmall(
+                cta: "View article",
+                title: homeCards["Makeup"]['title'],
+                img: homeCards["Makeup"]['image'],
+                tap: () {}),
+            CardSmall(
+                cta: "View article",
+                title: homeCards["Coffee"]['title'],
+                img: homeCards["Coffee"]['image'],
+                tap: () {
+                  Navigator.popAndPushNamed(context, '/components');
+                })
+          ],
+        ),
+        const SizedBox(height: 8.0),
+        CardHorizontal(
+            cta: "View article",
+            title: homeCards["Fashion"]['title'],
+            img: homeCards["Fashion"]['image'],
+            tap: () {
+              Navigator.popAndPushNamed(context, '/components');
+            }),
+        const SizedBox(height: 8.0),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 32.0),
+          child: CardSquare(
+              cta: "View article",
+              title: homeCards["Argon"]['title'],
+              img: homeCards["Argon"]['image'],
+              tap: () {
+                Navigator.popAndPushNamed(context, '/components');
+              }),
+        )
+      ],
+    );
+  }
+
   // final GlobalKey _scaffoldKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const Navbar(
-          title: "Home",
-          search: NavbarSearch(),
-          categories: NavbarCategories(),
-        ),
-        backgroundColor: NowUIColors.bgColorScreen,
-        // key: _scaffoldKey,
-        drawer: const NowDrawer(currentPage: Routes.home),
-        bottomNavigationBar: BottomNavbar(),
-        body: Container(
-          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: CardHorizontal(
-                      cta: "View article",
-                      title: homeCards["Ice Cream"]['title'],
-                      img: homeCards["Ice Cream"]['image'],
-                      tap: () {
-                        Navigator.popAndPushNamed(context, '/components');
-                      }),
-                ),
-                const SizedBox(height: 8.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CardSmall(
-                        cta: "View article",
-                        title: homeCards["Makeup"]['title'],
-                        img: homeCards["Makeup"]['image'],
-                        tap: () {}),
-                    CardSmall(
-                        cta: "View article",
-                        title: homeCards["Coffee"]['title'],
-                        img: homeCards["Coffee"]['image'],
-                        tap: () {
-                          Navigator.popAndPushNamed(context, '/components');
-                        })
-                  ],
-                ),
-                const SizedBox(height: 8.0),
-                CardHorizontal(
-                    cta: "View article",
-                    title: homeCards["Fashion"]['title'],
-                    img: homeCards["Fashion"]['image'],
-                    tap: () {
-                      Navigator.popAndPushNamed(context, '/components');
-                    }),
-                const SizedBox(height: 8.0),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 32.0),
-                  child: CardSquare(
-                      cta: "View article",
-                      title: homeCards["Argon"]['title'],
-                      img: homeCards["Argon"]['image'],
-                      tap: () {
-                        Navigator.popAndPushNamed(context, '/components');
-                      }),
-                )
-              ],
-            ),
-          ),
-        ));
+      appBar: const Navbar(
+        title: "Home",
+        search: NavbarSearch(),
+        categories: NavbarCategories(),
+      ),
+      drawer: const NowDrawer(currentPage: Routes.home),
+      bottomNavigationBar: BottomNavbar(),
+      backgroundColor: NowUIColors.bgColorScreen,
+      body: PageLayout(child: _content(context)),
+    );
   }
 }

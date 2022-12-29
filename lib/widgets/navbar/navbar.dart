@@ -39,58 +39,57 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                 vertical: UIGap.g0, horizontal: UIGap.g2),
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
+                Container(
+                    height: UINavbar.hMenu,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        ...(Navigator.canPop(context)
-                            ? [
-                                IconButton(
-                                  icon: const Icon(Icons.arrow_back_ios,
-                                      color: NowUIColors.textNavbar, size: 24),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                              ]
-                            : [
-                                IconButton(
-                                  icon: const Icon(Icons.menu,
-                                      color: NowUIColors.textNavbar, size: 24),
-                                  onPressed: () {
-                                    Scaffold.of(context).openDrawer();
-                                  },
-                                ),
-                              ]),
-                        Text(title,
-                            style: const TextStyle(
-                                color: NowUIColors.textNavbar,
-                                fontWeight: FontWeight.w400,
-                                fontSize: 18.0)),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.notifications_active,
-                              color: NowUIColors.textNavbar, size: 22),
-                          onPressed: () {
-                            Scaffold.of(context).openDrawer();
-                          },
+                        Row(
+                          children: [
+                            ...(Navigator.canPop(context)
+                                ? [
+                                    IconButton(
+                                      icon: const Icon(Icons.arrow_back_ios,
+                                          color: NowUIColors.textNavbar,
+                                          size: 24),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ]
+                                : [
+                                    IconButton(
+                                      icon: const Icon(Icons.menu,
+                                          color: NowUIColors.textNavbar,
+                                          size: 24),
+                                      onPressed: () {
+                                        Scaffold.of(context).openDrawer();
+                                      },
+                                    ),
+                                  ]),
+                            Text(title,
+                                style: const TextStyle(
+                                    color: NowUIColors.textNavbar,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 18.0)),
+                          ],
                         ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.notifications_active,
+                                  color: NowUIColors.textNavbar, size: 22),
+                              onPressed: () {
+                                Scaffold.of(context).openDrawer();
+                              },
+                            ),
+                          ],
+                        )
                       ],
-                    )
-                  ],
-                ),
-                if (search != null)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: UIGap.g0, horizontal: UIGap.g2),
-                    child: search,
-                  ),
+                    )),
+                ...(search != null ? [Container(child: search)] : []),
                 ...(categories != null && search != null
                     ? [const SizedBox(height: UIGap.g1)]
                     : []),

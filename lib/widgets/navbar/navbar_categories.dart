@@ -11,7 +11,7 @@ class NavbarCategorieButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ColorScheme colors = Theme.of(context).colorScheme;
-    return Column(children: [
+    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       IconButton(
         icon: Icon(icon),
         onPressed: () {},
