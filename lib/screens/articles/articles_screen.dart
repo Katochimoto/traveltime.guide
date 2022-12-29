@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-import 'package:teamtravel/constants/Theme.dart';
-import 'package:teamtravel/constants/routes.dart';
+import 'package:traveltime/constants/Theme.dart';
+import 'package:traveltime/constants/routes.dart';
 
 //screens
-// import 'package:teamtravel/screens/componentsduct.dart';
-// import 'package:teamtravel/screens/category.dart';
+// import 'package:traveltime/screens/componentsduct.dart';
+// import 'package:traveltime/screens/category.dart';
 
 //widgets
-import 'package:teamtravel/widgets/drawer.dart';
-import 'package:teamtravel/widgets/navbar/navbar.dart';
-import 'package:teamtravel/widgets/card-horizontal.dart';
-import 'package:teamtravel/widgets/card-small.dart';
-import 'package:teamtravel/widgets/card-square.dart';
-import 'package:teamtravel/widgets/card-category.dart';
-import 'package:teamtravel/widgets/slider-product.dart';
+import 'package:traveltime/widgets/drawer.dart';
+import 'package:traveltime/widgets/navbar/navbar.dart';
+import 'package:traveltime/widgets/card-horizontal.dart';
+import 'package:traveltime/widgets/card-small.dart';
+import 'package:traveltime/widgets/card-square.dart';
+import 'package:traveltime/widgets/card-category.dart';
+import 'package:traveltime/widgets/slider-product.dart';
 
 final Map<String, dynamic> articlesCards = {
   "Ice Cream": {

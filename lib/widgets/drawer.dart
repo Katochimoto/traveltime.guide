@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:teamtravel/constants/routes.dart';
+import 'package:traveltime/constants/routes.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'package:teamtravel/constants/Theme.dart';
+import 'package:traveltime/constants/Theme.dart';
 
-import 'package:teamtravel/widgets/drawer-tile.dart';
+import 'package:traveltime/widgets/drawer-tile.dart';
 
 class NowDrawer extends StatelessWidget {
   final String currentPage;
@@ -55,7 +55,7 @@ class NowDrawer extends StatelessWidget {
           ),
         ),
         Expanded(
-          flex: 3,
+          flex: 2,
           child: ListView(
             padding: const EdgeInsets.only(left: 8, right: 16),
             children: [

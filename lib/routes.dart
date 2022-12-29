@@ -1,12 +1,12 @@
 import 'package:flutter/widgets.dart';
-import 'package:teamtravel/constants/routes.dart';
-import 'package:teamtravel/screens/onboarding/onboarding_screen.dart';
-import 'package:teamtravel/screens/home/home_screen.dart';
-import 'package:teamtravel/screens/profile/profile_screen.dart';
-import 'package:teamtravel/screens/settings/settings_screen.dart';
-import 'package:teamtravel/screens/register/register_screen.dart';
-import 'package:teamtravel/screens/articles/articles_screen.dart';
-import 'package:teamtravel/screens/components/components_screen.dart';
+import 'package:traveltime/constants/routes.dart';
+import 'package:traveltime/screens/onboarding/onboarding_screen.dart';
+import 'package:traveltime/screens/home/home_screen.dart';
+import 'package:traveltime/screens/profile/profile_screen.dart';
+import 'package:traveltime/screens/settings/settings_screen.dart';
+import 'package:traveltime/screens/register/register_screen.dart';
+import 'package:traveltime/screens/articles/articles_screen.dart';
+import 'package:traveltime/screens/components/components_screen.dart';
 
 final Map<String, WidgetBuilder> routes = {
   Routes.home: (context) => const HomeScreen(),

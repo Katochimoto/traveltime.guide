@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:teamtravel/constants/Theme.dart';
+import 'package:traveltime/constants/Theme.dart';
 
 class PhotoAlbum extends StatelessWidget {
   final List<String> imgArray;
@@ -38,7 +38,8 @@ class PhotoAlbum extends StatelessWidget {
                   .map((item) => Container(
                       height: 100,
                       decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(Radius.circular(4.0)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(4.0)),
                           image: DecorationImage(
                               image: AssetImage(item), fit: BoxFit.cover))))
                   .toList()),

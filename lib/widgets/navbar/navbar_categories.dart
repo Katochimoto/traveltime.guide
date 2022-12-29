@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:teamtravel/constants/Theme.dart';
+import 'package:traveltime/constants/Theme.dart';
 
 class NavbarCategorieButton extends StatelessWidget {
   final String title;

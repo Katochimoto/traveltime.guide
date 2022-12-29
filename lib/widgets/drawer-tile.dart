@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:teamtravel/constants/Theme.dart';
+import 'package:traveltime/constants/Theme.dart';
 
 class DrawerTile extends StatelessWidget {
   final String title;

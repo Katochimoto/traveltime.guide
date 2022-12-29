@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:teamtravel/constants/Theme.dart';
+import 'package:traveltime/constants/Theme.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:teamtravel/constants/routes.dart';
+import 'package:traveltime/constants/routes.dart';
 //widgets
-import 'package:teamtravel/widgets/navbar/navbar.dart';
-import 'package:teamtravel/widgets/drawer.dart';
-import 'package:teamtravel/widgets/photo-album.dart';
+import 'package:traveltime/widgets/navbar/navbar.dart';
+import 'package:traveltime/widgets/drawer.dart';
+import 'package:traveltime/widgets/photo-album.dart';
 
 List<String> imgArray = [
   "assets/imgs/album-1.jpg",

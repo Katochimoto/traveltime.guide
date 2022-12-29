@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:teamtravel/constants/Theme.dart';
-import 'package:teamtravel/widgets/input.dart';
+import 'package:traveltime/constants/Theme.dart';
+import 'package:traveltime/widgets/input.dart';
 
 @immutable
 class NavbarSearch extends Input {

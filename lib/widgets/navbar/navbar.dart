@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:teamtravel/constants/Theme.dart';
+import 'package:traveltime/constants/Theme.dart';
 
-// import 'package:teamtravel/screens/trending.dart';
-// import 'package:teamtravel/screens/fashion.dart';
-// import 'package:teamtravel/screens/notifications.dart';
-// import 'package:teamtravel/screens/search.dart';
-// import 'package:teamtravel/screens/cart.dart';
+// import 'package:traveltime/screens/trending.dart';
+// import 'package:traveltime/screens/fashion.dart';
+// import 'package:traveltime/screens/notifications.dart';
+// import 'package:traveltime/screens/search.dart';
+// import 'package:traveltime/screens/cart.dart';
 
 class Navbar extends StatelessWidget implements PreferredSizeWidget {
   final String title;

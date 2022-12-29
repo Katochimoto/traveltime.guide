@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:teamtravel/constants/routes.dart';
-import 'package:teamtravel/routes.dart';
+import 'package:traveltime/constants/routes.dart';
+import 'package:traveltime/routes.dart';
 
 void main() => runApp(MyApp());
 

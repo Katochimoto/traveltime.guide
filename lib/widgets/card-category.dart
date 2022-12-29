@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:teamtravel/constants/Theme.dart';
+import 'package:traveltime/constants/Theme.dart';
 
 class CardCategory extends StatelessWidget {
   const CardCategory(
@@ -29,7 +29,8 @@ class CardCategory extends StatelessWidget {
               child: Stack(children: [
                 Container(
                     decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(6.0)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(6.0)),
                         image: DecorationImage(
                           image: NetworkImage(img),
                           fit: BoxFit.cover,
