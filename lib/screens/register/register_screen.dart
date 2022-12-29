@@ -28,9 +28,7 @@ class _RegisterState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: const Navbar(
-          transparent: true,
           title: "",
-          reverseTextcolor: true,
         ),
         extendBodyBehindAppBar: true,
         drawer: const NowDrawer(currentPage: Routes.account),

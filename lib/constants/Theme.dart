@@ -29,6 +29,10 @@ class NowUIColors {
 
   static const Color bgColorScreen = Color.fromRGBO(255, 255, 255, 1.0);
 
+  static const Color bgColorNavbar = Color.fromRGBO(255, 255, 255, 1.0);
+
+  static const Color textNavbar = Color.fromRGBO(44, 44, 44, 1.0);
+
   static const Color border = Color.fromRGBO(231, 231, 231, 1.0);
 
   static const Color inputSuccess = Color.fromRGBO(27, 230, 17, 1.0);

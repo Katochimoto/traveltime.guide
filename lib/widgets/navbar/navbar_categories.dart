@@ -13,7 +13,7 @@ class NavbarCategorieButton extends StatelessWidget {
     final ColorScheme colors = Theme.of(context).colorScheme;
     return Column(children: [
       IconButton(
-        icon: const Icon(Icons.filter_drama),
+        icon: Icon(icon),
         onPressed: () {},
         iconSize: 20,
         padding: const EdgeInsets.all(10),
@@ -29,9 +29,9 @@ class NavbarCategorieButton extends StatelessWidget {
           highlightColor: colors.onSecondaryContainer.withOpacity(0.12),
         ),
       ),
-      const Text("Visa",
+      Text(title,
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(color: NowUIColors.text, fontSize: 12.0)),
+          style: const TextStyle(color: NowUIColors.text, fontSize: 12.0)),
     ]);
   }
 }
@@ -46,17 +46,16 @@ class NavbarCategories extends StatelessWidget {
       height: UINavbar.hCategories,
       child: ListView(
         shrinkWrap: true,
-        itemExtent: 60.0,
+        itemExtent: 65.0,
         scrollDirection: Axis.horizontal,
         children: const <Widget>[
-          NavbarCategorieButton(icon: Icons.filter_drama, title: 'asdasd'),
-          NavbarCategorieButton(icon: Icons.filter_drama, title: 'asdasd'),
-          NavbarCategorieButton(icon: Icons.filter_drama, title: 'asdasd'),
-          NavbarCategorieButton(icon: Icons.filter_drama, title: 'asdasd'),
-          NavbarCategorieButton(icon: Icons.filter_drama, title: 'asdasd'),
-          NavbarCategorieButton(icon: Icons.filter_drama, title: 'asdasd'),
-          NavbarCategorieButton(icon: Icons.filter_drama, title: 'asdasd'),
-          NavbarCategorieButton(icon: Icons.filter_drama, title: 'asdasd'),
+          NavbarCategorieButton(icon: Icons.map, title: 'Map'),
+          NavbarCategorieButton(icon: Icons.filter_drama, title: 'Weather'),
+          NavbarCategorieButton(icon: Icons.hiking, title: 'Activities'),
+          NavbarCategorieButton(icon: Icons.route, title: 'Routes'),
+          NavbarCategorieButton(icon: Icons.change_circle, title: 'Currency'),
+          NavbarCategorieButton(icon: Icons.newspaper, title: 'News'),
+          NavbarCategorieButton(icon: Icons.description, title: 'Visa'),
         ],
       ),
     );

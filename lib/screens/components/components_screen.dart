@@ -341,29 +341,21 @@ class _ComponentsState extends State<ComponentsScreen> {
               ),
               const Navbar(
                 title: "Regular",
-                backButton: false,
               ),
               const Padding(
                 padding: EdgeInsets.only(top: 16.0),
-                child: Navbar(
-                    title: "Custom",
-                    backButton: true,
-                    bgColor: NowUIColors.primary),
+                child: Navbar(title: "Custom"),
               ),
               const Padding(
                 padding: EdgeInsets.only(top: 16.0),
                 child: Navbar(
                   title: "Categories",
-                  searchBar: true,
-                  backButton: true,
                 ),
               ),
               const Padding(
                 padding: EdgeInsets.only(top: 16.0),
                 child: Navbar(
                   title: "Search",
-                  searchBar: true,
-                  backButton: true,
                 ),
               ),
               const Padding(

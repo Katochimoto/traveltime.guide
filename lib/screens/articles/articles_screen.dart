@@ -96,7 +96,6 @@ class ArticlesScreen extends StatelessWidget {
     return Scaffold(
         appBar: const Navbar(
           title: "Articles",
-          rightOptions: false,
         ),
         backgroundColor: NowUIColors.bgColorScreen,
         drawer: const NowDrawer(currentPage: Routes.articles),

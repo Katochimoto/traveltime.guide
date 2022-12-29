@@ -26,7 +26,6 @@ class ProfileScreen extends StatelessWidget {
         extendBodyBehindAppBar: true,
         appBar: const Navbar(
           title: "Profile",
-          transparent: true,
         ),
         backgroundColor: NowUIColors.bgColorScreen,
         drawer: const NowDrawer(currentPage: Routes.profile),

@@ -9,6 +9,7 @@ import 'package:teamtravel/widgets/card-small.dart';
 import 'package:teamtravel/widgets/card-square.dart';
 import 'package:teamtravel/widgets/drawer.dart';
 import 'package:teamtravel/widgets/navbar/navbar_categories.dart';
+import 'package:teamtravel/widgets/navbar/navbar_search.dart';
 
 // import 'package:teamtravel/screens/componentsduct.dart';
 
@@ -50,7 +51,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
         appBar: const Navbar(
           title: "Home",
-          searchBar: true,
+          search: NavbarSearch(),
           categories: NavbarCategories(),
         ),
         backgroundColor: NowUIColors.bgColorScreen,

@@ -31,7 +31,7 @@ class Input extends StatelessWidget {
         controller: controller,
         autofocus: autofocus,
         style: const TextStyle(
-            height: 20 / 15, fontSize: 15, color: NowUIColors.time),
+            height: 20 / 15, fontSize: 15, color: NowUIColors.text),
         // textAlignVertical: const TextAlignVertical(y: 0.6),
         decoration: InputDecoration(
             filled: true,

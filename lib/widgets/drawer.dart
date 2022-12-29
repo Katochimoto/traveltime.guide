@@ -10,7 +10,7 @@ import 'package:teamtravel/widgets/drawer-tile.dart';
 class NowDrawer extends StatelessWidget {
   final String currentPage;
 
-  const NowDrawer({required this.currentPage});
+  const NowDrawer({super.key, required this.currentPage});
 
   _launchURL() async {
     const url = 'https://creative-tim.com';
@@ -27,40 +27,40 @@ class NowDrawer extends StatelessWidget {
         child: Container(
       color: NowUIColors.primary,
       child: Column(children: [
-        SizedBox(
-            height: MediaQuery.of(context).size.height * 0.1,
-            width: MediaQuery.of(context).size.width * 0.85,
-            child: SafeArea(
-              bottom: false,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 24.0, right: 20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.baseline,
-                  textBaseline: TextBaseline.alphabetic,
-                  children: [
-                    Image.asset("assets/imgs/now-logo.png"),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: IconButton(
-                          icon: Icon(Icons.menu,
-                              color: NowUIColors.white.withOpacity(0.82),
-                              size: 24.0),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          }),
-                    ),
-                  ],
+        SafeArea(
+          bottom: false,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 24.0, right: 20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                const Image(
+                    image: AssetImage("assets/imgs/now-logo.png"),
+                    width: 24,
+                    height: 24),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: IconButton(
+                      icon: Icon(Icons.close,
+                          color: NowUIColors.white.withOpacity(0.82),
+                          size: 24.0),
+                      onPressed: () {
+                        Scaffold.of(context).closeDrawer();
+                      }),
                 ),
-              ),
-            )),
+              ],
+            ),
+          ),
+        ),
         Expanded(
-          flex: 2,
+          flex: 3,
           child: ListView(
-            padding: const EdgeInsets.only(top: 36, left: 8, right: 16),
+            padding: const EdgeInsets.only(left: 8, right: 16),
             children: [
               DrawerTile(
-                  icon: FontAwesomeIcons.house,
+                  icon: Icons.dashboard,
                   onTap: () {
                     if (currentPage != Routes.home) {
                       Navigator.pushReplacementNamed(context, Routes.home);
@@ -81,7 +81,7 @@ class NowDrawer extends StatelessWidget {
                   title: "Components",
                   isSelected: currentPage == Routes.components ? true : false),
               DrawerTile(
-                  icon: FontAwesomeIcons.newspaper,
+                  icon: Icons.newspaper,
                   onTap: () {
                     if (currentPage != Routes.articles) {
                       Navigator.pushReplacementNamed(context, Routes.articles);
@@ -111,7 +111,7 @@ class NowDrawer extends StatelessWidget {
                   title: "Account",
                   isSelected: currentPage == Routes.account ? true : false),
               DrawerTile(
-                  icon: FontAwesomeIcons.cog,
+                  icon: Icons.settings,
                   onTap: () {
                     if (currentPage != Routes.settings) {
                       Navigator.pushReplacementNamed(context, Routes.settings);
@@ -123,37 +123,39 @@ class NowDrawer extends StatelessWidget {
             ],
           ),
         ),
+        Padding(
+            padding: const EdgeInsets.only(left: 8, right: 16),
+            child: Divider(
+                height: 4,
+                thickness: 0,
+                color: NowUIColors.white.withOpacity(0.8))),
         Expanded(
-          flex: 1,
+            flex: 1,
+            child: ListView(
+              padding: const EdgeInsets.only(left: 8, right: 16),
+              children: [
+                DrawerTile(
+                    icon: Icons.login,
+                    onTap: _launchURL,
+                    iconColor: NowUIColors.muted,
+                    title: "Login",
+                    isSelected:
+                        currentPage == "Getting started" ? true : false),
+              ],
+            )),
+        SafeArea(
+          top: false,
           child: Container(
               padding: const EdgeInsets.only(left: 8, right: 16),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Divider(
-                      height: 4,
-                      thickness: 0,
-                      color: NowUIColors.white.withOpacity(0.8)),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(top: 16.0, left: 16, bottom: 8),
-                    child: Text("DOCUMENTATION",
-                        style: TextStyle(
-                          color: NowUIColors.white.withOpacity(0.8),
-                          fontSize: 13,
-                        )),
-                  ),
-                  DrawerTile(
-                      icon: FontAwesomeIcons.satellite,
-                      onTap: _launchURL,
-                      iconColor: NowUIColors.muted,
-                      title: "Getting Started",
-                      isSelected:
-                          currentPage == "Getting started" ? true : false),
-                ],
+              child: Text(
+                "v1.123.1233",
+                style: TextStyle(
+                  color: NowUIColors.white.withOpacity(0.8),
+                  fontSize: 12,
+                  fontWeight: FontWeight.w200,
+                ),
               )),
-        ),
+        )
       ]),
     ));
   }
