@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:traveltime/constants/Theme.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:traveltime/constants/routes.dart';
-//widgets
 import 'package:traveltime/widgets/navbar/navbar.dart';
 import 'package:traveltime/widgets/drawer.dart';
+import 'package:traveltime/widgets/page_layout.dart';
 import 'package:traveltime/widgets/photo-album.dart';
 
 List<String> imgArray = [
@@ -27,14 +27,13 @@ class ProfileScreen extends StatelessWidget {
         appBar: const Navbar(
           title: "Profile",
         ),
-        backgroundColor: NowUIColors.bgColorScreen,
         drawer: const NowDrawer(currentPage: Routes.profile),
         body: Stack(
           children: <Widget>[
             Column(
               children: [
                 Flexible(
-                  flex: 1,
+                  flex: 2,
                   child: Container(
                       decoration: const BoxDecoration(
                           image: DecorationImage(
@@ -149,88 +148,82 @@ class ProfileScreen extends StatelessWidget {
                       )),
                 ),
                 Flexible(
-                  flex: 1,
-                  child: Container(
-                      child: SingleChildScrollView(
-                          child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 32.0, right: 32.0, top: 42.0),
-                    child: Column(children: [
-                      const Text("About me",
-                          style: TextStyle(
-                              color: NowUIColors.text,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 17.0)),
-                      const Padding(
-                        padding: EdgeInsets.only(
-                            left: 24.0, right: 24, top: 30, bottom: 24),
-                        child: Text(
-                            "An artist of considerable range, Ryan - the name taken by Meblourne-raised, Brooklyn-based Nick Murphy - writes, performs and records all of his own music.",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: NowUIColors.time)),
-                      ),
-                      PhotoAlbum(imgArray: imgArray)
-                    ]),
-                  ))),
-                ),
+                    flex: 3,
+                    child: PageLayout(
+                        child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 32.0, right: 32.0, top: 42.0),
+                      child: Column(children: [
+                        const Text("About me",
+                            style: TextStyle(
+                                color: NowUIColors.text,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 17.0)),
+                        const Padding(
+                          padding: EdgeInsets.only(
+                              left: 24.0, right: 24, top: 30, bottom: 24),
+                          child: Text(
+                              "An artist of considerable range, Ryan - the name taken by Meblourne-raised, Brooklyn-based Nick Murphy - writes, performs and records all of his own music.",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: NowUIColors.time)),
+                        ),
+                        PhotoAlbum(imgArray: imgArray)
+                      ]),
+                    ))),
               ],
             ),
-            Align(
-              alignment: Alignment.center,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 0.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: NowUIColors.info,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(32.0),
-                          ),
-                        ),
-                        onPressed: () {
-                          // Respond to button press
-                          Navigator.pushReplacementNamed(context, '/home');
-                        },
-                        child: const Padding(
-                            padding: EdgeInsets.only(
-                                left: 12.0, right: 12.0, top: 10, bottom: 10),
-                            child: Text("Follow",
-                                style: TextStyle(fontSize: 13.0))),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 4.0),
-                      child: RawMaterialButton(
-                        constraints: BoxConstraints.tight(const Size(38, 38)),
-                        onPressed: () {},
-                        elevation: 4.0,
-                        fillColor: NowUIColors.defaultColor,
-                        padding: const EdgeInsets.all(0.0),
-                        shape: const CircleBorder(),
-                        child: const Icon(FontAwesomeIcons.twitter,
-                            size: 14.0, color: Colors.white),
-                      ),
-                    ),
-                    RawMaterialButton(
-                      constraints: BoxConstraints.tight(const Size(38, 38)),
-                      onPressed: () {},
-                      elevation: 4.0,
-                      fillColor: NowUIColors.defaultColor,
-                      padding: const EdgeInsets.all(0.0),
-                      shape: const CircleBorder(),
-                      child: const Icon(FontAwesomeIcons.pinterest,
-                          size: 14.0, color: Colors.white),
-                    ),
-                  ],
-                ),
-              ),
-            )
+            // Align(
+            //   alignment: Alignment.center,
+            //   child: Padding(
+            //     padding: const EdgeInsets.only(left: 0.0),
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.center,
+            //       crossAxisAlignment: CrossAxisAlignment.center,
+            //       mainAxisSize: MainAxisSize.max,
+            //       children: [
+            //         Padding(
+            //           padding: const EdgeInsets.only(right: 8.0),
+            //           child: ElevatedButton(
+            //             style: ElevatedButton.styleFrom(
+            //                 shape: const StadiumBorder()),
+            //             onPressed: () {
+            //               // Respond to button press
+            //               Navigator.pushReplacementNamed(context, '/home');
+            //             },
+            //             child: const Padding(
+            //                 padding: EdgeInsets.only(
+            //                     left: 12.0, right: 12.0, top: 10, bottom: 10),
+            //                 child: Text("Follow",
+            //                     style: TextStyle(fontSize: 13.0))),
+            //           ),
+            //         ),
+            //         Padding(
+            //           padding: const EdgeInsets.only(right: 4.0),
+            //           child: RawMaterialButton(
+            //             constraints: BoxConstraints.tight(const Size(38, 38)),
+            //             onPressed: () {},
+            //             elevation: 4.0,
+            //             fillColor: NowUIColors.defaultColor,
+            //             padding: const EdgeInsets.all(0.0),
+            //             shape: const CircleBorder(),
+            //             child: const Icon(FontAwesomeIcons.twitter,
+            //                 size: 14.0, color: Colors.white),
+            //           ),
+            //         ),
+            //         RawMaterialButton(
+            //           constraints: BoxConstraints.tight(const Size(38, 38)),
+            //           onPressed: () {},
+            //           elevation: 4.0,
+            //           fillColor: NowUIColors.defaultColor,
+            //           padding: const EdgeInsets.all(0.0),
+            //           shape: const CircleBorder(),
+            //           child: const Icon(FontAwesomeIcons.pinterest,
+            //               size: 14.0, color: Colors.white),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // )
           ],
         ));
   }

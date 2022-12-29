@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:traveltime/constants/Theme.dart';
 import 'package:traveltime/constants/routes.dart';
 import 'package:traveltime/widgets/bottom_navbar.dart';
 import 'package:traveltime/widgets/navbar/navbar.dart';
@@ -111,7 +110,6 @@ class HomeScreen extends StatelessWidget {
       ),
       drawer: const NowDrawer(currentPage: Routes.home),
       bottomNavigationBar: BottomNavbar(),
-      backgroundColor: NowUIColors.bgColorScreen,
       body: PageLayout(child: _content(context)),
     );
   }

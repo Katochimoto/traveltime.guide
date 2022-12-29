@@ -12,17 +12,19 @@ class PhotoAlbum extends StatelessWidget {
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
+          children: [
             Text(
               "Album",
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 14.0,
-              ),
+              style: Theme.of(context).textTheme.titleLarge,
+              // style: TextStyle(
+              //   fontWeight: FontWeight.w600,
+              //   fontSize: 14.0,
+              // ),
             ),
             Text(
               "View All",
-              style: TextStyle(color: NowUIColors.primary, fontSize: 12.0),
+              style: Theme.of(context).textTheme.bodyMedium,
+              // style: TextStyle(color: NowUIColors.primary, fontSize: 12.0),
             ),
           ],
         ),

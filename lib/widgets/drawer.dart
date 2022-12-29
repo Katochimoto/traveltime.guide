@@ -22,40 +22,38 @@ class NowDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-        child: Container(
+        child: SafeArea(
       child: Column(children: [
-        SafeArea(
-          bottom: false,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Image(
-                    image: AssetImage("assets/imgs/now-logo.png"),
-                    width: 24,
-                    height: 24),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: IconButton(
-                      style: IconButton.styleFrom(
-                          foregroundColor:
-                              Theme.of(context).primaryTextTheme.button?.color),
-                      iconSize: 24,
-                      icon: const Icon(Icons.close),
-                      onPressed: () {
-                        Scaffold.of(context).closeDrawer();
-                      }),
-                ),
-              ],
-            ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20, right: 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Image(
+                  image: AssetImage("assets/imgs/now-logo.png"),
+                  width: 24,
+                  height: 24),
+              Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: IconButton(
+                    style: IconButton.styleFrom(
+                        foregroundColor:
+                            Theme.of(context).primaryTextTheme.button?.color),
+                    iconSize: 24,
+                    icon: const Icon(Icons.close),
+                    onPressed: () {
+                      Scaffold.of(context).closeDrawer();
+                    }),
+              ),
+            ],
           ),
         ),
         Expanded(
           flex: 2,
           child: ListView(
-            padding: const EdgeInsets.only(left: 8, right: 16),
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             children: [
               DrawerTile(
                   icon: Icons.dashboard,
@@ -116,15 +114,17 @@ class NowDrawer extends StatelessWidget {
           ),
         ),
         Padding(
-            padding: const EdgeInsets.only(left: 8, right: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             child: Divider(
-                height: 4,
-                thickness: 0,
-                color: NowUIColors.white.withOpacity(0.8))),
+              height: 4,
+              thickness: 1,
+              color: Theme.of(context).primaryColorLight,
+            )),
         Expanded(
             flex: 1,
             child: ListView(
-              padding: const EdgeInsets.only(left: 8, right: 16),
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               children: [
                 DrawerTile(
                     icon: Icons.login,
@@ -133,50 +133,42 @@ class NowDrawer extends StatelessWidget {
                     isSelected:
                         currentPage == "Getting started" ? true : false),
                 DrawerTile(
-                    icon: Icons.login,
-                    onTap: _launchURL,
-                    title: "About",
-                    isSelected:
-                        currentPage == "Getting started" ? true : false),
-                DrawerTile(
-                    icon: Icons.login,
                     onTap: _launchURL,
                     title: "Support",
                     isSelected:
                         currentPage == "Getting started" ? true : false),
                 DrawerTile(
-                    icon: Icons.login,
                     onTap: _launchURL,
                     title: "Gep Pro",
                     isSelected:
                         currentPage == "Getting started" ? true : false),
                 DrawerTile(
-                    icon: Icons.login,
                     onTap: _launchURL,
-                    title: "Privacy",
-                    isSelected:
-                        currentPage == "Getting started" ? true : false),
-                DrawerTile(
-                    icon: Icons.login,
-                    onTap: _launchURL,
-                    title: "Terms",
+                    title: "About",
                     isSelected:
                         currentPage == "Getting started" ? true : false),
               ],
             )),
-        SafeArea(
-          top: false,
-          child: Container(
-              padding: const EdgeInsets.only(left: 8, right: 16),
-              child: Text(
+        Container(
+            padding: const EdgeInsets.only(left: 8, right: 16),
+            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text(
                 "v1.123.1233",
-                style: TextStyle(
-                  color: NowUIColors.white.withOpacity(0.8),
-                  fontSize: 12,
-                  fontWeight: FontWeight.w200,
-                ),
-              )),
-        )
+                style: Theme.of(context).primaryTextTheme.caption,
+              ),
+              GestureDetector(
+                  onTap: () {},
+                  child: Text(
+                    " / Privacy",
+                    style: Theme.of(context).primaryTextTheme.caption,
+                  )),
+              GestureDetector(
+                  onTap: () {},
+                  child: Text(
+                    " / Terms",
+                    style: Theme.of(context).primaryTextTheme.caption,
+                  )),
+            ])),
       ]),
     ));
   }

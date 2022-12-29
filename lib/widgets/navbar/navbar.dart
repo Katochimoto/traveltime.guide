@@ -26,12 +26,12 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
     return Container(
         height: preferredSize.height + safePadding,
         decoration:
-            const BoxDecoration(color: NowUIColors.bgColorNavbar, boxShadow: [
+            BoxDecoration(color: Theme.of(context).canvasColor, boxShadow: [
           BoxShadow(
-              color: NowUIColors.muted,
-              spreadRadius: -10,
+              color: Theme.of(context).shadowColor,
+              spreadRadius: -15,
               blurRadius: 12,
-              offset: Offset(0, 5))
+              offset: const Offset(0, 5))
         ]),
         child: SafeArea(
           child: Padding(
@@ -50,9 +50,8 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                             ...(Navigator.canPop(context)
                                 ? [
                                     IconButton(
-                                      icon: const Icon(Icons.arrow_back_ios,
-                                          color: NowUIColors.textNavbar,
-                                          size: 24),
+                                      iconSize: 24,
+                                      icon: const Icon(Icons.arrow_back_ios),
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
@@ -60,9 +59,8 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                                   ]
                                 : [
                                     IconButton(
-                                      icon: const Icon(Icons.menu,
-                                          color: NowUIColors.textNavbar,
-                                          size: 24),
+                                      iconSize: 24,
+                                      icon: const Icon(Icons.menu),
                                       onPressed: () {
                                         Scaffold.of(context).openDrawer();
                                       },
@@ -79,8 +77,8 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             IconButton(
-                              icon: const Icon(Icons.notifications_active,
-                                  color: NowUIColors.textNavbar, size: 22),
+                              iconSize: 24,
+                              icon: const Icon(Icons.notifications_active),
                               onPressed: () {
                                 Scaffold.of(context).openDrawer();
                               },

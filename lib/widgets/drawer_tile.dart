@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 class DrawerTile extends StatelessWidget {
   final String title;
-  final IconData icon;
+  final IconData? icon;
   final void Function() onTap;
   final bool isSelected;
 
   const DrawerTile({
     super.key,
     required this.title,
-    required this.icon,
+    this.icon,
     required this.onTap,
     this.isSelected = false,
   });
@@ -29,8 +29,8 @@ class DrawerTile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(icon, size: 18),
-          const SizedBox(width: 10),
+          icon != null ? Icon(icon, size: 18) : Container(),
+          icon != null ? const SizedBox(width: 10) : Container(),
           Text(title),
         ],
       ),

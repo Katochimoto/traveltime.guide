@@ -182,12 +182,7 @@ class _RegisterState extends State<RegisterScreen> {
                                   Center(
                                     child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: NowUIColors.primary,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(32.0),
-                                        ),
-                                      ),
+                                          shape: const StadiumBorder()),
                                       onPressed: () {
                                         // Respond to button press
                                         Navigator.pushReplacementNamed(

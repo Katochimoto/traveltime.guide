@@ -4,9 +4,11 @@ import 'package:traveltime/constants/theme/dark.dart';
 import 'package:traveltime/constants/theme/light.dart';
 import 'package:traveltime/routes.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
