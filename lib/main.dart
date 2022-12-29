@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:traveltime/constants/routes.dart';
+import 'package:traveltime/constants/theme/dark.dart';
+import 'package:traveltime/constants/theme/light.dart';
 import 'package:traveltime/routes.dart';
 
 void main() => runApp(MyApp());
@@ -10,12 +12,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Now UI PRO Flutter',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          fontFamily: 'Montserrat',
-          useMaterial3: true,
-          // splashColor: Colors.red,
-          // highlightColor: Colors.black.withOpacity(.5),
-        ),
+        darkTheme: darkTheme,
+        theme: lightTheme, //lightTheme,
+        // ThemeData(
+        //   // splashColor: Colors.red,
+        //   // highlightColor: Colors.black.withOpacity(.5),
+        // ),
         initialRoute: Routes.onboarding,
         routes: routes);
   }

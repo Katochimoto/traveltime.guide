@@ -10,13 +10,13 @@ class NavbarCategorieButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme colors = Theme.of(context).colorScheme;
+    final ThemeData theme = Theme.of(context);
+    final ColorScheme colors = theme.colorScheme;
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       IconButton(
         icon: Icon(icon),
         onPressed: () {},
         iconSize: 20,
-        padding: const EdgeInsets.all(10),
         style: IconButton.styleFrom(
           shadowColor: colors.secondaryContainer,
           shape: const RoundedRectangleBorder(
@@ -29,9 +29,12 @@ class NavbarCategorieButton extends StatelessWidget {
           highlightColor: colors.onSecondaryContainer.withOpacity(0.12),
         ),
       ),
-      Text(title,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(color: NowUIColors.text, fontSize: 12.0)),
+      Text(
+        title,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
+        style: theme.textTheme.caption,
+      ),
     ]);
   }
 }
@@ -56,6 +59,7 @@ class NavbarCategories extends StatelessWidget {
           NavbarCategorieButton(icon: Icons.change_circle, title: 'Currency'),
           NavbarCategorieButton(icon: Icons.newspaper, title: 'News'),
           NavbarCategorieButton(icon: Icons.description, title: 'Visa'),
+          NavbarCategorieButton(icon: Icons.coronavirus, title: 'COVID'),
         ],
       ),
     );

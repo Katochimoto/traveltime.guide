@@ -7,7 +7,7 @@ class NowUIColors {
 
   static const Color defaultColor = Color.fromRGBO(136, 136, 136, 1.0);
 
-  static const Color primary = Color.fromRGBO(249, 99, 50, 1.0);
+  static const Color primary = Color.fromRGBO(249, 99, 50, 1);
 
   static const Color secondary = Color.fromRGBO(68, 68, 68, 1.0);
 
@@ -25,7 +25,7 @@ class NowUIColors {
 
   static const Color warning = Color.fromRGBO(255, 178, 54, 1.0);
 
-  static const Color text = Color.fromRGBO(44, 44, 44, 1.0);
+  static const Color text = Color(0xFF2C2C2C);
 
   static const Color bgColorScreen = Color.fromRGBO(255, 255, 255, 1.0);
 

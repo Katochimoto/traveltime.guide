@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:traveltime/constants/routes.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import 'package:traveltime/constants/Theme.dart';
-
-import 'package:traveltime/widgets/drawer-tile.dart';
+import 'package:traveltime/widgets/drawer_tile.dart';
 
 class NowDrawer extends StatelessWidget {
   final String currentPage;
@@ -25,16 +23,14 @@ class NowDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
         child: Container(
-      color: NowUIColors.primary,
       child: Column(children: [
         SafeArea(
           bottom: false,
           child: Padding(
-            padding: const EdgeInsets.only(left: 24.0, right: 20.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
-              textBaseline: TextBaseline.alphabetic,
               children: [
                 const Image(
                     image: AssetImage("assets/imgs/now-logo.png"),
@@ -43,9 +39,11 @@ class NowDrawer extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0),
                   child: IconButton(
-                      icon: Icon(Icons.close,
-                          color: NowUIColors.white.withOpacity(0.82),
-                          size: 24.0),
+                      style: IconButton.styleFrom(
+                          foregroundColor:
+                              Theme.of(context).primaryTextTheme.button?.color),
+                      iconSize: 24,
+                      icon: const Icon(Icons.close),
                       onPressed: () {
                         Scaffold.of(context).closeDrawer();
                       }),
@@ -66,7 +64,6 @@ class NowDrawer extends StatelessWidget {
                       Navigator.pushReplacementNamed(context, Routes.home);
                     }
                   },
-                  iconColor: NowUIColors.primary,
                   title: "Discover",
                   isSelected: currentPage == Routes.home ? true : false),
               DrawerTile(
@@ -77,7 +74,6 @@ class NowDrawer extends StatelessWidget {
                           context, Routes.components);
                     }
                   },
-                  iconColor: NowUIColors.error,
                   title: "Components",
                   isSelected: currentPage == Routes.components ? true : false),
               DrawerTile(
@@ -87,7 +83,6 @@ class NowDrawer extends StatelessWidget {
                       Navigator.pushReplacementNamed(context, Routes.articles);
                     }
                   },
-                  iconColor: NowUIColors.primary,
                   title: "Articles",
                   isSelected: currentPage == Routes.articles ? true : false),
               DrawerTile(
@@ -97,7 +92,6 @@ class NowDrawer extends StatelessWidget {
                       Navigator.pushReplacementNamed(context, Routes.profile);
                     }
                   },
-                  iconColor: NowUIColors.warning,
                   title: "Profile",
                   isSelected: currentPage == Routes.profile ? true : false),
               DrawerTile(
@@ -107,7 +101,6 @@ class NowDrawer extends StatelessWidget {
                       Navigator.pushReplacementNamed(context, Routes.account);
                     }
                   },
-                  iconColor: NowUIColors.info,
                   title: "Account",
                   isSelected: currentPage == Routes.account ? true : false),
               DrawerTile(
@@ -117,7 +110,6 @@ class NowDrawer extends StatelessWidget {
                       Navigator.pushReplacementNamed(context, Routes.settings);
                     }
                   },
-                  iconColor: NowUIColors.success,
                   title: "Settings",
                   isSelected: currentPage == Routes.settings ? true : false),
             ],
@@ -137,42 +129,36 @@ class NowDrawer extends StatelessWidget {
                 DrawerTile(
                     icon: Icons.login,
                     onTap: _launchURL,
-                    iconColor: NowUIColors.muted,
                     title: "Login",
                     isSelected:
                         currentPage == "Getting started" ? true : false),
                 DrawerTile(
                     icon: Icons.login,
                     onTap: _launchURL,
-                    iconColor: NowUIColors.muted,
                     title: "About",
                     isSelected:
                         currentPage == "Getting started" ? true : false),
                 DrawerTile(
                     icon: Icons.login,
                     onTap: _launchURL,
-                    iconColor: NowUIColors.muted,
                     title: "Support",
                     isSelected:
                         currentPage == "Getting started" ? true : false),
                 DrawerTile(
                     icon: Icons.login,
                     onTap: _launchURL,
-                    iconColor: NowUIColors.muted,
                     title: "Gep Pro",
                     isSelected:
                         currentPage == "Getting started" ? true : false),
                 DrawerTile(
                     icon: Icons.login,
                     onTap: _launchURL,
-                    iconColor: NowUIColors.muted,
                     title: "Privacy",
                     isSelected:
                         currentPage == "Getting started" ? true : false),
                 DrawerTile(
                     icon: Icons.login,
                     onTap: _launchURL,
-                    iconColor: NowUIColors.muted,
                     title: "Terms",
                     isSelected:
                         currentPage == "Getting started" ? true : false),
