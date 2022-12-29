@@ -141,6 +141,41 @@ class NowDrawer extends StatelessWidget {
                     title: "Login",
                     isSelected:
                         currentPage == "Getting started" ? true : false),
+                DrawerTile(
+                    icon: Icons.login,
+                    onTap: _launchURL,
+                    iconColor: NowUIColors.muted,
+                    title: "About",
+                    isSelected:
+                        currentPage == "Getting started" ? true : false),
+                DrawerTile(
+                    icon: Icons.login,
+                    onTap: _launchURL,
+                    iconColor: NowUIColors.muted,
+                    title: "Support",
+                    isSelected:
+                        currentPage == "Getting started" ? true : false),
+                DrawerTile(
+                    icon: Icons.login,
+                    onTap: _launchURL,
+                    iconColor: NowUIColors.muted,
+                    title: "Gep Pro",
+                    isSelected:
+                        currentPage == "Getting started" ? true : false),
+                DrawerTile(
+                    icon: Icons.login,
+                    onTap: _launchURL,
+                    iconColor: NowUIColors.muted,
+                    title: "Privacy",
+                    isSelected:
+                        currentPage == "Getting started" ? true : false),
+                DrawerTile(
+                    icon: Icons.login,
+                    onTap: _launchURL,
+                    iconColor: NowUIColors.muted,
+                    title: "Terms",
+                    isSelected:
+                        currentPage == "Getting started" ? true : false),
               ],
             )),
         SafeArea(
