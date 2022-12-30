@@ -57,6 +57,7 @@ class NavbarCategories extends StatelessWidget {
           NavbarCategorieButton(icon: Icons.hiking, title: 'Activities'),
           NavbarCategorieButton(icon: Icons.route, title: 'Routes'),
           NavbarCategorieButton(icon: Icons.change_circle, title: 'Currency'),
+          NavbarCategorieButton(icon: Icons.set_meal_sharp, title: 'Food'),
           NavbarCategorieButton(icon: Icons.newspaper, title: 'News'),
           NavbarCategorieButton(icon: Icons.description, title: 'Visa'),
           NavbarCategorieButton(icon: Icons.coronavirus, title: 'COVID'),
