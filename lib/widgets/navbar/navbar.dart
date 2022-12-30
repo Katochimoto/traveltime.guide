@@ -66,11 +66,10 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                                       },
                                     ),
                                   ]),
-                            Text(title,
-                                style: const TextStyle(
-                                    color: NowUIColors.textNavbar,
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 18.0)),
+                            Text(
+                              title,
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
                           ],
                         ),
                         Row(

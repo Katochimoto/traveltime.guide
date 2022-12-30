@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:traveltime/constants/routes.dart';
 import 'package:traveltime/widgets/bottom_navbar.dart';
 import 'package:traveltime/widgets/navbar/navbar.dart';
@@ -103,10 +103,10 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const Navbar(
-        title: "Home",
-        search: NavbarSearch(),
-        categories: NavbarCategories(),
+      appBar: Navbar(
+        title: AppLocalizations.of(context)!.discoverTitle,
+        search: const NavbarSearch(),
+        categories: const NavbarCategories(),
       ),
       drawer: const NowDrawer(currentPage: Routes.home),
       bottomNavigationBar: BottomNavbar(),

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:traveltime/constants/routes.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:traveltime/constants/Theme.dart';
 import 'package:traveltime/widgets/drawer_tile.dart';
 
 class NowDrawer extends StatelessWidget {
@@ -102,7 +101,7 @@ class NowDrawer extends StatelessWidget {
                                   context, Routes.home);
                             }
                           },
-                          title: "Discover",
+                          title: AppLocalizations.of(context)!.discoverTitle,
                           isSelected:
                               currentPage == Routes.home ? true : false),
                       DrawerTile(
