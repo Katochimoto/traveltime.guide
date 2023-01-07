@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:traveltime/constants/routes.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:traveltime/widgets/drawer_tile.dart';
+import 'package:traveltime/widgets/drawer/drawer_tile.dart';
 
-class NowDrawer extends StatelessWidget {
+class AppDrawer extends StatelessWidget {
   final String currentPage;
 
-  const NowDrawer({super.key, required this.currentPage});
+  const AppDrawer({super.key, required this.currentPage});
 
   _launchURL() async {
     const url = 'https://creative-tim.com';
@@ -190,7 +190,7 @@ class NowDrawer extends StatelessWidget {
                               currentPage == "Getting started" ? true : false),
                       DrawerTile(
                           onTap: _launchURL,
-                          title: "Gep Pro",
+                          title: "Get Pro",
                           isSelected:
                               currentPage == "Getting started" ? true : false),
                       DrawerTile(

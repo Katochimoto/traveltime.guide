@@ -9,7 +9,7 @@ import 'package:traveltime/constants/routes.dart';
 import 'package:traveltime/widgets/navbar/navbar.dart';
 import 'package:traveltime/widgets/input.dart';
 
-import 'package:traveltime/widgets/drawer.dart';
+import 'package:traveltime/widgets/drawer/drawer.dart';
 
 @immutable
 class RegisterScreen extends StatefulWidget {
@@ -31,7 +31,7 @@ class _RegisterState extends State<RegisterScreen> {
           title: "",
         ),
         extendBodyBehindAppBar: true,
-        drawer: const NowDrawer(currentPage: Routes.account),
+        drawer: const AppDrawer(currentPage: Routes.account),
         body: Stack(
           children: [
             Container(

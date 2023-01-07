@@ -1,5 +1,6 @@
 {
 	"@@locale": "th",
 	"helloWorld": "¡Hola Mundo!",
-	"discoverTitle": "Discover!"
+	"discoverTitle": "Discover!",
+	"settingsTitle": "Settings!"
 }

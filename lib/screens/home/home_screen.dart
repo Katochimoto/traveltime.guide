@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:traveltime/constants/routes.dart';
-import 'package:traveltime/widgets/bottom_navbar.dart';
+import 'package:traveltime/widgets/navbar/bottom_navbar.dart';
 import 'package:traveltime/widgets/navbar/navbar.dart';
 import 'package:traveltime/widgets/card-horizontal.dart';
 import 'package:traveltime/widgets/card-small.dart';
 import 'package:traveltime/widgets/card-square.dart';
-import 'package:traveltime/widgets/drawer.dart';
+import 'package:traveltime/widgets/drawer/drawer.dart';
 import 'package:traveltime/widgets/navbar/navbar_categories.dart';
 import 'package:traveltime/widgets/navbar/navbar_search.dart';
 import 'package:traveltime/widgets/page_layout.dart';
@@ -99,7 +99,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // final GlobalKey _scaffoldKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,8 +107,8 @@ class HomeScreen extends StatelessWidget {
         search: const NavbarSearch(),
         categories: const NavbarCategories(),
       ),
-      drawer: const NowDrawer(currentPage: Routes.home),
-      bottomNavigationBar: BottomNavbar(),
+      drawer: const AppDrawer(currentPage: Routes.home),
+      bottomNavigationBar: const BottomNavbar(),
       body: PageLayout(child: _content(context)),
     );
   }

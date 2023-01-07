@@ -3,7 +3,7 @@ import 'package:traveltime/constants/Theme.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:traveltime/constants/routes.dart';
 import 'package:traveltime/widgets/navbar/navbar.dart';
-import 'package:traveltime/widgets/drawer.dart';
+import 'package:traveltime/widgets/drawer/drawer.dart';
 import 'package:traveltime/widgets/page_layout.dart';
 import 'package:traveltime/widgets/photo-album.dart';
 
@@ -27,7 +27,7 @@ class ProfileScreen extends StatelessWidget {
         appBar: const Navbar(
           title: "Profile",
         ),
-        drawer: const NowDrawer(currentPage: Routes.profile),
+        drawer: const AppDrawer(currentPage: Routes.profile),
         body: Stack(
           children: <Widget>[
             Column(

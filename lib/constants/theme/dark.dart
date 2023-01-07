@@ -16,9 +16,9 @@ final ThemeData darkTheme = ThemeData(
     900: Color(0xff191919)
   }),
   brightness: Brightness.dark,
-  primaryColor: const Color(0xff212121),
-  primaryColorLight: const Color(0xff9e9e9e),
-  primaryColorDark: const Color(0xff000000),
+  primaryColor: const Color(0xff00796b), // 0xff212121
+  primaryColorLight: const Color(0xFF009180), // 0xff9e9e9e
+  primaryColorDark: const Color(0xFF004D44),
   canvasColor: const Color(0xff303030),
   scaffoldBackgroundColor: const Color(0xff303030),
   bottomAppBarColor: const Color(0xff424242),

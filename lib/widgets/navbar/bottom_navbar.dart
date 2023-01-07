@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class BottomNavbar extends StatelessWidget {
+  const BottomNavbar({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SalomonBottomBar(

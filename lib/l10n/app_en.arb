@@ -4,5 +4,6 @@
 	"@helloWorld": {
 		"description": "The conventional newborn programmer greeting"
 	},
-	"discoverTitle": "Discover"
+	"discoverTitle": "Discover",
+	"settingsTitle": "Settings"
 }

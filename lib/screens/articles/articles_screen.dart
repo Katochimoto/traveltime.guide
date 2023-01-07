@@ -8,7 +8,7 @@ import 'package:traveltime/constants/routes.dart';
 // import 'package:traveltime/screens/category.dart';
 
 //widgets
-import 'package:traveltime/widgets/drawer.dart';
+import 'package:traveltime/widgets/drawer/drawer.dart';
 import 'package:traveltime/widgets/navbar/navbar.dart';
 import 'package:traveltime/widgets/card-horizontal.dart';
 import 'package:traveltime/widgets/card-small.dart';
@@ -98,7 +98,7 @@ class ArticlesScreen extends StatelessWidget {
           title: "Articles",
         ),
         backgroundColor: NowUIColors.bgColorScreen,
-        drawer: const NowDrawer(currentPage: Routes.articles),
+        drawer: const AppDrawer(currentPage: Routes.articles),
         body: Container(
             padding: const EdgeInsets.only(right: 24, left: 24, bottom: 36),
             child: SingleChildScrollView(

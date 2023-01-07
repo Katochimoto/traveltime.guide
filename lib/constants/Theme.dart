@@ -76,6 +76,7 @@ class UIGap {
   static const double g2 = 10;
   static const double g3 = 15;
   static const double g4 = 20;
+  static const double g5 = 30;
 }
 
 class UINavbar {

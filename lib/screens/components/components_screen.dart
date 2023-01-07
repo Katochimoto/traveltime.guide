@@ -5,7 +5,7 @@ import 'package:traveltime/constants/routes.dart';
 
 //widgets
 import 'package:traveltime/widgets/navbar/navbar.dart';
-import 'package:traveltime/widgets/drawer.dart';
+import 'package:traveltime/widgets/drawer/drawer.dart';
 import 'package:traveltime/widgets/input.dart';
 import 'package:traveltime/widgets/table-cell.dart';
 
@@ -37,7 +37,7 @@ class _ComponentsState extends State<ComponentsScreen> {
           title: "Components",
         ),
         backgroundColor: NowUIColors.bgColorScreen,
-        drawer: const NowDrawer(currentPage: Routes.components),
+        drawer: const AppDrawer(currentPage: Routes.components),
         body: SingleChildScrollView(
             child: Padding(
           padding: const EdgeInsets.only(right: 16, left: 16, bottom: 36),
