@@ -15,7 +15,7 @@ final ThemeData darkTheme = ThemeData(
   dividerColor: const Color(0x1fffffff),
   highlightColor: const Color(0x40cccccc),
   splashColor: const Color(0x40cccccc),
-  shadowColor: const Color(0xfff5f5f5),
+  shadowColor: const Color(0x7789FFF1),
   selectedRowColor: const Color(0xfff5f5f5),
   unselectedWidgetColor: const Color(0xb3ffffff),
   disabledColor: const Color(0x62ffffff),

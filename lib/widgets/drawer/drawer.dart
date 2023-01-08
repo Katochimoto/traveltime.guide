@@ -22,8 +22,9 @@ class AppDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
         child: Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColorDark,
+              image: const DecorationImage(
                 image: AssetImage("assets/imgs/drawer_bg.jpg"),
                 fit: BoxFit.cover,
                 opacity: 0.1,

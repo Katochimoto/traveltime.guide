@@ -18,10 +18,12 @@ class DrawerTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
+          elevation: 0,
           shape: const StadiumBorder(),
-          backgroundColor: isSelected ? null : Colors.transparent,
+          backgroundColor:
+              isSelected ? Theme.of(context).primaryColor : Colors.transparent,
           foregroundColor: isSelected
-              ? Theme.of(context).textTheme.button?.color
+              ? Theme.of(context).primaryTextTheme.button?.color
               : Theme.of(context).primaryTextTheme.button?.color,
           shadowColor: Colors.transparent),
       onPressed: onTap,

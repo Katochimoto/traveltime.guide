@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       // title: 'Now UI PRO Flutter',
       debugShowCheckedModeBanner: false,
       darkTheme: darkTheme,
-      theme: lightTheme, //lightTheme,
+      theme: darkTheme, //lightTheme,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       // locale: const Locale.fromSubtags(languageCode: 'en'),

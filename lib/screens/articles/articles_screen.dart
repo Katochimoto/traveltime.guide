@@ -236,7 +236,7 @@ class ArticlesScreen extends StatelessWidget {
         appBar: Navbar(
           title: AppLocalizations.of(context)!.articlesTitle,
         ),
-        drawer: const AppDrawer(currentPage: Routes.settings),
+        drawer: const AppDrawer(currentPage: Routes.articles),
         body: PageLayout(child: _content(context)));
   }
 }

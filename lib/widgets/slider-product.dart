@@ -28,12 +28,12 @@ class _ProductCarouselState extends State<ProductCarousel> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
-                        decoration: const BoxDecoration(boxShadow: [
+                        decoration: BoxDecoration(boxShadow: [
                           BoxShadow(
-                              color: Color.fromRGBO(0, 0, 0, 0.4),
+                              color: Theme.of(context).shadowColor,
                               blurRadius: 5,
                               spreadRadius: 0.3,
-                              offset: Offset(0, 3))
+                              offset: const Offset(0, 2))
                         ]),
                         child: AspectRatio(
                           aspectRatio: 2 / 2,
