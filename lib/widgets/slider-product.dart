@@ -31,7 +31,7 @@ class _ProductCarouselState extends State<ProductCarousel> {
                         decoration: const BoxDecoration(boxShadow: [
                           BoxShadow(
                               color: Color.fromRGBO(0, 0, 0, 0.4),
-                              blurRadius: 8,
+                              blurRadius: 5,
                               spreadRadius: 0.3,
                               offset: Offset(0, 3))
                         ]),
@@ -49,25 +49,19 @@ class _ProductCarouselState extends State<ProductCarousel> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 16.0),
+                      padding: const EdgeInsets.only(top: UIGap.g3),
                       child: Column(
                         children: [
                           Text(item["price"],
-                              style: const TextStyle(
-                                  fontSize: 16, color: NowUIColors.text)),
+                              style: Theme.of(context).textTheme.headline2),
                           Text(item["title"],
-                              style: const TextStyle(
-                                  fontSize: 32, color: NowUIColors.text)),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 16.0, right: 16.0, top: 8),
-                            child: Text(
-                              item["description"],
-                              style: const TextStyle(
-                                  fontSize: 16, color: NowUIColors.muted),
-                              textAlign: TextAlign.center,
-                            ),
-                          )
+                              style: Theme.of(context).textTheme.headline4),
+                          const SizedBox(height: UIGap.g1),
+                          Text(
+                            item["description"],
+                            style: Theme.of(context).textTheme.caption,
+                            textAlign: TextAlign.center,
+                          ),
                         ],
                       ),
                     )

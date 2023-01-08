@@ -46,23 +46,29 @@ class CardSmall extends StatelessWidget {
                 Flexible(
                     flex: 9,
                     child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
+                      padding: const EdgeInsets.all(UIGap.g3),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(title,
-                              style: const TextStyle(
-                                  color: NowUIColors.text, fontSize: 12)),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Text(cta,
-                                style: const TextStyle(
-                                    color: NowUIColors.primary,
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w600)),
-                          )
+                              style: Theme.of(context).textTheme.caption),
+                          Container(
+                              padding: const EdgeInsets.only(top: UIGap.g1),
+                              transform: Matrix4.translationValues(
+                                  -(UIGap.g2), UIGap.g2, UIGap.g0),
+                              child: TextButton(
+                                onPressed: () {},
+                                style: TextButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: UIGap.g0,
+                                        horizontal: UIGap.g2),
+                                    minimumSize: const Size(50, 25),
+                                    tapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                    alignment: Alignment.centerLeft),
+                                child: Text(cta),
+                              )),
                         ],
                       ),
                     ))

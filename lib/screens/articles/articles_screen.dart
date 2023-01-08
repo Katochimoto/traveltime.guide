@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:traveltime/constants/Theme.dart';
 import 'package:traveltime/constants/routes.dart';
-
-//screens
-// import 'package:traveltime/screens/componentsduct.dart';
-// import 'package:traveltime/screens/category.dart';
-
-//widgets
 import 'package:traveltime/widgets/drawer/drawer.dart';
 import 'package:traveltime/widgets/navbar/navbar.dart';
 import 'package:traveltime/widgets/card-horizontal.dart';
@@ -15,6 +9,7 @@ import 'package:traveltime/widgets/card-small.dart';
 import 'package:traveltime/widgets/card-square.dart';
 import 'package:traveltime/widgets/card-category.dart';
 import 'package:traveltime/widgets/slider-product.dart';
+import 'package:traveltime/widgets/page_layout.dart';
 
 final Map<String, dynamic> articlesCards = {
   "Ice Cream": {
@@ -91,173 +86,157 @@ final Map<String, dynamic> articlesCards = {
 class ArticlesScreen extends StatelessWidget {
   const ArticlesScreen({super.key});
 
+  Widget _content(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: UIGap.g4),
+        Text("Cards", style: Theme.of(context).textTheme.titleLarge),
+        const SizedBox(height: UIGap.g2),
+        CardHorizontal(
+            cta: "View article",
+            title: articlesCards["Ice Cream"]['title'],
+            img: articlesCards["Ice Cream"]['image'],
+            tap: () {
+              Navigator.pushNamed(context, '/components');
+            }),
+        const SizedBox(height: 8.0),
+        Row(
+          children: [
+            CardSmall(
+                cta: "View article",
+                title: articlesCards["Makeup"]['title'],
+                img: articlesCards["Makeup"]['image'],
+                tap: () {
+                  Navigator.pushNamed(context, '/components');
+                }),
+            CardSmall(
+                cta: "View article",
+                title: articlesCards["Coffee"]['title'],
+                img: articlesCards["Coffee"]['image'],
+                tap: () {
+                  Navigator.pushNamed(context, '/components');
+                })
+          ],
+        ),
+        const SizedBox(height: 8.0),
+        CardHorizontal(
+            cta: "View article",
+            title: articlesCards["Fashion"]['title'],
+            img: articlesCards["Fashion"]['image'],
+            tap: () {
+              Navigator.pushNamed(context, '/components');
+            }),
+        const SizedBox(height: 8.0),
+        CardSquare(
+            cta: "View article",
+            title: articlesCards["Argon"]['title'],
+            img: articlesCards["Argon"]['image'],
+            tap: () {
+              Navigator.pushNamed(context, '/components');
+            }),
+        CardCategory(
+            tap: () {
+              Navigator.pushNamed(context, '/components');
+            },
+            title: articlesCards["Music"]["title"],
+            img: articlesCards["Music"]["image"]),
+        const SizedBox(height: UIGap.g4),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Album",
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            TextButton(
+              onPressed: () {},
+              style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 0, horizontal: UIGap.g2),
+                  minimumSize: const Size(50, 25),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  alignment: Alignment.centerLeft),
+              child: const Text("View All"),
+            ),
+            // Text("View All", style: Theme.of(context).textTheme.button)
+          ],
+        ),
+        const SizedBox(height: UIGap.g2),
+        SizedBox(
+          height: 250,
+          child: GridView.count(
+              primary: false,
+              padding: const EdgeInsets.symmetric(
+                  horizontal: UIGap.g0, vertical: UIGap.g0),
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+              crossAxisCount: 3,
+              children: <Widget>[
+                Container(
+                    height: 100,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                      image: DecorationImage(
+                          image: NetworkImage(
+                              "https://images.unsplash.com/photo-1501601983405-7c7cabaa1581?fit=crop&w=240&q=80"),
+                          fit: BoxFit.cover),
+                    )),
+                Container(
+                    decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                  image: DecorationImage(
+                      image: NetworkImage(
+                          "https://images.unsplash.com/photo-1543747579-795b9c2c3ada?fit=crop&w=240&q=80hoto-1501601983405-7c7cabaa1581?fit=crop&w=240&q=80"),
+                      fit: BoxFit.cover),
+                )),
+                Container(
+                    decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                  image: DecorationImage(
+                      image: NetworkImage(
+                          "https://images.unsplash.com/photo-1551798507-629020c81463?fit=crop&w=240&q=80"),
+                      fit: BoxFit.cover),
+                )),
+                Container(
+                    decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                  image: DecorationImage(
+                      image: NetworkImage(
+                          "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?fit=crop&w=240&q=80"),
+                      fit: BoxFit.cover),
+                )),
+                Container(
+                    decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                  image: DecorationImage(
+                      image: NetworkImage(
+                          "https://images.unsplash.com/photo-1503642551022-c011aafb3c88?fit=crop&w=240&q=80"),
+                      fit: BoxFit.cover),
+                )),
+                Container(
+                    decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                  image: DecorationImage(
+                      image: NetworkImage(
+                          "https://images.unsplash.com/photo-1482686115713-0fbcaced6e28?fit=crop&w=240&q=80"),
+                      fit: BoxFit.cover),
+                )),
+              ]),
+        ),
+        const SizedBox(height: UIGap.g4),
+        ProductCarousel(imgArray: articlesCards["Music"]["products"]),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const Navbar(
-          title: "Articles",
+        appBar: Navbar(
+          title: AppLocalizations.of(context)!.articlesTitle,
         ),
-        backgroundColor: NowUIColors.bgColorScreen,
-        drawer: const AppDrawer(currentPage: Routes.articles),
-        body: Container(
-            padding: const EdgeInsets.only(right: 24, left: 24, bottom: 36),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(left: 8.0, top: 32),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text("Cards",
-                          style: TextStyle(
-                              color: NowUIColors.text,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16)),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16.0),
-                    child: CardHorizontal(
-                        cta: "View article",
-                        title: articlesCards["Ice Cream"]['title'],
-                        img: articlesCards["Ice Cream"]['image'],
-                        tap: () {
-                          Navigator.pushNamed(context, '/components');
-                        }),
-                  ),
-                  const SizedBox(height: 8.0),
-                  Row(
-                    children: [
-                      CardSmall(
-                          cta: "View article",
-                          title: articlesCards["Makeup"]['title'],
-                          img: articlesCards["Makeup"]['image'],
-                          tap: () {
-                            Navigator.pushNamed(context, '/components');
-                          }),
-                      CardSmall(
-                          cta: "View article",
-                          title: articlesCards["Coffee"]['title'],
-                          img: articlesCards["Coffee"]['image'],
-                          tap: () {
-                            Navigator.pushNamed(context, '/components');
-                          })
-                    ],
-                  ),
-                  const SizedBox(height: 8.0),
-                  CardHorizontal(
-                      cta: "View article",
-                      title: articlesCards["Fashion"]['title'],
-                      img: articlesCards["Fashion"]['image'],
-                      tap: () {
-                        Navigator.pushNamed(context, '/components');
-                      }),
-                  const SizedBox(height: 8.0),
-                  CardSquare(
-                      cta: "View article",
-                      title: articlesCards["Argon"]['title'],
-                      img: articlesCards["Argon"]['image'],
-                      tap: () {
-                        Navigator.pushNamed(context, '/components');
-                      }),
-                  CardCategory(
-                      tap: () {
-                        Navigator.pushNamed(context, '/components');
-                      },
-                      title: articlesCards["Music"]["title"],
-                      img: articlesCards["Music"]["image"]),
-                  Padding(
-                      padding:
-                          const EdgeInsets.only(left: 25, right: 25, top: 32),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text(
-                            "Album",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16.0,
-                                color: NowUIColors.text),
-                          ),
-                          Text(
-                            "View All",
-                            style: TextStyle(
-                                color: NowUIColors.primary,
-                                fontSize: 12.0,
-                                fontWeight: FontWeight.w600),
-                          )
-                        ],
-                      )),
-                  SizedBox(
-                    height: 250,
-                    child: GridView.count(
-                        primary: false,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 24.0, vertical: 15.0),
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
-                        crossAxisCount: 3,
-                        children: <Widget>[
-                          Container(
-                              height: 100,
-                              decoration: const BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(6.0)),
-                                image: DecorationImage(
-                                    image: NetworkImage(
-                                        "https://images.unsplash.com/photo-1501601983405-7c7cabaa1581?fit=crop&w=240&q=80"),
-                                    fit: BoxFit.cover),
-                              )),
-                          Container(
-                              decoration: const BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(6.0)),
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                    "https://images.unsplash.com/photo-1543747579-795b9c2c3ada?fit=crop&w=240&q=80hoto-1501601983405-7c7cabaa1581?fit=crop&w=240&q=80"),
-                                fit: BoxFit.cover),
-                          )),
-                          Container(
-                              decoration: const BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(6.0)),
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                    "https://images.unsplash.com/photo-1551798507-629020c81463?fit=crop&w=240&q=80"),
-                                fit: BoxFit.cover),
-                          )),
-                          Container(
-                              decoration: const BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(6.0)),
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                    "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?fit=crop&w=240&q=80"),
-                                fit: BoxFit.cover),
-                          )),
-                          Container(
-                              decoration: const BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(6.0)),
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                    "https://images.unsplash.com/photo-1503642551022-c011aafb3c88?fit=crop&w=240&q=80"),
-                                fit: BoxFit.cover),
-                          )),
-                          Container(
-                              decoration: const BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(6.0)),
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                    "https://images.unsplash.com/photo-1482686115713-0fbcaced6e28?fit=crop&w=240&q=80"),
-                                fit: BoxFit.cover),
-                          )),
-                        ]),
-                  ),
-                  ProductCarousel(imgArray: articlesCards["Music"]["products"]),
-                ],
-              ),
-            )));
+        drawer: const AppDrawer(currentPage: Routes.settings),
+        body: PageLayout(child: _content(context)));
   }
 }

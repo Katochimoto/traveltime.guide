@@ -112,7 +112,7 @@ class AppDrawer extends StatelessWidget {
                                   context, Routes.articles);
                             }
                           },
-                          title: "Articles",
+                          title: AppLocalizations.of(context)!.articlesTitle,
                           isSelected:
                               currentPage == Routes.articles ? true : false),
                       DrawerTile(
