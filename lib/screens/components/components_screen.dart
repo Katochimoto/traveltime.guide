@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:go_router/go_router.dart';
 import 'package:traveltime/constants/Theme.dart';
 import 'package:traveltime/constants/routes.dart';
 
@@ -66,7 +66,7 @@ class _ComponentsState extends State<ComponentsScreen> {
                   ),
                   onPressed: () {
                     // Respond to button press
-                    Navigator.pushReplacementNamed(context, '/home');
+                    context.goNamed(Routes.discover);
                   },
                   child: const Padding(
                       padding: EdgeInsets.only(
@@ -87,7 +87,7 @@ class _ComponentsState extends State<ComponentsScreen> {
                     ),
                     onPressed: () {
                       // Respond to button press
-                      Navigator.pushReplacementNamed(context, '/home');
+                      context.goNamed(Routes.discover);
                     },
                     child: const Padding(
                         padding: EdgeInsets.only(
@@ -110,7 +110,7 @@ class _ComponentsState extends State<ComponentsScreen> {
                     ),
                     onPressed: () {
                       // Respond to button press
-                      Navigator.pushReplacementNamed(context, '/home');
+                      context.goNamed(Routes.discover);
                     },
                     child: const Padding(
                         padding: EdgeInsets.only(
@@ -132,7 +132,7 @@ class _ComponentsState extends State<ComponentsScreen> {
                     ),
                     onPressed: () {
                       // Respond to button press
-                      Navigator.pushReplacementNamed(context, '/home');
+                      context.goNamed(Routes.discover);
                     },
                     child: const Padding(
                         padding: EdgeInsets.only(
@@ -155,7 +155,7 @@ class _ComponentsState extends State<ComponentsScreen> {
                     ),
                     onPressed: () {
                       // Respond to button press
-                      Navigator.pushReplacementNamed(context, '/home');
+                      context.goNamed(Routes.discover);
                     },
                     child: const Padding(
                         padding: EdgeInsets.only(
@@ -178,7 +178,7 @@ class _ComponentsState extends State<ComponentsScreen> {
                     ),
                     onPressed: () {
                       // Respond to button press
-                      Navigator.pushReplacementNamed(context, '/home');
+                      context.goNamed(Routes.discover);
                     },
                     child: const Padding(
                         padding: EdgeInsets.only(

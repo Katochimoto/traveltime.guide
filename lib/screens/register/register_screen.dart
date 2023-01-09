@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:traveltime/constants/Theme.dart';
@@ -185,8 +186,7 @@ class _RegisterState extends State<RegisterScreen> {
                                           shape: const StadiumBorder()),
                                       onPressed: () {
                                         // Respond to button press
-                                        Navigator.pushReplacementNamed(
-                                            context, '/home');
+                                        context.goNamed(Routes.discover);
                                       },
                                       child: const Padding(
                                           padding: EdgeInsets.only(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:traveltime/constants/Theme.dart';
 
 class Navbar extends StatelessWidget implements PreferredSizeWidget {
@@ -37,7 +38,7 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Navigator.canPop(context)
+                    context.canPop()
                         ? IconButton(
                             iconSize: 24,
                             icon: const Icon(Icons.arrow_back_ios),

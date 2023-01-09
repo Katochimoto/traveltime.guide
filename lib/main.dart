@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:traveltime/constants/routes.dart';
+// import 'package:traveltime/constants/routes.dart';
 import 'package:traveltime/constants/theme/dark.dart';
 import 'package:traveltime/constants/theme/light.dart';
 import 'package:traveltime/routes.dart';
@@ -12,16 +12,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       // title: 'Now UI PRO Flutter',
       debugShowCheckedModeBanner: false,
       darkTheme: darkTheme,
-      theme: darkTheme, //lightTheme,
+      theme: lightTheme, //lightTheme,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       // locale: const Locale.fromSubtags(languageCode: 'en'),
-      initialRoute: Routes.onboarding,
-      routes: routes,
+      // initialRoute: Routes.onboarding,
+      // routes: routes,
+      routerConfig: router,
       onGenerateTitle: (context) => AppLocalizations.of(context)!.helloWorld,
     );
   }

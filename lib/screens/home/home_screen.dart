@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:traveltime/constants/routes.dart';
 import 'package:traveltime/widgets/navbar/bottom_navbar.dart';
@@ -55,7 +56,7 @@ class HomeScreen extends StatelessWidget {
               title: homeCards["Ice Cream"]['title'],
               img: homeCards["Ice Cream"]['image'],
               tap: () {
-                Navigator.popAndPushNamed(context, '/components');
+                context.pushNamed(Routes.article, params: {'id': '123'});
               }),
         ),
         const SizedBox(height: 8.0),
@@ -72,7 +73,7 @@ class HomeScreen extends StatelessWidget {
                 title: homeCards["Coffee"]['title'],
                 img: homeCards["Coffee"]['image'],
                 tap: () {
-                  Navigator.popAndPushNamed(context, '/components');
+                  context.pushNamed(Routes.article, params: {'id': '123'});
                 })
           ],
         ),
@@ -82,7 +83,7 @@ class HomeScreen extends StatelessWidget {
             title: homeCards["Fashion"]['title'],
             img: homeCards["Fashion"]['image'],
             tap: () {
-              Navigator.popAndPushNamed(context, '/components');
+              context.pushNamed(Routes.article, params: {'id': '123'});
             }),
         const SizedBox(height: 8.0),
         Padding(
@@ -92,7 +93,7 @@ class HomeScreen extends StatelessWidget {
               title: homeCards["Argon"]['title'],
               img: homeCards["Argon"]['image'],
               tap: () {
-                Navigator.popAndPushNamed(context, '/components');
+                context.pushNamed(Routes.article, params: {'id': '123'});
               }),
         )
       ],
@@ -107,7 +108,7 @@ class HomeScreen extends StatelessWidget {
         search: const NavbarSearch(),
         categories: const NavbarCategories(),
       ),
-      drawer: const AppDrawer(currentPage: Routes.home),
+      drawer: const AppDrawer(currentPage: Routes.discover),
       bottomNavigationBar: const BottomNavbar(),
       body: PageLayout(child: _content(context)),
     );

@@ -84,8 +84,10 @@ final Map<String, dynamic> articlesCards = {
 };
 
 @immutable
-class ArticlesScreen extends StatelessWidget {
-  const ArticlesScreen({super.key});
+class ArticleScreen extends StatelessWidget {
+  final String id;
+
+  const ArticleScreen({super.key, required this.id});
 
   Widget _content(BuildContext context) {
     return Column(
@@ -99,7 +101,7 @@ class ArticlesScreen extends StatelessWidget {
             title: articlesCards["Ice Cream"]['title'],
             img: articlesCards["Ice Cream"]['image'],
             tap: () {
-              context.pushNamed(Routes.article, params: {'id': '123'});
+              context.goNamed(Routes.components);
             }),
         const SizedBox(height: 8.0),
         Row(
@@ -109,14 +111,14 @@ class ArticlesScreen extends StatelessWidget {
                 title: articlesCards["Makeup"]['title'],
                 img: articlesCards["Makeup"]['image'],
                 tap: () {
-                  context.pushNamed(Routes.article, params: {'id': '123'});
+                  context.goNamed(Routes.components);
                 }),
             CardSmall(
                 cta: "View article",
                 title: articlesCards["Coffee"]['title'],
                 img: articlesCards["Coffee"]['image'],
                 tap: () {
-                  context.pushNamed(Routes.article, params: {'id': '123'});
+                  context.goNamed(Routes.components);
                 })
           ],
         ),
@@ -126,7 +128,7 @@ class ArticlesScreen extends StatelessWidget {
             title: articlesCards["Fashion"]['title'],
             img: articlesCards["Fashion"]['image'],
             tap: () {
-              context.pushNamed(Routes.article, params: {'id': '123'});
+              context.goNamed(Routes.components);
             }),
         const SizedBox(height: 8.0),
         CardSquare(
@@ -134,11 +136,11 @@ class ArticlesScreen extends StatelessWidget {
             title: articlesCards["Argon"]['title'],
             img: articlesCards["Argon"]['image'],
             tap: () {
-              context.pushNamed(Routes.article, params: {'id': '123'});
+              context.goNamed(Routes.components);
             }),
         CardCategory(
             tap: () {
-              context.pushNamed(Routes.article, params: {'id': '123'});
+              context.goNamed(Routes.components);
             },
             title: articlesCards["Music"]["title"],
             img: articlesCards["Music"]["image"]),
@@ -235,7 +237,7 @@ class ArticlesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: Navbar(
-          title: AppLocalizations.of(context)!.articlesTitle,
+          title: 'wqe', // AppLocalizations.of(context)!.articlesTitle,
         ),
         drawer: const AppDrawer(currentPage: Routes.articles),
         body: PageLayout(child: _content(context)));

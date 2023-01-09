@@ -188,7 +188,7 @@ class ProfileScreen extends StatelessWidget {
             //                 shape: const StadiumBorder()),
             //             onPressed: () {
             //               // Respond to button press
-            //               Navigator.pushReplacementNamed(context, '/home');
+            //               context.goNamed(Routes.discover);
             //             },
             //             child: const Padding(
             //                 padding: EdgeInsets.only(

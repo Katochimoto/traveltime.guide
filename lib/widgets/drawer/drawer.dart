@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:traveltime/constants/routes.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -77,10 +78,7 @@ class AppDrawer extends StatelessWidget {
                               child: DrawerTile(
                                   icon: Icons.account_circle,
                                   onTap: () {
-                                    if (currentPage != Routes.profile) {
-                                      Navigator.pushReplacementNamed(
-                                          context, Routes.profile);
-                                    }
+                                    context.goNamed(Routes.profile);
                                   },
                                   title: "Profile",
                                   isSelected: currentPage == Routes.profile
@@ -97,21 +95,15 @@ class AppDrawer extends StatelessWidget {
                       DrawerTile(
                           icon: Icons.dashboard,
                           onTap: () {
-                            if (currentPage != Routes.home) {
-                              Navigator.pushReplacementNamed(
-                                  context, Routes.home);
-                            }
+                            context.goNamed(Routes.discover);
                           },
                           title: AppLocalizations.of(context)!.discoverTitle,
                           isSelected:
-                              currentPage == Routes.home ? true : false),
+                              currentPage == Routes.discover ? true : false),
                       DrawerTile(
                           icon: Icons.newspaper,
                           onTap: () {
-                            if (currentPage != Routes.articles) {
-                              Navigator.pushReplacementNamed(
-                                  context, Routes.articles);
-                            }
+                            context.goNamed(Routes.articles);
                           },
                           title: AppLocalizations.of(context)!.articlesTitle,
                           isSelected:
@@ -119,10 +111,7 @@ class AppDrawer extends StatelessWidget {
                       DrawerTile(
                           icon: Icons.map,
                           onTap: () {
-                            if (currentPage != Routes.components) {
-                              Navigator.pushReplacementNamed(
-                                  context, Routes.components);
-                            }
+                            context.goNamed(Routes.components);
                           },
                           title: "Map",
                           isSelected:
@@ -130,10 +119,7 @@ class AppDrawer extends StatelessWidget {
                       DrawerTile(
                           icon: Icons.hiking,
                           onTap: () {
-                            if (currentPage != Routes.components) {
-                              Navigator.pushReplacementNamed(
-                                  context, Routes.components);
-                            }
+                            context.goNamed(Routes.components);
                           },
                           title: "Activities",
                           isSelected:
@@ -141,10 +127,7 @@ class AppDrawer extends StatelessWidget {
                       DrawerTile(
                           icon: Icons.route,
                           onTap: () {
-                            if (currentPage != Routes.components) {
-                              Navigator.pushReplacementNamed(
-                                  context, Routes.components);
-                            }
+                            context.goNamed(Routes.components);
                           },
                           title: "Routes",
                           isSelected:
@@ -153,7 +136,7 @@ class AppDrawer extends StatelessWidget {
                       //     icon: FontAwesomeIcons.fileInvoice,
                       //     onTap: () {
                       //       if (currentPage != Routes.account) {
-                      //         Navigator.pushReplacementNamed(context, Routes.account);
+                      //         context.goNamed(Routes.account);
                       //       }
                       //     },
                       //     title: "Account",
@@ -161,10 +144,7 @@ class AppDrawer extends StatelessWidget {
                       DrawerTile(
                           icon: Icons.settings,
                           onTap: () {
-                            if (currentPage != Routes.settings) {
-                              Navigator.pushReplacementNamed(
-                                  context, Routes.settings);
-                            }
+                            context.goNamed(Routes.settings);
                           },
                           title: "Settings",
                           isSelected:
