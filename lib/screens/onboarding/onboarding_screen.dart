@@ -11,106 +11,54 @@ class OnboardingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(
+      alignment: Alignment.center,
       children: [
         Container(
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage("assets/imgs/onboarding-free.png"),
-                    fit: BoxFit.cover))),
+            decoration: BoxDecoration(
+                color: Theme.of(context).primaryColorDark,
+                image: const DecorationImage(
+                  image: AssetImage("assets/imgs/drawer_bg.jpg"),
+                  fit: BoxFit.cover,
+                  opacity: 0.1,
+                ))),
         SafeArea(
-          child: Container(
-            padding: EdgeInsets.only(
-                left: 16.0,
-                right: 16.0,
-                top: MediaQuery.of(context).size.height * 0.15),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Column(
-                  children: [
-                    Image.asset("assets/imgs/now-logo.png", scale: 3.5),
-                    const SizedBox(height: 20),
-                    Container(
-                        child: Center(
-                            child: Column(
-                      children: [
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: const FittedBox(
-                                fit: BoxFit.contain,
-                                child: Text("Now UI",
-                                    style: TextStyle(
-                                        color: NowUIColors.white,
-                                        fontWeight: FontWeight.w600)))),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: const FittedBox(
-                              fit: BoxFit.contain,
-                              child: Text("Flutter",
-                                  style: TextStyle(
-                                      color: NowUIColors.white,
-                                      fontWeight: FontWeight.w600)),
-                            ))
-                      ],
-                    ))),
-                  ],
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Image(
+                  image: AssetImage("assets/imgs/logo3.png"),
+                  width: 80,
+                  height: 80),
+              const SizedBox(height: UIGap.g4),
+              Text(
+                'TravelTime',
+                style: Theme.of(context).primaryTextTheme.displayMedium,
+              ),
+              Text(
+                'Thailand travel guide',
+                style: Theme.of(context).primaryTextTheme.caption,
+              ),
+              const SizedBox(height: UIGap.g4),
+              TextButton(
+                style: TextButton.styleFrom(
+                  // ElevatedButton
+                  // elevation: 0,
+                  shape: const StadiumBorder(),
+                  // backgroundColor: Theme.of(context).primaryColor,
                 ),
-                Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text("Designed By",
-                            style: TextStyle(
-                                color: NowUIColors.white,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 0.3)),
-                        const SizedBox(width: 5.0),
-                        Image.asset("assets/imgs/invision-white-slim.png",
-                            scale: 7.0)
-                      ],
-                    ),
-                    const SizedBox(height: 8.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text("Coded By",
-                            style: TextStyle(
-                                color: NowUIColors.white,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 0.3)),
-                        const SizedBox(width: 10.0),
-                        Image.asset("assets/imgs/creative-tim.png", scale: 7.0),
-                      ],
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: TextButton(
-                      style: TextButton.styleFrom(
-                        foregroundColor: NowUIColors.info,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4.0),
-                        ),
-                      ),
-                      onPressed: () {
-                        context.goNamed(Routes.discover);
-                      },
-                      child: const Padding(
-                          padding: EdgeInsets.only(
-                              left: 16.0, right: 16.0, top: 16, bottom: 16),
-                          child: Text("GET STARTED",
-                              style: TextStyle(fontSize: 12.0))),
-                    ),
+                onPressed: () {
+                  context.goNamed(Routes.discover);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: UIGap.g2, vertical: UIGap.g0),
+                  child: Text(
+                    "GET STARTED",
+                    style: Theme.of(context).primaryTextTheme.button,
                   ),
-                )
-              ],
-            ),
+                ),
+              ),
+            ],
           ),
         )
       ],
