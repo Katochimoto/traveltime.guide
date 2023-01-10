@@ -6,8 +6,14 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final Widget? categories;
   final Widget? search;
+  final bool? isTransparent;
 
-  const Navbar({super.key, this.title = "", this.categories, this.search});
+  const Navbar(
+      {super.key,
+      this.title = "",
+      this.categories,
+      this.search,
+      this.isTransparent});
 
   @override
   Size get preferredSize => Size.fromHeight(UINavbar.hMenu +

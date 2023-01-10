@@ -111,7 +111,7 @@ class AppDrawer extends StatelessWidget {
                       DrawerTile(
                           icon: Icons.map,
                           onTap: () {
-                            context.goNamed(Routes.components);
+                            context.goNamed(Routes.map);
                           },
                           title: "Map",
                           isSelected:
