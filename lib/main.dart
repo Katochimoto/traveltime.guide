@@ -16,12 +16,10 @@ class MyApp extends StatelessWidget {
       // title: 'Now UI PRO Flutter',
       debugShowCheckedModeBanner: false,
       darkTheme: darkTheme,
-      theme: darkTheme, //lightTheme,
+      theme: lightTheme, //lightTheme,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       // locale: const Locale.fromSubtags(languageCode: 'en'),
-      // initialRoute: Routes.onboarding,
-      // routes: routes,
       routerConfig: router,
       onGenerateTitle: (context) => AppLocalizations.of(context)!.helloWorld,
     );

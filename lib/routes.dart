@@ -1,5 +1,4 @@
 import 'package:go_router/go_router.dart';
-// import 'package:flutter/widgets.dart';
 import 'package:traveltime/constants/routes.dart';
 import 'package:traveltime/screens/map/map_screen.dart';
 import 'package:traveltime/screens/onboarding/onboarding_screen.dart';
@@ -67,13 +66,3 @@ final router = GoRouter(
     ),
   ],
 );
-
-// final Map<String, WidgetBuilder> routes = {
-//   Routes.discover: (context) => const HomeScreen(),
-//   Routes.settings: (context) => const SettingsScreen(),
-//   Routes.onboarding: (context) => const OnboardingScreen(),
-//   Routes.profile: (context) => const ProfileScreen(),
-//   Routes.articles: (context) => const ArticlesScreen(),
-//   Routes.components: (context) => const ComponentsScreen(),
-//   Routes.account: (context) => const RegisterScreen(),
-// };
