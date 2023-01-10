@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 // import 'package:flutter/widgets.dart';
 import 'package:traveltime/constants/routes.dart';
+import 'package:traveltime/screens/map/map_screen.dart';
 import 'package:traveltime/screens/onboarding/onboarding_screen.dart';
 import 'package:traveltime/screens/home/home_screen.dart';
 import 'package:traveltime/screens/profile/profile_screen.dart';
@@ -58,6 +59,11 @@ final router = GoRouter(
       name: Routes.account,
       path: '/account',
       builder: (context, state) => const RegisterScreen(),
+    ),
+    GoRoute(
+      name: Routes.map,
+      path: '/map',
+      builder: (context, state) => const MapScreen(),
     ),
   ],
 );

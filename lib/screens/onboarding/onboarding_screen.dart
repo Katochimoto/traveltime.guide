@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:traveltime/constants/Theme.dart';
 import 'package:traveltime/constants/routes.dart';
 
@@ -31,20 +32,17 @@ class OnboardingScreen extends StatelessWidget {
                   height: 80),
               const SizedBox(height: UIGap.g4),
               Text(
-                'TravelTime',
+                AppLocalizations.of(context)!.appTitle,
                 style: Theme.of(context).primaryTextTheme.displayMedium,
               ),
               Text(
-                'Thailand travel guide',
+                AppLocalizations.of(context)!.appSubtitle,
                 style: Theme.of(context).primaryTextTheme.caption,
               ),
               const SizedBox(height: UIGap.g4),
               TextButton(
                 style: TextButton.styleFrom(
-                  // ElevatedButton
-                  // elevation: 0,
                   shape: const StadiumBorder(),
-                  // backgroundColor: Theme.of(context).primaryColor,
                 ),
                 onPressed: () {
                   context.goNamed(Routes.discover);
@@ -53,7 +51,7 @@ class OnboardingScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(
                       horizontal: UIGap.g2, vertical: UIGap.g0),
                   child: Text(
-                    "GET STARTED",
+                    AppLocalizations.of(context)!.getStarted,
                     style: Theme.of(context).primaryTextTheme.button,
                   ),
                 ),

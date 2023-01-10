@@ -7,4 +7,5 @@ class Routes {
   static const String profile = "profile";
   static const String account = "account";
   static const String settings = "settings";
+  static const String map = "map";
 }

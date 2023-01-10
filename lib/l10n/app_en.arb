@@ -6,5 +6,8 @@
 	},
 	"discoverTitle": "Discover",
 	"settingsTitle": "Settings",
-	"articlesTitle": "Articles"
+	"articlesTitle": "Articles",
+	"appSubtitle": "Thailand travel guide",
+	"appTitle": "TravelTime",
+	"getStarted": "Get Started"
 }
