@@ -58,7 +58,7 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                                   )
                                 : null,
                             iconSize: 24,
-                            icon: const Icon(Icons.arrow_back_ios),
+                            icon: const Icon(Icons.arrow_back),
                             onPressed: () async {
                               if (!await Navigator.of(context).maybePop()) {
                                 Scaffold.of(context).openDrawer();
