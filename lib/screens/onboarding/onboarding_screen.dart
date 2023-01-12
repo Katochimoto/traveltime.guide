@@ -27,7 +27,7 @@ class OnboardingScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Image(
-                  image: AssetImage("assets/imgs/logo3.png"),
+                  image: AssetImage("assets/imgs/logo.png"),
                   width: 80,
                   height: 80),
               const SizedBox(height: UIGap.g4),

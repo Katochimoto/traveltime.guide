@@ -75,8 +75,7 @@ class MapScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: Navbar(
-        title: AppLocalizations.of(context)!.settingsTitle,
+      appBar: const Navbar(
         isTransparent: true,
       ),
       drawer: const AppDrawer(currentPage: Routes.map),
@@ -85,6 +84,7 @@ class MapScreen extends StatelessWidget {
         minHeight: 100,
         parallaxEnabled: true,
         parallaxOffset: .5,
+        color: Theme.of(context).canvasColor,
         borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(18.0), topRight: Radius.circular(18.0)),
         // panel: const Center(

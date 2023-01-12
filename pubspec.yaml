@@ -48,6 +48,7 @@ dependencies:
   flutter_map: ^3.1.0
   latlong2: ^0.8.1
   sliding_up_panel: ^2.0.0+1
+  flutter_native_splash: ^2.2.16
 
 dev_dependencies:
   flutter_test:
@@ -78,7 +79,6 @@ flutter:
     - assets/imgs/android.png
     - assets/imgs/ios.png
     - assets/imgs/creative-tim.png
-    - assets/imgs/now-logo.png
     - assets/imgs/register-bg.png
     - assets/imgs/bg-profile.png
     - assets/imgs/profile-img.jpg
@@ -90,9 +90,7 @@ flutter:
     - assets/imgs/album-6.jpg
     - assets/imgs/invision-white-slim.png
     - assets/imgs/drawer_bg.jpg
-    - assets/imgs/logo1.png
-    - assets/imgs/logo2.png
-    - assets/imgs/logo3.png
+    - assets/imgs/logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

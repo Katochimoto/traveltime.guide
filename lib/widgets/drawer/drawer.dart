@@ -40,7 +40,7 @@ class AppDrawer extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const Image(
-                          image: AssetImage("assets/imgs/logo3.png"),
+                          image: AssetImage("assets/imgs/logo.png"),
                           width: 35,
                           height: 35),
                       Padding(

@@ -26,14 +26,19 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
     var safePadding = MediaQuery.of(context).padding.top;
     return Container(
         height: preferredSize.height + safePadding,
-        decoration:
-            BoxDecoration(color: Theme.of(context).canvasColor, boxShadow: [
-          BoxShadow(
-              color: Theme.of(context).shadowColor,
-              spreadRadius: -15,
-              blurRadius: 12,
-              offset: const Offset(0, 5))
-        ]),
+        decoration: BoxDecoration(
+            color: isTransparent
+                ? Colors.transparent
+                : Theme.of(context).canvasColor,
+            boxShadow: isTransparent
+                ? []
+                : [
+                    BoxShadow(
+                        color: Theme.of(context).shadowColor,
+                        spreadRadius: -15,
+                        blurRadius: 12,
+                        offset: const Offset(0, 5))
+                  ]),
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(
@@ -46,6 +51,12 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                   children: [
                     context.canPop()
                         ? IconButton(
+                            style: isTransparent
+                                ? IconButton.styleFrom(
+                                    backgroundColor:
+                                        Theme.of(context).canvasColor,
+                                  )
+                                : null,
                             iconSize: 24,
                             icon: const Icon(Icons.arrow_back_ios),
                             onPressed: () async {
@@ -55,6 +66,12 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                             },
                           )
                         : IconButton(
+                            style: isTransparent
+                                ? IconButton.styleFrom(
+                                    backgroundColor:
+                                        Theme.of(context).canvasColor,
+                                  )
+                                : null,
                             iconSize: 24,
                             icon: const Icon(Icons.menu),
                             onPressed: () {
@@ -68,6 +85,11 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     IconButton(
+                      style: isTransparent
+                          ? IconButton.styleFrom(
+                              backgroundColor: Theme.of(context).canvasColor,
+                            )
+                          : null,
                       iconSize: 24,
                       icon: const Icon(Icons.notifications_active),
                       onPressed: () {
