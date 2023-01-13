@@ -7,7 +7,7 @@ import 'package:traveltime/constants/routes.dart';
 import 'package:traveltime/widgets/navbar/navbar.dart';
 import 'package:traveltime/widgets/drawer/drawer.dart';
 import 'package:traveltime/widgets/input.dart';
-import 'package:traveltime/widgets/table-cell.dart';
+import 'package:traveltime/widgets/table_cell.dart';
 
 @immutable
 class ComponentsScreen extends StatefulWidget {

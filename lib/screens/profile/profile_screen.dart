@@ -1,20 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:traveltime/constants/Theme.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:traveltime/constants/routes.dart';
 import 'package:traveltime/widgets/navbar/navbar.dart';
 import 'package:traveltime/widgets/drawer/drawer.dart';
 import 'package:traveltime/widgets/page_layout.dart';
-import 'package:traveltime/widgets/photo-album.dart';
-
-List<String> imgArray = [
-  "assets/imgs/album-1.jpg",
-  "assets/imgs/album-2.jpg",
-  "assets/imgs/album-3.jpg",
-  "assets/imgs/album-4.jpg",
-  "assets/imgs/album-5.jpg",
-  "assets/imgs/album-6.jpg"
-];
+import 'package:traveltime/widgets/photo_album.dart';
 
 @immutable
 class ProfileScreen extends StatelessWidget {
@@ -25,12 +15,13 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: const Navbar(
-          title: "Profile",
+          isTransparent: true,
         ),
         drawer: const AppDrawer(currentPage: Routes.profile),
         body: Stack(
           children: <Widget>[
             Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Flexible(
                   flex: 2,
@@ -43,36 +34,35 @@ class ProfileScreen extends StatelessWidget {
                         children: <Widget>[
                           SafeArea(
                             bottom: false,
-                            right: false,
-                            left: false,
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 0, right: 0),
+                              padding: const EdgeInsets.only(
+                                  bottom: UIGap.g2,
+                                  left: UIGap.g3,
+                                  right: UIGap.g3),
                               child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   const CircleAvatar(
                                       backgroundImage: AssetImage(
                                           "assets/imgs/profile-img.jpg"),
-                                      radius: 65.0),
-                                  const Padding(
-                                    padding: EdgeInsets.only(top: 24.0),
-                                    child: Text("Ryan Scheinder",
-                                        style: TextStyle(
-                                            color: NowUIColors.white,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 22)),
+                                      radius: 45.0),
+                                  const SizedBox(height: UIGap.g3),
+                                  Text(
+                                    "Ryan Scheinder",
+                                    style: Theme.of(context)
+                                        .primaryTextTheme
+                                        .headlineSmall,
                                   ),
+                                  const SizedBox(height: UIGap.g1),
+                                  Text("Photographer",
+                                      style: Theme.of(context)
+                                          .primaryTextTheme
+                                          .caption),
+                                  const SizedBox(height: UIGap.g2),
                                   Padding(
-                                    padding: const EdgeInsets.only(top: 8.0),
-                                    child: Text("Photographer",
-                                        style: TextStyle(
-                                            color: NowUIColors.white
-                                                .withOpacity(0.85),
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w600)),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 24.0, left: 42, right: 32),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: UIGap.g3),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceAround,
@@ -86,17 +76,16 @@ class ProfileScreen extends StatelessWidget {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            const Text("2K",
-                                                style: TextStyle(
-                                                    color: NowUIColors.white,
-                                                    fontSize: 16.0,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
+                                            Text(
+                                              "2K",
+                                              style: Theme.of(context)
+                                                  .primaryTextTheme
+                                                  .bodyLarge,
+                                            ),
                                             Text("Friends",
-                                                style: TextStyle(
-                                                    color: NowUIColors.white
-                                                        .withOpacity(0.8),
-                                                    fontSize: 12.0))
+                                                style: Theme.of(context)
+                                                    .primaryTextTheme
+                                                    .caption)
                                           ],
                                         ),
                                         Column(
@@ -105,17 +94,14 @@ class ProfileScreen extends StatelessWidget {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            const Text("26",
-                                                style: TextStyle(
-                                                    color: NowUIColors.white,
-                                                    fontSize: 16.0,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
+                                            Text("26",
+                                                style: Theme.of(context)
+                                                    .primaryTextTheme
+                                                    .bodyLarge),
                                             Text("Comments",
-                                                style: TextStyle(
-                                                    color: NowUIColors.white
-                                                        .withOpacity(0.8),
-                                                    fontSize: 12.0))
+                                                style: Theme.of(context)
+                                                    .primaryTextTheme
+                                                    .caption)
                                           ],
                                         ),
                                         Column(
@@ -124,17 +110,14 @@ class ProfileScreen extends StatelessWidget {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            const Text("48",
-                                                style: TextStyle(
-                                                    color: NowUIColors.white,
-                                                    fontSize: 16.0,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
+                                            Text("48",
+                                                style: Theme.of(context)
+                                                    .primaryTextTheme
+                                                    .bodyLarge),
                                             Text("Bookmarks",
-                                                style: TextStyle(
-                                                    color: NowUIColors.white
-                                                        .withOpacity(0.8),
-                                                    fontSize: 12.0))
+                                                style: Theme.of(context)
+                                                    .primaryTextTheme
+                                                    .caption)
                                           ],
                                         )
                                       ],
@@ -150,26 +133,47 @@ class ProfileScreen extends StatelessWidget {
                 Flexible(
                     flex: 3,
                     child: PageLayout(
-                        child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 32.0, right: 32.0, top: 42.0),
                       child: Column(children: [
-                        const Text("About me",
-                            style: TextStyle(
-                                color: NowUIColors.text,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 17.0)),
-                        const Padding(
-                          padding: EdgeInsets.only(
-                              left: 24.0, right: 24, top: 30, bottom: 24),
-                          child: Text(
-                              "An artist of considerable range, Ryan - the name taken by Meblourne-raised, Brooklyn-based Nick Murphy - writes, performs and records all of his own music.",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(color: NowUIColors.time)),
+                        const SizedBox(height: UIGap.g3),
+                        Text("About me",
+                            style: Theme.of(context).textTheme.titleLarge),
+                        const SizedBox(height: UIGap.g3),
+                        Text(
+                          "An artist of considerable range, Ryan - the name taken by Meblourne-raised, Brooklyn-based Nick Murphy - writes, performs and records all of his own music.",
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
-                        PhotoAlbum(imgArray: imgArray)
+                        const SizedBox(height: UIGap.g3),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Album",
+                              style: Theme.of(context).textTheme.titleLarge,
+                            ),
+                            TextButton(
+                              onPressed: () {},
+                              style: TextButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 0, horizontal: UIGap.g2),
+                                  minimumSize: const Size(50, 25),
+                                  tapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                  alignment: Alignment.centerLeft),
+                              child: const Text("View All"),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: UIGap.g2),
+                        const PhotoAlbum(imgArray: [
+                          "https://images.unsplash.com/photo-1501601983405-7c7cabaa1581?fit=crop&w=240&q=80",
+                          "https://images.unsplash.com/photo-1543747579-795b9c2c3ada?fit=crop&w=240&q=80hoto-1501601983405-7c7cabaa1581?fit=crop&w=240&q=80",
+                          "https://images.unsplash.com/photo-1551798507-629020c81463?fit=crop&w=240&q=80",
+                          "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?fit=crop&w=240&q=80",
+                          "https://images.unsplash.com/photo-1503642551022-c011aafb3c88?fit=crop&w=240&q=80",
+                          "https://images.unsplash.com/photo-1482686115713-0fbcaced6e28?fit=crop&w=240&q=80",
+                        ])
                       ]),
-                    ))),
+                    )),
               ],
             ),
             // Align(

@@ -26,6 +26,9 @@ final ThemeData lightTheme = ThemeData(
   indicatorColor: const Color(0xff009688),
   hintColor: const Color(0x8a000000),
   errorColor: const Color(0xffd32f2f),
+  cardTheme: const CardTheme(
+    shadowColor: Color(0x7800796B),
+  ),
   drawerTheme: const DrawerThemeData(
     backgroundColor: Color(0xff009688),
   ),

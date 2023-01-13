@@ -5,11 +5,12 @@ import 'package:traveltime/constants/Theme.dart';
 import 'package:traveltime/constants/routes.dart';
 import 'package:traveltime/widgets/drawer/drawer.dart';
 import 'package:traveltime/widgets/navbar/navbar.dart';
-import 'package:traveltime/widgets/card-horizontal.dart';
-import 'package:traveltime/widgets/card-small.dart';
-import 'package:traveltime/widgets/card-square.dart';
-import 'package:traveltime/widgets/card-category.dart';
-import 'package:traveltime/widgets/slider-product.dart';
+import 'package:traveltime/widgets/card/card_horizontal.dart';
+import 'package:traveltime/widgets/card/card_small.dart';
+import 'package:traveltime/widgets/card/card_square.dart';
+import 'package:traveltime/widgets/card/card_category.dart';
+import 'package:traveltime/widgets/photo_album.dart';
+import 'package:traveltime/widgets/slider_product.dart';
 import 'package:traveltime/widgets/page_layout.dart';
 
 final Map<String, dynamic> articlesCards = {
@@ -164,66 +165,15 @@ class ArticlesScreen extends StatelessWidget {
           ],
         ),
         const SizedBox(height: UIGap.g2),
-        SizedBox(
-          height: 250,
-          child: GridView.count(
-              primary: false,
-              padding: const EdgeInsets.symmetric(
-                  horizontal: UIGap.g0, vertical: UIGap.g0),
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              crossAxisCount: 3,
-              children: <Widget>[
-                Container(
-                    height: 100,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                      image: DecorationImage(
-                          image: NetworkImage(
-                              "https://images.unsplash.com/photo-1501601983405-7c7cabaa1581?fit=crop&w=240&q=80"),
-                          fit: BoxFit.cover),
-                    )),
-                Container(
-                    decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                  image: DecorationImage(
-                      image: NetworkImage(
-                          "https://images.unsplash.com/photo-1543747579-795b9c2c3ada?fit=crop&w=240&q=80hoto-1501601983405-7c7cabaa1581?fit=crop&w=240&q=80"),
-                      fit: BoxFit.cover),
-                )),
-                Container(
-                    decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                  image: DecorationImage(
-                      image: NetworkImage(
-                          "https://images.unsplash.com/photo-1551798507-629020c81463?fit=crop&w=240&q=80"),
-                      fit: BoxFit.cover),
-                )),
-                Container(
-                    decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                  image: DecorationImage(
-                      image: NetworkImage(
-                          "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?fit=crop&w=240&q=80"),
-                      fit: BoxFit.cover),
-                )),
-                Container(
-                    decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                  image: DecorationImage(
-                      image: NetworkImage(
-                          "https://images.unsplash.com/photo-1503642551022-c011aafb3c88?fit=crop&w=240&q=80"),
-                      fit: BoxFit.cover),
-                )),
-                Container(
-                    decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                  image: DecorationImage(
-                      image: NetworkImage(
-                          "https://images.unsplash.com/photo-1482686115713-0fbcaced6e28?fit=crop&w=240&q=80"),
-                      fit: BoxFit.cover),
-                )),
-              ]),
+        const PhotoAlbum(
+          imgArray: [
+            "https://images.unsplash.com/photo-1501601983405-7c7cabaa1581?fit=crop&w=240&q=80",
+            "https://images.unsplash.com/photo-1543747579-795b9c2c3ada?fit=crop&w=240&q=80hoto-1501601983405-7c7cabaa1581?fit=crop&w=240&q=80",
+            "https://images.unsplash.com/photo-1551798507-629020c81463?fit=crop&w=240&q=80",
+            "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?fit=crop&w=240&q=80",
+            "https://images.unsplash.com/photo-1503642551022-c011aafb3c88?fit=crop&w=240&q=80",
+            "https://images.unsplash.com/photo-1482686115713-0fbcaced6e28?fit=crop&w=240&q=80",
+          ],
         ),
         const SizedBox(height: UIGap.g4),
         ProductCarousel(imgArray: articlesCards["Music"]["products"]),

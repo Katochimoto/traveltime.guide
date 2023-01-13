@@ -114,8 +114,7 @@ class AppDrawer extends StatelessWidget {
                             context.goNamed(Routes.map);
                           },
                           title: "Map",
-                          isSelected:
-                              currentPage == Routes.components ? true : false),
+                          isSelected: currentPage == Routes.map ? true : false),
                       DrawerTile(
                           icon: Icons.hiking,
                           onTap: () {

@@ -6,7 +6,7 @@ import 'package:traveltime/constants/routes.dart';
 //widgets
 import 'package:traveltime/widgets/navbar/navbar.dart';
 import 'package:traveltime/widgets/page_layout.dart';
-import 'package:traveltime/widgets/table-cell.dart';
+import 'package:traveltime/widgets/table_cell.dart';
 
 import 'package:traveltime/widgets/drawer/drawer.dart';
 

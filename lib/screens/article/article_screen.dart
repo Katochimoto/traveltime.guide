@@ -4,16 +4,7 @@ import 'package:traveltime/constants/routes.dart';
 import 'package:traveltime/widgets/navbar/navbar.dart';
 import 'package:traveltime/widgets/drawer/drawer.dart';
 import 'package:traveltime/widgets/page_layout.dart';
-import 'package:traveltime/widgets/photo-album.dart';
-
-List<String> imgArray = [
-  "assets/imgs/album-1.jpg",
-  "assets/imgs/album-2.jpg",
-  "assets/imgs/album-3.jpg",
-  "assets/imgs/album-4.jpg",
-  "assets/imgs/album-5.jpg",
-  "assets/imgs/album-6.jpg"
-];
+import 'package:traveltime/widgets/photo_album.dart';
 
 @immutable
 class ArticleScreen extends StatelessWidget {
@@ -148,7 +139,14 @@ class ArticleScreen extends StatelessWidget {
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),
                         ),
-                        PhotoAlbum(imgArray: imgArray)
+                        const PhotoAlbum(imgArray: [
+                          "https://images.unsplash.com/photo-1501601983405-7c7cabaa1581?fit=crop&w=240&q=80",
+                          "https://images.unsplash.com/photo-1543747579-795b9c2c3ada?fit=crop&w=240&q=80hoto-1501601983405-7c7cabaa1581?fit=crop&w=240&q=80",
+                          "https://images.unsplash.com/photo-1551798507-629020c81463?fit=crop&w=240&q=80",
+                          "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?fit=crop&w=240&q=80",
+                          "https://images.unsplash.com/photo-1503642551022-c011aafb3c88?fit=crop&w=240&q=80",
+                          "https://images.unsplash.com/photo-1482686115713-0fbcaced6e28?fit=crop&w=240&q=80",
+                        ])
                       ]),
                     )),
               ],

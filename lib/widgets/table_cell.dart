@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:traveltime/constants/Theme.dart';
-
 class TableCellSettings extends StatelessWidget {
   final String title;
   final void Function()? onTap;
-  const TableCellSettings({required this.title, this.onTap});
+  const TableCellSettings({super.key, required this.title, this.onTap});
 
   @override
   Widget build(BuildContext context) {

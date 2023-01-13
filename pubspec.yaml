@@ -75,20 +75,9 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/imgs/onboarding-bg.png
-    - assets/imgs/android.png
-    - assets/imgs/ios.png
-    - assets/imgs/creative-tim.png
     - assets/imgs/register-bg.png
     - assets/imgs/bg-profile.png
     - assets/imgs/profile-img.jpg
-    - assets/imgs/album-1.jpg
-    - assets/imgs/album-2.jpg
-    - assets/imgs/album-3.jpg
-    - assets/imgs/album-4.jpg
-    - assets/imgs/album-5.jpg
-    - assets/imgs/album-6.jpg
-    - assets/imgs/invision-white-slim.png
     - assets/imgs/drawer_bg.jpg
     - assets/imgs/logo.png
 
