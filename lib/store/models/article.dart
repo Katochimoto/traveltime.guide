@@ -1,29 +1,48 @@
 import 'package:isar/isar.dart';
+import 'package:traveltime/constants/constants.dart';
 
 part 'article.g.dart';
 
 @collection
 class Article {
-  Id id = Isar.autoIncrement; // you can also use id = null to auto increment
+  Article(
+      {required this.id,
+      required this.country,
+      required this.locale,
+      required this.createdAt,
+      required this.updatedAt,
+      required this.publishedAt,
+      required this.title,
+      required this.description,
+      this.logo});
+
+  final Id id;
+
+  final String country;
+
+  @enumerated
+  final AppLocale locale;
+
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final DateTime publishedAt;
 
   @Index(type: IndexType.value)
-  late String title;
+  final String title;
+  final String description;
+  final String? logo;
 
-  // List<Recipient>? recipients;
-
-  // @enumerated
-  // Status status = Status.pending;
+  static Article fromJson(data) {
+    return Article(
+      id: data['id'],
+      country: data['country'],
+      locale: AppLocale.values.byName(data['locale']),
+      createdAt: DateTime.parse(data['createdAt']),
+      updatedAt: DateTime.parse(data['updatedAt']),
+      publishedAt: DateTime.parse(data['publishedAt']),
+      title: data['title'],
+      description: data['description'],
+      logo: data['logo'],
+    );
+  }
 }
-
-// @embedded
-// class Recipient {
-//   String? name;
-
-//   String? address;
-// }
-
-// enum Status {
-//   draft,
-//   pending,
-//   sent,
-// }

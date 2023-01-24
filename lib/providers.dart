@@ -1,15 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-enum AppTheme {
-  system,
-  light,
-  dark,
-}
-
-enum AppLocale {
-  en,
-  th,
-}
+import 'package:traveltime/constants/constants.dart';
 
 final themeModeProvider = StateProvider<AppTheme>((ref) => AppTheme.system);
 

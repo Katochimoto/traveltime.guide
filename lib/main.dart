@@ -2,22 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-// import 'package:isar/isar.dart';
 import 'package:traveltime/constants/theme/dark.dart';
 import 'package:traveltime/constants/theme/light.dart';
 import 'package:traveltime/providers.dart';
 import 'package:traveltime/routes.dart';
 import 'package:traveltime/store/db_sync.dart';
-// import 'package:traveltime/store/models/article.dart';
+import 'package:traveltime/constants/constants.dart';
 
 void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-
-  // final dir = await getApplicationSupportDirectory();
-  // final isar = await Isar.open([ArticleSchema], inspector: true);
-  // isar.close()
-
   runApp(const ProviderScope(child: App()));
 }
 
@@ -67,7 +61,7 @@ class AppState extends ConsumerState<App> {
           : (themeMode == AppTheme.light ? ThemeMode.dark : ThemeMode.system),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      locale: Locale.fromSubtags(languageCode: locale.toString()),
+      locale: Locale.fromSubtags(languageCode: locale.name),
       routerConfig: router,
       onGenerateTitle: (context) => AppLocalizations.of(context)!.helloWorld,
     );
