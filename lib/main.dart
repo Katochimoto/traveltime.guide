@@ -7,6 +7,7 @@ import 'package:traveltime/constants/theme/dark.dart';
 import 'package:traveltime/constants/theme/light.dart';
 import 'package:traveltime/providers.dart';
 import 'package:traveltime/routes.dart';
+import 'package:traveltime/store/db_sync.dart';
 // import 'package:traveltime/store/models/article.dart';
 
 void main() {
@@ -17,14 +18,38 @@ void main() {
   // final isar = await Isar.open([ArticleSchema], inspector: true);
   // isar.close()
 
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(const ProviderScope(child: App()));
 }
 
-class MyApp extends ConsumerWidget {
-  const MyApp({super.key});
+class App extends ConsumerStatefulWidget {
+  const App({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  AppState createState() => AppState();
+}
+
+class AppState extends ConsumerState<App> {
+  late DbSync? dbSync;
+
+  @override
+  void initState() {
+    super.initState();
+    initialization();
+  }
+
+  @override
+  void dispose() {
+    dbSync?.stop();
+    super.dispose();
+  }
+
+  void initialization() async {
+    dbSync = await ref.read(dbSyncProvider.future);
+    dbSync?.start();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final themeMode = ref.watch(themeModeProvider);
     final locale = ref.watch(localeProvider);
 

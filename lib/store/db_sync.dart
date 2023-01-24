@@ -5,6 +5,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:traveltime/providers.dart';
 import 'package:traveltime/store/db.dart';
 
+// dbSyncProgress
+// dbSyncFirstRun
+
 final dbSyncProvider = FutureProvider((ref) async {
   final locale = ref.watch(localeProvider);
   final db = await ref.watch(dbProvider.future);

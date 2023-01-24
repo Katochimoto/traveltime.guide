@@ -4,7 +4,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:traveltime/constants/Theme.dart';
 import 'package:traveltime/constants/routes.dart';
-import 'package:traveltime/store/db_sync.dart';
 
 class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
@@ -14,25 +13,6 @@ class OnboardingScreen extends ConsumerStatefulWidget {
 }
 
 class OnboardingScreenState extends ConsumerState<OnboardingScreen> {
-  late DbSync? dbSync;
-
-  @override
-  void initState() {
-    super.initState();
-    initialization();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    dbSync?.stop();
-  }
-
-  void initialization() async {
-    dbSync = await ref.read(dbSyncProvider.future);
-    dbSync?.start();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
