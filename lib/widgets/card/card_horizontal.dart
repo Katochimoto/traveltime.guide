@@ -3,7 +3,7 @@ import 'package:traveltime/constants/Theme.dart';
 
 class CardHorizontal extends StatelessWidget {
   final String cta;
-  final String img;
+  final String? img;
   final void Function() tap;
   final String title;
 
@@ -13,6 +13,25 @@ class CardHorizontal extends StatelessWidget {
       this.cta = "",
       this.img = "https://via.placeholder.com/200",
       required this.tap});
+
+  Widget _img(String? img) {
+    if (img == null) {
+      return const SizedBox();
+    }
+
+    return Flexible(
+      flex: 1,
+      child: Container(
+          decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(5.0),
+                  bottomLeft: Radius.circular(5.0)),
+              image: DecorationImage(
+                image: NetworkImage(img),
+                fit: BoxFit.cover,
+              ))),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,18 +43,7 @@ class CardHorizontal extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(5.0))),
         child: Row(
           children: [
-            Flexible(
-              flex: 1,
-              child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(5.0),
-                          bottomLeft: Radius.circular(5.0)),
-                      image: DecorationImage(
-                        image: NetworkImage(img),
-                        fit: BoxFit.cover,
-                      ))),
-            ),
+            _img(img),
             Flexible(
                 flex: 1,
                 child: Padding(

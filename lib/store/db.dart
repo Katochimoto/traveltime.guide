@@ -5,7 +5,12 @@ import 'package:traveltime/store/models/article.dart';
 
 final dbProvider = FutureProvider((ref) async {
   final locale = ref.watch(localeProvider);
-  final isar = await Isar.open([ArticleSchema],
+  return Isar.open([ArticleSchema],
       name: 'traveltime:${locale.name}', inspector: true);
-  return isar;
+});
+
+final articlesProvider = FutureProvider.autoDispose((ref) async {
+  final db = await ref.watch(dbProvider.future);
+  // return db.articles.where().watch();
+  return db.articles.where().findAll();
 });

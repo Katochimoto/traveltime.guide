@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:isar/isar.dart';
 import 'package:traveltime/constants/Theme.dart';
 import 'package:traveltime/constants/routes.dart';
+import 'package:traveltime/store/db.dart';
+import 'package:traveltime/store/models/article.dart';
 import 'package:traveltime/widgets/drawer/drawer.dart';
 import 'package:traveltime/widgets/navbar/navbar.dart';
 import 'package:traveltime/widgets/card/card_horizontal.dart';
@@ -85,13 +89,30 @@ final Map<String, dynamic> articlesCards = {
 };
 
 @immutable
-class ArticlesScreen extends StatelessWidget {
+class ArticlesScreen extends ConsumerWidget {
   const ArticlesScreen({super.key});
 
-  Widget _content(BuildContext context) {
+  Widget _content(BuildContext context, WidgetRef ref) {
+    final articles = ref.watch(articlesProvider).valueOrNull;
+    print(articles);
+
+    if (articles == null) {
+      return const CircularProgressIndicator();
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        const SizedBox(height: UIGap.g2),
+        ...articles
+            .map((article) => CardHorizontal(
+                cta: "View article",
+                title: article.title,
+                img: article.logo,
+                tap: () {
+                  context.pushNamed(Routes.article, params: {'id': '123'});
+                }))
+            .toList(),
         const SizedBox(height: UIGap.g4),
         Text("Cards", style: Theme.of(context).textTheme.titleLarge),
         const SizedBox(height: UIGap.g2),
@@ -182,12 +203,12 @@ class ArticlesScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
         appBar: Navbar(
           title: AppLocalizations.of(context)!.articlesTitle,
         ),
         drawer: const AppDrawer(currentPage: Routes.articles),
-        body: PageLayout(child: _content(context)));
+        body: PageLayout(child: _content(context, ref)));
   }
 }
