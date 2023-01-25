@@ -38,7 +38,7 @@ class AppState extends ConsumerState<App> {
   }
 
   void initialization() async {
-    dbSync = await ref.read(dbSyncProvider.future);
+    dbSync = await ref.watch(dbSyncProvider.future);
     dbSync?.start();
   }
 

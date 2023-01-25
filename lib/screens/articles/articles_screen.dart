@@ -99,15 +99,14 @@ class ArticlesScreen extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: UIGap.g2),
-        ...articles
-            .map((article) => CardHorizontal(
-                cta: "View article",
-                title: article.title,
-                img: article.logo,
-                tap: () {
-                  context.pushNamed(Routes.article, params: {'id': '123'});
-                }))
-            .toList()
+        for (final article in articles)
+          CardHorizontal(
+              cta: "View article",
+              title: article.title,
+              img: article.logo,
+              tap: () {
+                context.pushNamed(Routes.article, params: {'id': '123'});
+              }),
       ],
     );
 

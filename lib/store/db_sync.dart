@@ -1,4 +1,5 @@
-// import 'dart:async';
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:isar/isar.dart';
@@ -8,6 +9,7 @@ import 'package:traveltime/providers.dart';
 import 'package:traveltime/store/db.dart';
 import 'package:traveltime/constants/constants.dart';
 import 'package:traveltime/store/models/article.dart';
+import 'package:traveltime/utils/connectivity_status.dart';
 
 // dbSyncProgress
 // dbSyncFirstRun
@@ -15,11 +17,38 @@ import 'package:traveltime/store/models/article.dart';
 final dbSyncProvider = FutureProvider((ref) async {
   final locale = ref.watch(localeProvider);
   final db = await ref.watch(dbProvider.future);
-  return DbSync(db, locale);
+  final connectivityStatus = ref.watch(connectivityStatusProvider);
+  return DbSync(db, locale, connectivityStatus);
 });
 
 class DbSync {
-  DbSync(this.db, this.locale) {
+  static final DbSync _instance = DbSync._internal();
+
+  factory DbSync(
+      Isar db, AppLocale locale, ConnectivityStatus connectivityStatus) {
+    _instance.db = db;
+    _instance.locale = locale;
+    _instance.connectivityStatus = connectivityStatus;
+    return _instance;
+  }
+
+  final Dio dio = Dio(BaseOptions(
+    baseUrl: 'http://79.98.28.215:1337/api',
+    connectTimeout: 5000,
+    receiveTimeout: 30000,
+  ));
+
+  late Isar db;
+
+  late AppLocale locale;
+
+  late ConnectivityStatus connectivityStatus;
+
+  late CancelToken? cancelToken;
+
+  late Timer? timer;
+
+  DbSync._internal() {
     dio.interceptors.add(PrettyDioLogger(
       requestHeader: false,
       requestBody: false,
@@ -29,37 +58,34 @@ class DbSync {
     ));
   }
 
-  final Dio dio = Dio(BaseOptions(
-    baseUrl: 'http://79.98.28.215:1337/api',
-    connectTimeout: 5000,
-    receiveTimeout: 30000,
-  ));
-
-  final Isar db;
-
-  final AppLocale locale;
-
-  late CancelToken? cancelToken;
-
   // retry on error
-  // periodic call every 30 minutes
   // offline pause
-  // call queue
-  void start() async {
+  Future<void> start() async {
+    // stop();
+    await run();
+    timer = Timer.periodic(const Duration(minutes: 10), (timer) async {
+      await run();
+    });
+  }
+
+  void stop() {
+    timer?.cancel();
+    cancelToken?.cancel('cancelled');
+  }
+
+  Future<void> run() async {
+    if (connectivityStatus == ConnectivityStatus.isDisonnected) {
+      return;
+    }
+
     final prefs = await SharedPreferences.getInstance();
     final String lastSyncName = '${db.name}:lastSync';
     final String? lastSync = prefs.getString(lastSyncName);
-
-    // db.collection<Article>()
 
     // https://api.dart.dev/stable/2.19.0/dart-async/StreamController-class.html
     // https://stackoverflow.com/questions/66724183/how-can-i-queue-calls-to-an-async-function-and-execute-them-in-order
     // https://pub.dev/packages/queue
     // https://www.linkedin.com/pulse/flutter-handling-offline-scenarios-juan-manuel-del-boca/
-
-    // Timer.periodic(const Duration(seconds: 1), (timer) {
-    //   print(timer.tick.toString());
-    // });
 
     try {
       cancelToken = CancelToken();
@@ -77,18 +103,20 @@ class DbSync {
       final DateTime datetime = DateTime.parse(response.data['datetime']);
 
       await db.writeTxn(() async {
-        final articles = response.data?['changes']?['articles'];
-        if (articles?['deleted']?.isNotEmpty) {
-          await db.articles.deleteAll(articles['deleted']);
+        // *** articles ****
+        final changes = response.data?['changes']?['articles'];
+        if (changes?['deleted']?.isNotEmpty) {
+          await db.articles.deleteAll(changes['deleted']);
         }
-        if (articles?['replaced']?.isNotEmpty) {
+        if (changes?['replaced']?.isNotEmpty) {
           final List<Article> items = [];
-          for (var item in articles['replaced']) {
+          for (var item in changes['replaced']) {
             items.add(Article.fromJson(item));
           }
 
           await db.articles.putAll(items);
         }
+        // *** /articles ****
       });
 
       await prefs.setString(lastSyncName, datetime.toIso8601String());
@@ -100,10 +128,4 @@ class DbSync {
       cancelToken = null;
     }
   }
-
-  void stop() {
-    cancelToken?.cancel('cancelled');
-  }
-
-  void run() async {}
 }
