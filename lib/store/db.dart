@@ -9,8 +9,13 @@ final dbProvider = FutureProvider((ref) async {
       name: 'traveltime:${locale.name}', inspector: true);
 });
 
-final articlesProvider = FutureProvider.autoDispose((ref) async {
+final articlesProvider = StreamProvider.autoDispose((ref) async* {
   final db = await ref.watch(dbProvider.future);
-  // return db.articles.where().watch();
-  return db.articles.where().findAll();
+  final query = db.articles.where().sortByPublishedAtDesc().build();
+
+  await for (final results in query.watch(fireImmediately: true)) {
+    if (results.isNotEmpty) {
+      yield results;
+    }
+  }
 });
