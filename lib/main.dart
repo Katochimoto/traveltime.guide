@@ -1,18 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:traveltime/constants/theme/dark.dart';
 import 'package:traveltime/constants/theme/light.dart';
 import 'package:traveltime/providers.dart';
 import 'package:traveltime/routes.dart';
-import 'package:traveltime/store/db_sync.dart';
 import 'package:traveltime/constants/constants.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  runApp(const ProviderScope(child: App()));
+
+  final sharedPreferences = await SharedPreferences.getInstance();
+
+  await SentryFlutter.init((options) {
+    options.dsn =
+        'https://e74cf6f91970450ca01f76a528c43398@o286723.ingest.sentry.io/4504571383316480';
+    options.tracesSampleRate = 1.0;
+  },
+      appRunner: () => runApp(ProviderScope(
+            overrides: [
+              sharedPreferencesProvider.overrideWithValue(sharedPreferences),
+            ],
+            child: const App(),
+          )));
 }
 
 class App extends ConsumerStatefulWidget {
@@ -23,7 +37,7 @@ class App extends ConsumerStatefulWidget {
 }
 
 class AppState extends ConsumerState<App> {
-  late DbSync? dbSync;
+  // late DbSync? dbSync;
 
   @override
   void initState() {
@@ -33,13 +47,15 @@ class AppState extends ConsumerState<App> {
 
   @override
   void dispose() {
-    dbSync?.stop();
+    // dbSync?.stop();
+    // ref.read(dbSyncProvider2).stop();
     super.dispose();
   }
 
   void initialization() async {
-    dbSync = await ref.watch(dbSyncProvider.future);
-    dbSync?.start();
+    // ref.read(dbSyncProvider2).start();
+    // dbSync = await ref.watch(dbSyncProvider.future);
+    // dbSync?.start();
   }
 
   @override
