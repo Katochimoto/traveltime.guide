@@ -1,5 +1,5 @@
 import 'package:isar/isar.dart';
-import 'package:traveltime/constants/constants.dart';
+import 'package:traveltime/utils/app_auth.dart';
 
 part 'article.g.dart';
 

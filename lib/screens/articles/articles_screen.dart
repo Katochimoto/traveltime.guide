@@ -2,28 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:isar/isar.dart';
 import 'package:traveltime/constants/Theme.dart';
 import 'package:traveltime/constants/routes.dart';
 import 'package:traveltime/store/db.dart';
-import 'package:traveltime/store/models/article.dart';
 import 'package:traveltime/widgets/drawer/drawer.dart';
 import 'package:traveltime/widgets/navbar/navbar.dart';
 import 'package:traveltime/widgets/card/card_horizontal.dart';
-import 'package:traveltime/widgets/card/card_small.dart';
-import 'package:traveltime/widgets/card/card_square.dart';
-import 'package:traveltime/widgets/card/card_category.dart';
-import 'package:traveltime/widgets/photo_album.dart';
-import 'package:traveltime/widgets/slider_product.dart';
+// import 'package:traveltime/widgets/card/card_small.dart';
+// import 'package:traveltime/widgets/card/card_square.dart';
+// import 'package:traveltime/widgets/card/card_category.dart';
+// import 'package:traveltime/widgets/photo_album.dart';
+// import 'package:traveltime/widgets/slider_product.dart';
 import 'package:traveltime/widgets/page_layout.dart';
 
-@immutable
-class ArticlesScreen extends ConsumerWidget {
-  const ArticlesScreen({super.key});
+class ArticlesList extends ConsumerWidget {
+  const ArticlesList({super.key});
 
-  Widget _content(BuildContext context, WidgetRef ref) {
-    final articles = [];
-    // ref.watch(articlesProvider).valueOrNull ?? [];
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final articles = ref.watch(articlesProvider).valueOrNull ?? [];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -145,14 +142,18 @@ class ArticlesScreen extends ConsumerWidget {
     //   ],
     // );
   }
+}
+
+class ArticlesScreen extends StatelessWidget {
+  const ArticlesScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Scaffold(
         appBar: Navbar(
           title: AppLocalizations.of(context)!.articlesTitle,
         ),
         drawer: const AppDrawer(currentPage: Routes.articles),
-        body: PageLayout(child: _content(context, ref)));
+        body: const PageLayout(child: ArticlesList()));
   }
 }
