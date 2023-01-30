@@ -52,7 +52,7 @@ class CardHorizontal extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(title, style: Theme.of(context).textTheme.caption),
+                      Text(title, style: Theme.of(context).textTheme.bodySmall),
                       Container(
                           padding: const EdgeInsets.only(top: UIGap.g1),
                           transform: Matrix4.translationValues(

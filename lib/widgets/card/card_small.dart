@@ -46,7 +46,7 @@ class CardSmall extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(title,
-                              style: Theme.of(context).textTheme.caption),
+                              style: Theme.of(context).textTheme.bodySmall),
                           Container(
                               padding: const EdgeInsets.only(top: UIGap.g1),
                               transform: Matrix4.translationValues(

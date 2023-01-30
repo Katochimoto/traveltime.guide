@@ -123,7 +123,7 @@ class ArticlesList extends ConsumerWidget {
     //               alignment: Alignment.centerLeft),
     //           child: const Text("View All"),
     //         ),
-    //         // Text("View All", style: Theme.of(context).textTheme.button)
+    //         // Text("View All", style: Theme.of(context).textTheme.labelLarge)
     //       ],
     //     ),
     //     const SizedBox(height: UIGap.g2),

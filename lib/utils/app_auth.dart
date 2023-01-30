@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum AppLocale {
@@ -43,26 +43,22 @@ class AppAuthorizedAdmin extends AppAuthorized {
   AppAuthorizedAdmin({super.role = AppAuthRole.admin});
 }
 
-class AppAuth extends ChangeNotifier {
-  AppAuthorized authorized = AppAuthorizedDemo();
-
-  Future<void> checkAuth() async {
-    // authorized = AppAuthorizedDemo();
-    // notifyListeners();
+class AppAuth extends AsyncNotifier<AppAuthorized> {
+  @override
+  Future<AppAuthorized> build() async {
+    return AppAuthorizedDemo();
   }
 
   Future<void> signIn() async {
-    // authorized = AppAuthorizedDemo();
-    // notifyListeners();
-  }
-
-  Future<void> signOut() async {
-    // authorized = AppAuthorizedDemo();
-    // notifyListeners();
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      // final response = await dio.get('...');
+      // return Data.fromJson(response);
+      return AppAuthorizedDemo();
+    });
   }
 }
 
-final appAuthProvider = ChangeNotifierProvider<AppAuth>(((ref) {
-  // final pref = ref.watch(sharedPreferencesProvider);
+final appAuthProvider = AsyncNotifierProvider<AppAuth, AppAuthorized>(() {
   return AppAuth();
-}));
+});

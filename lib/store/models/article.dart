@@ -32,7 +32,7 @@ class Article {
   final String description;
   final String? logo;
 
-  static Article fromJson(data) {
+  factory Article.fromJson(data) {
     return Article(
       id: data['id'],
       country: data['country'],

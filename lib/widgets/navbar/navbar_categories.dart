@@ -39,7 +39,7 @@ class NavbarCategorieButton extends StatelessWidget {
         title,
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
-        style: theme.textTheme.caption,
+        style: theme.textTheme.bodySmall,
       ),
     ]);
   }

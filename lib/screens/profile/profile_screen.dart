@@ -58,7 +58,7 @@ class ProfileScreen extends StatelessWidget {
                                   Text("Photographer",
                                       style: Theme.of(context)
                                           .primaryTextTheme
-                                          .caption),
+                                          .bodySmall),
                                   const SizedBox(height: UIGap.g2),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -85,7 +85,7 @@ class ProfileScreen extends StatelessWidget {
                                             Text("Friends",
                                                 style: Theme.of(context)
                                                     .primaryTextTheme
-                                                    .caption)
+                                                    .bodySmall)
                                           ],
                                         ),
                                         Column(
@@ -101,7 +101,7 @@ class ProfileScreen extends StatelessWidget {
                                             Text("Comments",
                                                 style: Theme.of(context)
                                                     .primaryTextTheme
-                                                    .caption)
+                                                    .bodySmall)
                                           ],
                                         ),
                                         Column(
@@ -117,7 +117,7 @@ class ProfileScreen extends StatelessWidget {
                                             Text("Bookmarks",
                                                 style: Theme.of(context)
                                                     .primaryTextTheme
-                                                    .caption)
+                                                    .bodySmall)
                                           ],
                                         )
                                       ],

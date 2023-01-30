@@ -4,16 +4,25 @@ import 'package:traveltime/store/models/article.dart';
 import 'package:traveltime/utils/app_auth.dart';
 import 'package:traveltime/utils/app_support_directory.dart';
 
-final dbProvider = Provider<Isar>((ref) {
-  final dir = ref.watch(appSupportDirectoryProvider);
-  final locale =
-      ref.watch(appAuthProvider.select((auth) => auth.authorized.locale));
-  return Isar.openSync([ArticleSchema],
-      name: 'traveltime:${locale.name}', directory: dir.path, inspector: true);
+class Db extends AsyncNotifier<Isar> {
+  @override
+  Future<Isar> build() async {
+    final user = await ref.watch(appAuthProvider.future);
+    final dir = ref.watch(appSupportDirectoryProvider);
+    final db = await Isar.open([ArticleSchema],
+        name: 'traveltime:${user.locale.name}',
+        directory: dir.path,
+        inspector: true);
+    return db;
+  }
+}
+
+final dbProvider = AsyncNotifierProvider<Db, Isar>(() {
+  return Db();
 });
 
 final articlesProvider = StreamProvider.autoDispose((ref) async* {
-  final db = ref.watch(dbProvider);
+  final db = await ref.watch(dbProvider.future);
   final query =
       db.collection<Article>().where().sortByPublishedAtDesc().build();
 

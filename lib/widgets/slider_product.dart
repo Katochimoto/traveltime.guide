@@ -59,7 +59,7 @@ class _ProductCarouselState extends State<ProductCarousel> {
                           const SizedBox(height: UIGap.g1),
                           Text(
                             item["description"],
-                            style: Theme.of(context).textTheme.caption,
+                            style: Theme.of(context).textTheme.bodySmall,
                             textAlign: TextAlign.center,
                           ),
                         ],

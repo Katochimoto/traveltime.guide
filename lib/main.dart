@@ -43,24 +43,21 @@ class App extends ConsumerWidget {
       FlutterNativeSplash.remove();
     }));
 
-    ref.read(dbSyncProvider).start();
+    ref.watch(dbSyncProvider);
 
-    final theme =
-        ref.watch(appAuthProvider.select((auth) => auth.authorized.theme));
-    final locale =
-        ref.watch(appAuthProvider.select((auth) => auth.authorized.locale));
+    final user = ref.watch(appAuthProvider).value;
 
     return MaterialApp.router(
       // title: 'Now UI PRO Flutter',
       debugShowCheckedModeBanner: false,
       darkTheme: darkTheme,
       theme: lightTheme,
-      themeMode: theme == AppTheme.light
+      themeMode: user?.theme == AppTheme.light
           ? ThemeMode.light
-          : (theme == AppTheme.light ? ThemeMode.dark : ThemeMode.system),
+          : (user?.theme == AppTheme.light ? ThemeMode.dark : ThemeMode.system),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      locale: Locale.fromSubtags(languageCode: locale.name),
+      locale: Locale.fromSubtags(languageCode: user?.locale.name ?? 'en'),
       routerConfig: router,
       onGenerateTitle: (context) => AppLocalizations.of(context)!.helloWorld,
     );

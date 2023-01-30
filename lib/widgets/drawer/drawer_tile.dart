@@ -23,8 +23,8 @@ class DrawerTile extends StatelessWidget {
           backgroundColor:
               isSelected ? Theme.of(context).primaryColor : Colors.transparent,
           foregroundColor: isSelected
-              ? Theme.of(context).primaryTextTheme.button?.color
-              : Theme.of(context).primaryTextTheme.button?.color,
+              ? Theme.of(context).primaryTextTheme.labelLarge?.color
+              : Theme.of(context).primaryTextTheme.labelLarge?.color,
           shadowColor: Colors.transparent),
       onPressed: onTap,
       child: Row(
