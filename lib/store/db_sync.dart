@@ -25,7 +25,7 @@ class DBSyncState {
 
 class DbSync extends AsyncNotifier<DBSyncState> {
   DbSync() : super() {
-    dio.interceptors.add(PrettyDioLogger(
+    _dio.interceptors.add(PrettyDioLogger(
       requestHeader: false,
       requestBody: false,
       responseBody: false,
@@ -34,58 +34,66 @@ class DbSync extends AsyncNotifier<DBSyncState> {
     ));
   }
 
-  final Dio dio = Dio(BaseOptions(
+  final Dio _dio = Dio(BaseOptions(
     baseUrl: 'http://79.98.28.215:1337/api',
     connectTimeout: 5000,
     receiveTimeout: 30000,
   ));
 
-  late Isar db;
+  late Isar _db;
 
-  late AppAuthorized user;
+  late AppAuthorized _user;
 
-  Timer? timer;
+  Timer? _timer;
 
-  CancelToken? cancelToken;
+  CancelToken? _cancelToken;
 
-  bool get firstRun {
+  bool get _firstRun {
     final prefs = ref.read(sharedPreferencesProvider);
-    final String? lastSyncValue = prefs.getString(lastSyncName);
+    final String? lastSyncValue = prefs.getString(_lastSyncName);
     return lastSyncValue == null;
   }
 
-  String get lastSyncName {
-    return '${db.name}:lastSync';
+  String get _lastSyncName {
+    return '${_db.name}:lastSync';
   }
 
-  DateTime? get lastSync {
+  DateTime? get _lastSync {
     final prefs = ref.read(sharedPreferencesProvider);
-    final String? lastSyncValue = prefs.getString(lastSyncName);
+    final String? lastSyncValue = prefs.getString(_lastSyncName);
     return lastSyncValue != null ? DateTime.parse(lastSyncValue) : null;
   }
 
-  set lastSync(DateTime? value) {
+  Future<void> _updateLastSync(DateTime? value) async {
     final prefs = ref.read(sharedPreferencesProvider);
     if (value != null) {
-      prefs.setString(lastSyncName, value.toIso8601String());
+      await prefs.setString(_lastSyncName, value.toIso8601String());
     } else {
-      prefs.remove(lastSyncName);
+      await prefs.remove(_lastSyncName);
     }
   }
 
   @override
   Future<DBSyncState> build() async {
-    db = await ref.watch(dbProvider.future);
-    user = await ref.watch(appAuthProvider.future);
+    _db = await ref.watch(dbProvider.future);
+    _user = await ref.watch(appAuthProvider.future);
     _restart();
     return DBSyncState(status: DBSyncStatus.runing);
   }
 
+  Future<void> reset() async {
+    await _db.writeTxn(() async {
+      await _db.clear();
+    });
+    await _updateLastSync(null);
+    await _restart();
+  }
+
   Future<void> _restart() async {
-    timer?.cancel();
-    cancelToken?.cancel('cancelled');
+    _timer?.cancel();
+    _cancelToken?.cancel('cancelled');
     Timer.run(() => _run());
-    timer = Timer.periodic(const Duration(minutes: 10), (_) {
+    _timer = Timer.periodic(const Duration(minutes: 10), (_) {
       _run();
     });
   }
@@ -95,8 +103,8 @@ class DbSync extends AsyncNotifier<DBSyncState> {
     if (connectivityStatus == ConnectivityStatus.isDisonnected) {
       state = AsyncValue.data(DBSyncState(
           status: DBSyncStatus.pending,
-          lastSync: lastSync,
-          firstRun: firstRun));
+          lastSync: _lastSync,
+          firstRun: _firstRun));
       return;
     }
 
@@ -105,20 +113,20 @@ class DbSync extends AsyncNotifier<DBSyncState> {
     // await Future.delayed(const Duration(seconds: 3));
 
     state = await AsyncValue.guard(() async {
-      cancelToken = CancelToken();
-      final response = await dio.get('/sync',
+      _cancelToken = CancelToken();
+      final response = await _dio.get('/sync',
           queryParameters: {
-            'lastSync': lastSync?.toIso8601String(),
-            'locale': user.locale.name,
+            'lastSync': _lastSync?.toIso8601String(),
+            'locale': _user.locale.name,
           },
           options: Options(headers: {'Authorization': 'Bearer $syncApiToken'}),
-          cancelToken: cancelToken);
+          cancelToken: _cancelToken);
 
       final DateTime datetime = DateTime.parse(response.data['datetime']);
 
-      await db.writeTxn(() async {
+      await _db.writeTxn(() async {
         // *** articles ****
-        final articles = db.collection<Article>();
+        final articles = _db.collection<Article>();
         final changes = response.data?['changes']?['articles'];
         if (changes?['deleted']?.isNotEmpty) {
           await articles.deleteAll(changes['deleted']);
@@ -134,7 +142,7 @@ class DbSync extends AsyncNotifier<DBSyncState> {
         // *** /articles ****
       });
 
-      lastSync = datetime;
+      await _updateLastSync(datetime);
       return DBSyncState(status: DBSyncStatus.pending, lastSync: datetime);
     });
 

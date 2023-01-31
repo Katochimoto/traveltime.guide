@@ -46,8 +46,8 @@ class DbSyncSuccess extends StatelessWidget {
   }
 }
 
-class Status extends ConsumerWidget {
-  const Status({super.key});
+class DbSyncStatus extends ConsumerWidget {
+  const DbSyncStatus({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -106,7 +106,7 @@ class OnboardingScreen extends StatelessWidget {
                 style: Theme.of(context).primaryTextTheme.bodySmall,
               ),
               const SizedBox(height: UIGap.g4),
-              const Status(),
+              const DbSyncStatus(),
             ],
           ),
         )

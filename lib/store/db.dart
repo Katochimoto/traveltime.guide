@@ -1,14 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:traveltime/store/models/article.dart';
 import 'package:traveltime/utils/app_auth.dart';
-import 'package:traveltime/utils/app_support_directory.dart';
 
 class Db extends AsyncNotifier<Isar> {
   @override
   Future<Isar> build() async {
     final user = await ref.watch(appAuthProvider.future);
-    final dir = ref.watch(appSupportDirectoryProvider);
+    final dir = await getApplicationSupportDirectory();
     final db = await Isar.open([ArticleSchema],
         name: 'traveltime:${user.locale.name}',
         directory: dir.path,
@@ -30,5 +30,15 @@ final articlesProvider = StreamProvider.autoDispose((ref) async* {
     if (results.isNotEmpty) {
       yield results;
     }
+  }
+});
+
+final articleProvider =
+    StreamProvider.autoDispose.family<Article?, int>((ref, id) async* {
+  final db = await ref.watch(dbProvider.future);
+  final Stream<Article?> data =
+      db.collection<Article>().watchObject(id, fireImmediately: true);
+  await for (final results in data) {
+    yield results;
   }
 });

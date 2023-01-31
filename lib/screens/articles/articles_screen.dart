@@ -30,9 +30,10 @@ class ArticlesList extends ConsumerWidget {
           CardHorizontal(
               cta: "View article",
               title: article.title,
-              img: article.logo,
+              img: article.logoImg,
               tap: () {
-                context.pushNamed(Routes.article, params: {'id': '123'});
+                context.pushNamed(Routes.article,
+                    params: {'id': article.id.toString()});
               }),
       ],
     );

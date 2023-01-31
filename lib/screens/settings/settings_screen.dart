@@ -1,14 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:traveltime/constants/Theme.dart';
 import 'package:traveltime/constants/routes.dart';
-
-//widgets
+import 'package:traveltime/store/db_sync.dart';
 import 'package:traveltime/widgets/navbar/navbar.dart';
 import 'package:traveltime/widgets/page_layout.dart';
 import 'package:traveltime/widgets/table_cell.dart';
-
 import 'package:traveltime/widgets/drawer/drawer.dart';
+
+class ResetLocalData extends ConsumerWidget {
+  const ResetLocalData({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return ElevatedButton(
+      // style: ElevatedButton.styleFrom(
+      //   shape: RoundedRectangleBorder(
+      //     borderRadius: BorderRadius.circular(4.0),
+      //   ),
+      // ),
+      onPressed: () {
+        ref.read(dbSyncProvider.notifier).reset();
+      },
+      child: const Text('Reset Local Data'),
+    );
+  }
+}
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -41,7 +59,7 @@ class _SettingsState extends State<SettingsScreen> {
         ),
         Text(
           "These are the most important settings",
-          style: Theme.of(context).textTheme.subtitle2,
+          style: Theme.of(context).textTheme.titleSmall,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -81,7 +99,7 @@ class _SettingsState extends State<SettingsScreen> {
         ),
         Text(
           "Third most important settings",
-          style: Theme.of(context).textTheme.subtitle2,
+          style: Theme.of(context).textTheme.titleSmall,
         ),
         TableCellSettings(
             title: "User Agreement",
@@ -98,6 +116,27 @@ class _SettingsState extends State<SettingsScreen> {
             onTap: () {
               Navigator.pushNamed(context, '/components');
             }),
+        const SizedBox(height: UIGap.g5),
+        Text(
+          "Local Storage",
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+        Text(
+          "Third most important settings",
+          style: Theme.of(context).textTheme.titleSmall,
+        ),
+        const SizedBox(height: UIGap.g2),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+                child: Text("Reset local data and sync again",
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.labelLarge)),
+            const ResetLocalData(),
+          ],
+        ),
       ],
     );
   }

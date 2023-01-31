@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:traveltime/constants/constants.dart';
@@ -11,7 +10,6 @@ import 'package:traveltime/constants/theme/light.dart';
 import 'package:traveltime/routes.dart';
 import 'package:traveltime/store/db_sync.dart';
 import 'package:traveltime/utils/app_auth.dart';
-import 'package:traveltime/utils/app_support_directory.dart';
 import 'package:traveltime/utils/shared_preferences.dart';
 
 Future<void> main() async {
@@ -19,7 +17,6 @@ Future<void> main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   final sharedPreferences = await SharedPreferences.getInstance();
-  final dir = await getApplicationSupportDirectory();
 
   await SentryFlutter.init((options) {
     options.dsn = sentryDSN;
@@ -28,7 +25,6 @@ Future<void> main() async {
       appRunner: () => runApp(ProviderScope(
             overrides: [
               sharedPreferencesProvider.overrideWithValue(sharedPreferences),
-              appSupportDirectoryProvider.overrideWithValue(dir),
             ],
             child: const App(),
           )));

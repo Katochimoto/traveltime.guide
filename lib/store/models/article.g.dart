@@ -22,39 +22,44 @@ const ArticleSchema = CollectionSchema(
       name: r'country',
       type: IsarType.string,
     ),
-    r'createdAt': PropertySchema(
+    r'coverImg': PropertySchema(
       id: 1,
+      name: r'coverImg',
+      type: IsarType.string,
+    ),
+    r'createdAt': PropertySchema(
+      id: 2,
       name: r'createdAt',
       type: IsarType.dateTime,
     ),
     r'description': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'description',
       type: IsarType.string,
     ),
     r'locale': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'locale',
       type: IsarType.byte,
       enumMap: _ArticlelocaleEnumValueMap,
     ),
-    r'logo': PropertySchema(
-      id: 4,
-      name: r'logo',
+    r'logoImg': PropertySchema(
+      id: 5,
+      name: r'logoImg',
       type: IsarType.string,
     ),
     r'publishedAt': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'publishedAt',
       type: IsarType.dateTime,
     ),
     r'title': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'title',
       type: IsarType.string,
     ),
     r'updatedAt': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'updatedAt',
       type: IsarType.dateTime,
     )
@@ -94,9 +99,15 @@ int _articleEstimateSize(
 ) {
   var bytesCount = offsets.last;
   bytesCount += 3 + object.country.length * 3;
+  {
+    final value = object.coverImg;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   bytesCount += 3 + object.description.length * 3;
   {
-    final value = object.logo;
+    final value = object.logoImg;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
@@ -112,13 +123,14 @@ void _articleSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.country);
-  writer.writeDateTime(offsets[1], object.createdAt);
-  writer.writeString(offsets[2], object.description);
-  writer.writeByte(offsets[3], object.locale.index);
-  writer.writeString(offsets[4], object.logo);
-  writer.writeDateTime(offsets[5], object.publishedAt);
-  writer.writeString(offsets[6], object.title);
-  writer.writeDateTime(offsets[7], object.updatedAt);
+  writer.writeString(offsets[1], object.coverImg);
+  writer.writeDateTime(offsets[2], object.createdAt);
+  writer.writeString(offsets[3], object.description);
+  writer.writeByte(offsets[4], object.locale.index);
+  writer.writeString(offsets[5], object.logoImg);
+  writer.writeDateTime(offsets[6], object.publishedAt);
+  writer.writeString(offsets[7], object.title);
+  writer.writeDateTime(offsets[8], object.updatedAt);
 }
 
 Article _articleDeserialize(
@@ -129,15 +141,16 @@ Article _articleDeserialize(
 ) {
   final object = Article(
     country: reader.readString(offsets[0]),
-    createdAt: reader.readDateTime(offsets[1]),
-    description: reader.readString(offsets[2]),
+    coverImg: reader.readStringOrNull(offsets[1]),
+    createdAt: reader.readDateTime(offsets[2]),
+    description: reader.readString(offsets[3]),
     id: id,
-    locale: _ArticlelocaleValueEnumMap[reader.readByteOrNull(offsets[3])] ??
+    locale: _ArticlelocaleValueEnumMap[reader.readByteOrNull(offsets[4])] ??
         AppLocale.en,
-    logo: reader.readStringOrNull(offsets[4]),
-    publishedAt: reader.readDateTime(offsets[5]),
-    title: reader.readString(offsets[6]),
-    updatedAt: reader.readDateTime(offsets[7]),
+    logoImg: reader.readStringOrNull(offsets[5]),
+    publishedAt: reader.readDateTime(offsets[6]),
+    title: reader.readString(offsets[7]),
+    updatedAt: reader.readDateTime(offsets[8]),
   );
   return object;
 }
@@ -152,19 +165,21 @@ P _articleDeserializeProp<P>(
     case 0:
       return (reader.readString(offset)) as P;
     case 1:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 2:
-      return (reader.readString(offset)) as P;
+      return (reader.readDateTime(offset)) as P;
     case 3:
+      return (reader.readString(offset)) as P;
+    case 4:
       return (_ArticlelocaleValueEnumMap[reader.readByteOrNull(offset)] ??
           AppLocale.en) as P;
-    case 4:
-      return (reader.readStringOrNull(offset)) as P;
     case 5:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 6:
-      return (reader.readString(offset)) as P;
+      return (reader.readDateTime(offset)) as P;
     case 7:
+      return (reader.readString(offset)) as P;
+    case 8:
       return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -540,6 +555,152 @@ extension ArticleQueryFilter
     });
   }
 
+  QueryBuilder<Article, Article, QAfterFilterCondition> coverImgIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'coverImg',
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> coverImgIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'coverImg',
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> coverImgEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'coverImg',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> coverImgGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'coverImg',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> coverImgLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'coverImg',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> coverImgBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'coverImg',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> coverImgStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'coverImg',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> coverImgEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'coverImg',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> coverImgContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'coverImg',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> coverImgMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'coverImg',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> coverImgIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'coverImg',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> coverImgIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'coverImg',
+        value: '',
+      ));
+    });
+  }
+
   QueryBuilder<Article, Article, QAfterFilterCondition> createdAtEqualTo(
       DateTime value) {
     return QueryBuilder.apply(this, (query) {
@@ -829,36 +990,36 @@ extension ArticleQueryFilter
     });
   }
 
-  QueryBuilder<Article, Article, QAfterFilterCondition> logoIsNull() {
+  QueryBuilder<Article, Article, QAfterFilterCondition> logoImgIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'logo',
+        property: r'logoImg',
       ));
     });
   }
 
-  QueryBuilder<Article, Article, QAfterFilterCondition> logoIsNotNull() {
+  QueryBuilder<Article, Article, QAfterFilterCondition> logoImgIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'logo',
+        property: r'logoImg',
       ));
     });
   }
 
-  QueryBuilder<Article, Article, QAfterFilterCondition> logoEqualTo(
+  QueryBuilder<Article, Article, QAfterFilterCondition> logoImgEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'logo',
+        property: r'logoImg',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Article, Article, QAfterFilterCondition> logoGreaterThan(
+  QueryBuilder<Article, Article, QAfterFilterCondition> logoImgGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -866,14 +1027,14 @@ extension ArticleQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'logo',
+        property: r'logoImg',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Article, Article, QAfterFilterCondition> logoLessThan(
+  QueryBuilder<Article, Article, QAfterFilterCondition> logoImgLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -881,14 +1042,14 @@ extension ArticleQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'logo',
+        property: r'logoImg',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Article, Article, QAfterFilterCondition> logoBetween(
+  QueryBuilder<Article, Article, QAfterFilterCondition> logoImgBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -897,7 +1058,7 @@ extension ArticleQueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'logo',
+        property: r'logoImg',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -907,69 +1068,69 @@ extension ArticleQueryFilter
     });
   }
 
-  QueryBuilder<Article, Article, QAfterFilterCondition> logoStartsWith(
+  QueryBuilder<Article, Article, QAfterFilterCondition> logoImgStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'logo',
+        property: r'logoImg',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Article, Article, QAfterFilterCondition> logoEndsWith(
+  QueryBuilder<Article, Article, QAfterFilterCondition> logoImgEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'logo',
+        property: r'logoImg',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Article, Article, QAfterFilterCondition> logoContains(
+  QueryBuilder<Article, Article, QAfterFilterCondition> logoImgContains(
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
-        property: r'logo',
+        property: r'logoImg',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Article, Article, QAfterFilterCondition> logoMatches(
+  QueryBuilder<Article, Article, QAfterFilterCondition> logoImgMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
-        property: r'logo',
+        property: r'logoImg',
         wildcard: pattern,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Article, Article, QAfterFilterCondition> logoIsEmpty() {
+  QueryBuilder<Article, Article, QAfterFilterCondition> logoImgIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'logo',
+        property: r'logoImg',
         value: '',
       ));
     });
   }
 
-  QueryBuilder<Article, Article, QAfterFilterCondition> logoIsNotEmpty() {
+  QueryBuilder<Article, Article, QAfterFilterCondition> logoImgIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'logo',
+        property: r'logoImg',
         value: '',
       ));
     });
@@ -1231,6 +1392,18 @@ extension ArticleQuerySortBy on QueryBuilder<Article, Article, QSortBy> {
     });
   }
 
+  QueryBuilder<Article, Article, QAfterSortBy> sortByCoverImg() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'coverImg', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterSortBy> sortByCoverImgDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'coverImg', Sort.desc);
+    });
+  }
+
   QueryBuilder<Article, Article, QAfterSortBy> sortByCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.asc);
@@ -1267,15 +1440,15 @@ extension ArticleQuerySortBy on QueryBuilder<Article, Article, QSortBy> {
     });
   }
 
-  QueryBuilder<Article, Article, QAfterSortBy> sortByLogo() {
+  QueryBuilder<Article, Article, QAfterSortBy> sortByLogoImg() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'logo', Sort.asc);
+      return query.addSortBy(r'logoImg', Sort.asc);
     });
   }
 
-  QueryBuilder<Article, Article, QAfterSortBy> sortByLogoDesc() {
+  QueryBuilder<Article, Article, QAfterSortBy> sortByLogoImgDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'logo', Sort.desc);
+      return query.addSortBy(r'logoImg', Sort.desc);
     });
   }
 
@@ -1330,6 +1503,18 @@ extension ArticleQuerySortThenBy
     });
   }
 
+  QueryBuilder<Article, Article, QAfterSortBy> thenByCoverImg() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'coverImg', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterSortBy> thenByCoverImgDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'coverImg', Sort.desc);
+    });
+  }
+
   QueryBuilder<Article, Article, QAfterSortBy> thenByCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.asc);
@@ -1378,15 +1563,15 @@ extension ArticleQuerySortThenBy
     });
   }
 
-  QueryBuilder<Article, Article, QAfterSortBy> thenByLogo() {
+  QueryBuilder<Article, Article, QAfterSortBy> thenByLogoImg() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'logo', Sort.asc);
+      return query.addSortBy(r'logoImg', Sort.asc);
     });
   }
 
-  QueryBuilder<Article, Article, QAfterSortBy> thenByLogoDesc() {
+  QueryBuilder<Article, Article, QAfterSortBy> thenByLogoImgDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'logo', Sort.desc);
+      return query.addSortBy(r'logoImg', Sort.desc);
     });
   }
 
@@ -1436,6 +1621,13 @@ extension ArticleQueryWhereDistinct
     });
   }
 
+  QueryBuilder<Article, Article, QDistinct> distinctByCoverImg(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'coverImg', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<Article, Article, QDistinct> distinctByCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'createdAt');
@@ -1455,10 +1647,10 @@ extension ArticleQueryWhereDistinct
     });
   }
 
-  QueryBuilder<Article, Article, QDistinct> distinctByLogo(
+  QueryBuilder<Article, Article, QDistinct> distinctByLogoImg(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'logo', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'logoImg', caseSensitive: caseSensitive);
     });
   }
 
@@ -1496,6 +1688,12 @@ extension ArticleQueryProperty
     });
   }
 
+  QueryBuilder<Article, String?, QQueryOperations> coverImgProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'coverImg');
+    });
+  }
+
   QueryBuilder<Article, DateTime, QQueryOperations> createdAtProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'createdAt');
@@ -1514,9 +1712,9 @@ extension ArticleQueryProperty
     });
   }
 
-  QueryBuilder<Article, String?, QQueryOperations> logoProperty() {
+  QueryBuilder<Article, String?, QQueryOperations> logoImgProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'logo');
+      return query.addPropertyName(r'logoImg');
     });
   }
 

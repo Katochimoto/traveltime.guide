@@ -14,7 +14,8 @@ class Article {
       required this.publishedAt,
       required this.title,
       required this.description,
-      this.logo});
+      this.logoImg,
+      this.coverImg});
 
   final Id id;
 
@@ -30,7 +31,8 @@ class Article {
   @Index(type: IndexType.value)
   final String title;
   final String description;
-  final String? logo;
+  final String? logoImg;
+  final String? coverImg;
 
   factory Article.fromJson(data) {
     return Article(
@@ -42,7 +44,8 @@ class Article {
       publishedAt: DateTime.parse(data['publishedAt']),
       title: data['title'],
       description: data['description'],
-      logo: data['logo'],
+      logoImg: data['logoImg'],
+      coverImg: data['coverImg'],
     );
   }
 }
