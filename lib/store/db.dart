@@ -9,11 +9,15 @@ class Db extends AsyncNotifier<Isar> {
   Future<Isar> build() async {
     final locale =
         await ref.watch(appAuthProvider.selectAsync((value) => value.locale));
-    final dir = await getApplicationSupportDirectory();
-    final db = await Isar.open([ArticleSchema],
-        name: 'traveltime:${locale.name}',
-        directory: dir.path,
-        inspector: true);
+    final name = 'traveltime:${locale.name}';
+
+    var db = Isar.getInstance(name);
+    if (db == null || !db.isOpen) {
+      final dir = await getApplicationSupportDirectory();
+      db = await Isar.open([ArticleSchema],
+          name: name, directory: dir.path, inspector: true);
+    }
+
     return db;
   }
 }
