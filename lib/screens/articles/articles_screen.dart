@@ -21,6 +21,7 @@ class ArticlesList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final articles = ref.watch(articlesProvider).valueOrNull ?? [];
+    print(articles);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

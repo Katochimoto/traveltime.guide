@@ -50,7 +50,7 @@ class App extends ConsumerWidget {
       theme: lightTheme,
       themeMode: user?.theme == AppTheme.light
           ? ThemeMode.light
-          : (user?.theme == AppTheme.light ? ThemeMode.dark : ThemeMode.system),
+          : (user?.theme == AppTheme.dark ? ThemeMode.dark : ThemeMode.system),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: Locale.fromSubtags(languageCode: user?.locale.name ?? 'en'),

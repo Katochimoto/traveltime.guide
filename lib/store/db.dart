@@ -7,10 +7,11 @@ import 'package:traveltime/utils/app_auth.dart';
 class Db extends AsyncNotifier<Isar> {
   @override
   Future<Isar> build() async {
-    final user = await ref.watch(appAuthProvider.future);
+    final locale =
+        await ref.watch(appAuthProvider.selectAsync((value) => value.locale));
     final dir = await getApplicationSupportDirectory();
     final db = await Isar.open([ArticleSchema],
-        name: 'traveltime:${user.locale.name}',
+        name: 'traveltime:${locale.name}',
         directory: dir.path,
         inspector: true);
     return db;
@@ -36,8 +37,7 @@ final articlesProvider = StreamProvider.autoDispose((ref) async* {
 final articleProvider =
     StreamProvider.autoDispose.family<Article?, int>((ref, id) async* {
   final db = await ref.watch(dbProvider.future);
-  final Stream<Article?> data =
-      db.collection<Article>().watchObject(id, fireImmediately: true);
+  final data = db.collection<Article>().watchObject(id, fireImmediately: true);
   await for (final results in data) {
     yield results;
   }

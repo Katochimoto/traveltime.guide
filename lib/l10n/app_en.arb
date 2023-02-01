@@ -9,5 +9,6 @@
 	"articlesTitle": "Articles",
 	"appSubtitle": "Thailand travel guide",
 	"appTitle": "TravelTime",
-	"getStarted": "Get Started"
+	"getStarted": "Get Started",
+	"settingsResetLocalData": "Reset Local Data"
 }

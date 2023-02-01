@@ -42,7 +42,7 @@ class DbSync extends AsyncNotifier<DBSyncState> {
 
   late Isar _db;
 
-  late AppAuthorized _user;
+  late AppLocale _locale;
 
   Timer? _timer;
 
@@ -76,7 +76,8 @@ class DbSync extends AsyncNotifier<DBSyncState> {
   @override
   Future<DBSyncState> build() async {
     _db = await ref.watch(dbProvider.future);
-    _user = await ref.watch(appAuthProvider.future);
+    _locale =
+        await ref.watch(appAuthProvider.selectAsync((data) => data.locale));
     _restart();
     return DBSyncState(status: DBSyncStatus.runing);
   }
@@ -117,7 +118,7 @@ class DbSync extends AsyncNotifier<DBSyncState> {
       final response = await _dio.get('/sync',
           queryParameters: {
             'lastSync': _lastSync?.toIso8601String(),
-            'locale': _user.locale.name,
+            'locale': _locale.name,
           },
           options: Options(headers: {'Authorization': 'Bearer $syncApiToken'}),
           cancelToken: _cancelToken);
