@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 final ThemeData darkTheme = ThemeData(
   useMaterial3: true,
   fontFamily: 'Montserrat',
-  primarySwatch: Colors.cyan,
+  primarySwatch: Colors.teal,
   brightness: Brightness.dark,
+  colorScheme: ColorScheme.fromSeed(
+      seedColor: const Color(0xff00796b), brightness: Brightness.dark),
   primaryColor: const Color(0xff00796b), // 0xff212121
   primaryColorLight: const Color(0xFF009180), // 0xff9e9e9e
   primaryColorDark: const Color(0xFF004D44),
@@ -21,13 +23,21 @@ final ThemeData darkTheme = ThemeData(
   dialogBackgroundColor: const Color(0xff424242),
   indicatorColor: const Color(0xff64ffda),
   hintColor: const Color(0x80ffffff),
+  textTheme: Typography.whiteCupertino.apply(),
+  primaryTextTheme: Typography.whiteCupertino.apply(),
+  cardTheme: const CardTheme(
+    shadowColor: Color(0x7789FFF1),
+  ),
+  drawerTheme: const DrawerThemeData(
+    backgroundColor: Color(0xff009688),
+  ),
   textButtonTheme: const TextButtonThemeData(),
-  buttonTheme: const ButtonThemeData(
+  buttonTheme: ButtonThemeData(
     textTheme: ButtonTextTheme.normal,
     minWidth: 88,
     height: 36,
-    padding: EdgeInsets.only(top: 0, bottom: 0, left: 16, right: 16),
-    shape: RoundedRectangleBorder(
+    padding: const EdgeInsets.only(top: 0, bottom: 0, left: 16, right: 16),
+    shape: const RoundedRectangleBorder(
       side: BorderSide(
         color: Color(0xff000000),
         width: 0,
@@ -36,25 +46,14 @@ final ThemeData darkTheme = ThemeData(
       borderRadius: BorderRadius.all(Radius.circular(2.0)),
     ),
     alignedDropdown: false,
-    buttonColor: Color(0xff00897b),
-    disabledColor: Color(0x61ffffff),
-    highlightColor: Color(0x29ffffff),
-    splashColor: Color(0x1fffffff),
-    focusColor: Color(0x1fffffff),
-    hoverColor: Color(0x0affffff),
-    colorScheme: ColorScheme(
-      primary: Color(0xff009688),
-      secondary: Color(0xff64ffda),
-      surface: Color(0xff424242),
-      background: Color(0xff616161),
-      error: Color(0xffd32f2f),
-      onPrimary: Color(0xffffffff),
-      onSecondary: Color(0xff000000),
-      onSurface: Color(0xffffffff),
-      onBackground: Color(0xffffffff),
-      onError: Color(0xff000000),
-      brightness: Brightness.dark,
-    ),
+    buttonColor: const Color(0xff00897b),
+    disabledColor: const Color(0x61ffffff),
+    highlightColor: const Color(0x29ffffff),
+    splashColor: const Color(0x1fffffff),
+    focusColor: const Color(0x1fffffff),
+    hoverColor: const Color(0x0affffff),
+    colorScheme: ColorScheme.fromSeed(
+        seedColor: const Color(0xff00796b), brightness: Brightness.dark),
   ),
   inputDecorationTheme: const InputDecorationTheme(
     labelStyle: TextStyle(

@@ -94,7 +94,7 @@ flutter:
     - assets/imgs/profile-img.jpg
     - assets/imgs/drawer_bg.jpg
     - assets/imgs/logo.png
-    - assets/imgs/page_not_found.png
+    - assets/imgs/not_found.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

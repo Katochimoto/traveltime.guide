@@ -39,7 +39,10 @@ class DbSyncSuccess extends StatelessWidget {
                 horizontal: UIGap.g2, vertical: UIGap.g0),
             child: Text(
               AppLocalizations.of(context)!.getStarted,
-              style: Theme.of(context).primaryTextTheme.labelLarge,
+              style: Theme.of(context)
+                  .textTheme
+                  .merge(Typography.whiteCupertino)
+                  .labelLarge,
             ),
           ),
         ));
@@ -99,11 +102,17 @@ class OnboardingScreen extends StatelessWidget {
               const SizedBox(height: UIGap.g4),
               Text(
                 AppLocalizations.of(context)!.appTitle,
-                style: Theme.of(context).primaryTextTheme.displayMedium,
+                style: Theme.of(context)
+                    .textTheme
+                    .merge(Typography.whiteCupertino)
+                    .displayMedium,
               ),
               Text(
                 AppLocalizations.of(context)!.appSubtitle,
-                style: Theme.of(context).primaryTextTheme.bodySmall,
+                style: Theme.of(context)
+                    .textTheme
+                    .merge(Typography.whiteCupertino)
+                    .bodySmall,
               ),
               const SizedBox(height: UIGap.g4),
               const DbSyncStatus(),

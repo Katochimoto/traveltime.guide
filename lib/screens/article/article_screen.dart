@@ -9,6 +9,26 @@ import 'package:traveltime/widgets/navbar/navbar.dart';
 import 'package:traveltime/widgets/drawer/drawer.dart';
 import 'package:traveltime/widgets/page_layout.dart';
 
+class ArticleNotFound extends StatelessWidget {
+  const ArticleNotFound({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Stack(children: [
+          const Image(image: AssetImage('assets/imgs/not_found.png')),
+          Container(decoration: const BoxDecoration(color: Colors.black45))
+        ]),
+        Text('Article Not Found',
+            style: Theme.of(context).textTheme.titleMedium),
+      ],
+    );
+  }
+}
+
 class ArticleController extends ConsumerWidget {
   final int id;
 
@@ -20,9 +40,7 @@ class ArticleController extends ConsumerWidget {
     return article.when(
       data: (data) {
         return data == null
-            ? const Center(
-                child:
-                    Image(image: AssetImage('assets/imgs/page_not_found.png')))
+            ? const ArticleNotFound()
             : ArticleDetails(article: data);
       },
       error: (error, stackTrace) {
@@ -73,13 +91,15 @@ class ArticleDetails extends StatelessWidget {
                               Text(
                                 article.title,
                                 style: Theme.of(context)
-                                    .primaryTextTheme
+                                    .textTheme
+                                    .merge(Typography.whiteCupertino)
                                     .headlineMedium,
                               ),
                               const SizedBox(height: UIGap.g1),
                               Text("Author",
                                   style: Theme.of(context)
-                                      .primaryTextTheme
+                                      .textTheme
+                                      .merge(Typography.whiteCupertino)
                                       .bodySmall),
                               const SizedBox(height: UIGap.g2),
                               Padding(
@@ -100,12 +120,15 @@ class ArticleDetails extends StatelessWidget {
                                         Text(
                                           "2K",
                                           style: Theme.of(context)
-                                              .primaryTextTheme
+                                              .textTheme
+                                              .merge(Typography.whiteCupertino)
                                               .bodyLarge,
                                         ),
                                         Text("Friends",
                                             style: Theme.of(context)
-                                                .primaryTextTheme
+                                                .textTheme
+                                                .merge(
+                                                    Typography.whiteCupertino)
                                                 .bodySmall)
                                       ],
                                     ),
@@ -117,11 +140,15 @@ class ArticleDetails extends StatelessWidget {
                                       children: [
                                         Text("26",
                                             style: Theme.of(context)
-                                                .primaryTextTheme
+                                                .textTheme
+                                                .merge(
+                                                    Typography.whiteCupertino)
                                                 .bodyLarge),
                                         Text("Comments",
                                             style: Theme.of(context)
-                                                .primaryTextTheme
+                                                .textTheme
+                                                .merge(
+                                                    Typography.whiteCupertino)
                                                 .bodySmall)
                                       ],
                                     ),
@@ -133,11 +160,15 @@ class ArticleDetails extends StatelessWidget {
                                       children: [
                                         Text("48",
                                             style: Theme.of(context)
-                                                .primaryTextTheme
+                                                .textTheme
+                                                .merge(
+                                                    Typography.whiteCupertino)
                                                 .bodyLarge),
                                         Text("Bookmarks",
                                             style: Theme.of(context)
-                                                .primaryTextTheme
+                                                .textTheme
+                                                .merge(
+                                                    Typography.whiteCupertino)
                                                 .bodySmall)
                                       ],
                                     )

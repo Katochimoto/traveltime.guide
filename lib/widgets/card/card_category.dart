@@ -34,7 +34,10 @@ class CardCategory extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(5.0)))),
             Center(
               child: Text(title,
-                  style: Theme.of(context).primaryTextTheme.titleLarge),
+                  style: Theme.of(context)
+                      .textTheme
+                      .merge(Typography.whiteCupertino)
+                      .titleLarge),
             )
           ])),
     );

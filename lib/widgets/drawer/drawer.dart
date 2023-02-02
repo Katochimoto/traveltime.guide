@@ -48,7 +48,8 @@ class AppDrawer extends StatelessWidget {
                         child: IconButton(
                             style: IconButton.styleFrom(
                                 foregroundColor: Theme.of(context)
-                                    .primaryTextTheme
+                                    .textTheme
+                                    .merge(Typography.whiteCupertino)
                                     .labelLarge
                                     ?.color),
                             iconSize: 24,
@@ -218,14 +219,18 @@ class AppDrawer extends StatelessWidget {
                         children: [
                           Text(
                             "v1.123.1233",
-                            style: Theme.of(context).primaryTextTheme.bodySmall,
+                            style: Theme.of(context)
+                                .textTheme
+                                .merge(Typography.whiteCupertino)
+                                .bodySmall,
                           ),
                           GestureDetector(
                               onTap: () {},
                               child: Text(
                                 " / Privacy",
                                 style: Theme.of(context)
-                                    .primaryTextTheme
+                                    .textTheme
+                                    .merge(Typography.whiteCupertino)
                                     .bodySmall,
                               )),
                           GestureDetector(
@@ -233,7 +238,8 @@ class AppDrawer extends StatelessWidget {
                               child: Text(
                                 " / Terms",
                                 style: Theme.of(context)
-                                    .primaryTextTheme
+                                    .textTheme
+                                    .merge(Typography.whiteCupertino)
                                     .bodySmall,
                               )),
                         ])),

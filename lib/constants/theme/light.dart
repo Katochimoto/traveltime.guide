@@ -5,6 +5,7 @@ final ThemeData lightTheme = ThemeData(
   fontFamily: 'Montserrat',
   primarySwatch: Colors.teal,
   brightness: Brightness.light,
+  colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff009688)),
   primaryColor: const Color(0xff009688),
   primaryColorLight: const Color(0xffb2dfdb),
   primaryColorDark: const Color(0xff00796b),
@@ -21,18 +22,21 @@ final ThemeData lightTheme = ThemeData(
   dialogBackgroundColor: const Color(0xffffffff),
   indicatorColor: const Color(0xff009688),
   hintColor: const Color(0x8a000000),
+  textTheme: Typography.blackCupertino.apply(),
+  primaryTextTheme: Typography.blackCupertino.apply(),
   cardTheme: const CardTheme(
     shadowColor: Color(0x7800796B),
   ),
   drawerTheme: const DrawerThemeData(
     backgroundColor: Color(0xff009688),
   ),
-  buttonTheme: const ButtonThemeData(
+  textButtonTheme: const TextButtonThemeData(),
+  buttonTheme: ButtonThemeData(
     textTheme: ButtonTextTheme.normal,
     minWidth: 88,
     height: 36,
-    padding: EdgeInsets.only(top: 0, bottom: 0, left: 16, right: 16),
-    shape: RoundedRectangleBorder(
+    padding: const EdgeInsets.only(top: 0, bottom: 0, left: 16, right: 16),
+    shape: const RoundedRectangleBorder(
       side: BorderSide(
         color: Color(0xff000000),
         width: 0,
@@ -41,25 +45,13 @@ final ThemeData lightTheme = ThemeData(
       borderRadius: BorderRadius.all(Radius.circular(2.0)),
     ),
     alignedDropdown: false,
-    buttonColor: Color(0xffe0e0e0),
-    disabledColor: Color(0x61000000),
-    highlightColor: Color(0x29000000),
-    splashColor: Color(0x1f000000),
-    focusColor: Color(0x1f000000),
-    hoverColor: Color(0x0a000000),
-    colorScheme: ColorScheme(
-      primary: Color(0xff009688),
-      secondary: Color(0xff009688),
-      surface: Color(0xffffffff),
-      background: Color(0xff80cbc4),
-      error: Color(0xffd32f2f),
-      onPrimary: Color(0xffffffff),
-      onSecondary: Color(0xffffffff),
-      onSurface: Color(0xff000000),
-      onBackground: Color(0xffffffff),
-      onError: Color(0xffffffff),
-      brightness: Brightness.light,
-    ),
+    buttonColor: const Color(0xffe0e0e0),
+    disabledColor: const Color(0x61000000),
+    highlightColor: const Color(0x29000000),
+    splashColor: const Color(0x1f000000),
+    focusColor: const Color(0x1f000000),
+    hoverColor: const Color(0x0a000000),
+    colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff009688)),
   ),
   inputDecorationTheme: const InputDecorationTheme(
     labelStyle: TextStyle(

@@ -51,13 +51,15 @@ class ProfileScreen extends StatelessWidget {
                                   Text(
                                     "Ryan Scheinder",
                                     style: Theme.of(context)
-                                        .primaryTextTheme
+                                        .textTheme
+                                        .merge(Typography.whiteCupertino)
                                         .headlineSmall,
                                   ),
                                   const SizedBox(height: UIGap.g1),
                                   Text("Photographer",
                                       style: Theme.of(context)
-                                          .primaryTextTheme
+                                          .textTheme
+                                          .merge(Typography.whiteCupertino)
                                           .bodySmall),
                                   const SizedBox(height: UIGap.g2),
                                   Padding(
@@ -79,12 +81,16 @@ class ProfileScreen extends StatelessWidget {
                                             Text(
                                               "2K",
                                               style: Theme.of(context)
-                                                  .primaryTextTheme
+                                                  .textTheme
+                                                  .merge(
+                                                      Typography.whiteCupertino)
                                                   .bodyLarge,
                                             ),
                                             Text("Friends",
                                                 style: Theme.of(context)
-                                                    .primaryTextTheme
+                                                    .textTheme
+                                                    .merge(Typography
+                                                        .whiteCupertino)
                                                     .bodySmall)
                                           ],
                                         ),
@@ -96,11 +102,15 @@ class ProfileScreen extends StatelessWidget {
                                           children: [
                                             Text("26",
                                                 style: Theme.of(context)
-                                                    .primaryTextTheme
+                                                    .textTheme
+                                                    .merge(Typography
+                                                        .whiteCupertino)
                                                     .bodyLarge),
                                             Text("Comments",
                                                 style: Theme.of(context)
-                                                    .primaryTextTheme
+                                                    .textTheme
+                                                    .merge(Typography
+                                                        .whiteCupertino)
                                                     .bodySmall)
                                           ],
                                         ),
@@ -112,11 +122,15 @@ class ProfileScreen extends StatelessWidget {
                                           children: [
                                             Text("48",
                                                 style: Theme.of(context)
-                                                    .primaryTextTheme
+                                                    .textTheme
+                                                    .merge(Typography
+                                                        .whiteCupertino)
                                                     .bodyLarge),
                                             Text("Bookmarks",
                                                 style: Theme.of(context)
-                                                    .primaryTextTheme
+                                                    .textTheme
+                                                    .merge(Typography
+                                                        .whiteCupertino)
                                                     .bodySmall)
                                           ],
                                         )
