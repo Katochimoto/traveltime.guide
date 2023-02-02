@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:traveltime/constants/Theme.dart';
 import 'package:traveltime/constants/routes.dart';
 import 'package:traveltime/store/db.dart';
@@ -70,7 +71,7 @@ class ArticleDetails extends StatelessWidget {
               child: Container(
                   decoration: BoxDecoration(
                       image: DecorationImage(
-                          image: NetworkImage(article.coverImg!),
+                          image: CachedNetworkImageProvider(article.coverImg!),
                           fit: BoxFit.cover)),
                   child: Stack(
                     children: <Widget>[
