@@ -8,6 +8,7 @@ import 'package:traveltime/store/db.dart';
 import 'package:traveltime/widgets/drawer/drawer.dart';
 import 'package:traveltime/widgets/navbar/navbar.dart';
 import 'package:traveltime/widgets/card/card_horizontal.dart';
+import 'package:traveltime/widgets/not_found.dart';
 // import 'package:traveltime/widgets/card/card_small.dart';
 // import 'package:traveltime/widgets/card/card_square.dart';
 // import 'package:traveltime/widgets/card/card_category.dart';
@@ -22,8 +23,12 @@ class ArticlesList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final articles = ref.watch(articlesProvider).value ?? [];
 
+    if (articles.isEmpty) {
+      return const NotFound();
+    }
+
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const SizedBox(height: UIGap.g2),
         for (final article in articles)

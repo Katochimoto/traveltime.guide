@@ -9,26 +9,7 @@ import 'package:traveltime/store/models/article.dart';
 import 'package:traveltime/widgets/navbar/navbar.dart';
 import 'package:traveltime/widgets/drawer/drawer.dart';
 import 'package:traveltime/widgets/page_layout.dart';
-
-class ArticleNotFound extends StatelessWidget {
-  const ArticleNotFound({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Stack(children: [
-          const Image(image: AssetImage('assets/imgs/not_found.png')),
-          Container(decoration: const BoxDecoration(color: Colors.black45))
-        ]),
-        Text('Article Not Found',
-            style: Theme.of(context).textTheme.titleMedium),
-      ],
-    );
-  }
-}
+import 'package:traveltime/widgets/not_found.dart';
 
 class ArticleController extends ConsumerWidget {
   final int id;
@@ -40,9 +21,7 @@ class ArticleController extends ConsumerWidget {
     final article = ref.watch(articleProvider(id));
     return article.when(
       data: (data) {
-        return data == null
-            ? const ArticleNotFound()
-            : ArticleDetails(article: data);
+        return data == null ? const NotFound() : ArticleDetails(article: data);
       },
       error: (error, stackTrace) {
         return const CircularProgressIndicator();

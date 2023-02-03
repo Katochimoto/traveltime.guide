@@ -9,13 +9,29 @@ class PageLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-        child: Center(
-            child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 1200),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: UIGap.g2),
-                  child: child,
-                ))));
+    return CustomScrollView(
+      physics: const BouncingScrollPhysics(),
+      slivers: [
+        SliverFillRemaining(
+          hasScrollBody: false,
+          child: Center(
+              child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 1200),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: UIGap.g2),
+                    child: child,
+                  ))),
+        ),
+      ],
+    );
+
+    // return SingleChildScrollView(
+    //     child: Center(
+    //         child: ConstrainedBox(
+    //             constraints: const BoxConstraints(maxWidth: 1200),
+    //             child: Container(
+    //               padding: const EdgeInsets.symmetric(horizontal: UIGap.g2),
+    //               child: child,
+    //             ))));
   }
 }

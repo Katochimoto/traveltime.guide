@@ -12,7 +12,7 @@ class CardHorizontal extends StatelessWidget {
       {super.key,
       this.title = "Placeholder Title",
       this.cta = "",
-      this.img = "https://via.placeholder.com/200",
+      this.img,
       required this.tap});
 
   Widget _img(String? img) {
