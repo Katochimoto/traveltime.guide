@@ -20,7 +20,6 @@ class CardSquare extends StatelessWidget {
       height: 250,
       width: null,
       child: Card(
-          elevation: 3,
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(5.0))),
           child: Column(

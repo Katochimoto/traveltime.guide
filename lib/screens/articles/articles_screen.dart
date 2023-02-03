@@ -43,10 +43,6 @@ class ArticlesList extends ConsumerWidget {
       ],
     );
 
-    // if (articles == null) {
-    //   return const CircularProgressIndicator();
-    // }
-
     // return Column(
     //   crossAxisAlignment: CrossAxisAlignment.start,
     //   children: [

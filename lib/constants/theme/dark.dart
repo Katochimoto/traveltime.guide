@@ -26,7 +26,9 @@ final ThemeData darkTheme = ThemeData(
   textTheme: Typography.whiteCupertino.apply(),
   primaryTextTheme: Typography.whiteCupertino.apply(),
   cardTheme: const CardTheme(
-    shadowColor: Color(0x7789FFF1),
+    color: Color(0xff303030),
+    elevation: 2,
+    shadowColor: Colors.transparent,
   ),
   drawerTheme: const DrawerThemeData(
     backgroundColor: Color(0xff009688),

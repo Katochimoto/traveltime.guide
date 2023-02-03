@@ -39,7 +39,6 @@ class CardHorizontal extends StatelessWidget {
     return SizedBox(
       height: 130,
       child: Card(
-        elevation: 3,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(5.0))),
         child: Row(
