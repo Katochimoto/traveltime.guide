@@ -1,14 +1,22 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+// import 'package:positioned_tap_detector_2/positioned_tap_detector_2.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:traveltime/constants/Theme.dart';
 import 'package:traveltime/constants/routes.dart';
+import 'package:traveltime/widgets/map/attribution.dart';
+import 'package:traveltime/widgets/map/fast_markers.dart';
 import 'package:traveltime/widgets/map/zoom_buttons.dart';
 import 'package:traveltime/widgets/navbar/navbar.dart';
 import 'package:traveltime/widgets/drawer/drawer.dart';
+
+final redPaint = Paint()
+  ..color = Colors.red
+  ..style = PaintingStyle.fill;
 
 // Stack(
 //           alignment: Alignment.center,
@@ -86,7 +94,8 @@ class MapScreen extends StatelessWidget {
         parallaxOffset: .5,
         color: Theme.of(context).canvasColor,
         borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(18.0), topRight: Radius.circular(18.0)),
+            topLeft: Radius.circular(UIGap.g3),
+            topRight: Radius.circular(UIGap.g3)),
         // panel: const Center(
         //   child: Text("This is the sliding Widget"),
         // ),
@@ -97,6 +106,7 @@ class MapScreen extends StatelessWidget {
   }
 
   Widget _body(BuildContext context) {
+    final tapStream = StreamController<Offset?>();
     return Stack(alignment: Alignment.topCenter, children: [
       FlutterMap(
         options: MapOptions(
@@ -105,8 +115,12 @@ class MapScreen extends StatelessWidget {
           maxZoom: 17,
           minZoom: 3,
           interactiveFlags: InteractiveFlag.all & ~InteractiveFlag.rotate,
-          // onTap: (LatLng location) {},
-          // onPositionChanged: (MapPosition position, bool hasGesture) {},
+          onTap: (tapPosition, point) {
+            tapStream.add(tapPosition.global);
+          },
+          onPositionChanged: (MapPosition position, bool hasGesture) {
+            // positionStream.add(position);
+          },
         ),
         children: [
           TileLayer(
@@ -116,14 +130,35 @@ class MapScreen extends StatelessWidget {
             userAgentPackageName: 'guide.traveltime.app',
             retinaMode: false, // MediaQuery.of(context).devicePixelRatio > 1.0,
           ),
-          MarkerLayer(
+          // MarkerLayer(
+          //   markers: [
+          //     Marker(
+          //       point: LatLng(51.5, -0.09),
+          //       width: 40,
+          //       height: 40,
+          //       builder: (_) => const Icon(Icons.location_on, size: 40),
+          //       anchorPos: AnchorPos.align(AnchorAlign.top),
+          //     ),
+          //   ],
+          // ),
+          FastMarkersLayer(
+            tapStream: tapStream.stream,
             markers: [
-              Marker(
+              FastMarker(
                 point: LatLng(51.5, -0.09),
-                width: 40,
-                height: 40,
-                builder: (_) => const Icon(Icons.location_on, size: 40),
-                anchorPos: AnchorPos.align(AnchorAlign.top),
+                width: 30,
+                height: 30,
+                anchorPos: AnchorPos.align(AnchorAlign.center),
+                onDraw: (canvas, offset) {
+                  canvas.drawCircle(
+                    offset + const Offset(30 / 2, 30 / 2),
+                    30 / 2,
+                    redPaint,
+                  );
+                },
+                onTap: () {
+                  print('>>>>!!!');
+                },
               ),
             ],
           ),
@@ -153,33 +188,7 @@ class MapScreen extends StatelessWidget {
               ),
             ],
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Theme.of(context).canvasColor.withOpacity(0.75),
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(10.0),
-                      topRight: Radius.circular(10.0))),
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 102, top: 1),
-                child: Row(
-                  // mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'flutter_map | © ',
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                    Text(
-                      'OpenStreetMap contributors',
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+          const Attribution(),
         ],
       ),
       // const Text('flutter_map | © OpenStreetMap contributors'),
