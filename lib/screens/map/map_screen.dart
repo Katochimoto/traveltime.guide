@@ -13,7 +13,7 @@ import 'package:traveltime/widgets/map/fast_markers.dart';
 import 'package:traveltime/widgets/navbar/navbar.dart';
 import 'package:traveltime/widgets/drawer/drawer.dart';
 
-const markerSize = 20.0;
+const markerSize = 25.0;
 const clusterSize = 40.0;
 
 final markerFillPaint = Paint()
@@ -119,7 +119,7 @@ class MapScreen extends StatelessWidget {
 
                   DrawText.draw(
                     canvas: canvas,
-                    text: '🚜',
+                    text: '🎡',
                     offset: offset,
                     size: markerSize,
                     paragraphWidth: markerSize * 0.5,

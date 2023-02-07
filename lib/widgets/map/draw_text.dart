@@ -13,7 +13,7 @@ class DrawText {
     const style = TextStyle(color: Colors.black);
     final ui.ParagraphBuilder paragraphBuilder = ui.ParagraphBuilder(
       ui.ParagraphStyle(
-        height: 1.3,
+        height: 1.5,
         fontSize: fontSize,
         fontFamily: style.fontFamily,
         fontStyle: style.fontStyle,
