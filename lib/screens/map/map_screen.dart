@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 // import 'package:positioned_tap_detector_2/positioned_tap_detector_2.dart';
@@ -9,72 +7,24 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:traveltime/constants/Theme.dart';
 import 'package:traveltime/constants/routes.dart';
 import 'package:traveltime/widgets/map/attribution.dart';
+import 'package:traveltime/widgets/map/draw_cluster.dart';
+import 'package:traveltime/widgets/map/draw_text.dart';
 import 'package:traveltime/widgets/map/fast_markers.dart';
-import 'package:traveltime/widgets/map/zoom_buttons.dart';
 import 'package:traveltime/widgets/navbar/navbar.dart';
 import 'package:traveltime/widgets/drawer/drawer.dart';
 
-final redPaint = Paint()
-  ..color = Colors.red
+const markerSize = 20.0;
+const clusterSize = 40.0;
+
+final markerFillPaint = Paint()
+  ..color = Colors.white
   ..style = PaintingStyle.fill;
 
-// Stack(
-//           alignment: Alignment.center,
-//           children: [
-//             Container(
-//               child: FlutterMap(
-//                 options: MapOptions(
-//                   center: LatLng(51.5, -0.09),
-//                   zoom: 5,
-//                 ),
-//                 nonRotatedChildren: [
-//                   AttributionWidget.defaultWidget(
-//                     source: 'OpenStreetMap contributors',
-//                     onSourceTapped: () {},
-//                   ),
-//                 ],
-//                 children: [
-//                   TileLayer(
-//                     urlTemplate:
-//                         'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-//                     userAgentPackageName: 'dev.fleaflet.flutter_map.example',
-//                   ),
-//                   MarkerLayer(markers: markers),
-//                 ],
-//               ),
-//             ),
-//           ],
-//         )
-
-// final markers = <Marker>[
-//       Marker(
-//         width: 80,
-//         height: 80,
-//         point: LatLng(51.5, -0.09),
-//         builder: (ctx) => const FlutterLogo(
-//           textColor: Colors.blue,
-//           key: ObjectKey(Colors.blue),
-//         ),
-//       ),
-//       Marker(
-//         width: 80,
-//         height: 80,
-//         point: LatLng(53.3498, -6.2603),
-//         builder: (ctx) => const FlutterLogo(
-//           textColor: Colors.green,
-//           key: ObjectKey(Colors.green),
-//         ),
-//       ),
-//       Marker(
-//         width: 80,
-//         height: 80,
-//         point: LatLng(48.8566, 2.3522),
-//         builder: (ctx) => const FlutterLogo(
-//           textColor: Colors.purple,
-//           key: ObjectKey(Colors.purple),
-//         ),
-//       ),
-//     ];
+final markerStrokePaint = Paint()
+  ..color = Colors.teal
+  ..style = PaintingStyle.stroke
+  ..strokeWidth = 2
+  ..strokeCap = StrokeCap.round;
 
 class MapScreen extends StatelessWidget {
   const MapScreen({super.key});
@@ -124,7 +74,6 @@ class MapScreen extends StatelessWidget {
         ),
         children: [
           TileLayer(
-            // urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
             urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
             subdomains: const ['a', 'b', 'c'],
             userAgentPackageName: 'guide.traveltime.app',
@@ -146,14 +95,74 @@ class MapScreen extends StatelessWidget {
             markers: [
               FastMarker(
                 point: LatLng(51.5, -0.09),
-                width: 30,
-                height: 30,
+                width: markerSize,
+                height: markerSize,
                 anchorPos: AnchorPos.align(AnchorAlign.center),
                 onDraw: (canvas, offset) {
+                  final center = offset +
+                      const Offset(
+                        markerSize / 2,
+                        markerSize / 2,
+                      );
+
                   canvas.drawCircle(
-                    offset + const Offset(30 / 2, 30 / 2),
-                    30 / 2,
-                    redPaint,
+                    center,
+                    markerSize / 2,
+                    markerFillPaint,
+                  );
+
+                  canvas.drawCircle(
+                    center,
+                    markerSize / 2,
+                    markerStrokePaint,
+                  );
+
+                  DrawText.draw(
+                    canvas: canvas,
+                    text: '🚜',
+                    offset: offset,
+                    size: markerSize,
+                    paragraphWidth: markerSize * 0.5,
+                    fontSize: markerSize * 0.5,
+                  );
+                },
+                onTap: () {
+                  print('>>>>!!!');
+                },
+              ),
+              FastMarker(
+                point: LatLng(55.5, -0.09),
+                width: clusterSize,
+                height: clusterSize,
+                anchorPos: AnchorPos.align(AnchorAlign.center),
+                onDraw: (canvas, offset) {
+                  final center = offset +
+                      const Offset(
+                        clusterSize / 2,
+                        clusterSize / 2,
+                      );
+
+                  canvas.drawCircle(
+                    center,
+                    clusterSize / 2,
+                    markerFillPaint,
+                  );
+
+                  DrawCluster.draw(
+                    canvas,
+                    center: center,
+                    radius: clusterSize / 2,
+                    sources: [10, 20, 16],
+                    colors: [Colors.blue, Colors.yellow, Colors.green],
+                    paintWidth: 5,
+                    startAngle: 0.0,
+                  );
+
+                  DrawText.draw(
+                    canvas: canvas,
+                    text: '10',
+                    offset: offset,
+                    size: clusterSize,
                   );
                 },
                 onTap: () {
@@ -162,36 +171,35 @@ class MapScreen extends StatelessWidget {
               ),
             ],
           ),
-          PolygonLayer(
-            polygonCulling: false,
-            polygons: [
-              Polygon(
-                points: [
-                  LatLng(30, 40),
-                  LatLng(20, 50),
-                  LatLng(25, 45),
-                ],
-                color: Colors.blue,
-              ),
-            ],
-          ),
-          PolylineLayer(
-            polylineCulling: false,
-            polylines: [
-              Polyline(
-                points: [
-                  LatLng(30, 40),
-                  LatLng(20, 50),
-                  LatLng(25, 45),
-                ],
-                color: Colors.blue,
-              ),
-            ],
-          ),
+          // PolygonLayer(
+          //   polygonCulling: false,
+          //   polygons: [
+          //     Polygon(
+          //       points: [
+          //         LatLng(30, 40),
+          //         LatLng(20, 50),
+          //         LatLng(25, 45),
+          //       ],
+          //       color: Colors.blue,
+          //     ),
+          //   ],
+          // ),
+          // PolylineLayer(
+          //   polylineCulling: false,
+          //   polylines: [
+          //     Polyline(
+          //       points: [
+          //         LatLng(30, 40),
+          //         LatLng(20, 50),
+          //         LatLng(25, 45),
+          //       ],
+          //       color: Colors.blue,
+          //     ),
+          //   ],
+          // ),
           const Attribution(),
         ],
       ),
-      // const Text('flutter_map | © OpenStreetMap contributors'),
     ]);
   }
 
