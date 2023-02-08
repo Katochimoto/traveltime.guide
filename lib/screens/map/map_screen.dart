@@ -126,7 +126,7 @@ class MapScreen extends ConsumerWidget {
                     text: '🎡',
                     offset: offset,
                     size: markerSize,
-                    paragraphWidth: markerSize * 0.5,
+                    // paragraphWidth: markerSize * 0.5,
                     fontSize: markerSize * 0.5,
                   );
                 },
