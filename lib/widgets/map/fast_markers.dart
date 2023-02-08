@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong2/latlong.dart';
@@ -10,7 +9,7 @@ class FastMarker {
   final double height;
   final Anchor anchor;
   final Function(Canvas canvas, Offset offset) onDraw;
-  final Function()? onTap;
+  final Function(Bounds bounds, LatLng point)? onTap;
 
   FastMarker({
     required this.point,
@@ -168,7 +167,7 @@ class FastMarkersPainter extends CustomPainter {
     for (var i = 0; i < markers.length; i++) {
       var marker = markers[i];
       if (marker.key.contains(CustomPoint(pos!.dx, pos.dy))) {
-        marker.value.onTap?.call();
+        marker.value.onTap?.call(marker.key, marker.value.point);
         return false;
       }
     }

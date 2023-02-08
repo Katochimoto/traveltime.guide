@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map/plugin_api.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 // import 'package:positioned_tap_detector_2/positioned_tap_detector_2.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -10,6 +12,7 @@ import 'package:traveltime/widgets/map/attribution.dart';
 import 'package:traveltime/widgets/map/draw_cluster.dart';
 import 'package:traveltime/widgets/map/draw_text.dart';
 import 'package:traveltime/widgets/map/fast_markers.dart';
+import 'package:traveltime/widgets/map/popover.dart';
 import 'package:traveltime/widgets/navbar/navbar.dart';
 import 'package:traveltime/widgets/drawer/drawer.dart';
 
@@ -26,11 +29,11 @@ final markerStrokePaint = Paint()
   ..strokeWidth = 2
   ..strokeCap = StrokeCap.round;
 
-class MapScreen extends StatelessWidget {
+class MapScreen extends ConsumerWidget {
   const MapScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: const Navbar(
@@ -50,12 +53,12 @@ class MapScreen extends StatelessWidget {
         //   child: Text("This is the sliding Widget"),
         // ),
         panelBuilder: (sc) => _panel(context, sc),
-        body: _body(context),
+        body: _body(context, ref),
       ),
     );
   }
 
-  Widget _body(BuildContext context) {
+  Widget _body(BuildContext context, WidgetRef ref) {
     final tapStream = StreamController<Offset?>();
     return Stack(alignment: Alignment.topCenter, children: [
       FlutterMap(
@@ -66,10 +69,11 @@ class MapScreen extends StatelessWidget {
           minZoom: 3,
           interactiveFlags: InteractiveFlag.all & ~InteractiveFlag.rotate,
           onTap: (tapPosition, point) {
+            ref.read(popoverPositionProvider.notifier).hide();
             tapStream.add(tapPosition.global);
           },
           onPositionChanged: (MapPosition position, bool hasGesture) {
-            // positionStream.add(position);
+            ref.read(popoverPositionProvider.notifier).hide();
           },
         ),
         children: [
@@ -126,8 +130,10 @@ class MapScreen extends StatelessWidget {
                     fontSize: markerSize * 0.5,
                   );
                 },
-                onTap: () {
-                  print('>>>>!!!');
+                onTap: (bounds, point) {
+                  ref
+                      .read(popoverPositionProvider.notifier)
+                      .updatePosition(Position(bounds: bounds, point: point));
                 },
               ),
               FastMarker(
@@ -165,8 +171,10 @@ class MapScreen extends StatelessWidget {
                     size: clusterSize,
                   );
                 },
-                onTap: () {
-                  print('>>>>!!!');
+                onTap: (bounds, point) {
+                  ref
+                      .read(popoverPositionProvider.notifier)
+                      .updatePosition(Position(bounds: bounds, point: point));
                 },
               ),
             ],
@@ -198,6 +206,7 @@ class MapScreen extends StatelessWidget {
           //   ],
           // ),
           const Attribution(),
+          const MapPopover(),
         ],
       ),
     ]);
