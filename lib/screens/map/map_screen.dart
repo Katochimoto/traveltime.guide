@@ -8,6 +8,8 @@ import 'package:latlong2/latlong.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:traveltime/constants/Theme.dart';
 import 'package:traveltime/constants/routes.dart';
+import 'package:traveltime/screens/map/marks.dart';
+import 'package:traveltime/screens/map/overview.dart';
 import 'package:traveltime/widgets/map/attribution.dart';
 import 'package:traveltime/widgets/map/draw_cluster.dart';
 import 'package:traveltime/widgets/map/draw_text.dart';
@@ -216,7 +218,20 @@ class MapScreen extends ConsumerWidget {
     return MediaQuery.removePadding(
         context: context,
         removeTop: true,
-        child:
-            ListView(controller: sc, children: const <Widget>[Text('asdasd')]));
+        child: Stack(
+          alignment: AlignmentDirectional.topCenter,
+          children: [
+            Container(
+              transform: Matrix4.translationValues(0, -10, 0),
+              child: Icon(
+                Icons.horizontal_rule,
+                color: Theme.of(context).dividerColor,
+                size: 40.0,
+              ),
+            ),
+            // const Overview(),
+            Marks(sc: sc, padding: const EdgeInsets.only(top: 20)),
+          ],
+        ));
   }
 }
