@@ -50,7 +50,7 @@ class MapPopover extends ConsumerWidget {
     }
 
     const width = 300.0;
-    const height = 125.0;
+    const height = 120.0;
     final offset = mapState.getOffsetFromOrigin(position.point!);
 
     return Stack(
@@ -65,33 +65,34 @@ class MapPopover extends ConsumerWidget {
           ),
         ),
         Positioned(
-          top: offset.dy - height - position.bounds!.size.x * 0.5 - 8,
+          top: offset.dy - height - position.bounds!.size.x * 0.5 - 12,
           left: offset.dx - width * 0.5,
-          child: SizedBox(
-            width: width,
-            height: height,
-            child: Card(
-              color: Theme.of(context).cardColor,
-              shadowColor: Colors.transparent,
-              elevation: 0,
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(5.0))),
+          child: ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+                elevation: 0,
+                backgroundColor: Theme.of(context).cardColor,
+                shadowColor: Colors.transparent,
+                padding: const EdgeInsets.all(0),
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(UIGap.g3)))),
+            child: SizedBox(
+              width: width,
+              height: height,
               child: Row(
                 children: [
-                  SizedBox(
-                    height: 120,
-                    width: 120,
-                    child: Container(
-                        decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(5.0),
-                                bottomLeft: Radius.circular(5.0)),
-                            image: DecorationImage(
-                              image: CachedNetworkImageProvider(
-                                  'https://via.placeholder.com/200'),
-                              fit: BoxFit.cover,
-                            ))),
-                  ),
+                  Container(
+                      height: 120,
+                      width: 120,
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(UIGap.g3),
+                              bottomLeft: Radius.circular(UIGap.g3)),
+                          image: DecorationImage(
+                            image: CachedNetworkImageProvider(
+                                'https://via.placeholder.com/200'),
+                            fit: BoxFit.cover,
+                          ))),
                   Flexible(
                       flex: 1,
                       child: Padding(
@@ -111,29 +112,13 @@ class MapPopover extends ConsumerWidget {
                                           .textTheme
                                           .bodyMedium),
                                   Text(
-                                      'asdasdasdasdasdaksjdklajskldjklasdklaasdasdasdasdasdaksjdklajskldjklasdklaskldjasldskldjasld',
-                                      maxLines: 3,
+                                      'asdasdasdasdasdaksjdklajskldjklasdklaasdasdasdasdasdaksjdklajskldjklasdklaskldjasldskldjasldasdasdasdasdasdaksjdklajskldjklasdklaasdasdasdasdasdaksjdklajskldjklasdklaskldjasldskldjasld',
+                                      maxLines: 5,
                                       overflow: TextOverflow.ellipsis,
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodySmall),
                                 ]),
-                            Container(
-                                // padding: const EdgeInsets.only(top: UIGap.g1),
-                                transform: Matrix4.translationValues(
-                                    (UIGap.g2), UIGap.g1, UIGap.g0),
-                                child: TextButton(
-                                  onPressed: () {},
-                                  style: TextButton.styleFrom(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: UIGap.g0,
-                                          horizontal: UIGap.g2),
-                                      minimumSize: const Size(50, 25),
-                                      tapTargetSize:
-                                          MaterialTapTargetSize.shrinkWrap,
-                                      alignment: Alignment.centerLeft),
-                                  child: const Text('View more'),
-                                )),
                           ],
                         ),
                       ))

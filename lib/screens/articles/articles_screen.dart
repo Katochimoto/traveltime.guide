@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:traveltime/constants/Theme.dart';
 import 'package:traveltime/constants/routes.dart';
 import 'package:traveltime/store/db.dart';
 import 'package:traveltime/widgets/drawer/drawer.dart';
@@ -27,21 +26,35 @@ class ArticlesList extends ConsumerWidget {
       return const NotFound();
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        const SizedBox(height: UIGap.g2),
-        for (final article in articles)
-          CardHorizontal(
-              cta: "View article",
-              title: article.title,
-              img: article.logoImg,
-              tap: () {
-                context.pushNamed(Routes.article,
-                    params: {'id': article.id.toString()});
-              }),
-      ],
+    return ListView.builder(
+      itemCount: articles.length,
+      physics: const BouncingScrollPhysics(),
+      itemBuilder: (_, idx) {
+        final article = articles[idx];
+        return CardHorizontal(
+            title: article.title,
+            img: article.logoImg,
+            tap: () {
+              context.pushNamed(Routes.article,
+                  params: {'id': article.id.toString()});
+            });
+      },
     );
+
+    // return Column(
+    //   crossAxisAlignment: CrossAxisAlignment.stretch,
+    //   children: [
+    //     const SizedBox(height: UIGap.g2),
+    //     for (final article in articles)
+    //       CardHorizontal(
+    //           title: article.title,
+    //           img: article.logoImg,
+    //           tap: () {
+    //             context.pushNamed(Routes.article,
+    //                 params: {'id': article.id.toString()});
+    //           }),
+    //   ],
+    // );
 
     // return Column(
     //   crossAxisAlignment: CrossAxisAlignment.start,
@@ -156,6 +169,6 @@ class ArticlesScreen extends StatelessWidget {
           title: AppLocalizations.of(context)!.articlesTitle,
         ),
         drawer: const AppDrawer(currentPage: Routes.articles),
-        body: const PageLayout(child: ArticlesList()));
+        body: const PageLayout(child: ArticlesList(), scroll: false));
   }
 }
