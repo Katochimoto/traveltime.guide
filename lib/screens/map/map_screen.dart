@@ -221,6 +221,8 @@ class MapScreen extends ConsumerWidget {
         child: Stack(
           alignment: AlignmentDirectional.topCenter,
           children: [
+            // Overview(sc: sc),
+            Marks(sc: sc, padding: const EdgeInsets.only(top: 20)),
             Container(
               transform: Matrix4.translationValues(0, -10, 0),
               child: Icon(
@@ -229,8 +231,6 @@ class MapScreen extends ConsumerWidget {
                 size: 40.0,
               ),
             ),
-            // const Overview(),
-            Marks(sc: sc, padding: const EdgeInsets.only(top: 20)),
           ],
         ));
   }
