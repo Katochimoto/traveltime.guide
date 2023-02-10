@@ -53,11 +53,15 @@ class MapPopover extends ConsumerWidget {
     const height = 120.0;
     final offset = mapState.getOffsetFromOrigin(position.point!);
 
+    final x =
+        position.bounds!.topLeft.x.toDouble() + position.bounds!.size.x * 0.5;
+    final y = position.bounds!.topLeft.y.toDouble();
+
     return Stack(
       children: <Widget>[
         Positioned(
-          left: offset.dx - 7.5,
-          top: offset.dy - position.bounds!.size.x * 0.5 - 12,
+          left: x - 15 * 0.5,
+          top: y - 15,
           child: CustomPaint(
             size: const Size(15.0, 8.0),
             painter: TrianglePainter(
@@ -65,8 +69,8 @@ class MapPopover extends ConsumerWidget {
           ),
         ),
         Positioned(
-          top: offset.dy - height - position.bounds!.size.x * 0.5 - 12,
-          left: offset.dx - width * 0.5,
+          top: y - height - 15,
+          left: x - width * 0.5,
           child: ElevatedButton(
             onPressed: () {},
             style: ElevatedButton.styleFrom(

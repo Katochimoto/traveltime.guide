@@ -130,17 +130,17 @@ class FastMarkersPainter extends CustomPainter {
         _pxCache[i] = pxPoint;
       }
 
-      var topLeft = CustomPoint(
+      final topLeft = CustomPoint(
         pxPoint.x - marker.anchor.left,
         pxPoint.y - marker.anchor.top,
       );
-      var bottomRight = CustomPoint(
+      final bottomRight = CustomPoint(
         topLeft.x + marker.width,
         topLeft.y + marker.height,
       );
+      final markerBounds = Bounds(topLeft, bottomRight);
 
-      if (!mapState.pixelBounds
-          .containsPartialBounds(Bounds(topLeft, bottomRight))) {
+      if (!mapState.pixelBounds.containsPartialBounds(markerBounds)) {
         continue;
       }
 

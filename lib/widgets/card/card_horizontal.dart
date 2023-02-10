@@ -6,11 +6,13 @@ class CardHorizontal extends StatelessWidget {
   final String? img;
   final void Function() tap;
   final String title;
+  final String? details;
 
   const CardHorizontal({
     super.key,
     required this.title,
     required this.tap,
+    this.details,
     this.img,
   });
 
@@ -54,13 +56,28 @@ class CardHorizontal extends StatelessWidget {
                 Flexible(
                     flex: 1,
                     child: Padding(
-                      padding: const EdgeInsets.all(UIGap.g3),
+                      padding: const EdgeInsets.all(UIGap.g2),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(title,
-                              style: Theme.of(context).textTheme.bodySmall),
+                          Text(
+                            title,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+
+                          if (details != null)
+                            Padding(
+                              padding: const EdgeInsets.only(top: UIGap.g1),
+                              child: Text(
+                                details!,
+                                maxLines: 4,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                            ),
                           // Container(
                           //     padding: const EdgeInsets.only(top: UIGap.g1),
                           //     transform: Matrix4.translationValues(

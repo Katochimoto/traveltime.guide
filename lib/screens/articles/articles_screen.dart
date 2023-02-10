@@ -33,6 +33,7 @@ class ArticlesList extends ConsumerWidget {
         final article = articles[idx];
         return CardHorizontal(
             title: article.title,
+            details: article.intro,
             img: article.logoImg,
             tap: () {
               context.pushNamed(Routes.article,

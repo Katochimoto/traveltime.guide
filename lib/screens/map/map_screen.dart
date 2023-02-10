@@ -19,7 +19,7 @@ import 'package:traveltime/widgets/navbar/navbar.dart';
 import 'package:traveltime/widgets/drawer/drawer.dart';
 import 'package:traveltime/widgets/navbar/navbar_categories.dart';
 
-const markerSize = 20.0;
+const markerSize = 25.0;
 const clusterSize = 40.0;
 
 final markerFillPaint = Paint()
@@ -100,17 +100,6 @@ class MapScreen extends ConsumerWidget {
             userAgentPackageName: 'guide.traveltime.app',
             retinaMode: false, // MediaQuery.of(context).devicePixelRatio > 1.0,
           ),
-          // MarkerLayer(
-          //   markers: [
-          //     Marker(
-          //       point: LatLng(51.5, -0.09),
-          //       width: 40,
-          //       height: 40,
-          //       builder: (_) => const Icon(Icons.location_on, size: 40),
-          //       anchorPos: AnchorPos.align(AnchorAlign.top),
-          //     ),
-          //   ],
-          // ),
           FastMarkersLayer(
             tapStream: tapStream.stream,
             markers: [
@@ -118,7 +107,7 @@ class MapScreen extends ConsumerWidget {
                 point: ll.LatLng(51.5, -0.09),
                 width: markerSize,
                 height: markerSize,
-                anchorPos: AnchorPos.align(AnchorAlign.center),
+                anchorPos: AnchorPos.align(AnchorAlign.bottom),
                 onDraw: _markerDraw,
                 onTap: (bounds, point) {
                   ref
@@ -130,7 +119,7 @@ class MapScreen extends ConsumerWidget {
                 point: ll.LatLng(12.910540799939268, 100.8561218137046),
                 width: markerSize,
                 height: markerSize,
-                anchorPos: AnchorPos.align(AnchorAlign.center),
+                anchorPos: AnchorPos.align(AnchorAlign.bottom),
                 onDraw: _markerDraw,
                 onTap: (bounds, point) {
                   ref
@@ -152,6 +141,17 @@ class MapScreen extends ConsumerWidget {
               ),
             ],
           ),
+          // MarkerLayer(
+          //   markers: [
+          //     Marker(
+          //       point: ll.LatLng(12.910540799939268, 100.8561218137046),
+          //       width: 20,
+          //       height: 20,
+          //       builder: (_) => const Icon(Icons.location_on, size: 20),
+          //       anchorPos: AnchorPos.align(AnchorAlign.top),
+          //     ),
+          //   ],
+          // ),
           PolygonLayer(
             polygonCulling: false,
             polygons: [
@@ -246,42 +246,77 @@ class MapScreen extends ConsumerWidget {
   }
 
   _markerDraw(Canvas canvas, Offset offset) {
-    final center = offset +
-        const Offset(
-          markerSize / 2,
-          markerSize / 2,
-        );
+    const contentSize = markerSize * 0.8;
+    const arrowHeight = markerSize * 0.3;
+    const arrowWidth = markerSize * 0.4;
+    final contentCenter =
+        offset + const Offset(markerSize * 0.5, contentSize * 0.5);
+    final arrowStart = offset + const Offset(markerSize * 0.5, markerSize);
 
-    const arrowWidth = 15.0;
-    const arrowHeight = 10.0;
-    const contentOffset = Offset(0, arrowHeight / 2 + markerSize / 2);
-    final contentCenter = center - contentOffset;
     final path = Path()
-      ..moveTo(center.dx + 0.0, center.dy + 0.0)
-      ..lineTo(center.dx - arrowWidth * 0.5, center.dy - arrowHeight)
-      ..lineTo(center.dx + arrowWidth * 0.5, center.dy - arrowHeight);
+      ..moveTo(arrowStart.dx, arrowStart.dy)
+      ..lineTo(arrowStart.dx - arrowWidth * 0.5, arrowStart.dy - arrowHeight)
+      ..lineTo(arrowStart.dx + arrowWidth * 0.5, arrowStart.dy - arrowHeight);
 
     canvas.drawPath(path, arrowPaint);
 
     canvas.drawCircle(
       contentCenter,
-      markerSize / 2,
+      contentSize * 0.5,
       markerFillPaint,
     );
 
     canvas.drawCircle(
       contentCenter,
-      markerSize / 2,
+      contentSize * 0.5,
       markerStrokePaint,
     );
 
     DrawText.draw(
       canvas: canvas,
       text: '🎡',
-      offset: offset - contentOffset,
-      size: markerSize,
+      offset: offset + const Offset(markerSize * 0.5 - contentSize * 0.5, 0),
+      size: contentSize,
       // paragraphWidth: markerSize * 0.5,
-      fontSize: markerSize * 0.5,
+      fontSize: contentSize * 0.5,
     );
+
+    // final center = offset +
+    //     const Offset(
+    //       markerSize / 2,
+    //       markerSize / 2,
+    //     );
+
+    // const arrowWidth = 15.0;
+    // const arrowHeight = 10.0;
+    // const contentOffset = Offset(0, arrowHeight / 2 + markerSize / 2);
+    // final contentCenter = center - contentOffset;
+    // final path = Path()
+    //   ..moveTo(center.dx + 0.0, center.dy + 0.0)
+    //   ..lineTo(center.dx - arrowWidth * 0.5, center.dy - arrowHeight)
+    //   ..lineTo(center.dx + arrowWidth * 0.5, center.dy - arrowHeight);
+
+    // canvas.drawPath(path, arrowPaint);
+
+    // canvas.drawCircle(
+    //   contentCenter,
+    //   markerSize / 2,
+    //   markerFillPaint,
+    // );
+
+    // canvas.drawCircle(
+    //   contentCenter,
+    //   markerSize / 2,
+    //   markerStrokePaint,
+    // );
+
+    // DrawText.draw(
+    //   canvas: canvas,
+    //   text: '🎡',
+    //   offset: offset - contentOffset,
+    //   size: markerSize,
+    //   // paragraphWidth: markerSize * 0.5,
+    //   fontSize: markerSize * 0.5,
+    // );
   }
 }
