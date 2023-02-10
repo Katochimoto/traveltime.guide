@@ -113,7 +113,7 @@ class MapPopover extends ConsumerWidget {
                                           .bodyMedium),
                                   Text(
                                       'asdasdasdasdasdaksjdklajskldjklasdklaasdasdasdasdasdaksjdklajskldjklasdklaskldjasldskldjasldasdasdasdasdasdaksjdklajskldjklasdklaasdasdasdasdasdaksjdklajskldjklasdklaskldjasldskldjasld',
-                                      maxLines: 5,
+                                      maxLines: 4,
                                       overflow: TextOverflow.ellipsis,
                                       style: Theme.of(context)
                                           .textTheme

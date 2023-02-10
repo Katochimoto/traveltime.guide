@@ -37,29 +37,34 @@ const ArticleSchema = CollectionSchema(
       name: r'description',
       type: IsarType.string,
     ),
-    r'locale': PropertySchema(
+    r'intro': PropertySchema(
       id: 4,
+      name: r'intro',
+      type: IsarType.string,
+    ),
+    r'locale': PropertySchema(
+      id: 5,
       name: r'locale',
       type: IsarType.byte,
       enumMap: _ArticlelocaleEnumValueMap,
     ),
     r'logoImg': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'logoImg',
       type: IsarType.string,
     ),
     r'publishedAt': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'publishedAt',
       type: IsarType.dateTime,
     ),
     r'title': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'title',
       type: IsarType.string,
     ),
     r'updatedAt': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'updatedAt',
       type: IsarType.dateTime,
     )
@@ -107,6 +112,12 @@ int _articleEstimateSize(
   }
   bytesCount += 3 + object.description.length * 3;
   {
+    final value = object.intro;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
     final value = object.logoImg;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
@@ -126,11 +137,12 @@ void _articleSerialize(
   writer.writeString(offsets[1], object.coverImg);
   writer.writeDateTime(offsets[2], object.createdAt);
   writer.writeString(offsets[3], object.description);
-  writer.writeByte(offsets[4], object.locale.index);
-  writer.writeString(offsets[5], object.logoImg);
-  writer.writeDateTime(offsets[6], object.publishedAt);
-  writer.writeString(offsets[7], object.title);
-  writer.writeDateTime(offsets[8], object.updatedAt);
+  writer.writeString(offsets[4], object.intro);
+  writer.writeByte(offsets[5], object.locale.index);
+  writer.writeString(offsets[6], object.logoImg);
+  writer.writeDateTime(offsets[7], object.publishedAt);
+  writer.writeString(offsets[8], object.title);
+  writer.writeDateTime(offsets[9], object.updatedAt);
 }
 
 Article _articleDeserialize(
@@ -145,12 +157,13 @@ Article _articleDeserialize(
     createdAt: reader.readDateTime(offsets[2]),
     description: reader.readString(offsets[3]),
     id: id,
-    locale: _ArticlelocaleValueEnumMap[reader.readByteOrNull(offsets[4])] ??
+    intro: reader.readStringOrNull(offsets[4]),
+    locale: _ArticlelocaleValueEnumMap[reader.readByteOrNull(offsets[5])] ??
         AppLocale.en,
-    logoImg: reader.readStringOrNull(offsets[5]),
-    publishedAt: reader.readDateTime(offsets[6]),
-    title: reader.readString(offsets[7]),
-    updatedAt: reader.readDateTime(offsets[8]),
+    logoImg: reader.readStringOrNull(offsets[6]),
+    publishedAt: reader.readDateTime(offsets[7]),
+    title: reader.readString(offsets[8]),
+    updatedAt: reader.readDateTime(offsets[9]),
   );
   return object;
 }
@@ -171,15 +184,17 @@ P _articleDeserializeProp<P>(
     case 3:
       return (reader.readString(offset)) as P;
     case 4:
+      return (reader.readStringOrNull(offset)) as P;
+    case 5:
       return (_ArticlelocaleValueEnumMap[reader.readByteOrNull(offset)] ??
           AppLocale.en) as P;
-    case 5:
-      return (reader.readStringOrNull(offset)) as P;
     case 6:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 7:
-      return (reader.readString(offset)) as P;
+      return (reader.readDateTime(offset)) as P;
     case 8:
+      return (reader.readString(offset)) as P;
+    case 9:
       return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -937,6 +952,152 @@ extension ArticleQueryFilter
     });
   }
 
+  QueryBuilder<Article, Article, QAfterFilterCondition> introIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'intro',
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> introIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'intro',
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> introEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'intro',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> introGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'intro',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> introLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'intro',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> introBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'intro',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> introStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'intro',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> introEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'intro',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> introContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'intro',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> introMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'intro',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> introIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'intro',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> introIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'intro',
+        value: '',
+      ));
+    });
+  }
+
   QueryBuilder<Article, Article, QAfterFilterCondition> localeEqualTo(
       AppLocale value) {
     return QueryBuilder.apply(this, (query) {
@@ -1428,6 +1589,18 @@ extension ArticleQuerySortBy on QueryBuilder<Article, Article, QSortBy> {
     });
   }
 
+  QueryBuilder<Article, Article, QAfterSortBy> sortByIntro() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'intro', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterSortBy> sortByIntroDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'intro', Sort.desc);
+    });
+  }
+
   QueryBuilder<Article, Article, QAfterSortBy> sortByLocale() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'locale', Sort.asc);
@@ -1551,6 +1724,18 @@ extension ArticleQuerySortThenBy
     });
   }
 
+  QueryBuilder<Article, Article, QAfterSortBy> thenByIntro() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'intro', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterSortBy> thenByIntroDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'intro', Sort.desc);
+    });
+  }
+
   QueryBuilder<Article, Article, QAfterSortBy> thenByLocale() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'locale', Sort.asc);
@@ -1641,6 +1826,13 @@ extension ArticleQueryWhereDistinct
     });
   }
 
+  QueryBuilder<Article, Article, QDistinct> distinctByIntro(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'intro', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<Article, Article, QDistinct> distinctByLocale() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'locale');
@@ -1703,6 +1895,12 @@ extension ArticleQueryProperty
   QueryBuilder<Article, String, QQueryOperations> descriptionProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'description');
+    });
+  }
+
+  QueryBuilder<Article, String?, QQueryOperations> introProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'intro');
     });
   }
 

@@ -4,19 +4,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:traveltime/constants/Theme.dart';
 
 class Marks extends ConsumerWidget {
-  const Marks({super.key, this.sc, this.padding});
+  const Marks({super.key, this.sc});
 
   final ScrollController? sc;
-  final EdgeInsetsGeometry? padding;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ListView.builder(
       controller: sc,
       physics: const BouncingScrollPhysics(),
-      padding: padding,
       itemBuilder: (_, idx) {
-        const height = 55.0;
+        const height = 60.0;
         return Padding(
           padding: const EdgeInsets.symmetric(
               vertical: UIGap.g2, horizontal: UIGap.g3),

@@ -14,6 +14,7 @@ class Article {
       required this.publishedAt,
       required this.title,
       required this.description,
+      this.intro,
       this.logoImg,
       this.coverImg});
 
@@ -31,6 +32,7 @@ class Article {
   @Index(type: IndexType.value)
   final String title;
   final String description;
+  final String? intro;
   final String? logoImg;
   final String? coverImg;
 
@@ -43,6 +45,7 @@ class Article {
       updatedAt: DateTime.parse(data['updatedAt']),
       publishedAt: DateTime.parse(data['publishedAt']),
       title: data['title'],
+      intro: data['intro'],
       description: data['description'],
       logoImg: data['logoImg'],
       coverImg: data['coverImg'],

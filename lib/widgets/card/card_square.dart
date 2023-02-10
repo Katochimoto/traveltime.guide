@@ -19,7 +19,7 @@ class CardSquare extends StatelessWidget {
         child: ElevatedButton(
             onPressed: tap,
             style: ElevatedButton.styleFrom(
-                elevation: 3,
+                elevation: 1,
                 backgroundColor: Theme.of(context).cardColor,
                 shadowColor: Theme.of(context).shadowColor,
                 padding: const EdgeInsets.all(0),
