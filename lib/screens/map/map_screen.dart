@@ -62,7 +62,7 @@ class MapScreen extends ConsumerWidget {
         options: MapOptions(
           center: ll.LatLng(51.5, -0.09),
           zoom: 3,
-          maxZoom: 17,
+          maxZoom: 18,
           minZoom: 3,
           interactiveFlags: InteractiveFlag.all & ~InteractiveFlag.rotate,
           onTap: (tapPosition, point) {
@@ -79,6 +79,9 @@ class MapScreen extends ConsumerWidget {
             subdomains: const ['a', 'b', 'c'],
             userAgentPackageName: 'guide.traveltime.app',
             retinaMode: false, // MediaQuery.of(context).devicePixelRatio > 1.0,
+            minZoom: 3,
+            maxZoom: 18,
+            tileProvider: NetworkTileProvider(),
           ),
           const MapMarkers(),
           // MarkerLayer(
