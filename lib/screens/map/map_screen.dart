@@ -8,34 +8,15 @@ import 'package:latlong2/latlong.dart' as ll;
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:traveltime/constants/Theme.dart';
 import 'package:traveltime/constants/routes.dart';
+import 'package:traveltime/screens/map/map_markers.dart';
 import 'package:traveltime/screens/map/marks.dart';
 import 'package:traveltime/screens/map/overview.dart';
 import 'package:traveltime/widgets/map/attribution.dart';
-import 'package:traveltime/widgets/map/draw_cluster.dart';
-import 'package:traveltime/widgets/map/draw_text.dart';
 import 'package:traveltime/widgets/map/fast_markers.dart';
 import 'package:traveltime/widgets/map/popover.dart';
 import 'package:traveltime/widgets/navbar/navbar.dart';
 import 'package:traveltime/widgets/drawer/drawer.dart';
 import 'package:traveltime/widgets/navbar/navbar_categories.dart';
-
-const markerSize = 25.0;
-const clusterSize = 40.0;
-
-final markerFillPaint = Paint()
-  ..color = Colors.white
-  ..style = PaintingStyle.fill;
-
-final markerStrokePaint = Paint()
-  ..color = Colors.teal
-  ..style = PaintingStyle.stroke
-  ..strokeWidth = 2
-  ..strokeCap = StrokeCap.round;
-
-final arrowPaint = Paint()
-  ..strokeWidth = 2.0
-  ..color = Colors.teal
-  ..style = PaintingStyle.fill;
 
 class MapScreen extends ConsumerWidget {
   const MapScreen({super.key});
@@ -76,7 +57,6 @@ class MapScreen extends ConsumerWidget {
   }
 
   Widget _body(BuildContext context, WidgetRef ref) {
-    final tapStream = StreamController<Offset?>();
     return Stack(alignment: Alignment.topCenter, children: [
       FlutterMap(
         options: MapOptions(
@@ -87,7 +67,7 @@ class MapScreen extends ConsumerWidget {
           interactiveFlags: InteractiveFlag.all & ~InteractiveFlag.rotate,
           onTap: (tapPosition, point) {
             ref.read(popoverPositionProvider.notifier).hide();
-            tapStream.add(tapPosition.global);
+            ref.read(mapTapPositionProvider.notifier).tap(tapPosition.global);
           },
           onPositionChanged: (MapPosition position, bool hasGesture) {
             ref.read(popoverPositionProvider.notifier).hide();
@@ -100,47 +80,7 @@ class MapScreen extends ConsumerWidget {
             userAgentPackageName: 'guide.traveltime.app',
             retinaMode: false, // MediaQuery.of(context).devicePixelRatio > 1.0,
           ),
-          FastMarkersLayer(
-            tapStream: tapStream.stream,
-            markers: [
-              FastMarker(
-                point: ll.LatLng(51.5, -0.09),
-                width: markerSize,
-                height: markerSize,
-                anchorPos: AnchorPos.align(AnchorAlign.bottom),
-                onDraw: _markerDraw,
-                onTap: (bounds, point) {
-                  ref
-                      .read(popoverPositionProvider.notifier)
-                      .updatePosition(Position(bounds: bounds, point: point));
-                },
-              ),
-              FastMarker(
-                point: ll.LatLng(12.910540799939268, 100.8561218137046),
-                width: markerSize,
-                height: markerSize,
-                anchorPos: AnchorPos.align(AnchorAlign.bottom),
-                onDraw: _markerDraw,
-                onTap: (bounds, point) {
-                  ref
-                      .read(popoverPositionProvider.notifier)
-                      .updatePosition(Position(bounds: bounds, point: point));
-                },
-              ),
-              FastMarker(
-                point: ll.LatLng(55.5, -0.09),
-                width: clusterSize,
-                height: clusterSize,
-                anchorPos: AnchorPos.align(AnchorAlign.center),
-                onDraw: _clusterDraw,
-                onTap: (bounds, point) {
-                  ref
-                      .read(popoverPositionProvider.notifier)
-                      .updatePosition(Position(bounds: bounds, point: point));
-                },
-              ),
-            ],
-          ),
+          const MapMarkers(),
           // MarkerLayer(
           //   markers: [
           //     Marker(
@@ -212,111 +152,5 @@ class MapScreen extends ConsumerWidget {
             ),
           ],
         ));
-  }
-
-  _clusterDraw(Canvas canvas, Offset offset) {
-    final center = offset +
-        const Offset(
-          clusterSize / 2,
-          clusterSize / 2,
-        );
-
-    canvas.drawCircle(
-      center,
-      clusterSize / 2,
-      markerFillPaint,
-    );
-
-    DrawCluster.draw(
-      canvas,
-      center: center,
-      radius: clusterSize / 2,
-      sources: [10, 20, 16],
-      colors: [Colors.blue, Colors.yellow, Colors.green],
-      paintWidth: 5,
-      startAngle: 0.0,
-    );
-
-    DrawText.draw(
-      canvas: canvas,
-      text: '10',
-      offset: offset,
-      size: clusterSize,
-    );
-  }
-
-  _markerDraw(Canvas canvas, Offset offset) {
-    const contentSize = markerSize * 0.8;
-    const arrowHeight = markerSize * 0.3;
-    const arrowWidth = markerSize * 0.4;
-    final contentCenter =
-        offset + const Offset(markerSize * 0.5, contentSize * 0.5);
-    final arrowStart = offset + const Offset(markerSize * 0.5, markerSize);
-
-    final path = Path()
-      ..moveTo(arrowStart.dx, arrowStart.dy)
-      ..lineTo(arrowStart.dx - arrowWidth * 0.5, arrowStart.dy - arrowHeight)
-      ..lineTo(arrowStart.dx + arrowWidth * 0.5, arrowStart.dy - arrowHeight);
-
-    canvas.drawPath(path, arrowPaint);
-
-    canvas.drawCircle(
-      contentCenter,
-      contentSize * 0.5,
-      markerFillPaint,
-    );
-
-    canvas.drawCircle(
-      contentCenter,
-      contentSize * 0.5,
-      markerStrokePaint,
-    );
-
-    DrawText.draw(
-      canvas: canvas,
-      text: '🎡',
-      offset: offset + const Offset(markerSize * 0.5 - contentSize * 0.5, 0),
-      size: contentSize,
-      // paragraphWidth: markerSize * 0.5,
-      fontSize: contentSize * 0.5,
-    );
-
-    // final center = offset +
-    //     const Offset(
-    //       markerSize / 2,
-    //       markerSize / 2,
-    //     );
-
-    // const arrowWidth = 15.0;
-    // const arrowHeight = 10.0;
-    // const contentOffset = Offset(0, arrowHeight / 2 + markerSize / 2);
-    // final contentCenter = center - contentOffset;
-    // final path = Path()
-    //   ..moveTo(center.dx + 0.0, center.dy + 0.0)
-    //   ..lineTo(center.dx - arrowWidth * 0.5, center.dy - arrowHeight)
-    //   ..lineTo(center.dx + arrowWidth * 0.5, center.dy - arrowHeight);
-
-    // canvas.drawPath(path, arrowPaint);
-
-    // canvas.drawCircle(
-    //   contentCenter,
-    //   markerSize / 2,
-    //   markerFillPaint,
-    // );
-
-    // canvas.drawCircle(
-    //   contentCenter,
-    //   markerSize / 2,
-    //   markerStrokePaint,
-    // );
-
-    // DrawText.draw(
-    //   canvas: canvas,
-    //   text: '🎡',
-    //   offset: offset - contentOffset,
-    //   size: markerSize,
-    //   // paragraphWidth: markerSize * 0.5,
-    //   fontSize: markerSize * 0.5,
-    // );
   }
 }

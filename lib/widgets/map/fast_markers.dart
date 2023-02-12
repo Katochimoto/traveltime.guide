@@ -1,7 +1,45 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
+
+class TapPosition {
+  Offset? offset;
+
+  TapPosition({this.offset});
+
+  factory TapPosition.empty() {
+    return TapPosition();
+  }
+}
+
+class MapTapPosition extends Notifier<TapPosition> {
+  @override
+  TapPosition build() {
+    return TapPosition.empty();
+  }
+
+  void updatePosition(TapPosition data) {
+    state = data;
+  }
+
+  void hide() {
+    if (state.offset != null) {
+      state = TapPosition.empty();
+    }
+  }
+
+  void tap(Offset offset) {
+    if (state.offset != offset) {
+      state = TapPosition(offset: offset);
+    }
+  }
+}
+
+final mapTapPositionProvider =
+    NotifierProvider<MapTapPosition, TapPosition>(() {
+  return MapTapPosition();
+});
 
 class FastMarker {
   final LatLng point;
@@ -22,38 +60,31 @@ class FastMarker {
 }
 
 class FastMarkersLayer extends StatelessWidget {
-  FastMarkersLayer({super.key, required this.markers, required this.tapStream});
+  const FastMarkersLayer({super.key, required this.markers});
 
-  List<FastMarker> markers = [];
-
-  Stream<Offset?> tapStream;
+  final List<FastMarker> markers;
 
   @override
   Widget build(BuildContext context) {
     final mapState = FlutterMapState.maybeOf(context)!;
-    return FastMarkersLayerController(
-        markers: markers, tapStream: tapStream, mapState: mapState);
+    return FastMarkersLayerController(markers: markers, mapState: mapState);
   }
 }
 
-class FastMarkersLayerController extends StatefulWidget {
-  FastMarkersLayerController(
-      {super.key,
-      required this.markers,
-      required this.tapStream,
-      required this.mapState});
+class FastMarkersLayerController extends ConsumerStatefulWidget {
+  const FastMarkersLayerController(
+      {super.key, required this.markers, required this.mapState});
 
-  List<FastMarker> markers = [];
-  FlutterMapState mapState;
-  Stream<Offset?> tapStream;
+  final List<FastMarker> markers;
+  final FlutterMapState mapState;
 
   @override
-  FastMarkersLayerState createState() => FastMarkersLayerState();
+  ConsumerState<FastMarkersLayerController> createState() =>
+      FastMarkersLayerState();
 }
 
-class FastMarkersLayerState extends State<FastMarkersLayerController> {
+class FastMarkersLayerState extends ConsumerState<FastMarkersLayerController> {
   late FastMarkersPainter painter;
-  late StreamSubscription<Offset?> subscription;
 
   @override
   void initState() {
@@ -62,10 +93,6 @@ class FastMarkersLayerState extends State<FastMarkersLayerController> {
       markers: widget.markers,
       mapState: widget.mapState,
     );
-
-    subscription = widget.tapStream.listen((event) {
-      painter.onTap(event);
-    }, cancelOnError: false);
   }
 
   @override
@@ -79,12 +106,15 @@ class FastMarkersLayerState extends State<FastMarkersLayerController> {
 
   @override
   void dispose() {
-    subscription.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(mapTapPositionProvider, (previous, next) {
+      painter.onTap(next.offset);
+    });
+
     return CustomPaint(
       painter: painter,
       willChange: true,

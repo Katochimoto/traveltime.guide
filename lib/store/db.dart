@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:traveltime/store/models/article.dart';
+import 'package:traveltime/store/models/point.dart';
 import 'package:traveltime/utils/app_auth.dart';
 
 class Db extends AsyncNotifier<Isar> {
@@ -14,7 +15,7 @@ class Db extends AsyncNotifier<Isar> {
     var db = Isar.getInstance(name);
     if (db == null || !db.isOpen) {
       final dir = await getApplicationSupportDirectory();
-      db = await Isar.open([ArticleSchema],
+      db = await Isar.open([ArticleSchema, PointSchema],
           name: name, directory: dir.path, inspector: true);
     }
 
@@ -44,5 +45,16 @@ final articleProvider =
   final data = db.collection<Article>().watchObject(id, fireImmediately: true);
   await for (final results in data) {
     yield results;
+  }
+});
+
+final pointsProvider = StreamProvider.autoDispose((ref) async* {
+  final db = await ref.watch(dbProvider.future);
+  final query = db.collection<Point>().where().build();
+
+  await for (final results in query.watch(fireImmediately: true)) {
+    if (results.isNotEmpty) {
+      yield results;
+    }
   }
 });

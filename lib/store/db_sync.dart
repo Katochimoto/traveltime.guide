@@ -6,6 +6,7 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:traveltime/constants/constants.dart';
 import 'package:traveltime/store/db.dart';
 import 'package:traveltime/store/models/article.dart';
+import 'package:traveltime/store/models/point.dart';
 import 'package:traveltime/utils/app_auth.dart';
 import 'package:traveltime/utils/connectivity_status.dart';
 import 'package:traveltime/utils/shared_preferences.dart';
@@ -128,19 +129,35 @@ class DbSync extends AsyncNotifier<DBSyncState> {
       await _db.writeTxn(() async {
         // *** articles ****
         final articles = _db.collection<Article>();
-        final changes = response.data?['changes']?['articles'];
-        if (changes?['deleted']?.isNotEmpty) {
-          await articles.deleteAll(changes['deleted']);
+        final articlesChanges = response.data?['changes']?['articles'];
+        if (articlesChanges?['deleted']?.isNotEmpty) {
+          await articles.deleteAll(articlesChanges['deleted']);
         }
-        if (changes?['replaced']?.isNotEmpty) {
+        if (articlesChanges?['replaced']?.isNotEmpty) {
           final List<Article> items = [];
-          for (var item in changes['replaced']) {
+          for (var item in articlesChanges['replaced']) {
             items.add(Article.fromJson(item));
           }
 
           await articles.putAll(items);
         }
         // *** /articles ****
+
+        // *** points ****
+        final points = _db.collection<Point>();
+        final pointsChanges = response.data?['changes']?['points'];
+        if (pointsChanges?['deleted']?.isNotEmpty) {
+          await points.deleteAll(pointsChanges['deleted']);
+        }
+        if (pointsChanges?['replaced']?.isNotEmpty) {
+          final List<Point> items = [];
+          for (var item in pointsChanges['replaced']) {
+            items.add(Point.fromJson(item));
+          }
+
+          await points.putAll(items);
+        }
+        // *** /points ****
       });
 
       await _updateLastSync(datetime);

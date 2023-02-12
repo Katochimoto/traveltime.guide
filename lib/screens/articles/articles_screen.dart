@@ -170,6 +170,9 @@ class ArticlesScreen extends StatelessWidget {
           title: AppLocalizations.of(context)!.articlesTitle,
         ),
         drawer: const AppDrawer(currentPage: Routes.articles),
-        body: const PageLayout(child: ArticlesList(), scroll: false));
+        body: const PageLayout(
+          scroll: false,
+          child: ArticlesList(),
+        ));
   }
 }
