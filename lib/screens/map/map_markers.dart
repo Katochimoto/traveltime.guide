@@ -35,6 +35,7 @@ class MapMarkers extends ConsumerWidget {
     final points = ref.watch(pointsProvider).value ?? [];
     final markers = points.map((point) {
       return FastMarker(
+        id: point.isarId,
         point: ll.LatLng(point.lat, point.lng),
         width: markerSize,
         height: markerSize,
@@ -50,10 +51,10 @@ class MapMarkers extends ConsumerWidget {
 
     return FastMarkersLayer(
       markers: markers.toList(growable: false),
-      tapCluster: (Bounds bounds, ll.LatLng? point) {
+      tapCluster: (bounds, markers) {
         ref
             .read(popoverPositionProvider.notifier)
-            .updatePosition(Position(bounds: bounds, point: point));
+            .updatePosition(Position(bounds: bounds));
       },
       drawCluster: _drawCluster,
       clusterWidth: clusterSize,

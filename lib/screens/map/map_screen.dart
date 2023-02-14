@@ -135,7 +135,7 @@ class MapScreen extends ConsumerWidget {
           //   ],
           // ),
           const Attribution(),
-          const MapPopover(),
+          const Popover(),
         ],
       ),
     ]);
