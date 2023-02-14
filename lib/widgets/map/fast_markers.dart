@@ -334,18 +334,22 @@ class FastMarkersPainter extends CustomPainter {
       }
 
       final clusterBounds = clustersBounds[nextCluster]!;
-      clusterBounds.extend(point);
       nextCluster.markers!.add(marker);
-      nextCluster.bounds = clusterBounds;
+      nextCluster.bounds = clusterBounds.extend(point);
     }
 
     for (var i = 0; i < clusters.length; i++) {
       final cluster = clusters[i];
-      final tl = cluster.bounds!.topLeft;
-      final br = cluster.bounds!.bottomRight;
+      final center = cluster.bounds!.center;
       cluster.bounds = Bounds(
-        CustomPoint(tl.x - clusterWidth! / 2, tl.y - clusterHeight! / 2),
-        CustomPoint(br.x + clusterWidth! / 2, br.y + clusterHeight! / 2),
+        CustomPoint(
+          center.x - clusterWidth! / 2,
+          center.y - clusterHeight! / 2,
+        ),
+        CustomPoint(
+          center.x + clusterWidth! / 2,
+          center.y + clusterHeight! / 2,
+        ),
       );
     }
 
