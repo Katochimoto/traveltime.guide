@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong2/latlong.dart' as ll;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:traveltime/store/db.dart';
@@ -49,6 +50,11 @@ class MapMarkers extends ConsumerWidget {
 
     return FastMarkersLayer(
       markers: markers.toList(growable: false),
+      tapCluster: (Bounds bounds, ll.LatLng? point) {
+        ref
+            .read(popoverPositionProvider.notifier)
+            .updatePosition(Position(bounds: bounds, point: point));
+      },
       drawCluster: _drawCluster,
       clusterWidth: clusterSize,
       clusterHeight: clusterSize,

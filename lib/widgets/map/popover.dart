@@ -28,7 +28,7 @@ class PopoverPosition extends Notifier<Position> {
   }
 
   void hide() {
-    if (state.point != null) {
+    if (state.bounds != null) {
       state = Position.empty();
     }
   }
@@ -44,7 +44,7 @@ class MapPopover extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final position = ref.watch(popoverPositionProvider);
-    if (position.point == null) {
+    if (position.bounds == null) {
       return Container();
     }
 
