@@ -6,36 +6,43 @@ import 'package:traveltime/widgets/map/popover_cluster.dart';
 import 'package:traveltime/widgets/map/popover_marker.dart';
 import 'package:traveltime/widgets/map/triangle_painter.dart';
 
-class Position {
-  Bounds? bounds;
-  LatLng? point;
+enum PopoverType {
+  marker,
+  cluster,
+}
 
-  Position({this.bounds, this.point});
+class PopoverData {
+  final PopoverType? type;
+  final Bounds? bounds;
+  final LatLng? point;
 
-  factory Position.empty() {
-    return Position();
+  const PopoverData({this.bounds, this.point, this.type = PopoverType.marker});
+
+  factory PopoverData.empty() {
+    return const PopoverData();
   }
 }
 
-class PopoverPosition extends Notifier<Position> {
+class PopoverDataController extends Notifier<PopoverData> {
   @override
-  Position build() {
-    return Position.empty();
+  PopoverData build() {
+    return PopoverData.empty();
   }
 
-  void updatePosition(Position data) {
+  void show(PopoverData data) {
     state = data;
   }
 
   void hide() {
     if (state.bounds != null) {
-      state = Position.empty();
+      state = PopoverData.empty();
     }
   }
 }
 
-final popoverPositionProvider = NotifierProvider<PopoverPosition, Position>(() {
-  return PopoverPosition();
+final popoverProvider =
+    NotifierProvider<PopoverDataController, PopoverData>(() {
+  return PopoverDataController();
 });
 
 class Popover extends ConsumerWidget {
@@ -43,17 +50,17 @@ class Popover extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final position = ref.watch(popoverPositionProvider);
-    if (position.bounds == null) {
+    final popover = ref.watch(popoverProvider);
+    if (popover.bounds == null) {
       return Container();
     }
 
     const width = 300.0;
-    const height = 170.0;
+    final height = popover.type == PopoverType.cluster ? 170.0 : 120.0;
 
     final x =
-        position.bounds!.topLeft.x.toDouble() + position.bounds!.size.x * 0.5;
-    final y = position.bounds!.topLeft.y.toDouble();
+        popover.bounds!.topLeft.x.toDouble() + popover.bounds!.size.x * 0.5;
+    final y = popover.bounds!.topLeft.y.toDouble();
 
     return Stack(
       children: <Widget>[
@@ -69,7 +76,9 @@ class Popover extends ConsumerWidget {
         Positioned(
           top: y - height - 15,
           left: x - width * 0.5,
-          child: const PopoverCluster(width: width, height: height),
+          child: popover.type == PopoverType.cluster
+              ? PopoverCluster(width: width, height: height)
+              : PopoverMarker(width: width, height: height),
         ),
       ],
     );

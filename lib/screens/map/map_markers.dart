@@ -43,20 +43,20 @@ class MapMarkers extends ConsumerWidget {
         onDraw: _drawMarker,
         onTap: (bounds, point) {
           ref
-              .read(popoverPositionProvider.notifier)
-              .updatePosition(Position(bounds: bounds, point: point));
+              .read(popoverProvider.notifier)
+              .show(PopoverData(bounds: bounds, point: point));
         },
       );
     });
 
     return FastMarkersLayer(
       markers: markers.toList(growable: false),
-      tapCluster: (bounds, markers) {
+      clusterTap: (bounds, markers) {
         ref
-            .read(popoverPositionProvider.notifier)
-            .updatePosition(Position(bounds: bounds));
+            .read(popoverProvider.notifier)
+            .show(PopoverData(bounds: bounds, type: PopoverType.cluster));
       },
-      drawCluster: _drawCluster,
+      clusterDraw: _drawCluster,
       clusterWidth: clusterSize,
       clusterHeight: clusterSize,
     );

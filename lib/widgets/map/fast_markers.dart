@@ -77,15 +77,15 @@ class FastMarkersLayer extends StatelessWidget {
   const FastMarkersLayer({
     super.key,
     required this.markers,
-    this.tapCluster,
-    this.drawCluster,
+    this.clusterTap,
+    this.clusterDraw,
     this.clusterWidth,
     this.clusterHeight,
   });
 
   final List<FastMarker> markers;
-  final void Function(Bounds bounds, List<FastMarker> markers)? tapCluster;
-  final void Function(Canvas canvas, Offset offset)? drawCluster;
+  final void Function(Bounds bounds, List<FastMarker> markers)? clusterTap;
+  final void Function(Canvas canvas, Offset offset)? clusterDraw;
   final double? clusterWidth;
   final double? clusterHeight;
 
@@ -95,8 +95,8 @@ class FastMarkersLayer extends StatelessWidget {
     return FastMarkersLayerController(
       markers: markers,
       mapState: mapState,
-      tapCluster: tapCluster,
-      drawCluster: drawCluster,
+      clusterTap: clusterTap,
+      clusterDraw: clusterDraw,
       clusterWidth: clusterWidth,
       clusterHeight: clusterHeight,
     );
@@ -108,16 +108,16 @@ class FastMarkersLayerController extends ConsumerStatefulWidget {
     super.key,
     required this.markers,
     required this.mapState,
-    this.tapCluster,
-    this.drawCluster,
+    this.clusterTap,
+    this.clusterDraw,
     this.clusterWidth,
     this.clusterHeight,
   });
 
   final List<FastMarker> markers;
   final FlutterMapState mapState;
-  final void Function(Bounds bounds, List<FastMarker> markers)? tapCluster;
-  final void Function(Canvas canvas, Offset offset)? drawCluster;
+  final void Function(Bounds bounds, List<FastMarker> markers)? clusterTap;
+  final void Function(Canvas canvas, Offset offset)? clusterDraw;
   final double? clusterWidth;
   final double? clusterHeight;
 
@@ -135,8 +135,8 @@ class FastMarkersLayerState extends ConsumerState<FastMarkersLayerController> {
     painter = FastMarkersPainter(
       markers: widget.markers,
       mapState: widget.mapState,
-      tapCluster: widget.tapCluster,
-      drawCluster: widget.drawCluster,
+      clusterTap: widget.clusterTap,
+      clusterDraw: widget.clusterDraw,
       clusterWidth: widget.clusterWidth,
       clusterHeight: widget.clusterHeight,
     );
@@ -148,8 +148,8 @@ class FastMarkersLayerState extends ConsumerState<FastMarkersLayerController> {
     painter = FastMarkersPainter(
       markers: widget.markers,
       mapState: widget.mapState,
-      tapCluster: widget.tapCluster,
-      drawCluster: widget.drawCluster,
+      clusterTap: widget.clusterTap,
+      clusterDraw: widget.clusterDraw,
       clusterWidth: widget.clusterWidth,
       clusterHeight: widget.clusterHeight,
     );
@@ -177,8 +177,8 @@ class FastMarkersPainter extends CustomPainter {
   FastMarkersPainter({
     required this.markers,
     required this.mapState,
-    this.tapCluster,
-    this.drawCluster,
+    this.clusterTap,
+    this.clusterDraw,
     this.clusterWidth,
     this.clusterHeight,
   }) {
@@ -188,8 +188,8 @@ class FastMarkersPainter extends CustomPainter {
 
   FlutterMapState mapState;
   List<FastMarker> markers = [];
-  void Function(Bounds bounds, List<FastMarker> markers)? tapCluster;
-  void Function(Canvas canvas, Offset offset)? drawCluster;
+  void Function(Bounds bounds, List<FastMarker> markers)? clusterTap;
+  void Function(Canvas canvas, Offset offset)? clusterDraw;
   double? clusterWidth;
   double? clusterHeight;
 
@@ -239,7 +239,7 @@ class FastMarkersPainter extends CustomPainter {
       pxPoints: _pxCache,
     );
 
-    final drawClusters =
+    final clusterDraws =
         clusters.where((item) => item.markers!.length > 1).toList();
 
     final drawMarkers = clusters
@@ -247,15 +247,15 @@ class FastMarkersPainter extends CustomPainter {
         .map((item) => item.markers![0])
         .toList();
 
-    for (var i = 0; i < drawClusters.length; i++) {
-      final cluster = drawClusters[i];
+    for (var i = 0; i < clusterDraws.length; i++) {
+      final cluster = clusterDraws[i];
       if (mapState.pixelBounds.containsPartialBounds(cluster.bounds!)) {
         final bounds = cluster.bounds!;
         final posTopLeft = bounds.topLeft - mapState.pixelOrigin;
         final posBottomRight = bounds.bottomRight - mapState.pixelOrigin;
         final offset = Offset(posTopLeft.x.toDouble(), posTopLeft.y.toDouble());
 
-        drawCluster!(canvas, offset);
+        clusterDraw!(canvas, offset);
 
         clustersBoundsCache.add(
           MapEntry(
@@ -304,7 +304,7 @@ class FastMarkersPainter extends CustomPainter {
     for (var i = 0; i < clusters.length; i++) {
       var cluster = clusters[i];
       if (cluster.key.contains(CustomPoint(pos!.dx, pos.dy))) {
-        tapCluster?.call(cluster.key, cluster.value.markers!);
+        clusterTap?.call(cluster.key, cluster.value.markers!);
         return false;
       }
     }

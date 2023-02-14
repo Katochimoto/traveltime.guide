@@ -76,11 +76,11 @@ class MapScreen extends ConsumerWidget {
           minZoom: 3,
           interactiveFlags: InteractiveFlag.all & ~InteractiveFlag.rotate,
           onTap: (tapPosition, point) {
-            ref.read(popoverPositionProvider.notifier).hide();
+            ref.read(popoverProvider.notifier).hide();
             ref.read(mapTapPositionProvider.notifier).tap(tapPosition.global);
           },
           onPositionChanged: (MapPosition position, bool hasGesture) {
-            ref.read(popoverPositionProvider.notifier).hide();
+            ref.read(popoverProvider.notifier).hide();
           },
         ),
         children: [
