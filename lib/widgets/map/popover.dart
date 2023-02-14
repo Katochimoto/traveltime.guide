@@ -43,7 +43,6 @@ class MapPopover extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final mapState = FlutterMapState.maybeOf(context)!;
     final position = ref.watch(popoverPositionProvider);
     if (position.point == null) {
       return Container();
@@ -51,7 +50,6 @@ class MapPopover extends ConsumerWidget {
 
     const width = 300.0;
     const height = 120.0;
-    final offset = mapState.getOffsetFromOrigin(position.point!);
 
     final x =
         position.bounds!.topLeft.x.toDouble() + position.bounds!.size.x * 0.5;

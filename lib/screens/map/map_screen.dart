@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map/plugin_api.dart';
@@ -17,6 +18,15 @@ import 'package:traveltime/widgets/map/popover.dart';
 import 'package:traveltime/widgets/navbar/navbar.dart';
 import 'package:traveltime/widgets/drawer/drawer.dart';
 import 'package:traveltime/widgets/navbar/navbar_categories.dart';
+
+class CachedNetworkTileProvider extends NetworkTileProvider {
+  @override
+  ImageProvider getImage(Coords<num> coords, TileLayer options) =>
+      CachedNetworkImageProvider(
+        getTileUrl(coords, options),
+        headers: headers,
+      );
+}
 
 class MapScreen extends ConsumerWidget {
   const MapScreen({super.key});
@@ -81,7 +91,8 @@ class MapScreen extends ConsumerWidget {
             retinaMode: false, // MediaQuery.of(context).devicePixelRatio > 1.0,
             minZoom: 3,
             maxZoom: 18,
-            tileProvider: NetworkTileProvider(),
+            // maybe https://github.com/flutter/packages/tree/main/packages/flutter_image
+            tileProvider: CachedNetworkTileProvider(),
           ),
           const MapMarkers(),
           // MarkerLayer(

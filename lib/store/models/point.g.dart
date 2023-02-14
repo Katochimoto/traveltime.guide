@@ -32,44 +32,49 @@ const PointSchema = CollectionSchema(
       name: r'description',
       type: IsarType.string,
     ),
-    r'intro': PropertySchema(
+    r'id': PropertySchema(
       id: 3,
+      name: r'id',
+      type: IsarType.string,
+    ),
+    r'intro': PropertySchema(
+      id: 4,
       name: r'intro',
       type: IsarType.string,
     ),
     r'lat': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'lat',
       type: IsarType.float,
     ),
     r'lng': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'lng',
       type: IsarType.float,
     ),
     r'locale': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'locale',
       type: IsarType.byte,
       enumMap: _PointlocaleEnumValueMap,
     ),
     r'logoImg': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'logoImg',
       type: IsarType.string,
     ),
     r'publishedAt': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'publishedAt',
       type: IsarType.dateTime,
     ),
     r'title': PropertySchema(
-      id: 9,
+      id: 10,
       name: r'title',
       type: IsarType.string,
     ),
     r'updatedAt': PropertySchema(
-      id: 10,
+      id: 11,
       name: r'updatedAt',
       type: IsarType.dateTime,
     )
@@ -78,7 +83,7 @@ const PointSchema = CollectionSchema(
   serialize: _pointSerialize,
   deserialize: _pointDeserialize,
   deserializeProp: _pointDeserializeProp,
-  idName: r'id',
+  idName: r'isarId',
   indexes: {
     r'title': IndexSchema(
       id: -7636685945352118059,
@@ -115,6 +120,7 @@ int _pointEstimateSize(
     }
   }
   bytesCount += 3 + object.description.length * 3;
+  bytesCount += 3 + object.id.length * 3;
   {
     final value = object.intro;
     if (value != null) {
@@ -140,14 +146,15 @@ void _pointSerialize(
   writer.writeString(offsets[0], object.coverImg);
   writer.writeDateTime(offsets[1], object.createdAt);
   writer.writeString(offsets[2], object.description);
-  writer.writeString(offsets[3], object.intro);
-  writer.writeFloat(offsets[4], object.lat);
-  writer.writeFloat(offsets[5], object.lng);
-  writer.writeByte(offsets[6], object.locale.index);
-  writer.writeString(offsets[7], object.logoImg);
-  writer.writeDateTime(offsets[8], object.publishedAt);
-  writer.writeString(offsets[9], object.title);
-  writer.writeDateTime(offsets[10], object.updatedAt);
+  writer.writeString(offsets[3], object.id);
+  writer.writeString(offsets[4], object.intro);
+  writer.writeFloat(offsets[5], object.lat);
+  writer.writeFloat(offsets[6], object.lng);
+  writer.writeByte(offsets[7], object.locale.index);
+  writer.writeString(offsets[8], object.logoImg);
+  writer.writeDateTime(offsets[9], object.publishedAt);
+  writer.writeString(offsets[10], object.title);
+  writer.writeDateTime(offsets[11], object.updatedAt);
 }
 
 Point _pointDeserialize(
@@ -160,16 +167,16 @@ Point _pointDeserialize(
     coverImg: reader.readStringOrNull(offsets[0]),
     createdAt: reader.readDateTime(offsets[1]),
     description: reader.readString(offsets[2]),
-    id: id,
-    intro: reader.readStringOrNull(offsets[3]),
-    lat: reader.readFloat(offsets[4]),
-    lng: reader.readFloat(offsets[5]),
-    locale: _PointlocaleValueEnumMap[reader.readByteOrNull(offsets[6])] ??
+    id: reader.readString(offsets[3]),
+    intro: reader.readStringOrNull(offsets[4]),
+    lat: reader.readFloat(offsets[5]),
+    lng: reader.readFloat(offsets[6]),
+    locale: _PointlocaleValueEnumMap[reader.readByteOrNull(offsets[7])] ??
         AppLocale.en,
-    logoImg: reader.readStringOrNull(offsets[7]),
-    publishedAt: reader.readDateTime(offsets[8]),
-    title: reader.readString(offsets[9]),
-    updatedAt: reader.readDateTime(offsets[10]),
+    logoImg: reader.readStringOrNull(offsets[8]),
+    publishedAt: reader.readDateTime(offsets[9]),
+    title: reader.readString(offsets[10]),
+    updatedAt: reader.readDateTime(offsets[11]),
   );
   return object;
 }
@@ -188,21 +195,23 @@ P _pointDeserializeProp<P>(
     case 2:
       return (reader.readString(offset)) as P;
     case 3:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 4:
-      return (reader.readFloat(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 5:
       return (reader.readFloat(offset)) as P;
     case 6:
+      return (reader.readFloat(offset)) as P;
+    case 7:
       return (_PointlocaleValueEnumMap[reader.readByteOrNull(offset)] ??
           AppLocale.en) as P;
-    case 7:
-      return (reader.readStringOrNull(offset)) as P;
     case 8:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 9:
-      return (reader.readString(offset)) as P;
+      return (reader.readDateTime(offset)) as P;
     case 10:
+      return (reader.readString(offset)) as P;
+    case 11:
       return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -219,7 +228,7 @@ const _PointlocaleValueEnumMap = {
 };
 
 Id _pointGetId(Point object) {
-  return object.id;
+  return object.isarId;
 }
 
 List<IsarLinkBase<dynamic>> _pointGetLinks(Point object) {
@@ -229,7 +238,7 @@ List<IsarLinkBase<dynamic>> _pointGetLinks(Point object) {
 void _pointAttach(IsarCollection<dynamic> col, Id id, Point object) {}
 
 extension PointQueryWhereSort on QueryBuilder<Point, Point, QWhere> {
-  QueryBuilder<Point, Point, QAfterWhere> anyId() {
+  QueryBuilder<Point, Point, QAfterWhere> anyIsarId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
@@ -245,66 +254,66 @@ extension PointQueryWhereSort on QueryBuilder<Point, Point, QWhere> {
 }
 
 extension PointQueryWhere on QueryBuilder<Point, Point, QWhereClause> {
-  QueryBuilder<Point, Point, QAfterWhereClause> idEqualTo(Id id) {
+  QueryBuilder<Point, Point, QAfterWhereClause> isarIdEqualTo(Id isarId) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
-        lower: id,
-        upper: id,
+        lower: isarId,
+        upper: isarId,
       ));
     });
   }
 
-  QueryBuilder<Point, Point, QAfterWhereClause> idNotEqualTo(Id id) {
+  QueryBuilder<Point, Point, QAfterWhereClause> isarIdNotEqualTo(Id isarId) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
+              IdWhereClause.lessThan(upper: isarId, includeUpper: false),
             )
             .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
+              IdWhereClause.greaterThan(lower: isarId, includeLower: false),
             );
       } else {
         return query
             .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
+              IdWhereClause.greaterThan(lower: isarId, includeLower: false),
             )
             .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
+              IdWhereClause.lessThan(upper: isarId, includeUpper: false),
             );
       }
     });
   }
 
-  QueryBuilder<Point, Point, QAfterWhereClause> idGreaterThan(Id id,
+  QueryBuilder<Point, Point, QAfterWhereClause> isarIdGreaterThan(Id isarId,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        IdWhereClause.greaterThan(lower: id, includeLower: include),
+        IdWhereClause.greaterThan(lower: isarId, includeLower: include),
       );
     });
   }
 
-  QueryBuilder<Point, Point, QAfterWhereClause> idLessThan(Id id,
+  QueryBuilder<Point, Point, QAfterWhereClause> isarIdLessThan(Id isarId,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        IdWhereClause.lessThan(upper: id, includeUpper: include),
+        IdWhereClause.lessThan(upper: isarId, includeUpper: include),
       );
     });
   }
 
-  QueryBuilder<Point, Point, QAfterWhereClause> idBetween(
-    Id lowerId,
-    Id upperId, {
+  QueryBuilder<Point, Point, QAfterWhereClause> isarIdBetween(
+    Id lowerIsarId,
+    Id upperIsarId, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
-        lower: lowerId,
+        lower: lowerIsarId,
         includeLower: includeLower,
-        upper: upperId,
+        upper: upperIsarId,
         includeUpper: includeUpper,
       ));
     });
@@ -775,46 +784,55 @@ extension PointQueryFilter on QueryBuilder<Point, Point, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Point, Point, QAfterFilterCondition> idEqualTo(Id value) {
+  QueryBuilder<Point, Point, QAfterFilterCondition> idEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<Point, Point, QAfterFilterCondition> idGreaterThan(
-    Id value, {
+    String value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'id',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<Point, Point, QAfterFilterCondition> idLessThan(
-    Id value, {
+    String value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'id',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<Point, Point, QAfterFilterCondition> idBetween(
-    Id lower,
-    Id upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -823,6 +841,73 @@ extension PointQueryFilter on QueryBuilder<Point, Point, QFilterCondition> {
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> idStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'id',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> idEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'id',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> idContains(String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'id',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> idMatches(String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'id',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> idIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'id',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> idIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'id',
+        value: '',
       ));
     });
   }
@@ -967,6 +1052,58 @@ extension PointQueryFilter on QueryBuilder<Point, Point, QFilterCondition> {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'intro',
         value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> isarIdEqualTo(Id value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isarId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> isarIdGreaterThan(
+    Id value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'isarId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> isarIdLessThan(
+    Id value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'isarId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> isarIdBetween(
+    Id lower,
+    Id upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'isarId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
       ));
     });
   }
@@ -1570,6 +1707,18 @@ extension PointQuerySortBy on QueryBuilder<Point, Point, QSortBy> {
     });
   }
 
+  QueryBuilder<Point, Point, QAfterSortBy> sortById() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'id', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterSortBy> sortByIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'id', Sort.desc);
+    });
+  }
+
   QueryBuilder<Point, Point, QAfterSortBy> sortByIntro() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'intro', Sort.asc);
@@ -1728,6 +1877,18 @@ extension PointQuerySortThenBy on QueryBuilder<Point, Point, QSortThenBy> {
     });
   }
 
+  QueryBuilder<Point, Point, QAfterSortBy> thenByIsarId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isarId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterSortBy> thenByIsarIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isarId', Sort.desc);
+    });
+  }
+
   QueryBuilder<Point, Point, QAfterSortBy> thenByLat() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lat', Sort.asc);
@@ -1834,6 +1995,13 @@ extension PointQueryWhereDistinct on QueryBuilder<Point, Point, QDistinct> {
     });
   }
 
+  QueryBuilder<Point, Point, QDistinct> distinctById(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'id', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<Point, Point, QDistinct> distinctByIntro(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1887,9 +2055,9 @@ extension PointQueryWhereDistinct on QueryBuilder<Point, Point, QDistinct> {
 }
 
 extension PointQueryProperty on QueryBuilder<Point, Point, QQueryProperty> {
-  QueryBuilder<Point, int, QQueryOperations> idProperty() {
+  QueryBuilder<Point, int, QQueryOperations> isarIdProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'id');
+      return query.addPropertyName(r'isarId');
     });
   }
 
@@ -1908,6 +2076,12 @@ extension PointQueryProperty on QueryBuilder<Point, Point, QQueryProperty> {
   QueryBuilder<Point, String, QQueryOperations> descriptionProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'description');
+    });
+  }
+
+  QueryBuilder<Point, String, QQueryOperations> idProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'id');
     });
   }
 

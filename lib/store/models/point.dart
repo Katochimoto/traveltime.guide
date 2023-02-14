@@ -1,5 +1,6 @@
 import 'package:isar/isar.dart';
 import 'package:traveltime/utils/app_auth.dart';
+import 'package:traveltime/utils/fast_hash.dart';
 
 part 'point.g.dart';
 
@@ -19,7 +20,9 @@ class Point {
       this.logoImg,
       this.coverImg});
 
-  final Id id;
+  final String id;
+
+  Id get isarId => fastHash(id);
 
   final float lat;
   final float lng;

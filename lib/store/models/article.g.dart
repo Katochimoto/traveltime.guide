@@ -37,34 +37,39 @@ const ArticleSchema = CollectionSchema(
       name: r'description',
       type: IsarType.string,
     ),
-    r'intro': PropertySchema(
+    r'id': PropertySchema(
       id: 4,
+      name: r'id',
+      type: IsarType.string,
+    ),
+    r'intro': PropertySchema(
+      id: 5,
       name: r'intro',
       type: IsarType.string,
     ),
     r'locale': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'locale',
       type: IsarType.byte,
       enumMap: _ArticlelocaleEnumValueMap,
     ),
     r'logoImg': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'logoImg',
       type: IsarType.string,
     ),
     r'publishedAt': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'publishedAt',
       type: IsarType.dateTime,
     ),
     r'title': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'title',
       type: IsarType.string,
     ),
     r'updatedAt': PropertySchema(
-      id: 9,
+      id: 10,
       name: r'updatedAt',
       type: IsarType.dateTime,
     )
@@ -73,7 +78,7 @@ const ArticleSchema = CollectionSchema(
   serialize: _articleSerialize,
   deserialize: _articleDeserialize,
   deserializeProp: _articleDeserializeProp,
-  idName: r'id',
+  idName: r'isarId',
   indexes: {
     r'title': IndexSchema(
       id: -7636685945352118059,
@@ -111,6 +116,7 @@ int _articleEstimateSize(
     }
   }
   bytesCount += 3 + object.description.length * 3;
+  bytesCount += 3 + object.id.length * 3;
   {
     final value = object.intro;
     if (value != null) {
@@ -137,12 +143,13 @@ void _articleSerialize(
   writer.writeString(offsets[1], object.coverImg);
   writer.writeDateTime(offsets[2], object.createdAt);
   writer.writeString(offsets[3], object.description);
-  writer.writeString(offsets[4], object.intro);
-  writer.writeByte(offsets[5], object.locale.index);
-  writer.writeString(offsets[6], object.logoImg);
-  writer.writeDateTime(offsets[7], object.publishedAt);
-  writer.writeString(offsets[8], object.title);
-  writer.writeDateTime(offsets[9], object.updatedAt);
+  writer.writeString(offsets[4], object.id);
+  writer.writeString(offsets[5], object.intro);
+  writer.writeByte(offsets[6], object.locale.index);
+  writer.writeString(offsets[7], object.logoImg);
+  writer.writeDateTime(offsets[8], object.publishedAt);
+  writer.writeString(offsets[9], object.title);
+  writer.writeDateTime(offsets[10], object.updatedAt);
 }
 
 Article _articleDeserialize(
@@ -156,14 +163,14 @@ Article _articleDeserialize(
     coverImg: reader.readStringOrNull(offsets[1]),
     createdAt: reader.readDateTime(offsets[2]),
     description: reader.readString(offsets[3]),
-    id: id,
-    intro: reader.readStringOrNull(offsets[4]),
-    locale: _ArticlelocaleValueEnumMap[reader.readByteOrNull(offsets[5])] ??
+    id: reader.readString(offsets[4]),
+    intro: reader.readStringOrNull(offsets[5]),
+    locale: _ArticlelocaleValueEnumMap[reader.readByteOrNull(offsets[6])] ??
         AppLocale.en,
-    logoImg: reader.readStringOrNull(offsets[6]),
-    publishedAt: reader.readDateTime(offsets[7]),
-    title: reader.readString(offsets[8]),
-    updatedAt: reader.readDateTime(offsets[9]),
+    logoImg: reader.readStringOrNull(offsets[7]),
+    publishedAt: reader.readDateTime(offsets[8]),
+    title: reader.readString(offsets[9]),
+    updatedAt: reader.readDateTime(offsets[10]),
   );
   return object;
 }
@@ -184,17 +191,19 @@ P _articleDeserializeProp<P>(
     case 3:
       return (reader.readString(offset)) as P;
     case 4:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 5:
+      return (reader.readStringOrNull(offset)) as P;
+    case 6:
       return (_ArticlelocaleValueEnumMap[reader.readByteOrNull(offset)] ??
           AppLocale.en) as P;
-    case 6:
-      return (reader.readStringOrNull(offset)) as P;
     case 7:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 8:
-      return (reader.readString(offset)) as P;
+      return (reader.readDateTime(offset)) as P;
     case 9:
+      return (reader.readString(offset)) as P;
+    case 10:
       return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -211,7 +220,7 @@ const _ArticlelocaleValueEnumMap = {
 };
 
 Id _articleGetId(Article object) {
-  return object.id;
+  return object.isarId;
 }
 
 List<IsarLinkBase<dynamic>> _articleGetLinks(Article object) {
@@ -221,7 +230,7 @@ List<IsarLinkBase<dynamic>> _articleGetLinks(Article object) {
 void _articleAttach(IsarCollection<dynamic> col, Id id, Article object) {}
 
 extension ArticleQueryWhereSort on QueryBuilder<Article, Article, QWhere> {
-  QueryBuilder<Article, Article, QAfterWhere> anyId() {
+  QueryBuilder<Article, Article, QAfterWhere> anyIsarId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
@@ -237,66 +246,67 @@ extension ArticleQueryWhereSort on QueryBuilder<Article, Article, QWhere> {
 }
 
 extension ArticleQueryWhere on QueryBuilder<Article, Article, QWhereClause> {
-  QueryBuilder<Article, Article, QAfterWhereClause> idEqualTo(Id id) {
+  QueryBuilder<Article, Article, QAfterWhereClause> isarIdEqualTo(Id isarId) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
-        lower: id,
-        upper: id,
+        lower: isarId,
+        upper: isarId,
       ));
     });
   }
 
-  QueryBuilder<Article, Article, QAfterWhereClause> idNotEqualTo(Id id) {
+  QueryBuilder<Article, Article, QAfterWhereClause> isarIdNotEqualTo(
+      Id isarId) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
+              IdWhereClause.lessThan(upper: isarId, includeUpper: false),
             )
             .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
+              IdWhereClause.greaterThan(lower: isarId, includeLower: false),
             );
       } else {
         return query
             .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
+              IdWhereClause.greaterThan(lower: isarId, includeLower: false),
             )
             .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
+              IdWhereClause.lessThan(upper: isarId, includeUpper: false),
             );
       }
     });
   }
 
-  QueryBuilder<Article, Article, QAfterWhereClause> idGreaterThan(Id id,
+  QueryBuilder<Article, Article, QAfterWhereClause> isarIdGreaterThan(Id isarId,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        IdWhereClause.greaterThan(lower: id, includeLower: include),
+        IdWhereClause.greaterThan(lower: isarId, includeLower: include),
       );
     });
   }
 
-  QueryBuilder<Article, Article, QAfterWhereClause> idLessThan(Id id,
+  QueryBuilder<Article, Article, QAfterWhereClause> isarIdLessThan(Id isarId,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        IdWhereClause.lessThan(upper: id, includeUpper: include),
+        IdWhereClause.lessThan(upper: isarId, includeUpper: include),
       );
     });
   }
 
-  QueryBuilder<Article, Article, QAfterWhereClause> idBetween(
-    Id lowerId,
-    Id upperId, {
+  QueryBuilder<Article, Article, QAfterWhereClause> isarIdBetween(
+    Id lowerIsarId,
+    Id upperIsarId, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
-        lower: lowerId,
+        lower: lowerIsarId,
         includeLower: includeLower,
-        upper: upperId,
+        upper: upperIsarId,
         includeUpper: includeUpper,
       ));
     });
@@ -900,46 +910,55 @@ extension ArticleQueryFilter
     });
   }
 
-  QueryBuilder<Article, Article, QAfterFilterCondition> idEqualTo(Id value) {
+  QueryBuilder<Article, Article, QAfterFilterCondition> idEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<Article, Article, QAfterFilterCondition> idGreaterThan(
-    Id value, {
+    String value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'id',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<Article, Article, QAfterFilterCondition> idLessThan(
-    Id value, {
+    String value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'id',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<Article, Article, QAfterFilterCondition> idBetween(
-    Id lower,
-    Id upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -948,6 +967,74 @@ extension ArticleQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> idStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'id',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> idEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'id',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> idContains(String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'id',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> idMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'id',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> idIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'id',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> idIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'id',
+        value: '',
       ));
     });
   }
@@ -1094,6 +1181,59 @@ extension ArticleQueryFilter
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'intro',
         value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> isarIdEqualTo(
+      Id value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isarId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> isarIdGreaterThan(
+    Id value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'isarId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> isarIdLessThan(
+    Id value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'isarId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> isarIdBetween(
+    Id lower,
+    Id upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'isarId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
       ));
     });
   }
@@ -1589,6 +1729,18 @@ extension ArticleQuerySortBy on QueryBuilder<Article, Article, QSortBy> {
     });
   }
 
+  QueryBuilder<Article, Article, QAfterSortBy> sortById() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'id', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterSortBy> sortByIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'id', Sort.desc);
+    });
+  }
+
   QueryBuilder<Article, Article, QAfterSortBy> sortByIntro() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'intro', Sort.asc);
@@ -1736,6 +1888,18 @@ extension ArticleQuerySortThenBy
     });
   }
 
+  QueryBuilder<Article, Article, QAfterSortBy> thenByIsarId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isarId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterSortBy> thenByIsarIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isarId', Sort.desc);
+    });
+  }
+
   QueryBuilder<Article, Article, QAfterSortBy> thenByLocale() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'locale', Sort.asc);
@@ -1826,6 +1990,13 @@ extension ArticleQueryWhereDistinct
     });
   }
 
+  QueryBuilder<Article, Article, QDistinct> distinctById(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'id', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<Article, Article, QDistinct> distinctByIntro(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1868,9 +2039,9 @@ extension ArticleQueryWhereDistinct
 
 extension ArticleQueryProperty
     on QueryBuilder<Article, Article, QQueryProperty> {
-  QueryBuilder<Article, int, QQueryOperations> idProperty() {
+  QueryBuilder<Article, int, QQueryOperations> isarIdProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'id');
+      return query.addPropertyName(r'isarId');
     });
   }
 
@@ -1895,6 +2066,12 @@ extension ArticleQueryProperty
   QueryBuilder<Article, String, QQueryOperations> descriptionProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'description');
+    });
+  }
+
+  QueryBuilder<Article, String, QQueryOperations> idProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'id');
     });
   }
 

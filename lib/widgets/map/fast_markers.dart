@@ -59,24 +59,60 @@ class FastMarker {
   }) : anchor = Anchor.forPos(anchorPos, width, height);
 }
 
+class FastCluster {
+  LatLng? point;
+  Bounds? bounds;
+  List<FastMarker>? markers;
+
+  FastCluster({
+    this.point,
+    this.bounds,
+    this.markers,
+  });
+}
+
 class FastMarkersLayer extends StatelessWidget {
-  const FastMarkersLayer({super.key, required this.markers});
+  const FastMarkersLayer({
+    super.key,
+    required this.markers,
+    this.drawCluster,
+    this.clusterWidth,
+    this.clusterHeight,
+  });
 
   final List<FastMarker> markers;
+  final void Function(Canvas canvas, Offset offset)? drawCluster;
+  final double? clusterWidth;
+  final double? clusterHeight;
 
   @override
   Widget build(BuildContext context) {
     final mapState = FlutterMapState.maybeOf(context)!;
-    return FastMarkersLayerController(markers: markers, mapState: mapState);
+    return FastMarkersLayerController(
+      markers: markers,
+      mapState: mapState,
+      drawCluster: drawCluster,
+      clusterWidth: clusterWidth,
+      clusterHeight: clusterHeight,
+    );
   }
 }
 
 class FastMarkersLayerController extends ConsumerStatefulWidget {
-  const FastMarkersLayerController(
-      {super.key, required this.markers, required this.mapState});
+  const FastMarkersLayerController({
+    super.key,
+    required this.markers,
+    required this.mapState,
+    this.drawCluster,
+    this.clusterWidth,
+    this.clusterHeight,
+  });
 
   final List<FastMarker> markers;
   final FlutterMapState mapState;
+  final void Function(Canvas canvas, Offset offset)? drawCluster;
+  final double? clusterWidth;
+  final double? clusterHeight;
 
   @override
   ConsumerState<FastMarkersLayerController> createState() =>
@@ -92,6 +128,9 @@ class FastMarkersLayerState extends ConsumerState<FastMarkersLayerController> {
     painter = FastMarkersPainter(
       markers: widget.markers,
       mapState: widget.mapState,
+      drawCluster: widget.drawCluster,
+      clusterWidth: widget.clusterWidth,
+      clusterHeight: widget.clusterHeight,
     );
   }
 
@@ -101,6 +140,9 @@ class FastMarkersLayerState extends ConsumerState<FastMarkersLayerController> {
     painter = FastMarkersPainter(
       markers: widget.markers,
       mapState: widget.mapState,
+      drawCluster: widget.drawCluster,
+      clusterWidth: widget.clusterWidth,
+      clusterHeight: widget.clusterHeight,
     );
   }
 
@@ -123,14 +165,25 @@ class FastMarkersLayerState extends ConsumerState<FastMarkersLayerController> {
 }
 
 class FastMarkersPainter extends CustomPainter {
-  FastMarkersPainter({required this.markers, required this.mapState}) {
+  FastMarkersPainter({
+    required this.markers,
+    required this.mapState,
+    this.drawCluster,
+    this.clusterWidth,
+    this.clusterHeight,
+  }) {
     _lastZoom = mapState.zoom;
     _pxCache = generatePxCache();
   }
 
   FlutterMapState mapState;
   List<FastMarker> markers = [];
+  void Function(Canvas canvas, Offset offset)? drawCluster;
+  double? clusterWidth;
+  double? clusterHeight;
+
   List<MapEntry<Bounds, FastMarker>> markersBoundsCache = [];
+  List<MapEntry<Bounds, FastCluster>> clustersBoundsCache = [];
   var _lastZoom = -1.0;
 
   /// List containing cached pixel positions of markers
@@ -149,13 +202,12 @@ class FastMarkersPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final sameZoom = mapState.zoom == _lastZoom;
     markersBoundsCache.clear();
+    clustersBoundsCache.clear();
 
+    final markersBounds = <FastMarker, Bounds>{};
     for (var i = 0; i < markers.length; i++) {
-      var marker = markers[i];
-
-      // Decide whether to use cached point or calculate it
-      var pxPoint = sameZoom ? _pxCache[i] : mapState.project(marker.point);
-
+      final marker = markers[i];
+      final pxPoint = sameZoom ? _pxCache[i] : mapState.project(marker.point);
       if (!sameZoom) {
         _pxCache[i] = pxPoint;
       }
@@ -168,25 +220,60 @@ class FastMarkersPainter extends CustomPainter {
         topLeft.x + marker.width,
         topLeft.y + marker.height,
       );
-      final markerBounds = Bounds(topLeft, bottomRight);
+      markersBounds[marker] = Bounds(topLeft, bottomRight);
+    }
 
-      if (!mapState.pixelBounds.containsPartialBounds(markerBounds)) {
-        continue;
+    final clusters = clusterMarkers(
+      markers: markers,
+      pxPoints: _pxCache,
+    );
+
+    final drawClusters =
+        clusters.where((item) => item.markers!.length > 1).toList();
+
+    final drawMarkers = clusters
+        .where((item) => item.markers!.length == 1)
+        .map((item) => item.markers![0])
+        .toList();
+
+    for (var i = 0; i < drawClusters.length; i++) {
+      final cluster = drawClusters[i];
+      if (mapState.pixelBounds.containsPartialBounds(cluster.bounds!)) {
+        final bounds = cluster.bounds!;
+        final posTopLeft = bounds.topLeft - mapState.pixelOrigin;
+        final posBottomRight = bounds.bottomRight - mapState.pixelOrigin;
+        final offset = Offset(posTopLeft.x.toDouble(), posTopLeft.y.toDouble());
+
+        drawCluster!(canvas, offset);
+
+        clustersBoundsCache.add(
+          MapEntry(
+            Bounds(posTopLeft, posBottomRight),
+            cluster,
+          ),
+        );
       }
+    }
 
-      final pos = topLeft - mapState.pixelOrigin;
+    for (var i = 0; i < drawMarkers.length; i++) {
+      final marker = drawMarkers[i];
+      final bounds = markersBounds[marker]!;
+      if (mapState.pixelBounds.containsPartialBounds(bounds)) {
+        final posTopLeft = bounds.topLeft - mapState.pixelOrigin;
+        final posBottomRight = bounds.bottomRight - mapState.pixelOrigin;
 
-      marker.onDraw(
-        canvas,
-        Offset(pos.x.toDouble(), pos.y.toDouble()),
-      );
+        marker.onDraw(
+          canvas,
+          Offset(posTopLeft.x.toDouble(), posTopLeft.y.toDouble()),
+        );
 
-      markersBoundsCache.add(
-        MapEntry(
-          Bounds(pos, pos + CustomPoint(marker.width, marker.height)),
-          marker,
-        ),
-      );
+        markersBoundsCache.add(
+          MapEntry(
+            Bounds(posTopLeft, posBottomRight),
+            marker,
+          ),
+        );
+      }
     }
 
     _lastZoom = mapState.zoom;
@@ -207,5 +294,61 @@ class FastMarkersPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant FastMarkersPainter oldDelegate) {
     return true;
+  }
+
+  List<FastCluster> clusterMarkers({
+    required List<FastMarker> markers,
+    required List<CustomPoint<num>> pxPoints,
+    double radius = 60.0,
+  }) {
+    final radiusSq = radius * radius;
+    final clusters = <FastCluster>[];
+    final clustersBounds = <FastCluster, Bounds>{};
+
+    for (var i = 0; i < markers.length; i++) {
+      final marker = markers[i];
+      final point = pxPoints[i];
+      double minRadiusSq = radiusSq;
+      FastCluster? nextCluster;
+
+      for (final cluster in clusters) {
+        final clusterBounds = clustersBounds[cluster];
+        final diff = point - clusterBounds!.center;
+
+        if (diff.x.abs() > radius || diff.x.abs() > radius) {
+          continue;
+        }
+
+        final rSq = diff.x * diff.x + diff.x * diff.x;
+        if (rSq > minRadiusSq) {
+          continue;
+        }
+        minRadiusSq = rSq.toDouble();
+        nextCluster = cluster;
+      }
+
+      if (nextCluster == null) {
+        nextCluster = FastCluster(markers: []);
+        clusters.add(nextCluster);
+        clustersBounds[nextCluster] = Bounds(point, point);
+      }
+
+      final clusterBounds = clustersBounds[nextCluster]!;
+      clusterBounds.extend(point);
+      nextCluster.markers!.add(marker);
+      nextCluster.bounds = clusterBounds;
+    }
+
+    for (var i = 0; i < clusters.length; i++) {
+      final cluster = clusters[i];
+      final tl = cluster.bounds!.topLeft;
+      final br = cluster.bounds!.bottomRight;
+      cluster.bounds = Bounds(
+        CustomPoint(tl.x - clusterWidth! / 2, tl.y - clusterHeight! / 2),
+        CustomPoint(br.x + clusterWidth! / 2, br.y + clusterHeight! / 2),
+      );
+    }
+
+    return clusters;
   }
 }

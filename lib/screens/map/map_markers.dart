@@ -38,7 +38,7 @@ class MapMarkers extends ConsumerWidget {
         width: markerSize,
         height: markerSize,
         anchorPos: AnchorPos.align(AnchorAlign.bottom),
-        onDraw: _markerDraw,
+        onDraw: _drawMarker,
         onTap: (bounds, point) {
           ref
               .read(popoverPositionProvider.notifier)
@@ -48,12 +48,14 @@ class MapMarkers extends ConsumerWidget {
     });
 
     return FastMarkersLayer(
-      // tapStream: tapStream.stream,
       markers: markers.toList(growable: false),
+      drawCluster: _drawCluster,
+      clusterWidth: clusterSize,
+      clusterHeight: clusterSize,
     );
   }
 
-  _markerDraw(Canvas canvas, Offset offset) {
+  void _drawMarker(Canvas canvas, Offset offset) {
     const contentSize = markerSize * 0.8;
     const arrowHeight = markerSize * 0.3;
     const arrowWidth = markerSize * 0.4;
@@ -88,47 +90,9 @@ class MapMarkers extends ConsumerWidget {
       // paragraphWidth: markerSize * 0.5,
       fontSize: contentSize * 0.5,
     );
-
-    // final center = offset +
-    //     const Offset(
-    //       markerSize / 2,
-    //       markerSize / 2,
-    //     );
-
-    // const arrowWidth = 15.0;
-    // const arrowHeight = 10.0;
-    // const contentOffset = Offset(0, arrowHeight / 2 + markerSize / 2);
-    // final contentCenter = center - contentOffset;
-    // final path = Path()
-    //   ..moveTo(center.dx + 0.0, center.dy + 0.0)
-    //   ..lineTo(center.dx - arrowWidth * 0.5, center.dy - arrowHeight)
-    //   ..lineTo(center.dx + arrowWidth * 0.5, center.dy - arrowHeight);
-
-    // canvas.drawPath(path, arrowPaint);
-
-    // canvas.drawCircle(
-    //   contentCenter,
-    //   markerSize / 2,
-    //   markerFillPaint,
-    // );
-
-    // canvas.drawCircle(
-    //   contentCenter,
-    //   markerSize / 2,
-    //   markerStrokePaint,
-    // );
-
-    // DrawText.draw(
-    //   canvas: canvas,
-    //   text: '🎡',
-    //   offset: offset - contentOffset,
-    //   size: markerSize,
-    //   // paragraphWidth: markerSize * 0.5,
-    //   fontSize: markerSize * 0.5,
-    // );
   }
 
-  _clusterDraw(Canvas canvas, Offset offset) {
+  void _drawCluster(Canvas canvas, Offset offset) {
     final center = offset +
         const Offset(
           clusterSize / 2,

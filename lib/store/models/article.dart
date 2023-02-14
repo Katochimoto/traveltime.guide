@@ -1,5 +1,6 @@
 import 'package:isar/isar.dart';
 import 'package:traveltime/utils/app_auth.dart';
+import 'package:traveltime/utils/fast_hash.dart';
 
 part 'article.g.dart';
 
@@ -18,7 +19,9 @@ class Article {
       this.logoImg,
       this.coverImg});
 
-  final Id id;
+  final String id;
+
+  Id get isarId => fastHash(id);
 
   final String country;
 
