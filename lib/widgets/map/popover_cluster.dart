@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:traveltime/constants/Theme.dart';
 import 'package:traveltime/widgets/map/marker_in_list.dart';
 import 'package:traveltime/widgets/map/popover_provider.dart';

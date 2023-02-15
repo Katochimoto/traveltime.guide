@@ -100,7 +100,7 @@ class MapMarkers extends ConsumerWidget {
   }
 
   void _drawMarker(Canvas canvas, Offset offset, FastMarker marker) {
-    const contentSize = markerSize * 0.8;
+    const contentSize = markerSize * 0.75;
     const arrowHeight = markerSize * 0.3;
     const arrowWidth = markerSize * 0.4;
     final contentCenter =
@@ -117,6 +117,9 @@ class MapMarkers extends ConsumerWidget {
       contentSize * 0.5,
       markerShadowPaint[marker.category] ?? defaultMarkerShadowPaint,
     );
+
+    canvas.drawPath(
+        path, markerShadowPaint[marker.category] ?? defaultMarkerShadowPaint);
 
     canvas.drawPath(path, arrowPaint);
 
