@@ -17,7 +17,6 @@ class NavbarSearch extends Input {
           autofocus: autofocus,
           suffixIcon: const Icon(
             Icons.zoom_in,
-            color: NowUIColors.time,
             size: 20,
           ),
           onTap: () {

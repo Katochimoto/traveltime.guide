@@ -14,7 +14,7 @@ class TableCellSettings extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(title, style: Theme.of(context).textTheme.button),
+            Text(title, style: Theme.of(context).textTheme.labelLarge),
             const Padding(
               padding: EdgeInsets.only(right: 8.0),
               child: Icon(Icons.arrow_forward_ios, size: 14),

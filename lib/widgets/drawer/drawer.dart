@@ -48,8 +48,9 @@ class AppDrawer extends StatelessWidget {
                         child: IconButton(
                             style: IconButton.styleFrom(
                                 foregroundColor: Theme.of(context)
-                                    .primaryTextTheme
-                                    .button
+                                    .textTheme
+                                    .merge(Typography.whiteCupertino)
+                                    .labelLarge
                                     ?.color),
                             iconSize: 24,
                             icon: const Icon(Icons.close),
@@ -218,21 +219,28 @@ class AppDrawer extends StatelessWidget {
                         children: [
                           Text(
                             "v1.123.1233",
-                            style: Theme.of(context).primaryTextTheme.caption,
+                            style: Theme.of(context)
+                                .textTheme
+                                .merge(Typography.whiteCupertino)
+                                .bodySmall,
                           ),
                           GestureDetector(
                               onTap: () {},
                               child: Text(
                                 " / Privacy",
-                                style:
-                                    Theme.of(context).primaryTextTheme.caption,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .merge(Typography.whiteCupertino)
+                                    .bodySmall,
                               )),
                           GestureDetector(
                               onTap: () {},
                               child: Text(
                                 " / Terms",
-                                style:
-                                    Theme.of(context).primaryTextTheme.caption,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .merge(Typography.whiteCupertino)
+                                    .bodySmall,
                               )),
                         ])),
               ]),

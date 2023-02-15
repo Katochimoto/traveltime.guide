@@ -23,3 +23,8 @@ https://pub.dev/packages/flutter_native_splash
 ```
 flutter pub run flutter_native_splash:create
 ```
+
+```
+flutter gen-l10n
+flutter pub run build_runner build
+```

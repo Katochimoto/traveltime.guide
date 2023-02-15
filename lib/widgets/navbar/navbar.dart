@@ -23,7 +23,9 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    var safePadding = MediaQuery.of(context).padding.top;
+    final safePadding = MediaQuery.of(context).padding.top;
+    final navigator = Navigator.of(context);
+    final scaffold = Scaffold.of(context);
     return Container(
         height: preferredSize.height + safePadding,
         decoration: BoxDecoration(
@@ -60,8 +62,8 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                             iconSize: 24,
                             icon: const Icon(Icons.arrow_back),
                             onPressed: () async {
-                              if (!await Navigator.of(context).maybePop()) {
-                                Scaffold.of(context).openDrawer();
+                              if (!await navigator.maybePop()) {
+                                scaffold.openDrawer();
                               }
                             },
                           )
@@ -75,7 +77,7 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                             iconSize: 24,
                             icon: const Icon(Icons.menu),
                             onPressed: () {
-                              Scaffold.of(context).openDrawer();
+                              scaffold.openDrawer();
                             },
                           ),
                     Text(
@@ -93,7 +95,7 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                       iconSize: 24,
                       icon: const Icon(Icons.notifications_active),
                       onPressed: () {
-                        Scaffold.of(context).openDrawer();
+                        scaffold.openDrawer();
                       },
                     ),
                   ],

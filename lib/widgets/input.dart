@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:traveltime/constants/Theme.dart';
 
 class Input extends StatelessWidget {
   final String? placeholder;
@@ -9,7 +8,7 @@ class Input extends StatelessWidget {
   final void Function(String)? onChanged;
   final TextEditingController? controller;
   final bool autofocus;
-  final Color borderColor;
+  final Color? borderColor;
 
   const Input(
       {super.key,
@@ -19,37 +18,28 @@ class Input extends StatelessWidget {
       this.onTap,
       this.onChanged,
       this.autofocus = false,
-      this.borderColor = NowUIColors.border,
+      this.borderColor,
       this.controller});
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).inputDecorationTheme;
     return TextField(
-        cursorColor: NowUIColors.muted,
-        onTap: onTap,
-        onChanged: onChanged,
-        controller: controller,
-        autofocus: autofocus,
-        style: const TextStyle(
-            height: 20 / 15, fontSize: 15, color: NowUIColors.text),
-        // textAlignVertical: const TextAlignVertical(y: 0.6),
-        decoration: InputDecoration(
-            filled: true,
-            fillColor: NowUIColors.white,
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-            hintStyle: const TextStyle(
-                height: 20 / 15, fontSize: 15, color: NowUIColors.time),
-            suffixIcon: suffixIcon,
-            prefixIcon: prefixIcon,
-            enabledBorder: OutlineInputBorder(
-                borderRadius: const BorderRadius.all(Radius.circular(30)),
-                borderSide: BorderSide(
-                    color: borderColor, width: 1.0, style: BorderStyle.solid)),
-            focusedBorder: OutlineInputBorder(
-                borderRadius: const BorderRadius.all(Radius.circular(30)),
-                borderSide: BorderSide(
-                    color: borderColor, width: 1.0, style: BorderStyle.solid)),
-            hintText: placeholder));
+      onTap: onTap,
+      onChanged: onChanged,
+      controller: controller,
+      autofocus: autofocus,
+      // style: const TextStyle(height: 20 / 15, fontSize: 15),
+      // textAlignVertical: const TextAlignVertical(y: 0.6),
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: theme.fillColor,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+        // hintStyle: const TextStyle(height: 20 / 15, fontSize: 15),
+        suffixIcon: suffixIcon,
+        prefixIcon: prefixIcon,
+        hintText: placeholder,
+      ),
+    );
   }
 }

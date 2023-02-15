@@ -28,7 +28,7 @@ class NavbarCategorieButton extends StatelessWidget {
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(15.0))),
           foregroundColor: colors.onSecondaryContainer,
-          backgroundColor: colors.secondaryContainer.withOpacity(0.5),
+          backgroundColor: colors.secondaryContainer,
           disabledBackgroundColor: colors.onSurface.withOpacity(0.12),
           hoverColor: colors.onSecondaryContainer.withOpacity(0.08),
           focusColor: colors.onSecondaryContainer.withOpacity(0.12),
@@ -39,7 +39,7 @@ class NavbarCategorieButton extends StatelessWidget {
         title,
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
-        style: theme.textTheme.caption,
+        style: theme.textTheme.bodySmall,
       ),
     ]);
   }

@@ -5,39 +5,39 @@ final ThemeData lightTheme = ThemeData(
   fontFamily: 'Montserrat',
   primarySwatch: Colors.teal,
   brightness: Brightness.light,
+  colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff009688)),
   primaryColor: const Color(0xff009688),
   primaryColorLight: const Color(0xffb2dfdb),
   primaryColorDark: const Color(0xff00796b),
   canvasColor: const Color(0xfffafafa),
   scaffoldBackgroundColor: const Color(0xfffafafa),
-  bottomAppBarColor: const Color(0xffffffff),
   cardColor: const Color(0xffffffff),
   shadowColor: const Color(0x7800796B),
   dividerColor: const Color(0x1f000000),
   highlightColor: const Color(0x66bcbcbc),
   splashColor: const Color(0x66c8c8c8),
-  selectedRowColor: const Color(0xfff5f5f5),
   unselectedWidgetColor: const Color(0x8a000000),
   disabledColor: const Color(0x61000000),
-  toggleableActiveColor: const Color(0xff00897b),
   secondaryHeaderColor: const Color(0xffe0f2f1),
-  backgroundColor: const Color(0xff80cbc4),
   dialogBackgroundColor: const Color(0xffffffff),
   indicatorColor: const Color(0xff009688),
   hintColor: const Color(0x8a000000),
-  errorColor: const Color(0xffd32f2f),
+  textTheme: Typography.blackCupertino.apply(),
+  primaryTextTheme: Typography.blackCupertino.apply(),
   cardTheme: const CardTheme(
+    elevation: 2,
     shadowColor: Color(0x7800796B),
   ),
   drawerTheme: const DrawerThemeData(
     backgroundColor: Color(0xff009688),
   ),
-  buttonTheme: const ButtonThemeData(
+  textButtonTheme: const TextButtonThemeData(),
+  buttonTheme: ButtonThemeData(
     textTheme: ButtonTextTheme.normal,
     minWidth: 88,
     height: 36,
-    padding: EdgeInsets.only(top: 0, bottom: 0, left: 16, right: 16),
-    shape: RoundedRectangleBorder(
+    padding: const EdgeInsets.only(top: 0, bottom: 0, left: 16, right: 16),
+    shape: const RoundedRectangleBorder(
       side: BorderSide(
         color: Color(0xff000000),
         width: 0,
@@ -46,65 +46,13 @@ final ThemeData lightTheme = ThemeData(
       borderRadius: BorderRadius.all(Radius.circular(2.0)),
     ),
     alignedDropdown: false,
-    buttonColor: Color(0xffe0e0e0),
-    disabledColor: Color(0x61000000),
-    highlightColor: Color(0x29000000),
-    splashColor: Color(0x1f000000),
-    focusColor: Color(0x1f000000),
-    hoverColor: Color(0x0a000000),
-    colorScheme: ColorScheme(
-      primary: Color(0xff009688),
-      secondary: Color(0xff009688),
-      surface: Color(0xffffffff),
-      background: Color(0xff80cbc4),
-      error: Color(0xffd32f2f),
-      onPrimary: Color(0xffffffff),
-      onSecondary: Color(0xffffffff),
-      onSurface: Color(0xff000000),
-      onBackground: Color(0xffffffff),
-      onError: Color(0xffffffff),
-      brightness: Brightness.light,
-    ),
-  ),
-  textTheme: const TextTheme(
-    caption: TextStyle(
-      color: Color(0xFF2C2C2C),
-      fontSize: null,
-      fontWeight: FontWeight.w400,
-      fontStyle: FontStyle.normal,
-    ),
-    button: TextStyle(
-      color: Color(0xdd000000),
-      fontSize: null,
-      fontWeight: FontWeight.w400,
-      fontStyle: FontStyle.normal,
-    ),
-    overline: TextStyle(
-      color: Color(0xff000000),
-      fontSize: null,
-      fontWeight: FontWeight.w400,
-      fontStyle: FontStyle.normal,
-    ),
-  ),
-  primaryTextTheme: const TextTheme(
-    caption: TextStyle(
-      color: Color(0xb3ffffff),
-      fontSize: null,
-      fontWeight: FontWeight.w400,
-      fontStyle: FontStyle.normal,
-    ),
-    button: TextStyle(
-      color: Color(0xffffffff),
-      fontSize: null,
-      fontWeight: FontWeight.w400,
-      fontStyle: FontStyle.normal,
-    ),
-    overline: TextStyle(
-      color: Color(0xffffffff),
-      fontSize: null,
-      fontWeight: FontWeight.w400,
-      fontStyle: FontStyle.normal,
-    ),
+    buttonColor: const Color(0xffe0e0e0),
+    disabledColor: const Color(0x61000000),
+    highlightColor: const Color(0x29000000),
+    splashColor: const Color(0x1f000000),
+    focusColor: const Color(0x1f000000),
+    hoverColor: const Color(0x0a000000),
+    colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff009688)),
   ),
   inputDecorationTheme: const InputDecorationTheme(
     labelStyle: TextStyle(
@@ -120,7 +68,7 @@ final ThemeData lightTheme = ThemeData(
       fontStyle: FontStyle.normal,
     ),
     hintStyle: TextStyle(
-      color: Color(0xdd000000),
+      color: Color(0xFF999999),
       fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
@@ -153,55 +101,55 @@ final ThemeData lightTheme = ThemeData(
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    filled: false,
-    fillColor: Color(0x00000000),
-    errorBorder: UnderlineInputBorder(
+    filled: true,
+    fillColor: Color(0xFFFFFFFF),
+    errorBorder: OutlineInputBorder(
       borderSide: BorderSide(
-        color: Color(0xff000000),
+        color: Color(0xFFCCCCCC),
         width: 1,
         style: BorderStyle.solid,
       ),
-      borderRadius: BorderRadius.all(Radius.circular(4.0)),
+      borderRadius: BorderRadius.all(Radius.circular(30.0)),
     ),
-    focusedBorder: UnderlineInputBorder(
+    focusedBorder: OutlineInputBorder(
       borderSide: BorderSide(
-        color: Color(0xff000000),
+        color: Color(0xFFCCCCCC),
         width: 1,
         style: BorderStyle.solid,
       ),
-      borderRadius: BorderRadius.all(Radius.circular(4.0)),
+      borderRadius: BorderRadius.all(Radius.circular(30.0)),
     ),
-    focusedErrorBorder: UnderlineInputBorder(
+    focusedErrorBorder: OutlineInputBorder(
       borderSide: BorderSide(
-        color: Color(0xff000000),
+        color: Color(0xFFCCCCCC),
         width: 1,
         style: BorderStyle.solid,
       ),
-      borderRadius: BorderRadius.all(Radius.circular(4.0)),
+      borderRadius: BorderRadius.all(Radius.circular(30.0)),
     ),
-    disabledBorder: UnderlineInputBorder(
+    disabledBorder: OutlineInputBorder(
       borderSide: BorderSide(
-        color: Color(0xff000000),
+        color: Color(0xFFCCCCCC),
         width: 1,
         style: BorderStyle.solid,
       ),
-      borderRadius: BorderRadius.all(Radius.circular(4.0)),
+      borderRadius: BorderRadius.all(Radius.circular(30.0)),
     ),
-    enabledBorder: UnderlineInputBorder(
+    enabledBorder: OutlineInputBorder(
       borderSide: BorderSide(
-        color: Color(0xff000000),
+        color: Color(0xFFCCCCCC),
         width: 1,
         style: BorderStyle.solid,
       ),
-      borderRadius: BorderRadius.all(Radius.circular(4.0)),
+      borderRadius: BorderRadius.all(Radius.circular(30.0)),
     ),
-    border: UnderlineInputBorder(
+    border: OutlineInputBorder(
       borderSide: BorderSide(
-        color: Color(0xff000000),
+        color: Color(0xFFCCCCCC),
         width: 1,
         style: BorderStyle.solid,
       ),
-      borderRadius: BorderRadius.all(Radius.circular(4.0)),
+      borderRadius: BorderRadius.all(Radius.circular(30.0)),
     ),
   ),
   iconTheme: const IconThemeData(

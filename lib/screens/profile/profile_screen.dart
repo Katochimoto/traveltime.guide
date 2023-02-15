@@ -51,14 +51,16 @@ class ProfileScreen extends StatelessWidget {
                                   Text(
                                     "Ryan Scheinder",
                                     style: Theme.of(context)
-                                        .primaryTextTheme
+                                        .textTheme
+                                        .merge(Typography.whiteCupertino)
                                         .headlineSmall,
                                   ),
                                   const SizedBox(height: UIGap.g1),
                                   Text("Photographer",
                                       style: Theme.of(context)
-                                          .primaryTextTheme
-                                          .caption),
+                                          .textTheme
+                                          .merge(Typography.whiteCupertino)
+                                          .bodySmall),
                                   const SizedBox(height: UIGap.g2),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -79,13 +81,17 @@ class ProfileScreen extends StatelessWidget {
                                             Text(
                                               "2K",
                                               style: Theme.of(context)
-                                                  .primaryTextTheme
+                                                  .textTheme
+                                                  .merge(
+                                                      Typography.whiteCupertino)
                                                   .bodyLarge,
                                             ),
                                             Text("Friends",
                                                 style: Theme.of(context)
-                                                    .primaryTextTheme
-                                                    .caption)
+                                                    .textTheme
+                                                    .merge(Typography
+                                                        .whiteCupertino)
+                                                    .bodySmall)
                                           ],
                                         ),
                                         Column(
@@ -96,12 +102,16 @@ class ProfileScreen extends StatelessWidget {
                                           children: [
                                             Text("26",
                                                 style: Theme.of(context)
-                                                    .primaryTextTheme
+                                                    .textTheme
+                                                    .merge(Typography
+                                                        .whiteCupertino)
                                                     .bodyLarge),
                                             Text("Comments",
                                                 style: Theme.of(context)
-                                                    .primaryTextTheme
-                                                    .caption)
+                                                    .textTheme
+                                                    .merge(Typography
+                                                        .whiteCupertino)
+                                                    .bodySmall)
                                           ],
                                         ),
                                         Column(
@@ -112,12 +122,16 @@ class ProfileScreen extends StatelessWidget {
                                           children: [
                                             Text("48",
                                                 style: Theme.of(context)
-                                                    .primaryTextTheme
+                                                    .textTheme
+                                                    .merge(Typography
+                                                        .whiteCupertino)
                                                     .bodyLarge),
                                             Text("Bookmarks",
                                                 style: Theme.of(context)
-                                                    .primaryTextTheme
-                                                    .caption)
+                                                    .textTheme
+                                                    .merge(Typography
+                                                        .whiteCupertino)
+                                                    .bodySmall)
                                           ],
                                         )
                                       ],
@@ -133,46 +147,48 @@ class ProfileScreen extends StatelessWidget {
                 Flexible(
                     flex: 3,
                     child: PageLayout(
-                      child: Column(children: [
-                        const SizedBox(height: UIGap.g3),
-                        Text("About me",
-                            style: Theme.of(context).textTheme.titleLarge),
-                        const SizedBox(height: UIGap.g3),
-                        Text(
-                          "An artist of considerable range, Ryan - the name taken by Meblourne-raised, Brooklyn-based Nick Murphy - writes, performs and records all of his own music.",
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                        const SizedBox(height: UIGap.g3),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
+                            const SizedBox(height: UIGap.g3),
+                            Text("About me",
+                                style: Theme.of(context).textTheme.titleLarge),
+                            const SizedBox(height: UIGap.g3),
                             Text(
-                              "Album",
-                              style: Theme.of(context).textTheme.titleLarge,
+                              "An artist of considerable range, Ryan - the name taken by Meblourne-raised, Brooklyn-based Nick Murphy - writes, performs and records all of his own music.",
+                              style: Theme.of(context).textTheme.bodyLarge,
                             ),
-                            TextButton(
-                              onPressed: () {},
-                              style: TextButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 0, horizontal: UIGap.g2),
-                                  minimumSize: const Size(50, 25),
-                                  tapTargetSize:
-                                      MaterialTapTargetSize.shrinkWrap,
-                                  alignment: Alignment.centerLeft),
-                              child: const Text("View All"),
+                            const SizedBox(height: UIGap.g3),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Album",
+                                  style: Theme.of(context).textTheme.titleLarge,
+                                ),
+                                TextButton(
+                                  onPressed: () {},
+                                  style: TextButton.styleFrom(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 0, horizontal: UIGap.g2),
+                                      minimumSize: const Size(50, 25),
+                                      tapTargetSize:
+                                          MaterialTapTargetSize.shrinkWrap,
+                                      alignment: Alignment.centerLeft),
+                                  child: const Text("View All"),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        const SizedBox(height: UIGap.g2),
-                        const PhotoAlbum(imgArray: [
-                          "https://images.unsplash.com/photo-1501601983405-7c7cabaa1581?fit=crop&w=240&q=80",
-                          "https://images.unsplash.com/photo-1543747579-795b9c2c3ada?fit=crop&w=240&q=80hoto-1501601983405-7c7cabaa1581?fit=crop&w=240&q=80",
-                          "https://images.unsplash.com/photo-1551798507-629020c81463?fit=crop&w=240&q=80",
-                          "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?fit=crop&w=240&q=80",
-                          "https://images.unsplash.com/photo-1503642551022-c011aafb3c88?fit=crop&w=240&q=80",
-                          "https://images.unsplash.com/photo-1482686115713-0fbcaced6e28?fit=crop&w=240&q=80",
-                        ])
-                      ]),
+                            const SizedBox(height: UIGap.g2),
+                            const PhotoAlbum(imgArray: [
+                              "https://images.unsplash.com/photo-1501601983405-7c7cabaa1581?fit=crop&w=240&q=80",
+                              "https://images.unsplash.com/photo-1543747579-795b9c2c3ada?fit=crop&w=240&q=80hoto-1501601983405-7c7cabaa1581?fit=crop&w=240&q=80",
+                              "https://images.unsplash.com/photo-1551798507-629020c81463?fit=crop&w=240&q=80",
+                              "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?fit=crop&w=240&q=80",
+                              "https://images.unsplash.com/photo-1503642551022-c011aafb3c88?fit=crop&w=240&q=80",
+                              "https://images.unsplash.com/photo-1482686115713-0fbcaced6e28?fit=crop&w=240&q=80",
+                            ])
+                          ]),
                     )),
               ],
             ),

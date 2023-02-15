@@ -44,7 +44,7 @@ final router = GoRouter(
           name: Routes.article,
           path: ':id',
           builder: (context, state) => ArticleScreen(
-            id: state.params['id']!,
+            id: int.parse(state.params['id']!),
           ),
         ),
       ],
