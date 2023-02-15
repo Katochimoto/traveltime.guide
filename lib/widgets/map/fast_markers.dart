@@ -50,7 +50,7 @@ class FastMarker {
   final double height;
   final Anchor anchor;
   final Function(Canvas canvas, Offset offset, FastMarker marker) onDraw;
-  final Function(Bounds bounds, LatLng? point)? onTap;
+  final Function(Bounds bounds, FastMarker marker)? onTap;
 
   FastMarker({
     required this.id,
@@ -87,7 +87,7 @@ class FastMarkersLayer extends StatelessWidget {
   });
 
   final List<FastMarker> markers;
-  final void Function(Bounds bounds, List<FastMarker> markers)? clusterTap;
+  final void Function(Bounds bounds, FastCluster cluster)? clusterTap;
   final void Function(Canvas canvas, Offset offset, FastCluster cluster)?
       clusterDraw;
   final double? clusterWidth;
@@ -120,7 +120,7 @@ class FastMarkersLayerController extends ConsumerStatefulWidget {
 
   final List<FastMarker> markers;
   final FlutterMapState mapState;
-  final void Function(Bounds bounds, List<FastMarker> markers)? clusterTap;
+  final void Function(Bounds bounds, FastCluster cluster)? clusterTap;
   final void Function(Canvas canvas, Offset offset, FastCluster cluster)?
       clusterDraw;
   final double? clusterWidth;
@@ -193,7 +193,7 @@ class FastMarkersPainter extends CustomPainter {
 
   FlutterMapState mapState;
   List<FastMarker> markers = [];
-  void Function(Bounds bounds, List<FastMarker> markers)? clusterTap;
+  void Function(Bounds bounds, FastCluster cluster)? clusterTap;
   void Function(Canvas canvas, Offset offset, FastCluster cluster)? clusterDraw;
   double? clusterWidth;
   double? clusterHeight;
@@ -301,7 +301,7 @@ class FastMarkersPainter extends CustomPainter {
     for (var i = 0; i < markers.length; i++) {
       var marker = markers[i];
       if (marker.key.contains(CustomPoint(pos!.dx, pos.dy))) {
-        marker.value.onTap?.call(marker.key, marker.value.point);
+        marker.value.onTap?.call(marker.key, marker.value);
         return false;
       }
     }
@@ -310,7 +310,7 @@ class FastMarkersPainter extends CustomPainter {
     for (var i = 0; i < clusters.length; i++) {
       var cluster = clusters[i];
       if (cluster.key.contains(CustomPoint(pos!.dx, pos.dy))) {
-        clusterTap?.call(cluster.key, cluster.value.markers!);
+        clusterTap?.call(cluster.key, cluster.value);
         return false;
       }
     }

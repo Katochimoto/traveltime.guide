@@ -11,13 +11,13 @@ class PopoverData {
   final PopoverType? type;
   final Bounds? bounds;
   final LatLng? point;
-  final List<int?>? markerIds;
+  final List<int?>? pointIds;
 
   const PopoverData({
     this.bounds,
     this.point,
     this.type = PopoverType.marker,
-    this.markerIds,
+    this.pointIds,
   });
 
   factory PopoverData.empty() {
