@@ -1,49 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_map/plugin_api.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:traveltime/widgets/map/popover_cluster.dart';
 import 'package:traveltime/widgets/map/popover_marker.dart';
+import 'package:traveltime/widgets/map/popover_provider.dart';
 import 'package:traveltime/widgets/map/triangle_painter.dart';
-
-enum PopoverType {
-  marker,
-  cluster,
-}
-
-class PopoverData {
-  final PopoverType? type;
-  final Bounds? bounds;
-  final LatLng? point;
-
-  const PopoverData({this.bounds, this.point, this.type = PopoverType.marker});
-
-  factory PopoverData.empty() {
-    return const PopoverData();
-  }
-}
-
-class PopoverDataController extends Notifier<PopoverData> {
-  @override
-  PopoverData build() {
-    return PopoverData.empty();
-  }
-
-  void show(PopoverData data) {
-    state = data;
-  }
-
-  void hide() {
-    if (state.bounds != null) {
-      state = PopoverData.empty();
-    }
-  }
-}
-
-final popoverProvider =
-    NotifierProvider<PopoverDataController, PopoverData>(() {
-  return PopoverDataController();
-});
 
 class Popover extends ConsumerWidget {
   const Popover({super.key});
@@ -70,14 +30,20 @@ class Popover extends ConsumerWidget {
           child: CustomPaint(
             size: const Size(15.0, 8.0),
             painter: TrianglePainter(
-                isDown: true, color: Theme.of(context).cardColor),
+              isDown: true,
+              color: Theme.of(context).cardColor,
+            ),
           ),
         ),
         Positioned(
           top: y - height - 15,
           left: x - width * 0.5,
           child: popover.type == PopoverType.cluster
-              ? PopoverCluster(width: width, height: height)
+              ? PopoverCluster(
+                  width: width,
+                  height: height,
+                  popover: popover,
+                )
               : PopoverMarker(width: width, height: height),
         ),
       ],

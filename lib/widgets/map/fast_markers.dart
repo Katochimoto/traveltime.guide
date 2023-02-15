@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:traveltime/store/models/point.dart';
 
 class TapPosition {
   Offset? offset;
@@ -42,16 +43,18 @@ final mapTapPositionProvider =
 });
 
 class FastMarker {
-  final int? id;
+  final int id;
+  final PointCategory category;
   final LatLng point;
   final double width;
   final double height;
   final Anchor anchor;
-  final Function(Canvas canvas, Offset offset) onDraw;
+  final Function(Canvas canvas, Offset offset, FastMarker marker) onDraw;
   final Function(Bounds bounds, LatLng? point)? onTap;
 
   FastMarker({
-    this.id,
+    required this.id,
+    required this.category,
     required this.point,
     this.width = 30.0,
     this.height = 30.0,
@@ -85,7 +88,8 @@ class FastMarkersLayer extends StatelessWidget {
 
   final List<FastMarker> markers;
   final void Function(Bounds bounds, List<FastMarker> markers)? clusterTap;
-  final void Function(Canvas canvas, Offset offset)? clusterDraw;
+  final void Function(Canvas canvas, Offset offset, FastCluster cluster)?
+      clusterDraw;
   final double? clusterWidth;
   final double? clusterHeight;
 
@@ -117,7 +121,8 @@ class FastMarkersLayerController extends ConsumerStatefulWidget {
   final List<FastMarker> markers;
   final FlutterMapState mapState;
   final void Function(Bounds bounds, List<FastMarker> markers)? clusterTap;
-  final void Function(Canvas canvas, Offset offset)? clusterDraw;
+  final void Function(Canvas canvas, Offset offset, FastCluster cluster)?
+      clusterDraw;
   final double? clusterWidth;
   final double? clusterHeight;
 
@@ -189,7 +194,7 @@ class FastMarkersPainter extends CustomPainter {
   FlutterMapState mapState;
   List<FastMarker> markers = [];
   void Function(Bounds bounds, List<FastMarker> markers)? clusterTap;
-  void Function(Canvas canvas, Offset offset)? clusterDraw;
+  void Function(Canvas canvas, Offset offset, FastCluster cluster)? clusterDraw;
   double? clusterWidth;
   double? clusterHeight;
 
@@ -255,7 +260,7 @@ class FastMarkersPainter extends CustomPainter {
         final posBottomRight = bounds.bottomRight - mapState.pixelOrigin;
         final offset = Offset(posTopLeft.x.toDouble(), posTopLeft.y.toDouble());
 
-        clusterDraw!(canvas, offset);
+        clusterDraw!(canvas, offset, cluster);
 
         clustersBoundsCache.add(
           MapEntry(
@@ -276,6 +281,7 @@ class FastMarkersPainter extends CustomPainter {
         marker.onDraw(
           canvas,
           Offset(posTopLeft.x.toDouble(), posTopLeft.y.toDouble()),
+          marker,
         );
 
         markersBoundsCache.add(

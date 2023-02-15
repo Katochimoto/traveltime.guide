@@ -1,30 +1,61 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong2/latlong.dart' as ll;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:traveltime/store/db.dart';
+import 'package:traveltime/store/models/point.dart';
 import 'package:traveltime/widgets/map/draw_cluster.dart';
 import 'package:traveltime/widgets/map/draw_text.dart';
 import 'package:traveltime/widgets/map/fast_markers.dart';
-import 'package:traveltime/widgets/map/popover.dart';
+import 'package:traveltime/widgets/map/popover_provider.dart';
 
-const markerSize = 25.0;
+const markerSize = 20.0;
 const clusterSize = 40.0;
 
-final markerFillPaint = Paint()
-  ..color = Colors.white
+const defaultMarkerColor = Colors.teal;
+
+final markerColors = {
+  PointCategory.entertainment: Colors.teal,
+  PointCategory.events: Colors.deepPurple,
+  PointCategory.attraction: Colors.green,
+};
+
+Paint markerFillPaintFactory(Color color) => Paint()
+  ..color = color
   ..style = PaintingStyle.fill;
 
+Paint markerShadowPaintFactory(Color color) => Paint()
+  ..color = color
+  ..maskFilter = MaskFilter.blur(BlurStyle.normal, sqrt(5));
+
+final defaultMarkerFillPaint = markerFillPaintFactory(defaultMarkerColor);
+final defaultMarkerShadowPaint = markerShadowPaintFactory(defaultMarkerColor);
+
+final markerFillPaint = {
+  for (var item in PointCategory.values)
+    item: markerFillPaintFactory(markerColors[item] ?? defaultMarkerColor),
+};
+
+final markerShadowPaint = {
+  for (var item in PointCategory.values)
+    item: markerShadowPaintFactory(markerColors[item] ?? defaultMarkerColor),
+};
+
 final markerStrokePaint = Paint()
-  ..color = Colors.teal
+  ..color = Colors.white
   ..style = PaintingStyle.stroke
   ..strokeWidth = 2
   ..strokeCap = StrokeCap.round;
 
 final arrowPaint = Paint()
   ..strokeWidth = 2.0
-  ..color = Colors.teal
+  ..color = Colors.white
+  ..style = PaintingStyle.fill;
+
+final clusterFillPaint = Paint()
+  ..color = Colors.white
   ..style = PaintingStyle.fill;
 
 class MapMarkers extends ConsumerWidget {
@@ -36,6 +67,7 @@ class MapMarkers extends ConsumerWidget {
     final markers = points.map((point) {
       return FastMarker(
         id: point.isarId,
+        category: point.category,
         point: ll.LatLng(point.lat, point.lng),
         width: markerSize,
         height: markerSize,
@@ -52,9 +84,13 @@ class MapMarkers extends ConsumerWidget {
     return FastMarkersLayer(
       markers: markers.toList(growable: false),
       clusterTap: (bounds, markers) {
-        ref
-            .read(popoverProvider.notifier)
-            .show(PopoverData(bounds: bounds, type: PopoverType.cluster));
+        final markerIds =
+            markers.map((marker) => marker.id).toList(growable: false);
+        ref.read(popoverProvider.notifier).show(PopoverData(
+              bounds: bounds,
+              type: PopoverType.cluster,
+              markerIds: markerIds,
+            ));
       },
       clusterDraw: _drawCluster,
       clusterWidth: clusterSize,
@@ -62,7 +98,7 @@ class MapMarkers extends ConsumerWidget {
     );
   }
 
-  void _drawMarker(Canvas canvas, Offset offset) {
+  void _drawMarker(Canvas canvas, Offset offset, FastMarker marker) {
     const contentSize = markerSize * 0.8;
     const arrowHeight = markerSize * 0.3;
     const arrowWidth = markerSize * 0.4;
@@ -75,12 +111,18 @@ class MapMarkers extends ConsumerWidget {
       ..lineTo(arrowStart.dx - arrowWidth * 0.5, arrowStart.dy - arrowHeight)
       ..lineTo(arrowStart.dx + arrowWidth * 0.5, arrowStart.dy - arrowHeight);
 
+    canvas.drawCircle(
+      contentCenter,
+      contentSize * 0.5,
+      markerShadowPaint[marker.category] ?? defaultMarkerShadowPaint,
+    );
+
     canvas.drawPath(path, arrowPaint);
 
     canvas.drawCircle(
       contentCenter,
       contentSize * 0.5,
-      markerFillPaint,
+      markerFillPaint[marker.category] ?? defaultMarkerFillPaint,
     );
 
     canvas.drawCircle(
@@ -89,42 +131,55 @@ class MapMarkers extends ConsumerWidget {
       markerStrokePaint,
     );
 
-    DrawText.draw(
-      canvas: canvas,
-      text: '🎡',
-      offset: offset + const Offset(markerSize * 0.5 - contentSize * 0.5, 0),
-      size: contentSize,
-      // paragraphWidth: markerSize * 0.5,
-      fontSize: contentSize * 0.5,
-    );
+    // DrawText.draw(
+    //   canvas: canvas,
+    //   text: '🎡',
+    //   offset: offset + const Offset(markerSize * 0.5 - contentSize * 0.5, 0),
+    //   size: contentSize,
+    //   // paragraphWidth: markerSize * 0.5,
+    //   fontSize: contentSize * 0.5,
+    // );
   }
 
-  void _drawCluster(Canvas canvas, Offset offset) {
+  void _drawCluster(Canvas canvas, Offset offset, FastCluster cluster) {
     final center = offset +
         const Offset(
           clusterSize / 2,
           clusterSize / 2,
         );
 
+    var sources = <PointCategory, double>{};
+    var colors = <PointCategory, Color>{};
+    for (var i = 0; i < cluster.markers!.length; i++) {
+      final marker = cluster.markers![i];
+      if (sources.containsKey(marker.category)) {
+        sources[marker.category] = sources[marker.category]! + 1;
+      } else {
+        sources[marker.category] = 1;
+        colors[marker.category] =
+            markerColors[marker.category] ?? defaultMarkerColor;
+      }
+    }
+
     canvas.drawCircle(
       center,
       clusterSize / 2,
-      markerFillPaint,
+      clusterFillPaint,
     );
 
     DrawCluster.draw(
       canvas,
       center: center,
       radius: clusterSize / 2,
-      sources: [10, 20, 16],
-      colors: [Colors.blue, Colors.yellow, Colors.green],
+      sources: sources.values.toList(growable: false),
+      colors: colors.values.toList(growable: false),
       paintWidth: 5,
       startAngle: 0.0,
     );
 
     DrawText.draw(
       canvas: canvas,
-      text: '10',
+      text: cluster.markers!.length.toString(),
       offset: offset,
       size: clusterSize,
     );

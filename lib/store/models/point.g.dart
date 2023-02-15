@@ -17,64 +17,70 @@ const PointSchema = CollectionSchema(
   name: r'Point',
   id: -1948583515862884236,
   properties: {
-    r'coverImg': PropertySchema(
+    r'category': PropertySchema(
       id: 0,
+      name: r'category',
+      type: IsarType.byte,
+      enumMap: _PointcategoryEnumValueMap,
+    ),
+    r'coverImg': PropertySchema(
+      id: 1,
       name: r'coverImg',
       type: IsarType.string,
     ),
     r'createdAt': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'createdAt',
       type: IsarType.dateTime,
     ),
     r'description': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'description',
       type: IsarType.string,
     ),
     r'id': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'id',
       type: IsarType.string,
     ),
     r'intro': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'intro',
       type: IsarType.string,
     ),
     r'lat': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'lat',
       type: IsarType.float,
     ),
     r'lng': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'lng',
       type: IsarType.float,
     ),
     r'locale': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'locale',
       type: IsarType.byte,
       enumMap: _PointlocaleEnumValueMap,
     ),
     r'logoImg': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'logoImg',
       type: IsarType.string,
     ),
     r'publishedAt': PropertySchema(
-      id: 9,
+      id: 10,
       name: r'publishedAt',
       type: IsarType.dateTime,
     ),
     r'title': PropertySchema(
-      id: 10,
+      id: 11,
       name: r'title',
       type: IsarType.string,
     ),
     r'updatedAt': PropertySchema(
-      id: 11,
+      id: 12,
       name: r'updatedAt',
       type: IsarType.dateTime,
     )
@@ -143,18 +149,19 @@ void _pointSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.coverImg);
-  writer.writeDateTime(offsets[1], object.createdAt);
-  writer.writeString(offsets[2], object.description);
-  writer.writeString(offsets[3], object.id);
-  writer.writeString(offsets[4], object.intro);
-  writer.writeFloat(offsets[5], object.lat);
-  writer.writeFloat(offsets[6], object.lng);
-  writer.writeByte(offsets[7], object.locale.index);
-  writer.writeString(offsets[8], object.logoImg);
-  writer.writeDateTime(offsets[9], object.publishedAt);
-  writer.writeString(offsets[10], object.title);
-  writer.writeDateTime(offsets[11], object.updatedAt);
+  writer.writeByte(offsets[0], object.category.index);
+  writer.writeString(offsets[1], object.coverImg);
+  writer.writeDateTime(offsets[2], object.createdAt);
+  writer.writeString(offsets[3], object.description);
+  writer.writeString(offsets[4], object.id);
+  writer.writeString(offsets[5], object.intro);
+  writer.writeFloat(offsets[6], object.lat);
+  writer.writeFloat(offsets[7], object.lng);
+  writer.writeByte(offsets[8], object.locale.index);
+  writer.writeString(offsets[9], object.logoImg);
+  writer.writeDateTime(offsets[10], object.publishedAt);
+  writer.writeString(offsets[11], object.title);
+  writer.writeDateTime(offsets[12], object.updatedAt);
 }
 
 Point _pointDeserialize(
@@ -164,19 +171,21 @@ Point _pointDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Point(
-    coverImg: reader.readStringOrNull(offsets[0]),
-    createdAt: reader.readDateTime(offsets[1]),
-    description: reader.readString(offsets[2]),
-    id: reader.readString(offsets[3]),
-    intro: reader.readStringOrNull(offsets[4]),
-    lat: reader.readFloat(offsets[5]),
-    lng: reader.readFloat(offsets[6]),
-    locale: _PointlocaleValueEnumMap[reader.readByteOrNull(offsets[7])] ??
+    category: _PointcategoryValueEnumMap[reader.readByteOrNull(offsets[0])] ??
+        PointCategory.entertainment,
+    coverImg: reader.readStringOrNull(offsets[1]),
+    createdAt: reader.readDateTime(offsets[2]),
+    description: reader.readString(offsets[3]),
+    id: reader.readString(offsets[4]),
+    intro: reader.readStringOrNull(offsets[5]),
+    lat: reader.readFloat(offsets[6]),
+    lng: reader.readFloat(offsets[7]),
+    locale: _PointlocaleValueEnumMap[reader.readByteOrNull(offsets[8])] ??
         AppLocale.en,
-    logoImg: reader.readStringOrNull(offsets[8]),
-    publishedAt: reader.readDateTime(offsets[9]),
-    title: reader.readString(offsets[10]),
-    updatedAt: reader.readDateTime(offsets[11]),
+    logoImg: reader.readStringOrNull(offsets[9]),
+    publishedAt: reader.readDateTime(offsets[10]),
+    title: reader.readString(offsets[11]),
+    updatedAt: reader.readDateTime(offsets[12]),
   );
   return object;
 }
@@ -189,35 +198,48 @@ P _pointDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readStringOrNull(offset)) as P;
+      return (_PointcategoryValueEnumMap[reader.readByteOrNull(offset)] ??
+          PointCategory.entertainment) as P;
     case 1:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 2:
-      return (reader.readString(offset)) as P;
+      return (reader.readDateTime(offset)) as P;
     case 3:
       return (reader.readString(offset)) as P;
     case 4:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 5:
-      return (reader.readFloat(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 6:
       return (reader.readFloat(offset)) as P;
     case 7:
+      return (reader.readFloat(offset)) as P;
+    case 8:
       return (_PointlocaleValueEnumMap[reader.readByteOrNull(offset)] ??
           AppLocale.en) as P;
-    case 8:
-      return (reader.readStringOrNull(offset)) as P;
     case 9:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 10:
-      return (reader.readString(offset)) as P;
+      return (reader.readDateTime(offset)) as P;
     case 11:
+      return (reader.readString(offset)) as P;
+    case 12:
       return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
 
+const _PointcategoryEnumValueMap = {
+  'entertainment': 0,
+  'events': 1,
+  'attraction': 2,
+};
+const _PointcategoryValueEnumMap = {
+  0: PointCategory.entertainment,
+  1: PointCategory.events,
+  2: PointCategory.attraction,
+};
 const _PointlocaleEnumValueMap = {
   'en': 0,
   'th': 1,
@@ -455,6 +477,59 @@ extension PointQueryWhere on QueryBuilder<Point, Point, QWhereClause> {
 }
 
 extension PointQueryFilter on QueryBuilder<Point, Point, QFilterCondition> {
+  QueryBuilder<Point, Point, QAfterFilterCondition> categoryEqualTo(
+      PointCategory value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'category',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> categoryGreaterThan(
+    PointCategory value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'category',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> categoryLessThan(
+    PointCategory value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'category',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> categoryBetween(
+    PointCategory lower,
+    PointCategory upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'category',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<Point, Point, QAfterFilterCondition> coverImgIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -1671,6 +1746,18 @@ extension PointQueryObject on QueryBuilder<Point, Point, QFilterCondition> {}
 extension PointQueryLinks on QueryBuilder<Point, Point, QFilterCondition> {}
 
 extension PointQuerySortBy on QueryBuilder<Point, Point, QSortBy> {
+  QueryBuilder<Point, Point, QAfterSortBy> sortByCategory() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'category', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterSortBy> sortByCategoryDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'category', Sort.desc);
+    });
+  }
+
   QueryBuilder<Point, Point, QAfterSortBy> sortByCoverImg() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'coverImg', Sort.asc);
@@ -1817,6 +1904,18 @@ extension PointQuerySortBy on QueryBuilder<Point, Point, QSortBy> {
 }
 
 extension PointQuerySortThenBy on QueryBuilder<Point, Point, QSortThenBy> {
+  QueryBuilder<Point, Point, QAfterSortBy> thenByCategory() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'category', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterSortBy> thenByCategoryDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'category', Sort.desc);
+    });
+  }
+
   QueryBuilder<Point, Point, QAfterSortBy> thenByCoverImg() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'coverImg', Sort.asc);
@@ -1975,6 +2074,12 @@ extension PointQuerySortThenBy on QueryBuilder<Point, Point, QSortThenBy> {
 }
 
 extension PointQueryWhereDistinct on QueryBuilder<Point, Point, QDistinct> {
+  QueryBuilder<Point, Point, QDistinct> distinctByCategory() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'category');
+    });
+  }
+
   QueryBuilder<Point, Point, QDistinct> distinctByCoverImg(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -2058,6 +2163,12 @@ extension PointQueryProperty on QueryBuilder<Point, Point, QQueryProperty> {
   QueryBuilder<Point, int, QQueryOperations> isarIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isarId');
+    });
+  }
+
+  QueryBuilder<Point, PointCategory, QQueryOperations> categoryProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'category');
     });
   }
 

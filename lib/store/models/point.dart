@@ -4,6 +4,12 @@ import 'package:traveltime/utils/fast_hash.dart';
 
 part 'point.g.dart';
 
+enum PointCategory {
+  entertainment,
+  events,
+  attraction,
+}
+
 @collection
 class Point {
   Point(
@@ -16,6 +22,7 @@ class Point {
       required this.publishedAt,
       required this.title,
       required this.description,
+      required this.category,
       this.intro,
       this.logoImg,
       this.coverImg});
@@ -29,6 +36,9 @@ class Point {
 
   @enumerated
   final AppLocale locale;
+
+  @enumerated
+  final PointCategory category;
 
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -47,6 +57,7 @@ class Point {
       lat: data['lat'],
       lng: data['lng'],
       locale: AppLocale.values.byName(data['locale']),
+      category: PointCategory.values.byName(data['category']),
       createdAt: DateTime.parse(data['createdAt']),
       updatedAt: DateTime.parse(data['updatedAt']),
       publishedAt: DateTime.parse(data['publishedAt']),
