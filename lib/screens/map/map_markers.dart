@@ -174,7 +174,7 @@ class MapMarkers extends ConsumerWidget {
       radius: clusterSize / 2,
       sources: sources.values.toList(growable: false),
       colors: colors.values.toList(growable: false),
-      paintWidth: 5,
+      paintWidth: 4,
       startAngle: 0.0,
     );
 

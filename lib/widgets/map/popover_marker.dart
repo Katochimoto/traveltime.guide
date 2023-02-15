@@ -2,12 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:traveltime/constants/Theme.dart';
+import 'package:traveltime/widgets/map/popover_provider.dart';
 
 class PopoverMarker extends ConsumerWidget {
   final double width;
   final double height;
+  final PopoverData popover;
 
-  const PopoverMarker({super.key, required this.width, required this.height});
+  const PopoverMarker({
+    super.key,
+    required this.width,
+    required this.height,
+    required this.popover,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -9,7 +9,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:traveltime/constants/Theme.dart';
 import 'package:traveltime/constants/routes.dart';
 import 'package:traveltime/screens/map/map_markers.dart';
-import 'package:traveltime/screens/map/marks.dart';
+import 'package:traveltime/screens/map/markers.dart';
 import 'package:traveltime/screens/map/overview.dart';
 import 'package:traveltime/widgets/map/attribution.dart';
 import 'package:traveltime/widgets/map/fast_markers.dart';
@@ -153,7 +153,7 @@ class MapScreen extends ConsumerWidget {
               children: [
                 const SizedBox(height: 15),
                 const NavbarCategories(),
-                Expanded(child: Marks(sc: sc)),
+                Expanded(child: Markers(sc: sc)),
               ],
             ),
             Container(
