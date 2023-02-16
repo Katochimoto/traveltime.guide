@@ -24,7 +24,7 @@ class ArticleController extends ConsumerWidget {
         return data == null ? const NotFound() : ArticleDetails(article: data);
       },
       error: (error, stackTrace) {
-        return const CircularProgressIndicator();
+        return const NotFound();
       },
       loading: () {
         return const Center(child: CircularProgressIndicator());

@@ -44,7 +44,7 @@ class Popover extends ConsumerWidget {
                   height: height,
                   popover: popover,
                 )
-              : PopoverMarker(
+              : PopoverMarkerController(
                   width: width,
                   height: height,
                   popover: popover,

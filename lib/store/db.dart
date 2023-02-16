@@ -58,3 +58,12 @@ final pointsProvider = StreamProvider.autoDispose((ref) async* {
     }
   }
 });
+
+final pointProvider =
+    StreamProvider.autoDispose.family<Point?, int>((ref, id) async* {
+  final db = await ref.watch(dbProvider.future);
+  final data = db.collection<Point>().watchObject(id, fireImmediately: true);
+  await for (final results in data) {
+    yield results;
+  }
+});
