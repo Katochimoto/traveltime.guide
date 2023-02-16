@@ -25,7 +25,7 @@ class PopoverData {
   }
 }
 
-class PopoverDataController extends Notifier<PopoverData> {
+class PopoverDataController extends AutoDisposeNotifier<PopoverData> {
   @override
   PopoverData build() {
     return PopoverData.empty();
@@ -43,6 +43,6 @@ class PopoverDataController extends Notifier<PopoverData> {
 }
 
 final popoverProvider =
-    NotifierProvider<PopoverDataController, PopoverData>(() {
+    NotifierProvider.autoDispose<PopoverDataController, PopoverData>(() {
   return PopoverDataController();
 });

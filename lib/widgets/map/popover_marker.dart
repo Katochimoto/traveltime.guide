@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:traveltime/constants/Theme.dart';
+import 'package:traveltime/screens/map/overview_provider.dart';
 import 'package:traveltime/store/db.dart';
 import 'package:traveltime/store/models/point.dart';
 import 'package:traveltime/widgets/map/popover_not_found.dart';
@@ -31,6 +32,10 @@ class PopoverMarkerController extends ConsumerWidget {
                 width: width,
                 height: height,
                 point: data,
+                onTap: (point) {
+                  ref.read(overviewProvider.notifier).show(point.isarId);
+                  ref.read(popoverProvider.notifier).hide();
+                },
               );
       },
       error: (error, stackTrace) {
@@ -43,22 +48,26 @@ class PopoverMarkerController extends ConsumerWidget {
   }
 }
 
-class PopoverMarker extends ConsumerWidget {
-  final double width;
-  final double height;
-  final Point point;
-
+class PopoverMarker extends StatelessWidget {
   const PopoverMarker({
     super.key,
     required this.width,
     required this.height,
     required this.point,
+    this.onTap,
   });
 
+  final double width;
+  final double height;
+  final Point point;
+  final void Function(Point point)? onTap;
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        onTap?.call(point);
+      },
       style: ElevatedButton.styleFrom(
         elevation: 0,
         backgroundColor: Theme.of(context).cardColor,

@@ -17,70 +17,75 @@ const PointSchema = CollectionSchema(
   name: r'Point',
   id: -1948583515862884236,
   properties: {
-    r'category': PropertySchema(
+    r'address': PropertySchema(
       id: 0,
+      name: r'address',
+      type: IsarType.string,
+    ),
+    r'category': PropertySchema(
+      id: 1,
       name: r'category',
       type: IsarType.byte,
       enumMap: _PointcategoryEnumValueMap,
     ),
     r'coverImg': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'coverImg',
       type: IsarType.string,
     ),
     r'createdAt': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'createdAt',
       type: IsarType.dateTime,
     ),
     r'description': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'description',
       type: IsarType.string,
     ),
     r'id': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'id',
       type: IsarType.string,
     ),
     r'intro': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'intro',
       type: IsarType.string,
     ),
     r'lat': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'lat',
       type: IsarType.float,
     ),
     r'lng': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'lng',
       type: IsarType.float,
     ),
     r'locale': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'locale',
       type: IsarType.byte,
       enumMap: _PointlocaleEnumValueMap,
     ),
     r'logoImg': PropertySchema(
-      id: 9,
+      id: 10,
       name: r'logoImg',
       type: IsarType.string,
     ),
     r'publishedAt': PropertySchema(
-      id: 10,
+      id: 11,
       name: r'publishedAt',
       type: IsarType.dateTime,
     ),
     r'title': PropertySchema(
-      id: 11,
+      id: 12,
       name: r'title',
       type: IsarType.string,
     ),
     r'updatedAt': PropertySchema(
-      id: 12,
+      id: 13,
       name: r'updatedAt',
       type: IsarType.dateTime,
     )
@@ -120,6 +125,12 @@ int _pointEstimateSize(
 ) {
   var bytesCount = offsets.last;
   {
+    final value = object.address;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
     final value = object.coverImg;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
@@ -149,19 +160,20 @@ void _pointSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeByte(offsets[0], object.category.index);
-  writer.writeString(offsets[1], object.coverImg);
-  writer.writeDateTime(offsets[2], object.createdAt);
-  writer.writeString(offsets[3], object.description);
-  writer.writeString(offsets[4], object.id);
-  writer.writeString(offsets[5], object.intro);
-  writer.writeFloat(offsets[6], object.lat);
-  writer.writeFloat(offsets[7], object.lng);
-  writer.writeByte(offsets[8], object.locale.index);
-  writer.writeString(offsets[9], object.logoImg);
-  writer.writeDateTime(offsets[10], object.publishedAt);
-  writer.writeString(offsets[11], object.title);
-  writer.writeDateTime(offsets[12], object.updatedAt);
+  writer.writeString(offsets[0], object.address);
+  writer.writeByte(offsets[1], object.category.index);
+  writer.writeString(offsets[2], object.coverImg);
+  writer.writeDateTime(offsets[3], object.createdAt);
+  writer.writeString(offsets[4], object.description);
+  writer.writeString(offsets[5], object.id);
+  writer.writeString(offsets[6], object.intro);
+  writer.writeFloat(offsets[7], object.lat);
+  writer.writeFloat(offsets[8], object.lng);
+  writer.writeByte(offsets[9], object.locale.index);
+  writer.writeString(offsets[10], object.logoImg);
+  writer.writeDateTime(offsets[11], object.publishedAt);
+  writer.writeString(offsets[12], object.title);
+  writer.writeDateTime(offsets[13], object.updatedAt);
 }
 
 Point _pointDeserialize(
@@ -171,21 +183,22 @@ Point _pointDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Point(
-    category: _PointcategoryValueEnumMap[reader.readByteOrNull(offsets[0])] ??
+    address: reader.readStringOrNull(offsets[0]),
+    category: _PointcategoryValueEnumMap[reader.readByteOrNull(offsets[1])] ??
         PointCategory.entertainment,
-    coverImg: reader.readStringOrNull(offsets[1]),
-    createdAt: reader.readDateTime(offsets[2]),
-    description: reader.readString(offsets[3]),
-    id: reader.readString(offsets[4]),
-    intro: reader.readStringOrNull(offsets[5]),
-    lat: reader.readFloat(offsets[6]),
-    lng: reader.readFloat(offsets[7]),
-    locale: _PointlocaleValueEnumMap[reader.readByteOrNull(offsets[8])] ??
+    coverImg: reader.readStringOrNull(offsets[2]),
+    createdAt: reader.readDateTime(offsets[3]),
+    description: reader.readString(offsets[4]),
+    id: reader.readString(offsets[5]),
+    intro: reader.readStringOrNull(offsets[6]),
+    lat: reader.readFloat(offsets[7]),
+    lng: reader.readFloat(offsets[8]),
+    locale: _PointlocaleValueEnumMap[reader.readByteOrNull(offsets[9])] ??
         AppLocale.en,
-    logoImg: reader.readStringOrNull(offsets[9]),
-    publishedAt: reader.readDateTime(offsets[10]),
-    title: reader.readString(offsets[11]),
-    updatedAt: reader.readDateTime(offsets[12]),
+    logoImg: reader.readStringOrNull(offsets[10]),
+    publishedAt: reader.readDateTime(offsets[11]),
+    title: reader.readString(offsets[12]),
+    updatedAt: reader.readDateTime(offsets[13]),
   );
   return object;
 }
@@ -198,32 +211,34 @@ P _pointDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
+      return (reader.readStringOrNull(offset)) as P;
+    case 1:
       return (_PointcategoryValueEnumMap[reader.readByteOrNull(offset)] ??
           PointCategory.entertainment) as P;
-    case 1:
-      return (reader.readStringOrNull(offset)) as P;
     case 2:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 3:
-      return (reader.readString(offset)) as P;
+      return (reader.readDateTime(offset)) as P;
     case 4:
       return (reader.readString(offset)) as P;
     case 5:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 6:
-      return (reader.readFloat(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 7:
       return (reader.readFloat(offset)) as P;
     case 8:
+      return (reader.readFloat(offset)) as P;
+    case 9:
       return (_PointlocaleValueEnumMap[reader.readByteOrNull(offset)] ??
           AppLocale.en) as P;
-    case 9:
-      return (reader.readStringOrNull(offset)) as P;
     case 10:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 11:
-      return (reader.readString(offset)) as P;
+      return (reader.readDateTime(offset)) as P;
     case 12:
+      return (reader.readString(offset)) as P;
+    case 13:
       return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -477,6 +492,152 @@ extension PointQueryWhere on QueryBuilder<Point, Point, QWhereClause> {
 }
 
 extension PointQueryFilter on QueryBuilder<Point, Point, QFilterCondition> {
+  QueryBuilder<Point, Point, QAfterFilterCondition> addressIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'address',
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> addressIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'address',
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> addressEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'address',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> addressGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'address',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> addressLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'address',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> addressBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'address',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> addressStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'address',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> addressEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'address',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> addressContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'address',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> addressMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'address',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> addressIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'address',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> addressIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'address',
+        value: '',
+      ));
+    });
+  }
+
   QueryBuilder<Point, Point, QAfterFilterCondition> categoryEqualTo(
       PointCategory value) {
     return QueryBuilder.apply(this, (query) {
@@ -1746,6 +1907,18 @@ extension PointQueryObject on QueryBuilder<Point, Point, QFilterCondition> {}
 extension PointQueryLinks on QueryBuilder<Point, Point, QFilterCondition> {}
 
 extension PointQuerySortBy on QueryBuilder<Point, Point, QSortBy> {
+  QueryBuilder<Point, Point, QAfterSortBy> sortByAddress() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'address', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterSortBy> sortByAddressDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'address', Sort.desc);
+    });
+  }
+
   QueryBuilder<Point, Point, QAfterSortBy> sortByCategory() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'category', Sort.asc);
@@ -1904,6 +2077,18 @@ extension PointQuerySortBy on QueryBuilder<Point, Point, QSortBy> {
 }
 
 extension PointQuerySortThenBy on QueryBuilder<Point, Point, QSortThenBy> {
+  QueryBuilder<Point, Point, QAfterSortBy> thenByAddress() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'address', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterSortBy> thenByAddressDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'address', Sort.desc);
+    });
+  }
+
   QueryBuilder<Point, Point, QAfterSortBy> thenByCategory() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'category', Sort.asc);
@@ -2074,6 +2259,13 @@ extension PointQuerySortThenBy on QueryBuilder<Point, Point, QSortThenBy> {
 }
 
 extension PointQueryWhereDistinct on QueryBuilder<Point, Point, QDistinct> {
+  QueryBuilder<Point, Point, QDistinct> distinctByAddress(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'address', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<Point, Point, QDistinct> distinctByCategory() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'category');
@@ -2163,6 +2355,12 @@ extension PointQueryProperty on QueryBuilder<Point, Point, QQueryProperty> {
   QueryBuilder<Point, int, QQueryOperations> isarIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isarId');
+    });
+  }
+
+  QueryBuilder<Point, String?, QQueryOperations> addressProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'address');
     });
   }
 

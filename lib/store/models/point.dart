@@ -24,6 +24,7 @@ class Point {
       required this.description,
       required this.category,
       this.intro,
+      this.address,
       this.logoImg,
       this.coverImg});
 
@@ -48,6 +49,7 @@ class Point {
   final String title;
   final String description;
   final String? intro;
+  final String? address;
   final String? logoImg;
   final String? coverImg;
 
@@ -63,6 +65,7 @@ class Point {
       publishedAt: DateTime.parse(data['publishedAt']),
       title: data['title'],
       intro: data['intro'],
+      address: data['address'],
       description: data['description'],
       logoImg: data['logoImg'],
       coverImg: data['coverImg'],

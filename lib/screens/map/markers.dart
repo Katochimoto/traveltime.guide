@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:traveltime/screens/map/overview_provider.dart';
 import 'package:traveltime/store/db.dart';
 import 'package:traveltime/widgets/map/marker_list_item.dart';
 
@@ -15,7 +16,12 @@ class Markers extends ConsumerWidget {
       controller: sc,
       physics: const BouncingScrollPhysics(),
       itemBuilder: (_, idx) {
-        return MarkerListItem(point: points[idx]);
+        return MarkerListItem(
+          point: points[idx],
+          onTap: (point) {
+            ref.read(overviewProvider.notifier).show(point.isarId);
+          },
+        );
       },
       itemCount: points.length,
     );

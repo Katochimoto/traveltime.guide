@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:traveltime/constants/Theme.dart';
+import 'package:traveltime/screens/map/overview_provider.dart';
 import 'package:traveltime/store/db.dart';
 import 'package:traveltime/store/models/point.dart';
+import 'package:traveltime/widgets/map/popover_provider.dart';
 
 class MarkerListItemController extends ConsumerWidget {
   final int id;
@@ -18,7 +20,14 @@ class MarkerListItemController extends ConsumerWidget {
     final point = ref.watch(pointProvider(id));
     return point.when(
       data: (data) {
-        return data == null ? Container() : MarkerListItem(point: data);
+        return data == null
+            ? Container()
+            : MarkerListItem(
+                point: data,
+                onTap: (point) {
+                  ref.read(overviewProvider.notifier).show(point.isarId);
+                  ref.read(popoverProvider.notifier).hide();
+                });
       },
       error: (error, stackTrace) {
         return Container();
@@ -31,9 +40,10 @@ class MarkerListItemController extends ConsumerWidget {
 }
 
 class MarkerListItem extends StatelessWidget {
-  const MarkerListItem({super.key, required this.point});
+  const MarkerListItem({super.key, required this.point, this.onTap});
 
   final Point point;
+  final void Function(Point point)? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +52,9 @@ class MarkerListItem extends StatelessWidget {
       padding:
           const EdgeInsets.symmetric(vertical: UIGap.g2, horizontal: UIGap.g3),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          onTap?.call(point);
+        },
         style: ElevatedButton.styleFrom(
             elevation: 0,
             backgroundColor: Colors.transparent,
