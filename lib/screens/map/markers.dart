@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:traveltime/widgets/map/marker_in_list.dart';
+import 'package:traveltime/store/db.dart';
+import 'package:traveltime/widgets/map/marker_list_item.dart';
 
 class Markers extends ConsumerWidget {
   const Markers({super.key, this.sc});
@@ -9,13 +10,14 @@ class Markers extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final points = ref.watch(pointsProvider).value ?? [];
     return ListView.builder(
       controller: sc,
       physics: const BouncingScrollPhysics(),
       itemBuilder: (_, idx) {
-        return const MarkerInList();
+        return MarkerListItem(point: points[idx]);
       },
-      itemCount: 100,
+      itemCount: points.length,
     );
   }
 }

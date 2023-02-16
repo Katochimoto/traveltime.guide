@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:traveltime/constants/Theme.dart';
-import 'package:traveltime/widgets/map/marker_in_list.dart';
+import 'package:traveltime/widgets/map/marker_list_item.dart';
 import 'package:traveltime/widgets/map/popover_provider.dart';
 
 class PopoverCluster extends ConsumerWidget {
@@ -35,9 +35,9 @@ class PopoverCluster extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(vertical: UIGap.g1),
             physics: const BouncingScrollPhysics(),
             itemBuilder: (_, idx) {
-              return const MarkerInList();
+              return MarkerListItemController(id: popover.pointIds![idx]!);
             },
-            itemCount: 5,
+            itemCount: popover.pointIds!.length,
           ),
         ),
       ),
