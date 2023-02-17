@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 class StatefulWrapper extends StatefulWidget {
@@ -19,14 +20,18 @@ class StatefulWrapper extends StatefulWidget {
 class StatefulWrapperState extends State<StatefulWrapper> {
   @override
   void initState() {
-    widget.onInit?.call();
     super.initState();
+    Timer.run(() {
+      widget.onInit?.call();
+    });
   }
 
   @override
   void didUpdateWidget(covariant StatefulWrapper oldWidget) {
     super.didUpdateWidget(oldWidget);
-    widget.onUpdate?.call();
+    Timer.run(() {
+      widget.onUpdate?.call();
+    });
   }
 
   @override

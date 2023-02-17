@@ -25,7 +25,9 @@ class MarkerListItemController extends ConsumerWidget {
             : MarkerListItem(
                 point: data,
                 onTap: (point) {
-                  ref.read(overviewProvider.notifier).show(point.isarId);
+                  ref
+                      .read(overviewProvider.notifier)
+                      .show(OverviewData(point: point));
                   ref.read(popoverProvider.notifier).hide();
                 });
       },

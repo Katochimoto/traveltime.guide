@@ -20,12 +20,15 @@ class CachedNetworkTileProvider extends NetworkTileProvider {
 }
 
 class MapScreenBody extends ConsumerWidget {
-  const MapScreenBody({super.key});
+  const MapScreenBody({super.key, this.mc});
+
+  final MapController? mc;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Stack(alignment: Alignment.topCenter, children: [
       FlutterMap(
+        mapController: mc,
         options: MapOptions(
           center: ll.LatLng(51.5, -0.09),
           zoom: 3,

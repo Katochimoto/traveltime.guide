@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_map/plugin_api.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:traveltime/constants/Theme.dart';
 import 'package:traveltime/constants/routes.dart';
@@ -12,6 +12,7 @@ class MapScreenContent extends StatelessWidget {
   MapScreenContent({super.key});
 
   final PanelController pc = PanelController();
+  final MapController mc = MapController();
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +26,8 @@ class MapScreenContent extends StatelessWidget {
       borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(UIGap.g3),
           topRight: Radius.circular(UIGap.g3)),
-      panelBuilder: (sc) => MapScreenPanel(sc: sc, pc: pc),
-      body: const MapScreenBody(),
+      panelBuilder: (sc) => MapScreenPanel(sc: sc, pc: pc, mc: mc),
+      body: MapScreenBody(mc: mc),
       // collapsed: Container(
       //   color: Colors.blueGrey,
       //   child: Center(

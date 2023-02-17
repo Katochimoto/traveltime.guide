@@ -1,12 +1,23 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:traveltime/store/models/point.dart';
 
-class OverviewController extends AutoDisposeNotifier<int?> {
+class OverviewData {
+  final Point point;
+  final bool animation;
+
+  const OverviewData({
+    required this.point,
+    this.animation = false,
+  });
+}
+
+class OverviewController extends AutoDisposeNotifier<OverviewData?> {
   @override
-  int? build() {
+  OverviewData? build() {
     return null;
   }
 
-  void show(int data) {
+  void show(OverviewData data) {
     state = data;
   }
 
@@ -18,6 +29,6 @@ class OverviewController extends AutoDisposeNotifier<int?> {
 }
 
 final overviewProvider =
-    NotifierProvider.autoDispose<OverviewController, int?>(() {
+    NotifierProvider.autoDispose<OverviewController, OverviewData?>(() {
   return OverviewController();
 });

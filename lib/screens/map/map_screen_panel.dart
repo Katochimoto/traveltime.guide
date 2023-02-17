@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_map/plugin_api.dart';
+import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:traveltime/screens/map/markers.dart';
@@ -9,14 +9,15 @@ import 'package:traveltime/screens/map/overview.dart';
 import 'package:traveltime/widgets/stateful_wrapper.dart';
 
 class MapScreenPanel extends ConsumerWidget {
-  const MapScreenPanel({super.key, this.sc, this.pc});
+  const MapScreenPanel({super.key, this.sc, this.pc, this.mc});
 
   final ScrollController? sc;
   final PanelController? pc;
+  final MapController? mc;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final pointId = ref.watch(overviewProvider);
+    final overview = ref.watch(overviewProvider);
     // final mapState = FlutterMapState.maybeOf(context)!;
     // mapState.centerZoomFitBounds(LatLngBounds(), options)
 
@@ -26,24 +27,51 @@ class MapScreenPanel extends ConsumerWidget {
         child: Stack(
           alignment: AlignmentDirectional.topCenter,
           children: [
-            if (pointId == null)
-              Column(
-                children: [
-                  const SizedBox(height: 15),
-                  const NavbarCategories(),
-                  Expanded(child: Markers(sc: sc)),
-                ],
-              ),
-            if (pointId != null)
-              StatefulWrapper(
-                onInit: () {
-                  pc?.open();
-                },
-                onUpdate: () {
-                  pc?.open();
-                },
-                child: Overview(sc: sc, id: pointId),
-              ),
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 250),
+              transitionBuilder: (Widget child, Animation<double> animation) {
+                return SlideTransition(
+                  position: Tween<Offset>(
+                    begin: const Offset(1.0, 0.0),
+                    end: Offset.zero,
+                  ).animate(animation),
+                  child: child,
+                );
+              },
+              child: overview == null
+                  ? Container()
+                  : StatefulWrapper(
+                      onInit: () {
+                        pc?.open();
+                        mc?.fitBounds(overview.point.bounds);
+                      },
+                      onUpdate: () {
+                        pc?.open();
+                      },
+                      child: Overview(sc: sc, id: overview.point.isarId),
+                    ),
+            ),
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 250),
+              transitionBuilder: (Widget child, Animation<double> animation) {
+                return SlideTransition(
+                  position: Tween<Offset>(
+                    begin: const Offset(-1.0, 0.0),
+                    end: Offset.zero,
+                  ).animate(animation),
+                  child: child,
+                );
+              },
+              child: overview == null
+                  ? Column(
+                      children: [
+                        const SizedBox(height: 15),
+                        const NavbarCategories(),
+                        Expanded(child: Markers(sc: sc)),
+                      ],
+                    )
+                  : Container(),
+            ),
             Container(
               transform: Matrix4.translationValues(0, -10, 0),
               child: Icon(

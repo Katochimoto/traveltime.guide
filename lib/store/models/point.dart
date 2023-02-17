@@ -1,4 +1,6 @@
+import 'package:flutter_map/plugin_api.dart';
 import 'package:isar/isar.dart';
+import 'package:latlong2/latlong.dart' as ll;
 import 'package:traveltime/utils/app_auth.dart';
 import 'package:traveltime/utils/fast_hash.dart';
 
@@ -71,4 +73,10 @@ class Point {
       coverImg: data['coverImg'],
     );
   }
+
+  @ignore
+  LatLngBounds get bounds => LatLngBounds(
+        ll.LatLng(lat, lng),
+        ll.LatLng(lat, lng),
+      );
 }

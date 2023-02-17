@@ -19,7 +19,10 @@ class Markers extends ConsumerWidget {
         return MarkerListItem(
           point: points[idx],
           onTap: (point) {
-            ref.read(overviewProvider.notifier).show(point.isarId);
+            ref.read(overviewProvider.notifier).show(OverviewData(
+                  point: point,
+                  animation: true,
+                ));
           },
         );
       },
