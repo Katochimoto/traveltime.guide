@@ -16,7 +16,7 @@ class NavbarSearch extends Input {
           onChanged: onChanged,
           autofocus: autofocus,
           suffixIcon: const Icon(
-            Icons.zoom_in,
+            Icons.search,
             size: 20,
           ),
           onTap: () {

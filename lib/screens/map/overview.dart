@@ -47,27 +47,31 @@ class OverviewContent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Flexible(
-          flex: point.coverImg == null ? 1 : 2,
+          flex: 2,
           child: Stack(
             children: <Widget>[
-              if (point.coverImg != null) ...[
-                Container(
-                  decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(UIGap.g3),
+                      topRight: Radius.circular(UIGap.g3)),
+                  image: point.coverImg != null
+                      ? DecorationImage(
+                          image: CachedNetworkImageProvider(point.coverImg!),
+                          fit: BoxFit.cover,
+                        )
+                      : const DecorationImage(
+                          image: AssetImage('assets/imgs/drawer_bg.jpg'),
+                          fit: BoxFit.cover,
+                        ),
+                ),
+              ),
+              Container(
+                  decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(UIGap.g3),
                           topRight: Radius.circular(UIGap.g3)),
-                      image: DecorationImage(
-                          image: CachedNetworkImageProvider(point.coverImg!),
-                          fit: BoxFit.cover)),
-                  child: Container(),
-                ),
-                Container(
-                    decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(UIGap.g3),
-                            topRight: Radius.circular(UIGap.g3)),
-                        color: Colors.black45)),
-              ],
+                      color: Colors.black45)),
               Padding(
                 padding: const EdgeInsets.only(
                     bottom: UIGap.g2, left: UIGap.g3, right: UIGap.g3),

@@ -161,17 +161,6 @@ class MapMarkers extends ConsumerWidget {
       markerStrokePaint,
     );
 
-    // DrawText.draw(
-    //   canvas: canvas,
-    //   text: String.fromCharCode(Icons.beach_access.codePoint),
-    //   offset: offset + const Offset(markerSize * 0.5 - contentSize * 0.5, 0),
-    //   size: contentSize,
-    //   // paragraphWidth: markerSize * 0.5,
-    //   fontSize: contentSize * 0.6,
-    //   fontFamily: Icons.beach_access.fontFamily,
-    //   color: Colors.white,
-    // );
-
     final icon = markerIcons[marker.category];
     if (icon != null) {
       DrawText.draw(
@@ -185,15 +174,6 @@ class MapMarkers extends ConsumerWidget {
         fontSize: (contentSize * 0.7).ceil().toDouble(),
       );
     }
-
-    // DrawText.draw(
-    //   canvas: canvas,
-    //   text: '🎡',
-    //   offset: offset + const Offset(markerSize * 0.5 - contentSize * 0.5, 0),
-    //   size: contentSize,
-    //   // paragraphWidth: markerSize * 0.5,
-    //   fontSize: contentSize * 0.5,
-    // );
   }
 
   void _drawCluster(Canvas canvas, Offset offset, FastCluster cluster) {

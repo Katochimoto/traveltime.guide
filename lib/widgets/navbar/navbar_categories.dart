@@ -45,9 +45,10 @@ class NavbarCategorieButton extends StatelessWidget {
   }
 }
 
-@immutable
 class NavbarCategories extends StatelessWidget {
-  const NavbarCategories({super.key});
+  const NavbarCategories({super.key, required this.items});
+
+  final List<NavbarCategorieButton> items;
 
   @override
   Widget build(BuildContext context) {
@@ -57,36 +58,7 @@ class NavbarCategories extends StatelessWidget {
         shrinkWrap: true,
         itemExtent: 65.0,
         scrollDirection: Axis.horizontal,
-        children: <Widget>[
-          NavbarCategorieButton(
-            icon: Icons.map,
-            title: 'Map',
-            onPressed: () {
-              context.goNamed(Routes.map);
-            },
-          ),
-          NavbarCategorieButton(
-              icon: Icons.filter_drama, title: 'Weather', onPressed: () {}),
-          NavbarCategorieButton(
-            icon: Icons.hiking,
-            title: 'Activities',
-            onPressed: () {
-              context.goNamed(Routes.articles);
-            },
-          ),
-          NavbarCategorieButton(
-              icon: Icons.route, title: 'Routes', onPressed: () {}),
-          NavbarCategorieButton(
-              icon: Icons.change_circle, title: 'Currency', onPressed: () {}),
-          NavbarCategorieButton(
-              icon: Icons.set_meal_sharp, title: 'Food', onPressed: () {}),
-          NavbarCategorieButton(
-              icon: Icons.newspaper, title: 'News', onPressed: () {}),
-          NavbarCategorieButton(
-              icon: Icons.description, title: 'Visa', onPressed: () {}),
-          NavbarCategorieButton(
-              icon: Icons.coronavirus, title: 'COVID', onPressed: () {}),
-        ],
+        children: items,
       ),
     );
   }

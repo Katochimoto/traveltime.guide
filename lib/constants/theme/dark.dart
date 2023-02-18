@@ -110,7 +110,7 @@ final ThemeData darkTheme = ThemeData(
       borderSide: BorderSide(
         color: Color(0xFF666666),
         width: 1,
-        style: BorderStyle.solid,
+        style: BorderStyle.none,
       ),
       borderRadius: BorderRadius.all(Radius.circular(30.0)),
     ),
@@ -118,7 +118,7 @@ final ThemeData darkTheme = ThemeData(
       borderSide: BorderSide(
         color: Color(0xFF666666),
         width: 1,
-        style: BorderStyle.solid,
+        style: BorderStyle.none,
       ),
       borderRadius: BorderRadius.all(Radius.circular(30.0)),
     ),
@@ -126,7 +126,7 @@ final ThemeData darkTheme = ThemeData(
       borderSide: BorderSide(
         color: Color(0xFF666666),
         width: 1,
-        style: BorderStyle.solid,
+        style: BorderStyle.none,
       ),
       borderRadius: BorderRadius.all(Radius.circular(30.0)),
     ),
@@ -134,7 +134,7 @@ final ThemeData darkTheme = ThemeData(
       borderSide: BorderSide(
         color: Color(0xFF666666),
         width: 1,
-        style: BorderStyle.solid,
+        style: BorderStyle.none,
       ),
       borderRadius: BorderRadius.all(Radius.circular(30.0)),
     ),
@@ -142,7 +142,7 @@ final ThemeData darkTheme = ThemeData(
       borderSide: BorderSide(
         color: Color(0xFF666666),
         width: 1,
-        style: BorderStyle.solid,
+        style: BorderStyle.none,
       ),
       borderRadius: BorderRadius.all(Radius.circular(30.0)),
     ),
@@ -150,7 +150,7 @@ final ThemeData darkTheme = ThemeData(
       borderSide: BorderSide(
         color: Color(0xFF666666),
         width: 1,
-        style: BorderStyle.solid,
+        style: BorderStyle.none,
       ),
       borderRadius: BorderRadius.all(Radius.circular(30.0)),
     ),

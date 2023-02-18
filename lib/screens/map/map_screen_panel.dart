@@ -18,9 +18,6 @@ class MapScreenPanel extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final overview = ref.watch(overviewProvider);
-    // final mapState = FlutterMapState.maybeOf(context)!;
-    // mapState.centerZoomFitBounds(LatLngBounds(), options)
-
     return MediaQuery.removePadding(
         context: context,
         removeTop: true,
@@ -66,7 +63,15 @@ class MapScreenPanel extends ConsumerWidget {
                   ? Column(
                       children: [
                         const SizedBox(height: 15),
-                        const NavbarCategories(),
+                        NavbarCategories(
+                          items: [
+                            NavbarCategorieButton(
+                              icon: Icons.map,
+                              title: 'Map',
+                              onPressed: () {},
+                            ),
+                          ],
+                        ),
                         Expanded(child: Markers(sc: sc)),
                       ],
                     )
