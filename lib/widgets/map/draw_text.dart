@@ -6,16 +6,19 @@ class DrawText {
     required Canvas canvas,
     required String text,
     required Offset offset,
-    required double size,
+    required double width,
+    required double height,
     double? paragraphWidth,
     double? fontSize = 12,
+    String? fontFamily,
+    Color? color,
   }) {
-    const style = TextStyle(color: Colors.black);
+    final style = TextStyle(color: color ?? Colors.black);
     final ui.ParagraphBuilder paragraphBuilder = ui.ParagraphBuilder(
       ui.ParagraphStyle(
-        height: 1.2,
+        // height: 1.2,
         fontSize: fontSize,
-        fontFamily: style.fontFamily,
+        fontFamily: fontFamily ?? style.fontFamily,
         fontStyle: style.fontStyle,
         fontWeight: style.fontWeight,
         textAlign: TextAlign.center,
@@ -26,13 +29,14 @@ class DrawText {
 
     final ui.Paragraph paragraph = paragraphBuilder.build()
       ..layout(ui.ParagraphConstraints(
-        width: paragraphWidth ?? size,
+        width: paragraphWidth ?? width,
       ));
 
     canvas.drawParagraph(
       paragraph,
       offset +
-          Offset((size - paragraph.width) / 2, (size - paragraph.height) / 2),
+          Offset(
+              (width - paragraph.width) / 2, (height - paragraph.height) / 2),
     );
   }
 }

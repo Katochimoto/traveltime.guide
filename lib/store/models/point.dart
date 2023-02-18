@@ -10,6 +10,16 @@ enum PointCategory {
   entertainment,
   events,
   attraction,
+  nightMarket,
+  hypermarket,
+  beach,
+  restaurant,
+  cafe,
+  marina,
+  police,
+  gasStation,
+  carRental,
+  hotel,
 }
 
 @collection

@@ -11,7 +11,7 @@ import 'package:traveltime/widgets/map/draw_text.dart';
 import 'package:traveltime/widgets/map/fast_markers.dart';
 import 'package:traveltime/widgets/map/popover_provider.dart';
 
-const markerSize = 20.0;
+const markerSize = 30.0;
 const clusterSize = 40.0;
 
 const defaultMarkerColor = Colors.teal;
@@ -20,6 +20,32 @@ final markerColors = {
   PointCategory.entertainment: Colors.teal,
   PointCategory.events: Colors.deepPurple,
   PointCategory.attraction: Colors.green,
+  PointCategory.nightMarket: Colors.lightBlue,
+  PointCategory.hypermarket: Colors.lightBlue,
+  PointCategory.beach: Colors.yellow,
+  PointCategory.restaurant: Colors.orange,
+  PointCategory.cafe: Colors.orange,
+  PointCategory.marina: Colors.cyan,
+  PointCategory.police: Colors.blueGrey,
+  PointCategory.gasStation: Colors.brown,
+  PointCategory.carRental: Colors.brown,
+  PointCategory.hotel: Colors.pink,
+};
+
+final markerIcons = {
+  PointCategory.entertainment: Icons.sports_score,
+  PointCategory.events: Icons.event,
+  PointCategory.attraction: Icons.attractions,
+  PointCategory.nightMarket: Icons.shopping_cart,
+  PointCategory.hypermarket: Icons.shopping_cart,
+  PointCategory.beach: Icons.beach_access,
+  PointCategory.restaurant: Icons.restaurant,
+  PointCategory.cafe: Icons.coffee,
+  PointCategory.marina: Icons.directions_ferry,
+  PointCategory.police: Icons.local_police,
+  PointCategory.gasStation: Icons.gas_meter,
+  PointCategory.carRental: Icons.car_rental,
+  PointCategory.hotel: Icons.hotel,
 };
 
 Paint markerFillPaintFactory(Color color) => Paint()
@@ -137,6 +163,31 @@ class MapMarkers extends ConsumerWidget {
 
     // DrawText.draw(
     //   canvas: canvas,
+    //   text: String.fromCharCode(Icons.beach_access.codePoint),
+    //   offset: offset + const Offset(markerSize * 0.5 - contentSize * 0.5, 0),
+    //   size: contentSize,
+    //   // paragraphWidth: markerSize * 0.5,
+    //   fontSize: contentSize * 0.6,
+    //   fontFamily: Icons.beach_access.fontFamily,
+    //   color: Colors.white,
+    // );
+
+    final icon = markerIcons[marker.category];
+    if (icon != null) {
+      DrawText.draw(
+        canvas: canvas,
+        text: String.fromCharCode(icon.codePoint),
+        offset: offset,
+        width: markerSize,
+        height: contentSize,
+        fontFamily: icon.fontFamily,
+        color: Colors.white,
+        fontSize: (contentSize * 0.7).ceil().toDouble(),
+      );
+    }
+
+    // DrawText.draw(
+    //   canvas: canvas,
     //   text: '🎡',
     //   offset: offset + const Offset(markerSize * 0.5 - contentSize * 0.5, 0),
     //   size: contentSize,
@@ -185,7 +236,8 @@ class MapMarkers extends ConsumerWidget {
       canvas: canvas,
       text: cluster.markers!.length.toString(),
       offset: offset,
-      size: clusterSize,
+      width: clusterSize,
+      height: clusterSize,
     );
   }
 }
