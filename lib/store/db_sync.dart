@@ -7,9 +7,9 @@ import 'package:traveltime/constants/constants.dart';
 import 'package:traveltime/store/db.dart';
 import 'package:traveltime/store/models/article.dart';
 import 'package:traveltime/store/models/point.dart';
-import 'package:traveltime/utils/app_auth.dart';
-import 'package:traveltime/utils/connectivity_status.dart';
-import 'package:traveltime/utils/shared_preferences.dart';
+import 'package:traveltime/providers/app_auth.dart';
+import 'package:traveltime/providers/connectivity_status.dart';
+import 'package:traveltime/providers/shared_preferences.dart';
 
 enum DBSyncStatus {
   runing,

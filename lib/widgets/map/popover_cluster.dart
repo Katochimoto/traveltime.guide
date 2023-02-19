@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:traveltime/constants/Theme.dart';
 import 'package:traveltime/widgets/map/marker_list_item.dart';
-import 'package:traveltime/widgets/map/popover_provider.dart';
+import 'package:traveltime/providers/marker_popover.dart';
 
 class PopoverCluster extends ConsumerWidget {
   final double width;

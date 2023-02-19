@@ -1,7 +1,7 @@
 import 'package:flutter_map/plugin_api.dart';
 import 'package:isar/isar.dart';
 import 'package:latlong2/latlong.dart' as ll;
-import 'package:traveltime/utils/app_auth.dart';
+import 'package:traveltime/providers/app_auth.dart';
 import 'package:traveltime/utils/fast_hash.dart';
 
 part 'point.g.dart';
@@ -51,6 +51,7 @@ class Point {
   final AppLocale locale;
 
   @enumerated
+  @Index(type: IndexType.value)
   final PointCategory category;
 
   final DateTime createdAt;

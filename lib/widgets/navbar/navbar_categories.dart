@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:traveltime/constants/Theme.dart';
-import 'package:traveltime/constants/routes.dart';
 
 class NavbarCategorieButton extends StatelessWidget {
   final String title;
   final IconData icon;
   final void Function() onPressed;
+  final bool selected;
 
-  const NavbarCategorieButton(
-      {super.key,
-      required this.icon,
-      required this.title,
-      required this.onPressed});
+  const NavbarCategorieButton({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.onPressed,
+    this.selected = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,8 @@ class NavbarCategorieButton extends StatelessWidget {
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(15.0))),
           foregroundColor: colors.onSecondaryContainer,
-          backgroundColor: colors.secondaryContainer,
+          backgroundColor:
+              selected ? colors.primaryContainer : colors.secondaryContainer,
           disabledBackgroundColor: colors.onSurface.withOpacity(0.12),
           hoverColor: colors.onSecondaryContainer.withOpacity(0.08),
           focusColor: colors.onSecondaryContainer.withOpacity(0.12),

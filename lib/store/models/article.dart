@@ -1,5 +1,5 @@
 import 'package:isar/isar.dart';
-import 'package:traveltime/utils/app_auth.dart';
+import 'package:traveltime/providers/app_auth.dart';
 import 'package:traveltime/utils/fast_hash.dart';
 
 part 'article.g.dart';

@@ -96,6 +96,19 @@ const PointSchema = CollectionSchema(
   deserializeProp: _pointDeserializeProp,
   idName: r'isarId',
   indexes: {
+    r'category': IndexSchema(
+      id: -7560358558326323820,
+      name: r'category',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'category',
+          type: IndexType.value,
+          caseSensitive: false,
+        )
+      ],
+    ),
     r'title': IndexSchema(
       id: -7636685945352118059,
       name: r'title',
@@ -249,11 +262,31 @@ const _PointcategoryEnumValueMap = {
   'entertainment': 0,
   'events': 1,
   'attraction': 2,
+  'nightMarket': 3,
+  'hypermarket': 4,
+  'beach': 5,
+  'restaurant': 6,
+  'cafe': 7,
+  'marina': 8,
+  'police': 9,
+  'gasStation': 10,
+  'carRental': 11,
+  'hotel': 12,
 };
 const _PointcategoryValueEnumMap = {
   0: PointCategory.entertainment,
   1: PointCategory.events,
   2: PointCategory.attraction,
+  3: PointCategory.nightMarket,
+  4: PointCategory.hypermarket,
+  5: PointCategory.beach,
+  6: PointCategory.restaurant,
+  7: PointCategory.cafe,
+  8: PointCategory.marina,
+  9: PointCategory.police,
+  10: PointCategory.gasStation,
+  11: PointCategory.carRental,
+  12: PointCategory.hotel,
 };
 const _PointlocaleEnumValueMap = {
   'en': 0,
@@ -278,6 +311,14 @@ extension PointQueryWhereSort on QueryBuilder<Point, Point, QWhere> {
   QueryBuilder<Point, Point, QAfterWhere> anyIsarId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterWhere> anyCategory() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'category'),
+      );
     });
   }
 
@@ -351,6 +392,96 @@ extension PointQueryWhere on QueryBuilder<Point, Point, QWhereClause> {
         lower: lowerIsarId,
         includeLower: includeLower,
         upper: upperIsarId,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterWhereClause> categoryEqualTo(
+      PointCategory category) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'category',
+        value: [category],
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterWhereClause> categoryNotEqualTo(
+      PointCategory category) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'category',
+              lower: [],
+              upper: [category],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'category',
+              lower: [category],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'category',
+              lower: [category],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'category',
+              lower: [],
+              upper: [category],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterWhereClause> categoryGreaterThan(
+    PointCategory category, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'category',
+        lower: [category],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterWhereClause> categoryLessThan(
+    PointCategory category, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'category',
+        lower: [],
+        upper: [category],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterWhereClause> categoryBetween(
+    PointCategory lowerCategory,
+    PointCategory upperCategory, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'category',
+        lower: [lowerCategory],
+        includeLower: includeLower,
+        upper: [upperCategory],
         includeUpper: includeUpper,
       ));
     });

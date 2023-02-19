@@ -5,7 +5,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:traveltime/constants/Theme.dart';
 import 'package:traveltime/constants/routes.dart';
 import 'package:traveltime/store/db_sync.dart';
-import 'package:traveltime/utils/app_auth.dart';
+import 'package:traveltime/providers/app_auth.dart';
 import 'package:traveltime/widgets/navbar/navbar.dart';
 import 'package:traveltime/widgets/page_layout.dart';
 import 'package:traveltime/widgets/table_cell.dart';

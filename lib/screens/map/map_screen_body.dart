@@ -4,11 +4,12 @@ import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart' as ll;
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:traveltime/providers/map_tap_position.dart';
 import 'package:traveltime/screens/map/map_markers.dart';
 import 'package:traveltime/widgets/map/attribution.dart';
 import 'package:traveltime/widgets/map/fast_markers.dart';
 import 'package:traveltime/widgets/map/popover.dart';
-import 'package:traveltime/widgets/map/popover_provider.dart';
+import 'package:traveltime/providers/marker_popover.dart';
 
 class CachedNetworkTileProvider extends NetworkTileProvider {
   @override

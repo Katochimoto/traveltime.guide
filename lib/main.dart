@@ -9,8 +9,8 @@ import 'package:traveltime/constants/theme/dark.dart';
 import 'package:traveltime/constants/theme/light.dart';
 import 'package:traveltime/routes.dart';
 import 'package:traveltime/store/db_sync.dart';
-import 'package:traveltime/utils/app_auth.dart';
-import 'package:traveltime/utils/shared_preferences.dart';
+import 'package:traveltime/providers/app_auth.dart';
+import 'package:traveltime/providers/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:traveltime/screens/map/map_markers_navbar.dart';
 import 'package:traveltime/screens/map/markers.dart';
-import 'package:traveltime/screens/map/overview_provider.dart';
-import 'package:traveltime/widgets/navbar/navbar_categories.dart';
+import 'package:traveltime/providers/point_overview.dart';
 import 'package:traveltime/screens/map/overview.dart';
 import 'package:traveltime/widgets/stateful_wrapper.dart';
 
@@ -63,15 +63,7 @@ class MapScreenPanel extends ConsumerWidget {
                   ? Column(
                       children: [
                         const SizedBox(height: 15),
-                        NavbarCategories(
-                          items: [
-                            NavbarCategorieButton(
-                              icon: Icons.map,
-                              title: 'Map',
-                              onPressed: () {},
-                            ),
-                          ],
-                        ),
+                        const MapMarkersNavbar(),
                         Expanded(child: Markers(sc: sc)),
                       ],
                     )

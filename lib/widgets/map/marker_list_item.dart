@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:traveltime/constants/Theme.dart';
-import 'package:traveltime/screens/map/overview_provider.dart';
+import 'package:traveltime/providers/point_overview.dart';
 import 'package:traveltime/store/db.dart';
 import 'package:traveltime/store/models/point.dart';
-import 'package:traveltime/widgets/map/popover_provider.dart';
+import 'package:traveltime/providers/marker_popover.dart';
 
 class MarkerListItemController extends ConsumerWidget {
   final int id;
