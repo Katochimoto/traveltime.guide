@@ -33,7 +33,7 @@ class ProfileDetails extends StatelessWidget {
                         children: [
                           const CircleAvatar(
                             backgroundImage: AssetImage('assets/imgs/logo.png'),
-                            radius: 45,
+                            radius: 40,
                           ),
                           const SizedBox(height: UIGap.g1),
                           Text(
@@ -41,9 +41,8 @@ class ProfileDetails extends StatelessWidget {
                             style: Theme.of(context)
                                 .textTheme
                                 .merge(Typography.whiteCupertino)
-                                .headlineMedium,
+                                .headlineSmall,
                           ),
-                          const SizedBox(height: UIGap.g1),
                           Text(
                             'Demo user',
                             style: Theme.of(context)
@@ -51,7 +50,7 @@ class ProfileDetails extends StatelessWidget {
                                 .merge(Typography.whiteCupertino)
                                 .bodySmall,
                           ),
-                          const SizedBox(height: UIGap.g2),
+                          const SizedBox(height: UIGap.g1),
                           Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: UIGap.g3),
@@ -64,14 +63,13 @@ class ProfileDetails extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text(
-                                      "2K",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .merge(Typography.whiteCupertino)
-                                          .bodyLarge,
+                                    IconButton(
+                                      icon: const Icon(Icons.bookmarks),
+                                      onPressed: () {},
+                                      iconSize: 25,
+                                      color: Colors.white70,
                                     ),
-                                    Text("Friends",
+                                    Text('Bookmarks',
                                         style: Theme.of(context)
                                             .textTheme
                                             .merge(Typography.whiteCupertino)
@@ -82,34 +80,20 @@ class ProfileDetails extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text("26",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .merge(Typography.whiteCupertino)
-                                            .bodyLarge),
-                                    Text("Comments",
+                                    IconButton(
+                                      icon: const Icon(
+                                          Icons.playlist_add_check_circle),
+                                      onPressed: () {},
+                                      iconSize: 25,
+                                      color: Colors.white70,
+                                    ),
+                                    Text('Visited',
                                         style: Theme.of(context)
                                             .textTheme
                                             .merge(Typography.whiteCupertino)
                                             .bodySmall)
                                   ],
                                 ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text("48",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .merge(Typography.whiteCupertino)
-                                            .bodyLarge),
-                                    Text("Bookmarks",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .merge(Typography.whiteCupertino)
-                                            .bodySmall)
-                                  ],
-                                )
                               ],
                             ),
                           ),

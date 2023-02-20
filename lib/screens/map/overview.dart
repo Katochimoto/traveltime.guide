@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:traveltime/constants/Theme.dart';
 import 'package:traveltime/providers/point_overview.dart';
 import 'package:traveltime/store/db.dart';
@@ -86,14 +87,12 @@ class OverviewContent extends StatelessWidget {
                           .merge(Typography.whiteCupertino)
                           .headlineMedium,
                     ),
-                    if (point.address != null) ...[
-                      const SizedBox(height: UIGap.g1),
+                    if (point.address != null)
                       Text(point.address!,
                           style: Theme.of(context)
                               .textTheme
                               .merge(Typography.whiteCupertino)
                               .bodySmall),
-                    ],
                     const SizedBox(height: UIGap.g2),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: UIGap.g3),
@@ -106,14 +105,18 @@ class OverviewContent extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
-                                "2K",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .merge(Typography.whiteCupertino)
-                                    .bodyLarge,
+                              IconButton(
+                                icon: const Icon(Icons.share_location),
+                                onPressed: () {
+                                  MapsLauncher.launchCoordinates(
+                                    point.lat,
+                                    point.lng,
+                                  );
+                                },
+                                iconSize: 25,
+                                color: Colors.white70,
                               ),
-                              Text("Friends",
+                              Text('Map App',
                                   style: Theme.of(context)
                                       .textTheme
                                       .merge(Typography.whiteCupertino)
@@ -124,12 +127,15 @@ class OverviewContent extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text("26",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .merge(Typography.whiteCupertino)
-                                      .bodyLarge),
-                              Text("Comments",
+                              IconButton(
+                                icon: const Icon(
+                                    Icons.bookmark_add), // bookmark_remove
+                                onPressed: () {},
+                                iconSize: 25,
+                                color: Colors
+                                    .white70, // Colors.tealAccent.withOpacity(0.7),
+                              ),
+                              Text('Bookmark',
                                   style: Theme.of(context)
                                       .textTheme
                                       .merge(Typography.whiteCupertino)
@@ -140,18 +146,20 @@ class OverviewContent extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text("48",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .merge(Typography.whiteCupertino)
-                                      .bodyLarge),
-                              Text("Bookmarks",
+                              IconButton(
+                                icon:
+                                    const Icon(Icons.playlist_add_check_circle),
+                                onPressed: () {},
+                                iconSize: 25,
+                                color: Colors.white70,
+                              ),
+                              Text('Visited',
                                   style: Theme.of(context)
                                       .textTheme
                                       .merge(Typography.whiteCupertino)
                                       .bodySmall)
                             ],
-                          )
+                          ),
                         ],
                       ),
                     ),

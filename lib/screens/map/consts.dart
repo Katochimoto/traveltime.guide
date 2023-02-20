@@ -25,19 +25,19 @@ final markerColors = {
 };
 
 final markerIcons = {
-  PointCategory.entertainment: Icons.sports_score,
+  PointCategory.entertainment: Icons.local_activity,
   PointCategory.events: Icons.event,
   PointCategory.attraction: Icons.attractions,
-  PointCategory.nightMarket: Icons.shopping_cart,
-  PointCategory.hypermarket: Icons.shopping_cart,
+  PointCategory.nightMarket: Icons.local_grocery_store,
+  PointCategory.hypermarket: Icons.local_mall,
   PointCategory.beach: Icons.beach_access,
-  PointCategory.restaurant: Icons.restaurant,
-  PointCategory.cafe: Icons.coffee,
+  PointCategory.restaurant: Icons.local_restaurant,
+  PointCategory.cafe: Icons.local_cafe,
   PointCategory.marina: Icons.directions_ferry,
   PointCategory.police: Icons.local_police,
-  PointCategory.gasStation: Icons.gas_meter,
+  PointCategory.gasStation: Icons.local_gas_station,
   PointCategory.carRental: Icons.car_rental,
-  PointCategory.hotel: Icons.hotel,
+  PointCategory.hotel: Icons.local_hotel,
 };
 
 Paint markerFillPaintFactory(Color color) => Paint()
