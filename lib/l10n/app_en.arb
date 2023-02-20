@@ -10,5 +10,18 @@
 	"appSubtitle": "Thailand travel guide",
 	"appTitle": "TravelTime",
 	"getStarted": "Get Started",
-	"settingsResetLocalData": "Reset Local Data"
+	"settingsResetLocalData": "Reset Local Data",
+	"pointCategoryAttraction": "Attraction",
+	"pointCategoryBeach": "Beach",
+	"pointCategoryCafe": "Cafe",
+	"pointCategoryCarRental": "Car Rental",
+	"pointCategoryEntertainment": "Entertainment",
+	"pointCategoryEvents": "Events",
+	"pointCategoryGasStation": "Gas Station",
+	"pointCategoryHotel": "Hotel",
+	"pointCategoryHypermarket": "Hypermarket",
+	"pointCategoryMarina": "Marina",
+	"pointCategoryNightMarket": "Night Market",
+	"pointCategoryPolice": "Police",
+	"pointCategoryRestaurant": "Restaurant"
 }
