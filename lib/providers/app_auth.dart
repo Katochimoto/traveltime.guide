@@ -25,10 +25,11 @@ class AppAuthorized {
   AppTheme theme;
   AppLocale locale;
 
-  AppAuthorized(
-      {required this.role,
-      this.locale = AppLocale.en,
-      this.theme = AppTheme.system});
+  AppAuthorized({
+    required this.role,
+    this.locale = AppLocale.en,
+    this.theme = AppTheme.system,
+  });
 }
 
 class AppAuth extends AsyncNotifier<AppAuthorized> {

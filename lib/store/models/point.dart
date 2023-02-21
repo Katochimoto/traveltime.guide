@@ -24,21 +24,22 @@ enum PointCategory {
 
 @collection
 class Point {
-  Point(
-      {required this.id,
-      required this.lat,
-      required this.lng,
-      required this.locale,
-      required this.createdAt,
-      required this.updatedAt,
-      required this.publishedAt,
-      required this.title,
-      required this.description,
-      required this.category,
-      this.intro,
-      this.address,
-      this.logoImg,
-      this.coverImg});
+  Point({
+    required this.id,
+    required this.lat,
+    required this.lng,
+    required this.locale,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.publishedAt,
+    required this.title,
+    required this.description,
+    required this.category,
+    this.intro,
+    this.address,
+    this.logoImg,
+    this.coverImg,
+  });
 
   final String id;
 

@@ -6,18 +6,19 @@ part 'article.g.dart';
 
 @collection
 class Article {
-  Article(
-      {required this.id,
-      required this.country,
-      required this.locale,
-      required this.createdAt,
-      required this.updatedAt,
-      required this.publishedAt,
-      required this.title,
-      required this.description,
-      this.intro,
-      this.logoImg,
-      this.coverImg});
+  Article({
+    required this.id,
+    required this.country,
+    required this.locale,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.publishedAt,
+    required this.title,
+    required this.description,
+    this.intro,
+    this.logoImg,
+    this.coverImg,
+  });
 
   final String id;
 

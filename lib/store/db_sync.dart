@@ -56,7 +56,7 @@ class DbSync extends AsyncNotifier<DBSyncState> {
   }
 
   String get _lastSyncName {
-    return '${_db.name}:lastSync';
+    return 'lastSync:${_db.name}:${_locale.name}';
   }
 
   DateTime? get _lastSync {
@@ -65,13 +65,15 @@ class DbSync extends AsyncNotifier<DBSyncState> {
     return lastSyncValue != null ? DateTime.parse(lastSyncValue) : null;
   }
 
-  Future<void> _updateLastSync(DateTime? value) async {
+  Future<void> _updateLastSync(DateTime value) async {
     final prefs = ref.read(sharedPreferencesProvider);
-    if (value != null) {
-      await prefs.setString(_lastSyncName, value.toIso8601String());
-    } else {
-      await prefs.remove(_lastSyncName);
-    }
+    await prefs.setString(_lastSyncName, value.toIso8601String());
+  }
+
+  Future<void> _removeLastSync() async {
+    final prefs = ref.read(sharedPreferencesProvider);
+    await prefs.remove('lastSync:${_db.name}:${AppLocale.en.name}');
+    await prefs.remove('lastSync:${_db.name}:${AppLocale.th.name}');
   }
 
   @override
@@ -87,7 +89,7 @@ class DbSync extends AsyncNotifier<DBSyncState> {
     await _db.writeTxn(() async {
       await _db.clear();
     });
-    await _updateLastSync(null);
+    await _removeLastSync();
     await _restart();
   }
 
