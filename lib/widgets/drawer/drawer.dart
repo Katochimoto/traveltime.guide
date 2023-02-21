@@ -152,14 +152,14 @@ class AppDrawer extends StatelessWidget {
                     ],
                   ),
                 ),
-                Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    child: Divider(
-                      height: 4,
-                      thickness: 1,
-                      color: Theme.of(context).primaryColorLight,
-                    )),
+                // Padding(
+                //     padding:
+                //         const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                //     child: Divider(
+                //       height: 4,
+                //       thickness: 1,
+                //       color: Theme.of(context).primaryColorLight,
+                //     )),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Column(
@@ -182,35 +182,7 @@ class AppDrawer extends StatelessWidget {
                     ],
                   ),
                 ),
-                // Expanded(
-                //     flex: 1,
-                //     child: ListView(
-                //       physics: const BouncingScrollPhysics(),
-                //       padding: const EdgeInsets.symmetric(horizontal: 10),
-                //       children: [
-                //         DrawerTile(
-                //             icon: Icons.login,
-                //             onTap: _launchURL,
-                //             title: "Login",
-                //             isSelected:
-                //                 currentPage == "Getting started" ? true : false),
-                //         DrawerTile(
-                //             onTap: _launchURL,
-                //             title: "Support",
-                //             isSelected:
-                //                 currentPage == "Getting started" ? true : false),
-                //         DrawerTile(
-                //             onTap: _launchURL,
-                //             title: "Gep Pro",
-                //             isSelected:
-                //                 currentPage == "Getting started" ? true : false),
-                //         DrawerTile(
-                //             onTap: _launchURL,
-                //             title: "About",
-                //             isSelected:
-                //                 currentPage == "Getting started" ? true : false),
-                //       ],
-                //     )),
+
                 Container(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
