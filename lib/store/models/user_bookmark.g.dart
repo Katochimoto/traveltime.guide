@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_favorite.dart';
+part of 'user_bookmark.dart';
 
 // **************************************************************************
 // IsarCollectionGenerator
@@ -9,35 +9,35 @@ part of 'user_favorite.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
 
-extension GetUserFavoriteCollection on Isar {
-  IsarCollection<UserFavorite> get userFavorites => this.collection();
+extension GetUserBookmarkCollection on Isar {
+  IsarCollection<UserBookmark> get userBookmarks => this.collection();
 }
 
-const UserFavoriteSchema = CollectionSchema(
-  name: r'UserFavorite',
-  id: -6462313433026380587,
+const UserBookmarkSchema = CollectionSchema(
+  name: r'UserBookmark',
+  id: 7291537136674944162,
   properties: {
-    r'favoriteId': PropertySchema(
+    r'id': PropertySchema(
       id: 0,
-      name: r'favoriteId',
+      name: r'id',
       type: IsarType.string,
     ),
-    r'id': PropertySchema(
+    r'objectId': PropertySchema(
       id: 1,
-      name: r'id',
+      name: r'objectId',
       type: IsarType.string,
     ),
     r'type': PropertySchema(
       id: 2,
       name: r'type',
       type: IsarType.byte,
-      enumMap: _UserFavoritetypeEnumValueMap,
+      enumMap: _UserBookmarktypeEnumValueMap,
     )
   },
-  estimateSize: _userFavoriteEstimateSize,
-  serialize: _userFavoriteSerialize,
-  deserialize: _userFavoriteDeserialize,
-  deserializeProp: _userFavoriteDeserializeProp,
+  estimateSize: _userBookmarkEstimateSize,
+  serialize: _userBookmarkSerialize,
+  deserialize: _userBookmarkDeserialize,
+  deserializeProp: _userBookmarkDeserializeProp,
   idName: r'isarId',
   indexes: {
     r'type': IndexSchema(
@@ -53,14 +53,14 @@ const UserFavoriteSchema = CollectionSchema(
         )
       ],
     ),
-    r'favoriteId_type': IndexSchema(
-      id: -8777712027152211811,
-      name: r'favoriteId_type',
+    r'objectId_type': IndexSchema(
+      id: -3293624225731155148,
+      name: r'objectId_type',
       unique: true,
       replace: false,
       properties: [
         IndexPropertySchema(
-          name: r'favoriteId',
+          name: r'objectId',
           type: IndexType.hash,
           caseSensitive: true,
         ),
@@ -74,50 +74,50 @@ const UserFavoriteSchema = CollectionSchema(
   },
   links: {},
   embeddedSchemas: {},
-  getId: _userFavoriteGetId,
-  getLinks: _userFavoriteGetLinks,
-  attach: _userFavoriteAttach,
+  getId: _userBookmarkGetId,
+  getLinks: _userBookmarkGetLinks,
+  attach: _userBookmarkAttach,
   version: '3.0.5',
 );
 
-int _userFavoriteEstimateSize(
-  UserFavorite object,
+int _userBookmarkEstimateSize(
+  UserBookmark object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  bytesCount += 3 + object.favoriteId.length * 3;
   bytesCount += 3 + object.id.length * 3;
+  bytesCount += 3 + object.objectId.length * 3;
   return bytesCount;
 }
 
-void _userFavoriteSerialize(
-  UserFavorite object,
+void _userBookmarkSerialize(
+  UserBookmark object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.favoriteId);
-  writer.writeString(offsets[1], object.id);
+  writer.writeString(offsets[0], object.id);
+  writer.writeString(offsets[1], object.objectId);
   writer.writeByte(offsets[2], object.type.index);
 }
 
-UserFavorite _userFavoriteDeserialize(
+UserBookmark _userBookmarkDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = UserFavorite(
-    favoriteId: reader.readString(offsets[0]),
-    id: reader.readString(offsets[1]),
-    type: _UserFavoritetypeValueEnumMap[reader.readByteOrNull(offsets[2])] ??
-        UserFavoriteType.point,
+  final object = UserBookmark(
+    id: reader.readString(offsets[0]),
+    objectId: reader.readString(offsets[1]),
+    type: _UserBookmarktypeValueEnumMap[reader.readByteOrNull(offsets[2])] ??
+        UserBookmarkType.point,
   );
   return object;
 }
 
-P _userFavoriteDeserializeProp<P>(
+P _userBookmarkDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -129,132 +129,130 @@ P _userFavoriteDeserializeProp<P>(
     case 1:
       return (reader.readString(offset)) as P;
     case 2:
-      return (_UserFavoritetypeValueEnumMap[reader.readByteOrNull(offset)] ??
-          UserFavoriteType.point) as P;
+      return (_UserBookmarktypeValueEnumMap[reader.readByteOrNull(offset)] ??
+          UserBookmarkType.point) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
 
-const _UserFavoritetypeEnumValueMap = {
+const _UserBookmarktypeEnumValueMap = {
   'point': 0,
   'article': 1,
 };
-const _UserFavoritetypeValueEnumMap = {
-  0: UserFavoriteType.point,
-  1: UserFavoriteType.article,
+const _UserBookmarktypeValueEnumMap = {
+  0: UserBookmarkType.point,
+  1: UserBookmarkType.article,
 };
 
-Id _userFavoriteGetId(UserFavorite object) {
+Id _userBookmarkGetId(UserBookmark object) {
   return object.isarId;
 }
 
-List<IsarLinkBase<dynamic>> _userFavoriteGetLinks(UserFavorite object) {
+List<IsarLinkBase<dynamic>> _userBookmarkGetLinks(UserBookmark object) {
   return [];
 }
 
-void _userFavoriteAttach(
-    IsarCollection<dynamic> col, Id id, UserFavorite object) {}
+void _userBookmarkAttach(
+    IsarCollection<dynamic> col, Id id, UserBookmark object) {}
 
-extension UserFavoriteByIndex on IsarCollection<UserFavorite> {
-  Future<UserFavorite?> getByFavoriteIdType(
-      String favoriteId, UserFavoriteType type) {
-    return getByIndex(r'favoriteId_type', [favoriteId, type]);
+extension UserBookmarkByIndex on IsarCollection<UserBookmark> {
+  Future<UserBookmark?> getByObjectIdType(
+      String objectId, UserBookmarkType type) {
+    return getByIndex(r'objectId_type', [objectId, type]);
   }
 
-  UserFavorite? getByFavoriteIdTypeSync(
-      String favoriteId, UserFavoriteType type) {
-    return getByIndexSync(r'favoriteId_type', [favoriteId, type]);
+  UserBookmark? getByObjectIdTypeSync(String objectId, UserBookmarkType type) {
+    return getByIndexSync(r'objectId_type', [objectId, type]);
   }
 
-  Future<bool> deleteByFavoriteIdType(
-      String favoriteId, UserFavoriteType type) {
-    return deleteByIndex(r'favoriteId_type', [favoriteId, type]);
+  Future<bool> deleteByObjectIdType(String objectId, UserBookmarkType type) {
+    return deleteByIndex(r'objectId_type', [objectId, type]);
   }
 
-  bool deleteByFavoriteIdTypeSync(String favoriteId, UserFavoriteType type) {
-    return deleteByIndexSync(r'favoriteId_type', [favoriteId, type]);
+  bool deleteByObjectIdTypeSync(String objectId, UserBookmarkType type) {
+    return deleteByIndexSync(r'objectId_type', [objectId, type]);
   }
 
-  Future<List<UserFavorite?>> getAllByFavoriteIdType(
-      List<String> favoriteIdValues, List<UserFavoriteType> typeValues) {
-    final len = favoriteIdValues.length;
+  Future<List<UserBookmark?>> getAllByObjectIdType(
+      List<String> objectIdValues, List<UserBookmarkType> typeValues) {
+    final len = objectIdValues.length;
     assert(
         typeValues.length == len, 'All index values must have the same length');
     final values = <List<dynamic>>[];
     for (var i = 0; i < len; i++) {
-      values.add([favoriteIdValues[i], typeValues[i]]);
+      values.add([objectIdValues[i], typeValues[i]]);
     }
 
-    return getAllByIndex(r'favoriteId_type', values);
+    return getAllByIndex(r'objectId_type', values);
   }
 
-  List<UserFavorite?> getAllByFavoriteIdTypeSync(
-      List<String> favoriteIdValues, List<UserFavoriteType> typeValues) {
-    final len = favoriteIdValues.length;
+  List<UserBookmark?> getAllByObjectIdTypeSync(
+      List<String> objectIdValues, List<UserBookmarkType> typeValues) {
+    final len = objectIdValues.length;
     assert(
         typeValues.length == len, 'All index values must have the same length');
     final values = <List<dynamic>>[];
     for (var i = 0; i < len; i++) {
-      values.add([favoriteIdValues[i], typeValues[i]]);
+      values.add([objectIdValues[i], typeValues[i]]);
     }
 
-    return getAllByIndexSync(r'favoriteId_type', values);
+    return getAllByIndexSync(r'objectId_type', values);
   }
 
-  Future<int> deleteAllByFavoriteIdType(
-      List<String> favoriteIdValues, List<UserFavoriteType> typeValues) {
-    final len = favoriteIdValues.length;
+  Future<int> deleteAllByObjectIdType(
+      List<String> objectIdValues, List<UserBookmarkType> typeValues) {
+    final len = objectIdValues.length;
     assert(
         typeValues.length == len, 'All index values must have the same length');
     final values = <List<dynamic>>[];
     for (var i = 0; i < len; i++) {
-      values.add([favoriteIdValues[i], typeValues[i]]);
+      values.add([objectIdValues[i], typeValues[i]]);
     }
 
-    return deleteAllByIndex(r'favoriteId_type', values);
+    return deleteAllByIndex(r'objectId_type', values);
   }
 
-  int deleteAllByFavoriteIdTypeSync(
-      List<String> favoriteIdValues, List<UserFavoriteType> typeValues) {
-    final len = favoriteIdValues.length;
+  int deleteAllByObjectIdTypeSync(
+      List<String> objectIdValues, List<UserBookmarkType> typeValues) {
+    final len = objectIdValues.length;
     assert(
         typeValues.length == len, 'All index values must have the same length');
     final values = <List<dynamic>>[];
     for (var i = 0; i < len; i++) {
-      values.add([favoriteIdValues[i], typeValues[i]]);
+      values.add([objectIdValues[i], typeValues[i]]);
     }
 
-    return deleteAllByIndexSync(r'favoriteId_type', values);
+    return deleteAllByIndexSync(r'objectId_type', values);
   }
 
-  Future<Id> putByFavoriteIdType(UserFavorite object) {
-    return putByIndex(r'favoriteId_type', object);
+  Future<Id> putByObjectIdType(UserBookmark object) {
+    return putByIndex(r'objectId_type', object);
   }
 
-  Id putByFavoriteIdTypeSync(UserFavorite object, {bool saveLinks = true}) {
-    return putByIndexSync(r'favoriteId_type', object, saveLinks: saveLinks);
+  Id putByObjectIdTypeSync(UserBookmark object, {bool saveLinks = true}) {
+    return putByIndexSync(r'objectId_type', object, saveLinks: saveLinks);
   }
 
-  Future<List<Id>> putAllByFavoriteIdType(List<UserFavorite> objects) {
-    return putAllByIndex(r'favoriteId_type', objects);
+  Future<List<Id>> putAllByObjectIdType(List<UserBookmark> objects) {
+    return putAllByIndex(r'objectId_type', objects);
   }
 
-  List<Id> putAllByFavoriteIdTypeSync(List<UserFavorite> objects,
+  List<Id> putAllByObjectIdTypeSync(List<UserBookmark> objects,
       {bool saveLinks = true}) {
-    return putAllByIndexSync(r'favoriteId_type', objects, saveLinks: saveLinks);
+    return putAllByIndexSync(r'objectId_type', objects, saveLinks: saveLinks);
   }
 }
 
-extension UserFavoriteQueryWhereSort
-    on QueryBuilder<UserFavorite, UserFavorite, QWhere> {
-  QueryBuilder<UserFavorite, UserFavorite, QAfterWhere> anyIsarId() {
+extension UserBookmarkQueryWhereSort
+    on QueryBuilder<UserBookmark, UserBookmark, QWhere> {
+  QueryBuilder<UserBookmark, UserBookmark, QAfterWhere> anyIsarId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterWhere> anyType() {
+  QueryBuilder<UserBookmark, UserBookmark, QAfterWhere> anyType() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         const IndexWhereClause.any(indexName: r'type'),
@@ -263,9 +261,9 @@ extension UserFavoriteQueryWhereSort
   }
 }
 
-extension UserFavoriteQueryWhere
-    on QueryBuilder<UserFavorite, UserFavorite, QWhereClause> {
-  QueryBuilder<UserFavorite, UserFavorite, QAfterWhereClause> isarIdEqualTo(
+extension UserBookmarkQueryWhere
+    on QueryBuilder<UserBookmark, UserBookmark, QWhereClause> {
+  QueryBuilder<UserBookmark, UserBookmark, QAfterWhereClause> isarIdEqualTo(
       Id isarId) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
@@ -275,7 +273,7 @@ extension UserFavoriteQueryWhere
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterWhereClause> isarIdNotEqualTo(
+  QueryBuilder<UserBookmark, UserBookmark, QAfterWhereClause> isarIdNotEqualTo(
       Id isarId) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
@@ -298,7 +296,7 @@ extension UserFavoriteQueryWhere
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterWhereClause> isarIdGreaterThan(
+  QueryBuilder<UserBookmark, UserBookmark, QAfterWhereClause> isarIdGreaterThan(
       Id isarId,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
@@ -308,7 +306,7 @@ extension UserFavoriteQueryWhere
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterWhereClause> isarIdLessThan(
+  QueryBuilder<UserBookmark, UserBookmark, QAfterWhereClause> isarIdLessThan(
       Id isarId,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
@@ -318,7 +316,7 @@ extension UserFavoriteQueryWhere
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterWhereClause> isarIdBetween(
+  QueryBuilder<UserBookmark, UserBookmark, QAfterWhereClause> isarIdBetween(
     Id lowerIsarId,
     Id upperIsarId, {
     bool includeLower = true,
@@ -334,8 +332,8 @@ extension UserFavoriteQueryWhere
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterWhereClause> typeEqualTo(
-      UserFavoriteType type) {
+  QueryBuilder<UserBookmark, UserBookmark, QAfterWhereClause> typeEqualTo(
+      UserBookmarkType type) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'type',
@@ -344,8 +342,8 @@ extension UserFavoriteQueryWhere
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterWhereClause> typeNotEqualTo(
-      UserFavoriteType type) {
+  QueryBuilder<UserBookmark, UserBookmark, QAfterWhereClause> typeNotEqualTo(
+      UserBookmarkType type) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -379,8 +377,8 @@ extension UserFavoriteQueryWhere
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterWhereClause> typeGreaterThan(
-    UserFavoriteType type, {
+  QueryBuilder<UserBookmark, UserBookmark, QAfterWhereClause> typeGreaterThan(
+    UserBookmarkType type, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -393,8 +391,8 @@ extension UserFavoriteQueryWhere
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterWhereClause> typeLessThan(
-    UserFavoriteType type, {
+  QueryBuilder<UserBookmark, UserBookmark, QAfterWhereClause> typeLessThan(
+    UserBookmarkType type, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -407,9 +405,9 @@ extension UserFavoriteQueryWhere
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterWhereClause> typeBetween(
-    UserFavoriteType lowerType,
-    UserFavoriteType upperType, {
+  QueryBuilder<UserBookmark, UserBookmark, QAfterWhereClause> typeBetween(
+    UserBookmarkType lowerType,
+    UserBookmarkType upperType, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -424,288 +422,151 @@ extension UserFavoriteQueryWhere
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterWhereClause>
-      favoriteIdEqualToAnyType(String favoriteId) {
+  QueryBuilder<UserBookmark, UserBookmark, QAfterWhereClause>
+      objectIdEqualToAnyType(String objectId) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'favoriteId_type',
-        value: [favoriteId],
+        indexName: r'objectId_type',
+        value: [objectId],
       ));
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterWhereClause>
-      favoriteIdNotEqualToAnyType(String favoriteId) {
+  QueryBuilder<UserBookmark, UserBookmark, QAfterWhereClause>
+      objectIdNotEqualToAnyType(String objectId) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'favoriteId_type',
+              indexName: r'objectId_type',
               lower: [],
-              upper: [favoriteId],
+              upper: [objectId],
               includeUpper: false,
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'favoriteId_type',
-              lower: [favoriteId],
+              indexName: r'objectId_type',
+              lower: [objectId],
               includeLower: false,
               upper: [],
             ));
       } else {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'favoriteId_type',
-              lower: [favoriteId],
+              indexName: r'objectId_type',
+              lower: [objectId],
               includeLower: false,
               upper: [],
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'favoriteId_type',
+              indexName: r'objectId_type',
               lower: [],
-              upper: [favoriteId],
+              upper: [objectId],
               includeUpper: false,
             ));
       }
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterWhereClause>
-      favoriteIdTypeEqualTo(String favoriteId, UserFavoriteType type) {
+  QueryBuilder<UserBookmark, UserBookmark, QAfterWhereClause>
+      objectIdTypeEqualTo(String objectId, UserBookmarkType type) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'favoriteId_type',
-        value: [favoriteId, type],
+        indexName: r'objectId_type',
+        value: [objectId, type],
       ));
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterWhereClause>
-      favoriteIdEqualToTypeNotEqualTo(
-          String favoriteId, UserFavoriteType type) {
+  QueryBuilder<UserBookmark, UserBookmark, QAfterWhereClause>
+      objectIdEqualToTypeNotEqualTo(String objectId, UserBookmarkType type) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'favoriteId_type',
-              lower: [favoriteId],
-              upper: [favoriteId, type],
+              indexName: r'objectId_type',
+              lower: [objectId],
+              upper: [objectId, type],
               includeUpper: false,
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'favoriteId_type',
-              lower: [favoriteId, type],
+              indexName: r'objectId_type',
+              lower: [objectId, type],
               includeLower: false,
-              upper: [favoriteId],
+              upper: [objectId],
             ));
       } else {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'favoriteId_type',
-              lower: [favoriteId, type],
+              indexName: r'objectId_type',
+              lower: [objectId, type],
               includeLower: false,
-              upper: [favoriteId],
+              upper: [objectId],
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'favoriteId_type',
-              lower: [favoriteId],
-              upper: [favoriteId, type],
+              indexName: r'objectId_type',
+              lower: [objectId],
+              upper: [objectId, type],
               includeUpper: false,
             ));
       }
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterWhereClause>
-      favoriteIdEqualToTypeGreaterThan(
-    String favoriteId,
-    UserFavoriteType type, {
+  QueryBuilder<UserBookmark, UserBookmark, QAfterWhereClause>
+      objectIdEqualToTypeGreaterThan(
+    String objectId,
+    UserBookmarkType type, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'favoriteId_type',
-        lower: [favoriteId, type],
+        indexName: r'objectId_type',
+        lower: [objectId, type],
         includeLower: include,
-        upper: [favoriteId],
+        upper: [objectId],
       ));
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterWhereClause>
-      favoriteIdEqualToTypeLessThan(
-    String favoriteId,
-    UserFavoriteType type, {
+  QueryBuilder<UserBookmark, UserBookmark, QAfterWhereClause>
+      objectIdEqualToTypeLessThan(
+    String objectId,
+    UserBookmarkType type, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'favoriteId_type',
-        lower: [favoriteId],
-        upper: [favoriteId, type],
+        indexName: r'objectId_type',
+        lower: [objectId],
+        upper: [objectId, type],
         includeUpper: include,
       ));
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterWhereClause>
-      favoriteIdEqualToTypeBetween(
-    String favoriteId,
-    UserFavoriteType lowerType,
-    UserFavoriteType upperType, {
+  QueryBuilder<UserBookmark, UserBookmark, QAfterWhereClause>
+      objectIdEqualToTypeBetween(
+    String objectId,
+    UserBookmarkType lowerType,
+    UserBookmarkType upperType, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'favoriteId_type',
-        lower: [favoriteId, lowerType],
+        indexName: r'objectId_type',
+        lower: [objectId, lowerType],
         includeLower: includeLower,
-        upper: [favoriteId, upperType],
+        upper: [objectId, upperType],
         includeUpper: includeUpper,
       ));
     });
   }
 }
 
-extension UserFavoriteQueryFilter
-    on QueryBuilder<UserFavorite, UserFavorite, QFilterCondition> {
-  QueryBuilder<UserFavorite, UserFavorite, QAfterFilterCondition>
-      favoriteIdEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'favoriteId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<UserFavorite, UserFavorite, QAfterFilterCondition>
-      favoriteIdGreaterThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'favoriteId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<UserFavorite, UserFavorite, QAfterFilterCondition>
-      favoriteIdLessThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'favoriteId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<UserFavorite, UserFavorite, QAfterFilterCondition>
-      favoriteIdBetween(
-    String lower,
-    String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'favoriteId',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<UserFavorite, UserFavorite, QAfterFilterCondition>
-      favoriteIdStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'favoriteId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<UserFavorite, UserFavorite, QAfterFilterCondition>
-      favoriteIdEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'favoriteId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<UserFavorite, UserFavorite, QAfterFilterCondition>
-      favoriteIdContains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'favoriteId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<UserFavorite, UserFavorite, QAfterFilterCondition>
-      favoriteIdMatches(String pattern, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'favoriteId',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<UserFavorite, UserFavorite, QAfterFilterCondition>
-      favoriteIdIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'favoriteId',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<UserFavorite, UserFavorite, QAfterFilterCondition>
-      favoriteIdIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'favoriteId',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<UserFavorite, UserFavorite, QAfterFilterCondition> idEqualTo(
+extension UserBookmarkQueryFilter
+    on QueryBuilder<UserBookmark, UserBookmark, QFilterCondition> {
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition> idEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -718,7 +579,7 @@ extension UserFavoriteQueryFilter
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterFilterCondition> idGreaterThan(
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition> idGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -733,7 +594,7 @@ extension UserFavoriteQueryFilter
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterFilterCondition> idLessThan(
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition> idLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -748,7 +609,7 @@ extension UserFavoriteQueryFilter
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterFilterCondition> idBetween(
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition> idBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -767,7 +628,7 @@ extension UserFavoriteQueryFilter
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterFilterCondition> idStartsWith(
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition> idStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -780,7 +641,7 @@ extension UserFavoriteQueryFilter
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterFilterCondition> idEndsWith(
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition> idEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -793,7 +654,7 @@ extension UserFavoriteQueryFilter
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterFilterCondition> idContains(
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition> idContains(
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -805,7 +666,7 @@ extension UserFavoriteQueryFilter
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterFilterCondition> idMatches(
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition> idMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -817,7 +678,7 @@ extension UserFavoriteQueryFilter
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterFilterCondition> idIsEmpty() {
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition> idIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -826,7 +687,7 @@ extension UserFavoriteQueryFilter
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterFilterCondition>
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition>
       idIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -836,7 +697,7 @@ extension UserFavoriteQueryFilter
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterFilterCondition> isarIdEqualTo(
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition> isarIdEqualTo(
       Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -846,7 +707,7 @@ extension UserFavoriteQueryFilter
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterFilterCondition>
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition>
       isarIdGreaterThan(
     Id value, {
     bool include = false,
@@ -860,7 +721,7 @@ extension UserFavoriteQueryFilter
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterFilterCondition>
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition>
       isarIdLessThan(
     Id value, {
     bool include = false,
@@ -874,7 +735,7 @@ extension UserFavoriteQueryFilter
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterFilterCondition> isarIdBetween(
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition> isarIdBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -891,8 +752,144 @@ extension UserFavoriteQueryFilter
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterFilterCondition> typeEqualTo(
-      UserFavoriteType value) {
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition>
+      objectIdEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'objectId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition>
+      objectIdGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'objectId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition>
+      objectIdLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'objectId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition>
+      objectIdBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'objectId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition>
+      objectIdStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'objectId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition>
+      objectIdEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'objectId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition>
+      objectIdContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'objectId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition>
+      objectIdMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'objectId',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition>
+      objectIdIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'objectId',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition>
+      objectIdIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'objectId',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition> typeEqualTo(
+      UserBookmarkType value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'type',
@@ -901,9 +898,9 @@ extension UserFavoriteQueryFilter
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterFilterCondition>
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition>
       typeGreaterThan(
-    UserFavoriteType value, {
+    UserBookmarkType value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -915,8 +912,8 @@ extension UserFavoriteQueryFilter
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterFilterCondition> typeLessThan(
-    UserFavoriteType value, {
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition> typeLessThan(
+    UserBookmarkType value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -928,9 +925,9 @@ extension UserFavoriteQueryFilter
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterFilterCondition> typeBetween(
-    UserFavoriteType lower,
-    UserFavoriteType upper, {
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition> typeBetween(
+    UserBookmarkType lower,
+    UserBookmarkType upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -946,148 +943,146 @@ extension UserFavoriteQueryFilter
   }
 }
 
-extension UserFavoriteQueryObject
-    on QueryBuilder<UserFavorite, UserFavorite, QFilterCondition> {}
+extension UserBookmarkQueryObject
+    on QueryBuilder<UserBookmark, UserBookmark, QFilterCondition> {}
 
-extension UserFavoriteQueryLinks
-    on QueryBuilder<UserFavorite, UserFavorite, QFilterCondition> {}
+extension UserBookmarkQueryLinks
+    on QueryBuilder<UserBookmark, UserBookmark, QFilterCondition> {}
 
-extension UserFavoriteQuerySortBy
-    on QueryBuilder<UserFavorite, UserFavorite, QSortBy> {
-  QueryBuilder<UserFavorite, UserFavorite, QAfterSortBy> sortByFavoriteId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'favoriteId', Sort.asc);
-    });
-  }
-
-  QueryBuilder<UserFavorite, UserFavorite, QAfterSortBy>
-      sortByFavoriteIdDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'favoriteId', Sort.desc);
-    });
-  }
-
-  QueryBuilder<UserFavorite, UserFavorite, QAfterSortBy> sortById() {
+extension UserBookmarkQuerySortBy
+    on QueryBuilder<UserBookmark, UserBookmark, QSortBy> {
+  QueryBuilder<UserBookmark, UserBookmark, QAfterSortBy> sortById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterSortBy> sortByIdDesc() {
+  QueryBuilder<UserBookmark, UserBookmark, QAfterSortBy> sortByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterSortBy> sortByType() {
+  QueryBuilder<UserBookmark, UserBookmark, QAfterSortBy> sortByObjectId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'objectId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserBookmark, UserBookmark, QAfterSortBy> sortByObjectIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'objectId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserBookmark, UserBookmark, QAfterSortBy> sortByType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'type', Sort.asc);
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterSortBy> sortByTypeDesc() {
+  QueryBuilder<UserBookmark, UserBookmark, QAfterSortBy> sortByTypeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'type', Sort.desc);
     });
   }
 }
 
-extension UserFavoriteQuerySortThenBy
-    on QueryBuilder<UserFavorite, UserFavorite, QSortThenBy> {
-  QueryBuilder<UserFavorite, UserFavorite, QAfterSortBy> thenByFavoriteId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'favoriteId', Sort.asc);
-    });
-  }
-
-  QueryBuilder<UserFavorite, UserFavorite, QAfterSortBy>
-      thenByFavoriteIdDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'favoriteId', Sort.desc);
-    });
-  }
-
-  QueryBuilder<UserFavorite, UserFavorite, QAfterSortBy> thenById() {
+extension UserBookmarkQuerySortThenBy
+    on QueryBuilder<UserBookmark, UserBookmark, QSortThenBy> {
+  QueryBuilder<UserBookmark, UserBookmark, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<UserBookmark, UserBookmark, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterSortBy> thenByIsarId() {
+  QueryBuilder<UserBookmark, UserBookmark, QAfterSortBy> thenByIsarId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isarId', Sort.asc);
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterSortBy> thenByIsarIdDesc() {
+  QueryBuilder<UserBookmark, UserBookmark, QAfterSortBy> thenByIsarIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isarId', Sort.desc);
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterSortBy> thenByType() {
+  QueryBuilder<UserBookmark, UserBookmark, QAfterSortBy> thenByObjectId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'objectId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserBookmark, UserBookmark, QAfterSortBy> thenByObjectIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'objectId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserBookmark, UserBookmark, QAfterSortBy> thenByType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'type', Sort.asc);
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QAfterSortBy> thenByTypeDesc() {
+  QueryBuilder<UserBookmark, UserBookmark, QAfterSortBy> thenByTypeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'type', Sort.desc);
     });
   }
 }
 
-extension UserFavoriteQueryWhereDistinct
-    on QueryBuilder<UserFavorite, UserFavorite, QDistinct> {
-  QueryBuilder<UserFavorite, UserFavorite, QDistinct> distinctByFavoriteId(
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'favoriteId', caseSensitive: caseSensitive);
-    });
-  }
-
-  QueryBuilder<UserFavorite, UserFavorite, QDistinct> distinctById(
+extension UserBookmarkQueryWhereDistinct
+    on QueryBuilder<UserBookmark, UserBookmark, QDistinct> {
+  QueryBuilder<UserBookmark, UserBookmark, QDistinct> distinctById(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'id', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavorite, QDistinct> distinctByType() {
+  QueryBuilder<UserBookmark, UserBookmark, QDistinct> distinctByObjectId(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'objectId', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<UserBookmark, UserBookmark, QDistinct> distinctByType() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'type');
     });
   }
 }
 
-extension UserFavoriteQueryProperty
-    on QueryBuilder<UserFavorite, UserFavorite, QQueryProperty> {
-  QueryBuilder<UserFavorite, int, QQueryOperations> isarIdProperty() {
+extension UserBookmarkQueryProperty
+    on QueryBuilder<UserBookmark, UserBookmark, QQueryProperty> {
+  QueryBuilder<UserBookmark, int, QQueryOperations> isarIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isarId');
     });
   }
 
-  QueryBuilder<UserFavorite, String, QQueryOperations> favoriteIdProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'favoriteId');
-    });
-  }
-
-  QueryBuilder<UserFavorite, String, QQueryOperations> idProperty() {
+  QueryBuilder<UserBookmark, String, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<UserFavorite, UserFavoriteType, QQueryOperations>
+  QueryBuilder<UserBookmark, String, QQueryOperations> objectIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'objectId');
+    });
+  }
+
+  QueryBuilder<UserBookmark, UserBookmarkType, QQueryOperations>
       typeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'type');

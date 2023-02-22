@@ -63,6 +63,7 @@ dependencies:
   dropdown_button2: ^1.9.2
   cached_network_image: ^3.2.3
   maps_launcher: ^2.2.0
+  uuid: ^3.0.7
 
 dev_dependencies:
   flutter_test:

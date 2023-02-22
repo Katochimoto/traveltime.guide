@@ -2,9 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:maps_launcher/maps_launcher.dart';
 import 'package:traveltime/constants/Theme.dart';
 import 'package:traveltime/providers/point_overview.dart';
+import 'package:traveltime/screens/map/overview_bookmark.dart';
+import 'package:traveltime/screens/map/overview_openapp.dart';
+// import 'package:traveltime/screens/map/overview_visited.dart';
 import 'package:traveltime/store/db.dart';
 import 'package:traveltime/store/models/point.dart';
 import 'package:traveltime/widgets/not_found.dart';
@@ -101,65 +103,9 @@ class OverviewContent extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              IconButton(
-                                icon: const Icon(Icons.share_location),
-                                onPressed: () {
-                                  MapsLauncher.launchCoordinates(
-                                    point.lat,
-                                    point.lng,
-                                  );
-                                },
-                                iconSize: 25,
-                                color: Colors.white70,
-                              ),
-                              Text('Map App',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .merge(Typography.whiteCupertino)
-                                      .bodySmall)
-                            ],
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              IconButton(
-                                icon: const Icon(
-                                    Icons.bookmark_add), // bookmark_remove
-                                onPressed: () {},
-                                iconSize: 25,
-                                color: Colors
-                                    .white70, // Colors.tealAccent.withOpacity(0.7),
-                              ),
-                              Text('Bookmark',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .merge(Typography.whiteCupertino)
-                                      .bodySmall)
-                            ],
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              IconButton(
-                                icon:
-                                    const Icon(Icons.playlist_add_check_circle),
-                                onPressed: () {},
-                                iconSize: 25,
-                                color: Colors.white70,
-                              ),
-                              Text('Visited',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .merge(Typography.whiteCupertino)
-                                      .bodySmall)
-                            ],
-                          ),
+                          OverviewOpenapp(point: point),
+                          OverviewBookmark(point: point),
+                          // OverviewVisited(point: point),
                         ],
                       ),
                     ),
