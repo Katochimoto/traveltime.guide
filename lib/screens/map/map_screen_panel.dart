@@ -44,6 +44,7 @@ class MapScreenPanel extends ConsumerWidget {
                       },
                       onUpdate: () {
                         pc?.open();
+                        mc?.fitBounds(overview.point.bounds);
                       },
                       child: Overview(sc: sc, id: overview.point.isarId),
                     ),
