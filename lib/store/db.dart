@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:traveltime/providers/app_auth.dart';
+import 'package:traveltime/providers/bookmarks.dart';
 import 'package:traveltime/providers/points_filters.dart';
 import 'package:traveltime/store/models/article.dart';
 import 'package:traveltime/store/models/point.dart';
@@ -56,20 +57,32 @@ final articleProvider =
 });
 
 final pointsProvider = StreamProvider.autoDispose((ref) async* {
+  await ref.watch(bookmarksProvider.future);
   final filters = ref.watch(pointsFiltersProvider);
   final locale =
       await ref.watch(appAuthProvider.selectAsync((data) => data.locale));
   final db = await ref.watch(dbProvider.future);
 
-  final query = db
+  var query = db
       .collection<Point>()
       .filter()
       .localeEqualTo(locale)
-      .anyOf(filters.categories, (q, value) => q.categoryEqualTo(value))
-      .sortByPublishedAtDesc()
-      .build();
+      .anyOf(filters.categories, (q, value) => q.categoryEqualTo(value));
 
-  await for (final results in query.watch(fireImmediately: true)) {
+  if (filters.bookmarks) {
+    final bookmarks = await db
+        .collection<UserBookmark>()
+        .filter()
+        .typeEqualTo(UserBookmarkType.point)
+        .findAll();
+    final bookmarkIds =
+        bookmarks.map((item) => item.objectId).toList(growable: false);
+    query = query.anyOf(bookmarkIds, (q, value) => q.idEqualTo(value));
+  }
+
+  final buildQuery = query.sortByPublishedAtDesc().build();
+
+  await for (final results in buildQuery.watch(fireImmediately: true)) {
     if (results.isNotEmpty) {
       yield results;
     }

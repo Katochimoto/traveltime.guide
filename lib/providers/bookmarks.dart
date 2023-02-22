@@ -10,18 +10,16 @@ class Bookmarks {
 }
 
 class BookmarksController extends AsyncNotifier<Bookmarks> {
-  late Isar _db;
-
   @override
   Future<Bookmarks> build() async {
-    _db = await ref.watch(dbProvider.future);
     return Bookmarks();
   }
 
   Future<void> addPoint(Point point) async {
     state = await AsyncValue.guard(() async {
-      await _db.writeTxn(() async {
-        final bookmarks = _db.collection<UserBookmark>();
+      final db = await ref.read(dbProvider.future);
+      await db.writeTxn(() async {
+        final bookmarks = db.collection<UserBookmark>();
         bookmarks.put(UserBookmark.createPointBookmark(point));
       });
       return Bookmarks();
@@ -30,8 +28,9 @@ class BookmarksController extends AsyncNotifier<Bookmarks> {
 
   Future<void> removePoint(Point point) async {
     state = await AsyncValue.guard(() async {
-      await _db.writeTxn(() async {
-        await _db
+      final db = await ref.read(dbProvider.future);
+      await db.writeTxn(() async {
+        await db
             .collection<UserBookmark>()
             .filter()
             .typeEqualTo(UserBookmarkType.point)

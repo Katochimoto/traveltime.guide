@@ -41,6 +41,7 @@ class Point {
     this.coverImg,
   });
 
+  @Index(unique: true, type: IndexType.value)
   final String id;
 
   Id get isarId => fastHash(id);

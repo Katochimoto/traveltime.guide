@@ -58,7 +58,7 @@ class NavbarCategories extends StatelessWidget {
       height: UINavbar.hCategories,
       child: ListView(
         shrinkWrap: true,
-        itemExtent: 65.0,
+        itemExtent: 70.0,
         scrollDirection: Axis.horizontal,
         children: items,
       ),

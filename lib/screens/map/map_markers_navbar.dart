@@ -17,6 +17,14 @@ class MapMarkersNavbar extends ConsumerWidget {
 
     return NavbarCategories(
       items: [
+        NavbarCategorieButton(
+          icon: Icons.bookmarks,
+          title: 'Bookmarks',
+          selected: filters.bookmarks,
+          onPressed: () {
+            ref.read(pointsFiltersProvider.notifier).toggleBookmarks();
+          },
+        ),
         for (final point in points)
           NavbarCategorieButton(
             icon: markerIcons[point.category] ?? defaultMarkerIcon,
