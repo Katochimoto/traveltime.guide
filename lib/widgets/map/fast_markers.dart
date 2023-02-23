@@ -129,7 +129,7 @@ class FastMarkersLayerState extends ConsumerState<FastMarkersLayerController> {
       clusterHeight: widget.clusterHeight,
     );
 
-    _debouncer.run(() => _fitBounds());
+    // _debouncer.run(() => _fitBounds());
   }
 
   @override
@@ -144,7 +144,7 @@ class FastMarkersLayerState extends ConsumerState<FastMarkersLayerController> {
       clusterHeight: widget.clusterHeight,
     );
 
-    _debouncer.run(() => _fitBounds());
+    // _debouncer.run(() => _fitBounds());
   }
 
   @override

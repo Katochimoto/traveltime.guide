@@ -32,6 +32,11 @@ final ThemeData lightTheme = ThemeData(
     backgroundColor: Color(0xff009688),
   ),
   textButtonTheme: const TextButtonThemeData(),
+  floatingActionButtonTheme: const FloatingActionButtonThemeData(
+    foregroundColor: Color(0xff303030),
+    backgroundColor: Color(0xfffafafa),
+    shape: CircleBorder(),
+  ),
   buttonTheme: ButtonThemeData(
     textTheme: ButtonTextTheme.normal,
     minWidth: 88,

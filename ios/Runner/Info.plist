@@ -69,5 +69,9 @@
 		</array>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>This app needs access to location and direction when open.</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>This app needs access to location and direction when open.</string>
 	</dict>
 </plist>

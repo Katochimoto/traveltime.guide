@@ -64,6 +64,7 @@ dependencies:
   cached_network_image: ^3.2.3
   maps_launcher: ^2.2.0
   uuid: ^3.0.7
+  flutter_map_location_marker: ^5.2.1
 
 dev_dependencies:
   flutter_test:
