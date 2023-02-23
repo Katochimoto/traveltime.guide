@@ -28,9 +28,11 @@ class NavbarCategorieButton extends StatelessWidget {
           shadowColor: colors.secondaryContainer,
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(15.0))),
-          foregroundColor: colors.onSecondaryContainer,
-          backgroundColor:
-              selected ? colors.primaryContainer : colors.secondaryContainer,
+          foregroundColor:
+              selected ? colors.primaryContainer : colors.onSecondaryContainer,
+          backgroundColor: selected
+              ? colors.onSecondaryContainer.withOpacity(0.75)
+              : colors.secondaryContainer,
           disabledBackgroundColor: colors.onSurface.withOpacity(0.12),
           hoverColor: colors.onSecondaryContainer.withOpacity(0.08),
           focusColor: colors.onSecondaryContainer.withOpacity(0.12),

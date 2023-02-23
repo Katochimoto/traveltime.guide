@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:traveltime/constants/Theme.dart';
+import 'package:traveltime/screens/profile/detail_bookmarks.dart';
 import 'package:traveltime/widgets/page_layout.dart';
 
 class ProfileDetails extends StatelessWidget {
@@ -58,42 +59,26 @@ class ProfileDetails extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               crossAxisAlignment: CrossAxisAlignment.end,
                               mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    IconButton(
-                                      icon: const Icon(Icons.bookmarks),
-                                      onPressed: () {},
-                                      iconSize: 25,
-                                      color: Colors.white70,
-                                    ),
-                                    Text('Bookmarks',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .merge(Typography.whiteCupertino)
-                                            .bodySmall)
-                                  ],
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    IconButton(
-                                      icon: const Icon(
-                                          Icons.playlist_add_check_circle),
-                                      onPressed: () {},
-                                      iconSize: 25,
-                                      color: Colors.white70,
-                                    ),
-                                    Text('Visited',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .merge(Typography.whiteCupertino)
-                                            .bodySmall)
-                                  ],
-                                ),
+                              children: const [
+                                DetailBookmarks(),
+                                // Column(
+                                //   crossAxisAlignment: CrossAxisAlignment.center,
+                                //   mainAxisAlignment: MainAxisAlignment.center,
+                                //   children: [
+                                //     IconButton(
+                                //       icon: const Icon(
+                                //           Icons.playlist_add_check_circle),
+                                //       onPressed: () {},
+                                //       iconSize: 25,
+                                //       color: Colors.white70,
+                                //     ),
+                                //     Text('Visited',
+                                //         style: Theme.of(context)
+                                //             .textTheme
+                                //             .merge(Typography.whiteCupertino)
+                                //             .bodySmall)
+                                //   ],
+                                // ),
                               ],
                             ),
                           ),

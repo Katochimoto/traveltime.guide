@@ -23,10 +23,10 @@ class PointsFiltersData {
     );
   }
 
-  PointsFiltersData toggleBookmarks() {
+  PointsFiltersData toggleBookmarks({bool? toggle}) {
     return PointsFiltersData(
       categories: categories,
-      bookmarks: !bookmarks,
+      bookmarks: toggle ?? !bookmarks,
     );
   }
 }
@@ -41,8 +41,8 @@ class PointsFiltersController extends Notifier<PointsFiltersData> {
     state = state.toggleCategory(data);
   }
 
-  void toggleBookmarks() {
-    state = state.toggleBookmarks();
+  void toggleBookmarks({bool? toggle}) {
+    state = state.toggleBookmarks(toggle: toggle);
   }
 }
 
