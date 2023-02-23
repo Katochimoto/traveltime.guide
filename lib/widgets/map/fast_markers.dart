@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:traveltime/providers/map_tap_position.dart';
 import 'package:traveltime/store/models/point.dart';
+import 'package:traveltime/utils/debouncer.dart';
 
 class FastMarker {
   final int id;
@@ -97,6 +100,23 @@ class FastMarkersLayerController extends ConsumerStatefulWidget {
 class FastMarkersLayerState extends ConsumerState<FastMarkersLayerController> {
   late FastMarkersPainter painter;
 
+  final _debouncer = Debouncer(milliseconds: 100);
+
+  void _fitBounds() {
+    final points =
+        widget.markers.map((item) => item.point).toList(growable: true);
+    final bounds = LatLngBounds.fromPoints(points);
+    widget.mapState.fitBounds(
+      bounds,
+      const FitBoundsOptions(
+        padding: EdgeInsets.symmetric(
+          vertical: 100,
+          horizontal: 40,
+        ),
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -108,6 +128,8 @@ class FastMarkersLayerState extends ConsumerState<FastMarkersLayerController> {
       clusterWidth: widget.clusterWidth,
       clusterHeight: widget.clusterHeight,
     );
+
+    _debouncer.run(() => _fitBounds());
   }
 
   @override
@@ -121,6 +143,8 @@ class FastMarkersLayerState extends ConsumerState<FastMarkersLayerController> {
       clusterWidth: widget.clusterWidth,
       clusterHeight: widget.clusterHeight,
     );
+
+    _debouncer.run(() => _fitBounds());
   }
 
   @override

@@ -31,7 +31,6 @@ class MapScreenBody extends ConsumerWidget {
       FlutterMap(
         mapController: mc,
         options: MapOptions(
-          center: ll.LatLng(51.5, -0.09),
           zoom: 3,
           maxZoom: 18,
           minZoom: 3,
