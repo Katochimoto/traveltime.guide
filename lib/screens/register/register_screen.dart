@@ -17,10 +17,10 @@ class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
   @override
-  _RegisterState createState() => _RegisterState();
+  RegisterScreenState createState() => RegisterScreenState();
 }
 
-class _RegisterState extends State<RegisterScreen> {
+class RegisterScreenState extends State<RegisterScreen> {
   bool _checkboxValue = false;
 
   final double height = window.physicalSize.height;

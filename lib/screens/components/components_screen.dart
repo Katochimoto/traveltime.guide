@@ -14,10 +14,10 @@ class ComponentsScreen extends StatefulWidget {
   const ComponentsScreen({super.key});
 
   @override
-  _ComponentsState createState() => _ComponentsState();
+  ComponentsScreenState createState() => ComponentsScreenState();
 }
 
-class _ComponentsState extends State<ComponentsScreen> {
+class ComponentsScreenState extends State<ComponentsScreen> {
   late bool switchValueOne;
   late bool switchValueTwo;
 

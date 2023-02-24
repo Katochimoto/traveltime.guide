@@ -4,7 +4,9 @@ import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:traveltime/providers/map_follow_location.dart';
 import 'package:traveltime/providers/map_tap_position.dart';
+import 'package:traveltime/screens/map/map_current_location.dart';
 import 'package:traveltime/screens/map/map_markers.dart';
 import 'package:traveltime/widgets/map/attribution.dart';
 import 'package:traveltime/widgets/map/popover.dart';
@@ -26,8 +28,6 @@ class MapScreenBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ThemeData theme = Theme.of(context);
-    final ColorScheme colors = theme.colorScheme;
     return Stack(alignment: Alignment.topCenter, children: [
       FlutterMap(
         mapController: mc,
@@ -42,28 +42,11 @@ class MapScreenBody extends ConsumerWidget {
           },
           onPositionChanged: (MapPosition position, bool hasGesture) {
             ref.read(popoverProvider.notifier).hide();
+            ref
+                .read(mapFollowLocationProvider.notifier)
+                .update(FollowOnLocationUpdate.never);
           },
         ),
-        nonRotatedChildren: [
-          Positioned(
-            right: 20,
-            bottom: 140,
-            child: FloatingActionButton(
-              onPressed: () {
-                // Follow the location marker on the map when location updated until user interact with the map.
-                // setState(
-                //   () => _followOnLocationUpdate = FollowOnLocationUpdate.always,
-                // );
-                // Follow the location marker on the map and zoom the map to level 18.
-                // _followCurrentLocationStreamController.add(18);
-              },
-              child: const Icon(
-                Icons.my_location,
-                size: 25,
-              ),
-            ),
-          ),
-        ],
         children: [
           TileLayer(
             urlTemplate: 'https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png',
@@ -76,7 +59,7 @@ class MapScreenBody extends ConsumerWidget {
             tileProvider: CachedNetworkTileProvider(),
           ),
           const MapMarkers(),
-          CurrentLocationLayer(),
+          const MapCurrentLocation(),
           // MarkerLayer(
           //   markers: [
           //     Marker(

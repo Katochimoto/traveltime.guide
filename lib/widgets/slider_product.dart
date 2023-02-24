@@ -12,10 +12,10 @@ class ProductCarousel extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ProductCarouselState createState() => _ProductCarouselState();
+  ProductCarouselState createState() => ProductCarouselState();
 }
 
-class _ProductCarouselState extends State<ProductCarousel> {
+class ProductCarouselState extends State<ProductCarousel> {
   int _current = 0;
 
   @override
