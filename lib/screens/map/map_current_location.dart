@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
@@ -52,9 +51,7 @@ class MapCurrentLocationState extends ConsumerState<MapCurrentLocation> {
           bottom: 140,
           child: FloatingActionButton(
             onPressed: () {
-              ref
-                  .read(mapFollowLocationProvider.notifier)
-                  .update(FollowOnLocationUpdate.always);
+              ref.read(mapFollowLocationProvider.notifier).always();
               // Follow the location marker on the map and zoom the map to level 18.
               _followCurrentLocationStreamController.add(16);
             },

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map/plugin_api.dart';
-import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:traveltime/providers/map_follow_location.dart';
@@ -42,9 +41,7 @@ class MapScreenBody extends ConsumerWidget {
           },
           onPositionChanged: (MapPosition position, bool hasGesture) {
             ref.read(popoverProvider.notifier).hide();
-            ref
-                .read(mapFollowLocationProvider.notifier)
-                .update(FollowOnLocationUpdate.never);
+            ref.read(mapFollowLocationProvider.notifier).never();
           },
         ),
         children: [

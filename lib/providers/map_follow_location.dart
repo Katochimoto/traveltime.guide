@@ -7,9 +7,15 @@ class MapFollowLocation extends Notifier<FollowOnLocationUpdate> {
     return FollowOnLocationUpdate.never;
   }
 
-  void update(FollowOnLocationUpdate data) {
-    if (state != data) {
-      state = data;
+  void never() {
+    if (state != FollowOnLocationUpdate.never) {
+      state = FollowOnLocationUpdate.never;
+    }
+  }
+
+  void always() {
+    if (state != FollowOnLocationUpdate.always) {
+      state = FollowOnLocationUpdate.always;
     }
   }
 }
