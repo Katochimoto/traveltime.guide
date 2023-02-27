@@ -50,6 +50,7 @@ class MapCurrentLocationState extends ConsumerState<MapCurrentLocation> {
           right: 20,
           bottom: 140,
           child: FloatingActionButton(
+            heroTag: 'map_current_location',
             onPressed: () {
               ref.read(mapFollowLocationProvider.notifier).always();
               // Follow the location marker on the map and zoom the map to level 18.
