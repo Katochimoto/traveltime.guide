@@ -8,6 +8,7 @@ import 'package:traveltime/providers/map_tap_position.dart';
 import 'package:traveltime/screens/map/map_current_location.dart';
 import 'package:traveltime/screens/map/map_markers.dart';
 import 'package:traveltime/screens/map/map_tiles.dart';
+import 'package:traveltime/screens/map/map_tiles_select.dart';
 import 'package:traveltime/widgets/map/attribution.dart';
 import 'package:traveltime/widgets/map/popover.dart';
 import 'package:traveltime/providers/marker_popover.dart';
@@ -58,11 +59,12 @@ class MapScreenBody extends ConsumerWidget {
               maxZoom: 18,
               // maybe https://github.com/flutter/packages/tree/main/packages/flutter_image
               tileProvider: CachedNetworkTileProvider(),
-              errorImage: const CachedNetworkImageProvider(
-                  'https://tile.openstreetmap.org/18/0/0.png'),
+              errorImage: const AssetImage('assets/imgs/empty_tile.png'),
+              backgroundColor: const Color.fromRGBO(0, 0, 0, 0),
             ),
-            const MapMarkers(),
+            const MapTiles(),
             const MapCurrentLocation(),
+            const MapMarkers(),
             // MarkerLayer(
             //   markers: [
             //     Marker(
@@ -106,7 +108,7 @@ class MapScreenBody extends ConsumerWidget {
             const Popover(),
           ],
         ),
-        const MapTiles(),
+        const MapTilesSelect(),
       ],
     );
   }

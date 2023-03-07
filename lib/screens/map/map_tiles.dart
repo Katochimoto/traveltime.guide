@@ -1,152 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:traveltime/providers/app_auth.dart';
+import 'package:traveltime/providers/map_weather_tiles.dart';
 
-class SelectTiles extends ConsumerWidget {
-  const SelectTiles({super.key});
+const tileApiLayer = {
+  MapWeatherTile.precipitation: 'precipitation_new',
+  MapWeatherTile.wind: 'wind_new',
+  MapWeatherTile.clouds: 'clouds_new',
+  MapWeatherTile.temp: 'temp_new'
+};
 
-  List<DropdownMenuItem<AppTheme>> get themes {
-    List<DropdownMenuItem<AppTheme>> menuItems = [
-      DropdownMenuItem(
-        value: AppTheme.system,
-        child: Row(children: const [
-          Icon(
-            Icons.layers_clear,
-            size: 22,
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Text('Clear')
-        ]),
-      ),
-      DropdownMenuItem(
-        value: AppTheme.dark,
-        child: Row(children: const [
-          Icon(
-            Icons.cloudy_snowing,
-            size: 22,
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Text('Precipitation')
-        ]),
-      ),
-      DropdownMenuItem(
-        value: AppTheme.light,
-        child: Row(children: const [
-          Icon(
-            Icons.wind_power,
-            size: 22,
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Text('Wind speed')
-        ]),
-      ),
-      DropdownMenuItem(
-        value: AppTheme.light,
-        child: Row(children: const [
-          Icon(
-            Icons.cloud,
-            size: 22,
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Text('Clouds')
-        ]),
-      ),
-    ];
-    return menuItems;
-  }
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // final authorized = ref.watch(appAuthProvider).value;
-
-    return DropdownButtonHideUnderline(
-        child: DropdownButton2(
-      // underline: Container(),
-      // alignment: AlignmentDirectional.bottomEnd,
-      customButton: const FloatingActionButton(
-        heroTag: 'map_tiles',
-        onPressed: null,
-        child: Icon(
-          Icons.layers,
-          size: 25,
-        ),
-      ),
-      items: themes,
-      // value: authorized?.theme,
-      onChanged: (value) {
-        // ref.watch(appAuthProvider.notifier).updateTheme(value);
-      },
-      dropdownWidth: 200,
-      dropdownOverButton: true,
-      // offset: const Offset(0, -8),
-    ));
-  }
-}
-
-class MapTiles extends ConsumerStatefulWidget {
+class MapTiles extends ConsumerWidget {
   const MapTiles({super.key});
 
   @override
-  ConsumerState<MapTiles> createState() => MapTilesState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tileType = ref.watch(mapWeatherTilesProvider);
+    if (tileType == MapWeatherTile.none) {
+      return const SizedBox.shrink();
+    }
 
-class MapTilesState extends ConsumerState<MapTiles> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void didUpdateWidget(covariant MapTiles oldWidget) {
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // final followOnLocationUpdate = ref.watch(mapFollowLocationProvider);
-    return Stack(
-      children: [
-        // TileLayer(
-        //   opacity: 0.5,
-        //   urlTemplate:
-        //       'https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=27b74938c3db783a84f6d0722ea2bdba',
-        //   userAgentPackageName: 'guide.traveltime.app',
-        //   retinaMode: false,
-        //   minZoom: 3,
-        //   maxZoom: 10,
-        //   errorImage: const CachedNetworkImageProvider(
-        //       'https://tile.openstreetmap.org/18/0/0.png'),
-        //   tileProvider: NetworkTileProvider(),
-        // ),
-        Positioned(
-          right: 20,
-          bottom: 220,
-          child: SelectTiles(),
-          //  FloatingActionButton(
-          //   onPressed: () {},
-          //   child: const Icon(
-          //     Icons.layers,
-          //     size: 25,
-          //   ),
-          // ),
-        ),
-      ],
+    return TileLayer(
+      urlTemplate:
+          // 'http://maps.openweathermap.org/maps/2.0/weather/PR0/{z}/{x}/{y}?appid=27b74938c3db783a84f6d0722ea2bdba',
+          'https://tile.openweathermap.org/map/${tileApiLayer[tileType]}/{z}/{x}/{y}.png?appid=27b74938c3db783a84f6d0722ea2bdba',
+      userAgentPackageName: 'guide.traveltime.app',
+      retinaMode: false,
+      minZoom: 3,
+      maxZoom: 10,
+      errorImage: const AssetImage('assets/imgs/empty_tile.png'),
+      tileProvider: NetworkTileProvider(),
+      overrideTilesWhenUrlChanges: true,
+      backgroundColor: const Color.fromRGBO(0, 0, 0, 0),
     );
   }
 }

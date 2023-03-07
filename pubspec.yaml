@@ -65,6 +65,7 @@ dependencies:
   maps_launcher: ^2.2.0
   uuid: ^3.0.7
   flutter_map_location_marker: ^5.2.1
+  popover: ^0.2.8+2
 
 dev_dependencies:
   flutter_test:
@@ -97,6 +98,7 @@ flutter:
     - assets/imgs/drawer_bg.jpg
     - assets/imgs/logo.png
     - assets/imgs/not_found.png
+    - assets/imgs/empty_tile.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
