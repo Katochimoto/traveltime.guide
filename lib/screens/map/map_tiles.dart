@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:traveltime/providers/map_weather_tiles.dart';
 
 const tileApiLayer = {
@@ -23,7 +22,6 @@ class MapTiles extends ConsumerWidget {
 
     return TileLayer(
       urlTemplate:
-          // 'http://maps.openweathermap.org/maps/2.0/weather/PR0/{z}/{x}/{y}?appid=27b74938c3db783a84f6d0722ea2bdba',
           'https://tile.openweathermap.org/map/${tileApiLayer[tileType]}/{z}/{x}/{y}.png?appid=27b74938c3db783a84f6d0722ea2bdba',
       userAgentPackageName: 'guide.traveltime.app',
       retinaMode: false,
