@@ -44,7 +44,7 @@ class MapMarkersNavbar extends ConsumerWidget {
     switch (category) {
       case PointCategory.entertainment:
         return AppLocalizations.of(context)!.pointCategoryEntertainment;
-      case PointCategory.events:
+      case PointCategory.event:
         return AppLocalizations.of(context)!.pointCategoryEvents;
       case PointCategory.attraction:
         return AppLocalizations.of(context)!.pointCategoryAttraction;

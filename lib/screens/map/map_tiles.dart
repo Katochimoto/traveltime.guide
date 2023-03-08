@@ -20,6 +20,9 @@ class MapTiles extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
+    // https://www.openrailwaymap.org/
+    // https://c.tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png
+
     return TileLayer(
       // @see https://openweathermap.org/api/weathermaps
       urlTemplate:

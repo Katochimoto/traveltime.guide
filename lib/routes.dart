@@ -1,5 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:traveltime/constants/routes.dart';
+import 'package:traveltime/screens/event/event_screen.dart';
+import 'package:traveltime/screens/events/events_screen.dart';
 import 'package:traveltime/screens/map/map_screen.dart';
 import 'package:traveltime/screens/onboarding/onboarding_screen.dart';
 import 'package:traveltime/screens/home/home_screen.dart';
@@ -63,6 +65,20 @@ final router = GoRouter(
       name: Routes.map,
       path: '/map',
       builder: (context, state) => const MapScreen(),
+    ),
+    GoRoute(
+      name: Routes.events,
+      path: '/events',
+      builder: (context, state) => const EventsScreen(),
+      routes: <RouteBase>[
+        GoRoute(
+          name: Routes.event,
+          path: ':id',
+          builder: (context, state) => EventScreen(
+            id: int.parse(state.params['id']!),
+          ),
+        ),
+      ],
     ),
   ],
 );

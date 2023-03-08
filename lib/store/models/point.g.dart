@@ -273,7 +273,7 @@ P _pointDeserializeProp<P>(
 
 const _PointcategoryEnumValueMap = {
   'entertainment': 0,
-  'events': 1,
+  'event': 1,
   'attraction': 2,
   'nightMarket': 3,
   'hypermarket': 4,
@@ -288,7 +288,7 @@ const _PointcategoryEnumValueMap = {
 };
 const _PointcategoryValueEnumMap = {
   0: PointCategory.entertainment,
-  1: PointCategory.events,
+  1: PointCategory.event,
   2: PointCategory.attraction,
   3: PointCategory.nightMarket,
   4: PointCategory.hypermarket,

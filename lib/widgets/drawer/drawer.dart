@@ -110,6 +110,14 @@ class AppDrawer extends StatelessWidget {
                           isSelected:
                               currentPage == Routes.articles ? true : false),
                       DrawerTile(
+                          icon: Icons.event,
+                          onTap: () {
+                            context.goNamed(Routes.events);
+                          },
+                          title: AppLocalizations.of(context)!.eventsTitle,
+                          isSelected:
+                              currentPage == Routes.events ? true : false),
+                      DrawerTile(
                           icon: Icons.map,
                           onTap: () {
                             context.goNamed(Routes.map);

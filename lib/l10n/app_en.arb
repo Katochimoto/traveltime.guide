@@ -23,5 +23,6 @@
 	"pointCategoryMarina": "Marina",
 	"pointCategoryNightMarket": "Night Market",
 	"pointCategoryPolice": "Police",
-	"pointCategoryRestaurant": "Restaurant"
+	"pointCategoryRestaurant": "Restaurant",
+	"eventsTitle": "Events"
 }

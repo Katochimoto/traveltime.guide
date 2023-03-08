@@ -6,6 +6,7 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:traveltime/constants/constants.dart';
 import 'package:traveltime/store/db.dart';
 import 'package:traveltime/store/models/article.dart';
+import 'package:traveltime/store/models/event.dart';
 import 'package:traveltime/store/models/point.dart';
 import 'package:traveltime/providers/app_auth.dart';
 import 'package:traveltime/providers/connectivity_status.dart';
@@ -160,6 +161,22 @@ class DbSync extends AsyncNotifier<DBSyncState> {
           await points.putAll(items);
         }
         // *** /points ****
+
+        // *** events ****
+        final events = _db.collection<Event>();
+        final eventsChanges = response.data?['changes']?['events'];
+        if (eventsChanges?['deleted']?.isNotEmpty) {
+          await events.deleteAll(eventsChanges['deleted']);
+        }
+        if (eventsChanges?['replaced']?.isNotEmpty) {
+          final List<Event> items = [];
+          for (var item in eventsChanges['replaced']) {
+            items.add(Event.fromJson(item));
+          }
+
+          await events.putAll(items);
+        }
+        // *** /events ****
       });
 
       await _updateLastSync(datetime);

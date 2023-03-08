@@ -8,4 +8,6 @@ class Routes {
   static const String account = "account";
   static const String settings = "settings";
   static const String map = "map";
+  static const String events = "events";
+  static const String event = "event";
 }

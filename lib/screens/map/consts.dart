@@ -10,7 +10,7 @@ const defaultMarkerIcon = Icons.location_on;
 
 final markerColors = {
   PointCategory.entertainment: Colors.teal,
-  PointCategory.events: Colors.deepPurple,
+  PointCategory.event: Colors.deepPurple,
   PointCategory.attraction: Colors.green,
   PointCategory.nightMarket: Colors.lightBlue,
   PointCategory.hypermarket: Colors.lightBlue,
@@ -26,7 +26,7 @@ final markerColors = {
 
 final markerIcons = {
   PointCategory.entertainment: Icons.local_activity,
-  PointCategory.events: Icons.event,
+  PointCategory.event: Icons.event,
   PointCategory.attraction: Icons.attractions,
   PointCategory.nightMarket: Icons.local_grocery_store,
   PointCategory.hypermarket: Icons.local_mall,

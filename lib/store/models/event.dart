@@ -1,60 +1,36 @@
-import 'package:flutter_map/plugin_api.dart';
 import 'package:isar/isar.dart';
-import 'package:latlong2/latlong.dart' as ll;
 import 'package:traveltime/providers/app_auth.dart';
 import 'package:traveltime/utils/fast_hash.dart';
 
-part 'point.g.dart';
-
-enum PointCategory {
-  entertainment,
-  event,
-  attraction,
-  nightMarket,
-  hypermarket,
-  beach,
-  restaurant,
-  cafe,
-  marina,
-  police,
-  gasStation,
-  carRental,
-  hotel,
-}
+part 'event.g.dart';
 
 @collection
-class Point {
-  Point({
+class Event {
+  Event({
     required this.id,
-    required this.lat,
-    required this.lng,
+    required this.country,
     required this.locale,
     required this.createdAt,
     required this.updatedAt,
     required this.publishedAt,
     required this.title,
     required this.description,
-    required this.category,
+    required this.rrule,
+    required this.duration,
     this.intro,
-    this.address,
     this.logoImg,
     this.coverImg,
+    this.points,
   });
 
-  @Index(unique: true, type: IndexType.value)
   final String id;
 
   Id get isarId => fastHash(id);
 
-  final float lat;
-  final float lng;
+  final String country;
 
   @enumerated
   final AppLocale locale;
-
-  @enumerated
-  @Index(type: IndexType.value)
-  final PointCategory category;
 
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -63,33 +39,29 @@ class Point {
   @Index(type: IndexType.value)
   final String title;
   final String description;
+  final String rrule;
+  final String duration;
   final String? intro;
-  final String? address;
   final String? logoImg;
   final String? coverImg;
+  final List<String>? points;
 
-  factory Point.fromJson(data) {
-    return Point(
+  factory Event.fromJson(data) {
+    return Event(
       id: data['id'],
-      lat: data['lat'],
-      lng: data['lng'],
+      country: data['country'],
       locale: AppLocale.values.byName(data['locale']),
-      category: PointCategory.values.byName(data['category']),
       createdAt: DateTime.parse(data['createdAt']),
       updatedAt: DateTime.parse(data['updatedAt']),
       publishedAt: DateTime.parse(data['publishedAt']),
       title: data['title'],
       intro: data['intro'],
-      address: data['address'],
       description: data['description'],
+      rrule: data['rrule'],
+      duration: data['duration'],
       logoImg: data['logoImg'],
       coverImg: data['coverImg'],
+      points: data['points'],
     );
   }
-
-  @ignore
-  LatLngBounds get bounds => LatLngBounds(
-        ll.LatLng(lat, lng),
-        ll.LatLng(lat, lng),
-      );
 }
