@@ -22,7 +22,7 @@ class DetailBookmarks extends ConsumerWidget {
             context.pushNamed(Routes.map);
           },
           iconSize: 25,
-          color: Colors.white70,
+          color: Colors.white,
         ),
         Text('Bookmarks',
             style: Theme.of(context)

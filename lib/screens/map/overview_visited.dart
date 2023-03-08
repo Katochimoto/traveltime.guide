@@ -16,7 +16,7 @@ class OverviewVisited extends StatelessWidget {
           icon: const Icon(Icons.playlist_add_check_circle),
           onPressed: () {},
           iconSize: 25,
-          color: Colors.white70,
+          color: Colors.white,
         ),
         Text('Visited',
             style: Theme.of(context)

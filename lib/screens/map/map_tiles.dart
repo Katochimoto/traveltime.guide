@@ -21,6 +21,7 @@ class MapTiles extends ConsumerWidget {
     }
 
     return TileLayer(
+      // @see https://openweathermap.org/api/weathermaps
       urlTemplate:
           'https://tile.openweathermap.org/map/${tileApiLayer[tileType]}/{z}/{x}/{y}.png?appid=27b74938c3db783a84f6d0722ea2bdba',
       userAgentPackageName: 'guide.traveltime.app',

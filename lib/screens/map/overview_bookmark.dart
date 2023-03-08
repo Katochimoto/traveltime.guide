@@ -29,9 +29,7 @@ class OverviewBookmark extends ConsumerWidget {
             }
           },
           iconSize: 25,
-          color: bookmark == null
-              ? Colors.white70
-              : Colors.tealAccent.withOpacity(0.7),
+          color: bookmark == null ? Colors.white : Colors.tealAccent,
         ),
         Text('Bookmark',
             style: Theme.of(context)

@@ -22,7 +22,7 @@ class OverviewOpenapp extends StatelessWidget {
             );
           },
           iconSize: 25,
-          color: Colors.white70,
+          color: Colors.white,
         ),
         Text('Map App',
             style: Theme.of(context)
