@@ -60,7 +60,7 @@ class MapScreenBody extends ConsumerWidget {
               // maybe https://github.com/flutter/packages/tree/main/packages/flutter_image
               tileProvider: CachedNetworkTileProvider(),
               errorImage: const AssetImage('assets/imgs/empty_tile.png'),
-              backgroundColor: const Color.fromRGBO(0, 0, 0, 0),
+              // backgroundColor: const Color.fromRGBO(0, 0, 0, 0),
             ),
             const MapTiles(),
             const MapCurrentLocation(),

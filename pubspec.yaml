@@ -66,6 +66,7 @@ dependencies:
   uuid: ^3.0.7
   flutter_map_location_marker: ^5.2.1
   popover: ^0.2.8+2
+  table_calendar: ^3.0.8
 
 dev_dependencies:
   flutter_test:
