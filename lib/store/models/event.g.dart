@@ -107,6 +107,19 @@ const EventSchema = CollectionSchema(
           caseSensitive: true,
         )
       ],
+    ),
+    r'points': IndexSchema(
+      id: 4015994326363592107,
+      name: r'points',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'points',
+          type: IndexType.value,
+          caseSensitive: true,
+        )
+      ],
     )
   },
   links: {},
@@ -281,6 +294,14 @@ extension EventQueryWhereSort on QueryBuilder<Event, Event, QWhere> {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         const IndexWhereClause.any(indexName: r'title'),
+      );
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterWhere> anyPointsElement() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'points'),
       );
     });
   }
@@ -480,6 +501,142 @@ extension EventQueryWhere on QueryBuilder<Event, Event, QWhereClause> {
             ))
             .addWhereClause(IndexWhereClause.lessThan(
               indexName: r'title',
+              upper: [''],
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterWhereClause> pointsElementEqualTo(
+      String pointsElement) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'points',
+        value: [pointsElement],
+      ));
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterWhereClause> pointsElementNotEqualTo(
+      String pointsElement) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'points',
+              lower: [],
+              upper: [pointsElement],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'points',
+              lower: [pointsElement],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'points',
+              lower: [pointsElement],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'points',
+              lower: [],
+              upper: [pointsElement],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterWhereClause> pointsElementGreaterThan(
+    String pointsElement, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'points',
+        lower: [pointsElement],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterWhereClause> pointsElementLessThan(
+    String pointsElement, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'points',
+        lower: [],
+        upper: [pointsElement],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterWhereClause> pointsElementBetween(
+    String lowerPointsElement,
+    String upperPointsElement, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'points',
+        lower: [lowerPointsElement],
+        includeLower: includeLower,
+        upper: [upperPointsElement],
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterWhereClause> pointsElementStartsWith(
+      String PointsElementPrefix) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'points',
+        lower: [PointsElementPrefix],
+        upper: ['$PointsElementPrefix\u{FFFFF}'],
+      ));
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterWhereClause> pointsElementIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'points',
+        value: [''],
+      ));
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterWhereClause> pointsElementIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.lessThan(
+              indexName: r'points',
+              upper: [''],
+            ))
+            .addWhereClause(IndexWhereClause.greaterThan(
+              indexName: r'points',
+              lower: [''],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.greaterThan(
+              indexName: r'points',
+              lower: [''],
+            ))
+            .addWhereClause(IndexWhereClause.lessThan(
+              indexName: r'points',
               upper: [''],
             ));
       }

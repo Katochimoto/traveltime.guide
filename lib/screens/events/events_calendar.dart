@@ -1,31 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:traveltime/providers/app_auth.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:traveltime/store/models/event.dart';
 
 final kToday = DateTime.now();
 final kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);
 final kLastDay = DateTime(kToday.year, kToday.month + 3, kToday.day);
 
-class Event {
-  final String title;
+class EventsCalendar extends ConsumerWidget {
+  final List<Event> events;
 
-  const Event(this.title);
-
-  @override
-  String toString() => title;
-}
-
-class EventsCalendar extends StatelessWidget {
-  const EventsCalendar({super.key});
+  const EventsCalendar({super.key, required this.events});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final primaryColor = Theme.of(context).primaryColor;
+
     return TableCalendar<Event>(
       firstDay: kFirstDay,
       lastDay: kLastDay,
       focusedDay: DateTime.now(),
       calendarFormat: CalendarFormat.month,
       locale: AppLocale.en.name,
+      calendarStyle: CalendarStyle(
+        todayDecoration: BoxDecoration(
+          color: primaryColor.withOpacity(0.5),
+          shape: BoxShape.circle,
+        ),
+        selectedDecoration: BoxDecoration(
+          color: primaryColor,
+          shape: BoxShape.circle,
+        ),
+        holidayTextStyle: TextStyle(color: primaryColor),
+        holidayDecoration: BoxDecoration(
+          border: Border.fromBorderSide(
+            BorderSide(color: primaryColor, width: 1.4),
+          ),
+          shape: BoxShape.circle,
+        ),
+      ),
       headerStyle: const HeaderStyle(
         titleCentered: true,
         formatButtonVisible: false,
@@ -39,16 +53,10 @@ class EventsCalendar extends StatelessWidget {
         // isSameDay(kToday, day);
       },
       eventLoader: (day) {
-        if (day.weekday == DateTime.monday) {
-          return [
-            Event('Cyclic event1'),
-            Event('Cyclic event2'),
-            Event('Cyclic event3'),
-            Event('Cyclic event4'),
-          ];
-        }
-
-        return [Event('Cyclic event1')];
+        return events
+            .where(
+                (event) => event.getDayInstances(date: day).take(1).isNotEmpty)
+            .toList(growable: false);
       },
       calendarBuilders: CalendarBuilders(
         // selectedBuilder: (context, day, focusedDay) {},

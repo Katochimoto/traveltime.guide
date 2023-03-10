@@ -5,6 +5,7 @@ import 'package:traveltime/providers/app_auth.dart';
 import 'package:traveltime/providers/bookmarks.dart';
 import 'package:traveltime/providers/points_filters.dart';
 import 'package:traveltime/store/models/article.dart';
+import 'package:traveltime/store/models/event.dart';
 import 'package:traveltime/store/models/point.dart';
 import 'package:traveltime/store/models/user_bookmark.dart';
 
@@ -17,7 +18,8 @@ class Db extends AsyncNotifier<Isar> {
     var db = Isar.getInstance(name);
     if (db == null || !db.isOpen) {
       final dir = await getApplicationSupportDirectory();
-      db = await Isar.open([ArticleSchema, PointSchema, UserBookmarkSchema],
+      db = await Isar.open(
+          [ArticleSchema, PointSchema, UserBookmarkSchema, EventSchema],
           name: name, directory: dir.path, inspector: true);
     }
 
@@ -127,6 +129,24 @@ final pointsCategoriesProvider = StreamProvider.autoDispose((ref) async* {
       .filter()
       .localeEqualTo(locale)
       .distinctByCategory()
+      .build();
+
+  await for (final results in query.watch(fireImmediately: true)) {
+    if (results.isNotEmpty) {
+      yield results;
+    }
+  }
+});
+
+final eventsProvider = StreamProvider.autoDispose((ref) async* {
+  final locale =
+      await ref.watch(appAuthProvider.selectAsync((data) => data.locale));
+  final db = await ref.watch(dbProvider.future);
+  final query = db
+      .collection<Event>()
+      .filter()
+      .localeEqualTo(locale)
+      .sortByPublishedAtDesc()
       .build();
 
   await for (final results in query.watch(fireImmediately: true)) {

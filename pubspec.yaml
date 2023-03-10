@@ -67,6 +67,7 @@ dependencies:
   flutter_map_location_marker: ^5.2.1
   popover: ^0.2.8+2
   table_calendar: ^3.0.8
+  rrule: ^0.2.10
 
 dev_dependencies:
   flutter_test:

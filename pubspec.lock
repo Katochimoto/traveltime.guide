@@ -933,6 +933,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.0"
+  rrule:
+    dependency: "direct main"
+    description:
+      name: rrule
+      sha256: e838faf8eebbcef3d5a86235304ede0f4dd6b04da54b372d180a1b77cd1fba90
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.10"
   rxdart:
     dependency: transitive
     description:

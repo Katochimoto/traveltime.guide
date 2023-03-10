@@ -1,4 +1,5 @@
 import 'package:isar/isar.dart';
+import 'package:rrule/rrule.dart';
 import 'package:traveltime/providers/app_auth.dart';
 import 'package:traveltime/utils/fast_hash.dart';
 
@@ -44,7 +45,23 @@ class Event {
   final String? intro;
   final String? logoImg;
   final String? coverImg;
+
+  @Index(type: IndexType.value)
   final List<String>? points;
+
+  @ignore
+  RecurrenceRule get recurrenceRule => RecurrenceRule.fromString(rrule);
+
+  Iterable<DateTime> getDayInstances({
+    required DateTime date,
+  }) =>
+      recurrenceRule.getInstances(
+        start: date,
+        after: date,
+        before: date.add(const Duration(days: 1)),
+        includeAfter: true,
+        includeBefore: false,
+      );
 
   factory Event.fromJson(data) {
     return Event(
@@ -61,7 +78,7 @@ class Event {
       duration: data['duration'],
       logoImg: data['logoImg'],
       coverImg: data['coverImg'],
-      points: data['points'],
+      points: List<String>.from(data['points']),
     );
   }
 }
