@@ -5,23 +5,31 @@ import 'package:traveltime/utils/fast_hash.dart';
 
 part 'event.g.dart';
 
+enum EventCategory {
+  event,
+  holiday,
+}
+
 @collection
 class Event {
   Event({
     required this.id,
     required this.country,
     required this.locale,
+    required this.category,
     required this.createdAt,
     required this.updatedAt,
     required this.publishedAt,
     required this.title,
     required this.description,
-    required this.rrule,
-    required this.duration,
+    this.rrule,
+    this.duration,
     this.intro,
     this.logoImg,
     this.coverImg,
     this.points,
+    this.dtstart,
+    this.dtend,
   });
 
   final String id;
@@ -33,6 +41,10 @@ class Event {
   @enumerated
   final AppLocale locale;
 
+  @enumerated
+  @Index(type: IndexType.value)
+  final EventCategory category;
+
   final DateTime createdAt;
   final DateTime updatedAt;
   final DateTime publishedAt;
@@ -40,8 +52,8 @@ class Event {
   @Index(type: IndexType.value)
   final String title;
   final String description;
-  final String rrule;
-  final String duration;
+  final String? rrule;
+  final String? duration;
   final String? intro;
   final String? logoImg;
   final String? coverImg;
@@ -49,25 +61,52 @@ class Event {
   @Index(type: IndexType.value)
   final List<String>? points;
 
-  @ignore
-  RecurrenceRule get recurrenceRule => RecurrenceRule.fromString(rrule);
+  final DateTime? dtstart;
+  final DateTime? dtend;
 
-  Iterable<DateTime> getDayInstances({
-    required DateTime date,
-  }) =>
-      recurrenceRule.getInstances(
-        start: date,
-        after: date,
-        before: date.add(const Duration(days: 1)),
-        includeAfter: true,
-        includeBefore: false,
-      );
+  bool hasOnDay(DateTime date) {
+    bool exists = false;
+
+    if (rrule != null) {
+      final RecurrenceRule recurrenceRule = RecurrenceRule.fromString(rrule!);
+      exists = recurrenceRule
+          .getInstances(
+            start: date,
+            after: date,
+            before: date.add(const Duration(days: 1)),
+            includeAfter: true,
+            includeBefore: false,
+          )
+          .take(1)
+          .isNotEmpty;
+    }
+
+    if (dtstart != null && dtend != null) {
+      final startDay =
+          DateTime.utc(dtstart!.year, dtstart!.month, dtstart!.day);
+      final endDay = DateTime.utc(dtend!.year, dtend!.month, dtend!.day)
+          .add(const Duration(days: 1));
+      exists = (startDay.isBefore(date) || startDay.isAtSameMomentAs(date)) &&
+          endDay.isAfter(date);
+    } else if (dtstart != null) {
+      final startDay =
+          DateTime.utc(dtstart!.year, dtstart!.month, dtstart!.day);
+      exists = startDay.isBefore(date) || startDay.isAtSameMomentAs(date);
+    } else if (dtend != null) {
+      final endDay = DateTime.utc(dtend!.year, dtend!.month, dtend!.day)
+          .add(const Duration(days: 1));
+      exists = endDay.isAfter(date);
+    }
+
+    return exists;
+  }
 
   factory Event.fromJson(data) {
     return Event(
       id: data['id'],
       country: data['country'],
       locale: AppLocale.values.byName(data['locale']),
+      category: EventCategory.values.byName(data['category']),
       createdAt: DateTime.parse(data['createdAt']),
       updatedAt: DateTime.parse(data['updatedAt']),
       publishedAt: DateTime.parse(data['publishedAt']),
@@ -79,6 +118,8 @@ class Event {
       logoImg: data['logoImg'],
       coverImg: data['coverImg'],
       points: List<String>.from(data['points']),
+      dtstart: data['dtstart'] != null ? DateTime.parse(data['dtstart']) : null,
+      dtend: data['dtend'] != null ? DateTime.parse(data['dtend']) : null,
     );
   }
 }

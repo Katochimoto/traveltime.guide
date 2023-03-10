@@ -54,8 +54,7 @@ class EventsCalendar extends ConsumerWidget {
       },
       eventLoader: (day) {
         return events
-            .where(
-                (event) => event.getDayInstances(date: day).take(1).isNotEmpty)
+            .where((event) => event.hasOnDay(day))
             .toList(growable: false);
       },
       calendarBuilders: CalendarBuilders(
