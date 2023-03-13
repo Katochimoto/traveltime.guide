@@ -155,3 +155,12 @@ final eventsProvider = StreamProvider.autoDispose((ref) async* {
     }
   }
 });
+
+final eventProvider =
+    StreamProvider.autoDispose.family<Event?, int>((ref, id) async* {
+  final db = await ref.watch(dbProvider.future);
+  final data = db.collection<Event>().watchObject(id, fireImmediately: true);
+  await for (final results in data) {
+    yield results;
+  }
+});

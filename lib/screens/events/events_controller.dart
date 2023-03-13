@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:traveltime/constants/Theme.dart';
 import 'package:traveltime/screens/events/events_calendar.dart';
 import 'package:traveltime/screens/events/events_list.dart';
 import 'package:traveltime/store/db.dart';
@@ -19,6 +20,7 @@ class EventsController extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   EventsCalendar(events: data),
+                  const SizedBox(height: UIGap.g2),
                   Expanded(child: EventsList(events: data)),
                 ],
               );

@@ -47,9 +47,14 @@ class ArticleDetails extends StatelessWidget {
           flex: 2,
           child: Container(
               decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: CachedNetworkImageProvider(article.coverImg!),
-                      fit: BoxFit.cover)),
+                image: article.coverImg == null
+                    ? const DecorationImage(
+                        image: AssetImage('assets/imgs/drawer_bg.jpg'),
+                        fit: BoxFit.cover)
+                    : DecorationImage(
+                        image: CachedNetworkImageProvider(article.coverImg!),
+                        fit: BoxFit.cover),
+              ),
               child: Stack(
                 children: <Widget>[
                   Container(

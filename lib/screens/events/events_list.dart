@@ -26,7 +26,7 @@ class EventsList extends StatelessWidget {
             details: event.intro,
             img: event.logoImg,
             tap: () {
-              context.pushNamed(Routes.article,
+              context.pushNamed(Routes.event,
                   params: {'id': event.isarId.toString()});
             });
       },
