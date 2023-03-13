@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:traveltime/providers/app_auth.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:traveltime/providers/events_calendar.dart';
 import 'package:traveltime/store/models/event.dart';
-
-final kToday = DateTime.now();
-final kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);
-final kLastDay = DateTime(kToday.year, kToday.month + 3, kToday.day);
 
 class EventsCalendar extends ConsumerWidget {
   final List<Event> events;
@@ -16,11 +13,12 @@ class EventsCalendar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final primaryColor = Theme.of(context).primaryColor;
+    final state = ref.watch(eventsCalendarProvider);
 
     return TableCalendar<Event>(
-      firstDay: kFirstDay,
-      lastDay: kLastDay,
-      focusedDay: DateTime.now(),
+      firstDay: state.firstDay,
+      lastDay: state.lastDay,
+      focusedDay: state.focusedDay,
       calendarFormat: CalendarFormat.month,
       locale: AppLocale.en.name,
       calendarStyle: CalendarStyle(
@@ -49,8 +47,7 @@ class EventsCalendar extends ConsumerWidget {
         return day.day == 20;
       },
       selectedDayPredicate: (day) {
-        return false;
-        // isSameDay(kToday, day);
+        return isSameDay(state.selectedDay, day);
       },
       eventLoader: (day) {
         return events
@@ -79,14 +76,11 @@ class EventsCalendar extends ConsumerWidget {
         //   }
         // },
       ),
-      // onDaySelected: (selectedDay, focusedDay) {
-      //   if (!isSameDay(_selectedDay, selectedDay)) {
-      //     setState(() {
-      //       _selectedDay = selectedDay;
-      //       _focusedDay = focusedDay;
-      //     });
-      //   }
-      // },
+      onDaySelected: (selectedDay, focusedDay) {
+        if (!isSameDay(state.selectedDay, selectedDay)) {
+          ref.read(eventsCalendarProvider.notifier).selectDay(selectedDay);
+        }
+      },
       // onFormatChanged: (format) {
       //   if (_calendarFormat != format) {
       //     setState(() {
