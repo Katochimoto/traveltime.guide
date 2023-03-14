@@ -11,7 +11,7 @@ class OverviewData {
   });
 }
 
-class OverviewController extends AutoDisposeNotifier<OverviewData?> {
+class OverviewController extends Notifier<OverviewData?> {
   @override
   OverviewData? build() {
     return null;
@@ -28,7 +28,7 @@ class OverviewController extends AutoDisposeNotifier<OverviewData?> {
   }
 }
 
-final overviewProvider =
-    NotifierProvider.autoDispose<OverviewController, OverviewData?>(() {
+final pointOverviewProvider =
+    NotifierProvider<OverviewController, OverviewData?>(() {
   return OverviewController();
 });

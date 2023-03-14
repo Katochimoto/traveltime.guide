@@ -34,7 +34,7 @@ class PopoverMarkerController extends ConsumerWidget {
                 point: data,
                 onTap: (point) {
                   ref
-                      .read(overviewProvider.notifier)
+                      .read(pointOverviewProvider.notifier)
                       .show(OverviewData(point: point));
                   ref.read(popoverProvider.notifier).hide();
                 },

@@ -24,5 +24,6 @@
 	"pointCategoryNightMarket": "Night Market",
 	"pointCategoryPolice": "Police",
 	"pointCategoryRestaurant": "Restaurant",
-	"eventsTitle": "Events"
+	"eventsTitle": "Events",
+	"location": "Location"
 }

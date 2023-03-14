@@ -30,7 +30,7 @@ class OverviewNavbar extends ConsumerWidget {
               iconSize: 24,
               icon: const Icon(Icons.arrow_back),
               onPressed: () {
-                ref.read(overviewProvider.notifier).hide();
+                ref.invalidate(pointOverviewProvider);
               },
             )
           ],

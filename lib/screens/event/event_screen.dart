@@ -4,6 +4,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:traveltime/constants/Theme.dart';
 import 'package:traveltime/constants/routes.dart';
+import 'package:traveltime/screens/event/event_points.dart';
 import 'package:traveltime/store/db.dart';
 import 'package:traveltime/store/models/event.dart';
 import 'package:traveltime/widgets/navbar/navbar.dart';
@@ -153,6 +154,7 @@ class EventDetails extends StatelessWidget {
         Flexible(
             flex: 3,
             child: PageLayout(
+              scroll: false,
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -160,6 +162,7 @@ class EventDetails extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: UIGap.g3),
                       child: MarkdownBody(data: event.description),
                     ),
+                    EventPoints(event: event),
                     // const PhotoAlbum(imgArray: [
                     //   "https://images.unsplash.com/photo-1501601983405-7c7cabaa1581?fit=crop&w=240&q=80",
                     //   "https://images.unsplash.com/photo-1543747579-795b9c2c3ada?fit=crop&w=240&q=80hoto-1501601983405-7c7cabaa1581?fit=crop&w=240&q=80",
