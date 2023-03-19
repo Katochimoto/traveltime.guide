@@ -32,8 +32,11 @@ class EventsList extends ConsumerWidget {
             details: event.intro,
             img: event.logoImg,
             tap: () {
-              context.pushNamed(Routes.event,
-                  params: {'id': event.isarId.toString()});
+              context.pushNamed(
+                Routes.event,
+                params: {'id': event.isarId.toString()},
+                queryParams: {'date': state.selectedDay.toIso8601String()},
+              );
             });
       },
     );

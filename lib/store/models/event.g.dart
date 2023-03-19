@@ -192,16 +192,11 @@ int _eventEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
+  bytesCount += 3 + object.points.length * 3;
   {
-    final list = object.points;
-    if (list != null) {
-      bytesCount += 3 + list.length * 3;
-      {
-        for (var i = 0; i < list.length; i++) {
-          final value = list[i];
-          bytesCount += value.length * 3;
-        }
-      }
+    for (var i = 0; i < object.points.length; i++) {
+      final value = object.points[i];
+      bytesCount += value.length * 3;
     }
   }
   {
@@ -260,7 +255,7 @@ Event _eventDeserialize(
     locale: _EventlocaleValueEnumMap[reader.readByteOrNull(offsets[10])] ??
         AppLocale.en,
     logoImg: reader.readStringOrNull(offsets[11]),
-    points: reader.readStringList(offsets[12]),
+    points: reader.readStringList(offsets[12]) ?? [],
     publishedAt: reader.readDateTime(offsets[13]),
     rrule: reader.readStringOrNull(offsets[14]),
     title: reader.readString(offsets[15]),
@@ -303,7 +298,7 @@ P _eventDeserializeProp<P>(
     case 11:
       return (reader.readStringOrNull(offset)) as P;
     case 12:
-      return (reader.readStringList(offset)) as P;
+      return (reader.readStringList(offset) ?? []) as P;
     case 13:
       return (reader.readDateTime(offset)) as P;
     case 14:
@@ -2123,22 +2118,6 @@ extension EventQueryFilter on QueryBuilder<Event, Event, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Event, Event, QAfterFilterCondition> pointsIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'points',
-      ));
-    });
-  }
-
-  QueryBuilder<Event, Event, QAfterFilterCondition> pointsIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'points',
-      ));
-    });
-  }
-
   QueryBuilder<Event, Event, QAfterFilterCondition> pointsElementEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -3328,7 +3307,7 @@ extension EventQueryProperty on QueryBuilder<Event, Event, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Event, List<String>?, QQueryOperations> pointsProperty() {
+  QueryBuilder<Event, List<String>, QQueryOperations> pointsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'points');
     });

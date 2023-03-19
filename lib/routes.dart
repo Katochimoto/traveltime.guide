@@ -76,6 +76,7 @@ final router = GoRouter(
           path: ':id',
           builder: (context, state) => EventScreen(
             id: int.parse(state.params['id']!),
+            date: DateTime.tryParse(state.queryParams['date']!),
           ),
         ),
       ],

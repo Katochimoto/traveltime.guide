@@ -14,15 +14,21 @@ import 'package:traveltime/widgets/not_found.dart';
 
 class EventController extends ConsumerWidget {
   final int id;
+  final DateTime? date;
 
-  const EventController({super.key, required this.id});
+  const EventController({super.key, required this.id, this.date});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final event = ref.watch(eventProvider(id));
     return event.when(
       data: (data) {
-        return data == null ? const NotFound() : EventDetails(event: data);
+        return data == null
+            ? const NotFound()
+            : EventDetails(
+                event: data,
+                date: date,
+              );
       },
       error: (error, stackTrace) {
         return const NotFound();
@@ -36,8 +42,9 @@ class EventController extends ConsumerWidget {
 
 class EventDetails extends StatelessWidget {
   final Event event;
+  final DateTime? date;
 
-  const EventDetails({super.key, required this.event});
+  const EventDetails({super.key, required this.event, this.date});
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +84,7 @@ class EventDetails extends StatelessWidget {
                                 .headlineMedium,
                           ),
                           const SizedBox(height: UIGap.g1),
-                          Text("Author",
+                          Text('23.12.2023,\nUpcoming event 23.12.2023',
                               style: Theme.of(context)
                                   .textTheme
                                   .merge(Typography.whiteCupertino)
@@ -180,8 +187,9 @@ class EventDetails extends StatelessWidget {
 
 class EventScreen extends StatelessWidget {
   final int id;
+  final DateTime? date;
 
-  const EventScreen({super.key, required this.id});
+  const EventScreen({super.key, required this.id, this.date});
 
   @override
   Widget build(BuildContext context) {
@@ -191,6 +199,9 @@ class EventScreen extends StatelessWidget {
           isTransparent: true,
         ),
         drawer: const AppDrawer(currentPage: Routes.events),
-        body: EventController(id: id));
+        body: EventController(
+          id: id,
+          date: date,
+        ));
   }
 }

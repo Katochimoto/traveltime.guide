@@ -167,21 +167,25 @@ final eventProvider =
 
 final eventPointsProvider =
     StreamProvider.autoDispose.family<List<Point>, Event>((ref, event) async* {
-  final locale =
-      await ref.watch(appAuthProvider.selectAsync((data) => data.locale));
-  final db = await ref.watch(dbProvider.future);
+  if (event.points.isEmpty) {
+    yield [];
+  } else {
+    final locale =
+        await ref.watch(appAuthProvider.selectAsync((data) => data.locale));
+    final db = await ref.watch(dbProvider.future);
 
-  final query = db
-      .collection<Point>()
-      .filter()
-      .localeEqualTo(locale)
-      .anyOf(event.points!, (q, value) => q.idEqualTo(value))
-      .sortByPublishedAtDesc()
-      .build();
+    final query = db
+        .collection<Point>()
+        .filter()
+        .localeEqualTo(locale)
+        .anyOf(event.points, (q, value) => q.idEqualTo(value))
+        .sortByPublishedAtDesc()
+        .build();
 
-  await for (final results in query.watch(fireImmediately: true)) {
-    if (results.isNotEmpty) {
-      yield results;
+    await for (final results in query.watch(fireImmediately: true)) {
+      if (results.isNotEmpty) {
+        yield results;
+      }
     }
   }
 });
