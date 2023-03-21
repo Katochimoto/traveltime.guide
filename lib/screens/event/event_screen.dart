@@ -48,6 +48,8 @@ class EventDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dateInstance = event.instanceOnDay(date ?? DateTime.now());
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -84,7 +86,7 @@ class EventDetails extends StatelessWidget {
                                 .headlineMedium,
                           ),
                           const SizedBox(height: UIGap.g1),
-                          Text('23.12.2023,\nUpcoming event 23.12.2023',
+                          Text('$dateInstance,\nUpcoming event 23.12.2023',
                               style: Theme.of(context)
                                   .textTheme
                                   .merge(Typography.whiteCupertino)
