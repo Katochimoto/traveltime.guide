@@ -38,8 +38,8 @@ class DbSync extends AsyncNotifier<DBSyncState> {
 
   final Dio _dio = Dio(BaseOptions(
     baseUrl: 'http://79.98.28.215:1337/api',
-    connectTimeout: 5000,
-    receiveTimeout: 30000,
+    connectTimeout: const Duration(seconds: 5),
+    receiveTimeout: const Duration(seconds: 30),
   ));
 
   late Isar _db;

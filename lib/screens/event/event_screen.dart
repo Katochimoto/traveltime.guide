@@ -48,7 +48,10 @@ class EventDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dateInstance = event.instanceOnDay(date ?? DateTime.now());
+    final headTextTheme =
+        Theme.of(context).textTheme.merge(Typography.whiteCupertino);
+    final instance = event.instanceOnDay(date ?? DateTime.now());
+    final upcomingInstance = event.upcomingInstanceFrom(date ?? DateTime.now());
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -80,17 +83,13 @@ class EventDetails extends StatelessWidget {
                         children: [
                           Text(
                             event.title,
-                            style: Theme.of(context)
-                                .textTheme
-                                .merge(Typography.whiteCupertino)
-                                .headlineMedium,
+                            style: headTextTheme.headlineMedium,
                           ),
                           const SizedBox(height: UIGap.g1),
-                          Text('$dateInstance,\nUpcoming event 23.12.2023',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .merge(Typography.whiteCupertino)
-                                  .bodySmall),
+                          Text('$instance', style: headTextTheme.bodySmall),
+                          if (upcomingInstance != null)
+                            Text('Upcoming: $upcomingInstance',
+                                style: headTextTheme.bodySmall),
                           const SizedBox(height: UIGap.g2),
                           Padding(
                             padding: const EdgeInsets.symmetric(
@@ -106,48 +105,28 @@ class EventDetails extends StatelessWidget {
                                   children: [
                                     Text(
                                       "2K",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .merge(Typography.whiteCupertino)
-                                          .bodyLarge,
+                                      style: headTextTheme.bodyLarge,
                                     ),
                                     Text("Friends",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .merge(Typography.whiteCupertino)
-                                            .bodySmall)
+                                        style: headTextTheme.bodySmall)
                                   ],
                                 ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text("26",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .merge(Typography.whiteCupertino)
-                                            .bodyLarge),
+                                    Text("26", style: headTextTheme.bodyLarge),
                                     Text("Comments",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .merge(Typography.whiteCupertino)
-                                            .bodySmall)
+                                        style: headTextTheme.bodySmall)
                                   ],
                                 ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text("48",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .merge(Typography.whiteCupertino)
-                                            .bodyLarge),
+                                    Text("48", style: headTextTheme.bodyLarge),
                                     Text("Bookmarks",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .merge(Typography.whiteCupertino)
-                                            .bodySmall)
+                                        style: headTextTheme.bodySmall)
                                   ],
                                 )
                               ],

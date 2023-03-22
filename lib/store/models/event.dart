@@ -8,8 +8,8 @@ import 'package:traveltime/utils/fast_hash.dart';
 part 'event.g.dart';
 
 class EventInstance {
-  final DateTime start;
-  final DateTime end;
+  final DateTime start; // included
+  final DateTime end; // not included
 
   EventInstance({
     required this.start,
@@ -18,23 +18,93 @@ class EventInstance {
 
   @override
   String toString() {
-    var str = '';
     final now = DateTime.now().copyWith(isUtc: true);
+    String? str;
 
     if (start.isAtSameMomentAs(end)) {
-      // Mar 13, 2023
-      str = DateFormat.yMMMd().format(start);
-    } else {
-      if (start.year == now.year) {
-        // Mar 13 12:00 AM
-        str = DateFormat.MMMd().add_jm().format(start);
+      if (start.hour == 0 && start.minute == 0) {
+        if (start.year == now.year) {
+          str = DateFormat.MMMd().format(start);
+        } else {
+          str = DateFormat.yMMMd().format(start);
+        }
       } else {
-        // 2023 Mar 13 12:00 AM
-        str = DateFormat.yMMMd().add_jm().format(start);
+        if (start.year == now.year) {
+          str = DateFormat.MMMd().add_jm().format(start);
+        } else {
+          str = DateFormat.yMMMd().add_jm().format(start);
+        }
+      }
+    } else {
+      if (start.hour == 0 &&
+          start.minute == 0 &&
+          end.hour == 0 &&
+          end.minute == 0) {
+        final currentEnd = end.subtract(const Duration(days: 1));
+        if (start.isBefore(currentEnd)) {
+          if (start.year == currentEnd.year &&
+              start.month == currentEnd.month) {
+            if (start.year == now.year) {
+              str =
+                  '${DateFormat.MMMd().format(start)} - ${DateFormat.d().format(currentEnd)}';
+            } else {
+              str =
+                  '${DateFormat.MMMd().format(start)} - ${DateFormat.d().format(currentEnd)}, ${DateFormat.y().format(start)}';
+            }
+          } else if (start.year == currentEnd.year) {
+            if (start.year == now.year) {
+              str =
+                  '${DateFormat.MMMd().format(start)} - ${DateFormat.MMMd().format(currentEnd)}';
+            } else {
+              str =
+                  '${DateFormat.MMMd().format(start)} - ${DateFormat.MMMd().format(currentEnd)}, ${DateFormat.y().format(start)}';
+            }
+          } else {
+            if (start.year == now.year && currentEnd.year == now.year) {
+              str =
+                  '${DateFormat.MMMd().format(start)} - ${DateFormat.MMMd().format(currentEnd)}';
+            } else {
+              str =
+                  '${DateFormat.yMMMd().format(start)} - ${DateFormat.yMMMd().format(currentEnd)}';
+            }
+          }
+        } else if (start.isAtSameMomentAs(currentEnd)) {
+          if (start.year == now.year) {
+            str = DateFormat.MMMd().format(start);
+          } else {
+            str = DateFormat.yMMMd().format(start);
+          }
+        }
+      } else {
+        if (start.year == end.year && start.month == end.month) {
+          if (start.year == now.year) {
+            str =
+                '${DateFormat.MMMd().add_jm().format(start)} - ${DateFormat.d().add_jm().format(end)}';
+          } else {
+            str =
+                '${DateFormat.MMMd().add_jm().format(start)} - ${DateFormat.d().add_jm().format(end)}, ${DateFormat.y().format(start)}';
+          }
+        } else if (start.year == end.year) {
+          if (start.year == now.year) {
+            str =
+                '${DateFormat.MMMd().add_jm().format(start)} - ${DateFormat.MMMd().add_jm().format(end)}';
+          } else {
+            str =
+                '${DateFormat.MMMd().add_jm().format(start)} - ${DateFormat.MMMd().add_jm().format(end)}, ${DateFormat.y().format(start)}';
+          }
+        } else {
+          if (start.year == now.year && end.year == now.year) {
+            str =
+                '${DateFormat.MMMd().add_jm().format(start)} - ${DateFormat.MMMd().add_jm().format(end)}';
+          } else {
+            str =
+                '${DateFormat.yMMMd().add_jm().format(start)} - ${DateFormat.yMMMd().add_jm().format(end)}';
+          }
+        }
       }
     }
 
-    return str;
+    return str ?? 'Invalid date range';
   }
 }
 
@@ -61,8 +131,8 @@ class Event {
     this.intro,
     this.logoImg,
     this.coverImg,
-    this.dtstart,
-    this.dtend,
+    this.dtstart, // included
+    this.dtend, // not included
   });
 
   final String id;
@@ -129,8 +199,7 @@ class Event {
     if (dtstart != null && dtend != null) {
       final startDay =
           DateTime.utc(dtstart!.year, dtstart!.month, dtstart!.day);
-      final endDay = DateTime.utc(dtend!.year, dtend!.month, dtend!.day)
-          .add(const Duration(days: 1));
+      final endDay = DateTime.utc(dtend!.year, dtend!.month, dtend!.day);
       exists = exists &&
           (startDay.isBefore(day) || startDay.isAtSameMomentAs(day)) &&
           endDay.isAfter(day);
@@ -140,8 +209,7 @@ class Event {
       exists =
           exists && (startDay.isBefore(day) || startDay.isAtSameMomentAs(day));
     } else if (dtend != null) {
-      final endDay = DateTime.utc(dtend!.year, dtend!.month, dtend!.day)
-          .add(const Duration(days: 1));
+      final endDay = DateTime.utc(dtend!.year, dtend!.month, dtend!.day);
       exists = exists && endDay.isAfter(day);
     } else if (rrule == null) {
       exists = false;
@@ -177,42 +245,47 @@ class Event {
           end: it.first.add(durationObject ?? const Duration()),
         );
       }
+    } else {
+      instance = EventInstance(
+        start: dtstart!,
+        end: dtend ?? dtstart!.add(durationObject ?? const Duration()),
+      );
     }
 
     return instance;
-
-    // DateTime? start = null;
-    // DateTime? end = null;
-
-    // if (rrule != null) {
-    //   final RecurrenceRule recurrenceRule = RecurrenceRule.fromString(rrule!);
-    //   final instances = recurrenceRule
-    //       .getInstances(
-    //         start: date,
-    //         after: date,
-    //         before: date.add(const Duration(days: 1)),
-    //         includeAfter: true,
-    //         includeBefore: false,
-    //       )
-    //       .take(1);
-
-    //   if (instances.isNotEmpty) {
-    //     start = instances.first;
-    //     end = durationObject != null
-    //         ? instances.first.add(durationObject!)
-    //         : instances.first;
-    //   }
-    // } else if (dtstart != null && dtend != null) {
-    //   start = dtstart;
-    //   end = dtend;
-    // } else if (dtstart != null) {
-    //   start = dtstart;
-    // } else if (dtend != null) {
-    //   end = dtend;
-    // }
   }
 
-  DateTime? upcomingInstanceFrom(DateTime date) {}
+  EventInstance? upcomingInstanceFrom(DateTime date) {
+    final day = date
+        .copyWith(
+          isUtc: true,
+          hour: 0,
+          minute: 0,
+          second: 0,
+          millisecond: 0,
+        )
+        .add(const Duration(days: 1));
+
+    EventInstance? instance;
+
+    if (rrule != null) {
+      final RecurrenceRule recurrenceRule = RecurrenceRule.fromString(rrule!);
+      final it = recurrenceRule.getInstances(
+        start: day,
+        after: day,
+        includeAfter: true,
+      );
+
+      if (it.isNotEmpty && hasOnDay(it.first)) {
+        instance = EventInstance(
+          start: it.first,
+          end: it.first.add(durationObject ?? const Duration()),
+        );
+      }
+    }
+
+    return instance;
+  }
 
   factory Event.fromJson(data) {
     return Event(

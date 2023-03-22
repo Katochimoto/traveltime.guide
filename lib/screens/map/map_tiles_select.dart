@@ -105,8 +105,8 @@ class SelectTiles extends ConsumerWidget {
             .watch(mapWeatherTilesProvider.notifier)
             .set(value ?? MapWeatherTile.none);
       },
-      dropdownWidth: 200,
-      dropdownOverButton: true,
+      dropdownStyleData:
+          const DropdownStyleData(width: 200, isOverButton: true),
       // offset: const Offset(0, -8),
     ));
   }
