@@ -25,12 +25,7 @@ class EventPointsList extends ConsumerWidget {
           style: Theme.of(context).textTheme.titleLarge,
         ),
         const SizedBox(height: UIGap.g1),
-        Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).cardColor,
-            borderRadius: const BorderRadius.all(Radius.circular(UIGap.g3)),
-          ),
-          padding: const EdgeInsets.symmetric(vertical: UIGap.g1),
+        Card(
           child: Column(children: [
             for (Point point in points) ...[
               MarkerListItem(
