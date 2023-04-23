@@ -11,6 +11,7 @@ import 'package:traveltime/widgets/drawer/drawer.dart';
 import 'package:traveltime/widgets/navbar/navbar_categories.dart';
 import 'package:traveltime/widgets/navbar/navbar_search.dart';
 import 'package:traveltime/widgets/page_layout.dart';
+import 'package:traveltime/widgets/slider_product.dart';
 
 // import 'package:traveltime/screens/componentsduct.dart';
 
@@ -92,7 +93,7 @@ class HomeScreen extends StatelessWidget {
               tap: () {
                 context.pushNamed(Routes.article, params: {'id': '123'});
               }),
-        )
+        ),
       ],
     );
   }
