@@ -371,6 +371,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.3.0"
+  flutter_map_tappable_polyline:
+    dependency: "direct main"
+    description:
+      name: flutter_map_tappable_polyline
+      sha256: "1c27813f4012567e73fd0f585551cf7d081e1905c08836929254d96d678933c6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.0+1"
   flutter_markdown:
     dependency: "direct main"
     description:

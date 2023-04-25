@@ -69,6 +69,7 @@ dependencies:
   table_calendar: ^3.0.8
   rrule: ^0.2.10
   duration: ^3.0.12
+  flutter_map_tappable_polyline: ^4.0.0+1
 
 dev_dependencies:
   flutter_test:
