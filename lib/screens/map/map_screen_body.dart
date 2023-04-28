@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map/plugin_api.dart';
-import 'package:flutter_map_tappable_polyline/flutter_map_tappable_polyline.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:traveltime/providers/map_follow_location.dart';
 import 'package:traveltime/providers/map_tap_position.dart';
 import 'package:traveltime/screens/map/map_current_location.dart';
+import 'package:traveltime/screens/map/map_current_location_select.dart';
 import 'package:traveltime/screens/map/map_markers.dart';
+import 'package:traveltime/screens/map/map_routes.dart';
 import 'package:traveltime/screens/map/map_tiles.dart';
 import 'package:traveltime/screens/map/map_tiles_select.dart';
 import 'package:traveltime/widgets/map/attribution.dart';
@@ -31,133 +31,85 @@ class MapScreenBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Stack(
-      alignment: Alignment.topCenter,
+    return FlutterMap(
+      mapController: mc,
+      options: MapOptions(
+        zoom: 3,
+        maxZoom: 18,
+        minZoom: 3,
+        interactiveFlags: InteractiveFlag.all & ~InteractiveFlag.rotate,
+        onTap: (tapPosition, point) {
+          ref.read(popoverProvider.notifier).hide();
+          ref.read(mapTapPositionProvider.notifier).tap(tapPosition.global);
+        },
+        onPositionChanged: (MapPosition position, bool hasGesture) {
+          ref.read(popoverProvider.notifier).hide();
+          ref.read(mapFollowLocationProvider.notifier).never();
+        },
+      ),
+      nonRotatedChildren: const [
+        MapTilesSelect(),
+        MapCurrentLocationSelect(),
+      ],
       children: [
-        FlutterMap(
-          mapController: mc,
-          options: MapOptions(
-            zoom: 3,
-            maxZoom: 18,
-            minZoom: 3,
-            interactiveFlags: InteractiveFlag.all & ~InteractiveFlag.rotate,
-            onTap: (tapPosition, point) {
-              ref.read(popoverProvider.notifier).hide();
-              ref.read(mapTapPositionProvider.notifier).tap(tapPosition.global);
-            },
-            onPositionChanged: (MapPosition position, bool hasGesture) {
-              ref.read(popoverProvider.notifier).hide();
-              ref.read(mapFollowLocationProvider.notifier).never();
-            },
-          ),
-          children: [
-            TileLayer(
-              urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-              subdomains: const ['a', 'b', 'c'],
-              userAgentPackageName: 'guide.traveltime.app',
-              retinaMode:
-                  false, // MediaQuery.of(context).devicePixelRatio > 1.0,
-              minZoom: 3,
-              maxZoom: 18,
-              // maybe https://github.com/flutter/packages/tree/main/packages/flutter_image
-              tileProvider: CachedNetworkTileProvider(),
-              errorImage: const AssetImage('assets/imgs/empty_tile.png'),
-              // backgroundColor: const Color.fromRGBO(0, 0, 0, 0),
-            ),
-            const MapTiles(),
-            const MapCurrentLocation(),
-            const MapMarkers(),
-            // MarkerLayer(
-            //   markers: [
-            //     Marker(
-            //       point: ll.LatLng(12.910540799939268, 100.8561218137046),
-            //       width: 20,
-            //       height: 20,
-            //       builder: (_) => const Icon(Icons.location_on, size: 20),
-            //       anchorPos: AnchorPos.align(AnchorAlign.top),
-            //     ),
-            //   ],
-            // ),
-            // PolygonLayer(
-            //   polygonCulling: false,
-            //   polygons: [
-            //     Polygon(
-            //       points: [
-            //         ll.LatLng(12.910540799939268, 100.8561218137046),
-            //         ll.LatLng(12.908788526202928, 100.85827079011717),
-            //         ll.LatLng(12.91007552400327, 100.86500995068457),
-            //       ],
-            //       color: Colors.blue.withAlpha(50),
-            //       isFilled: true,
-            //     ),
-            //   ],
-            // ),
-            // PolylineLayer(
-            //   polylineCulling: false,
-            //   polylines: [
-            //     Polyline(
-            //       strokeWidth: 2,
-            //       points: [
-            //         ll.LatLng(12.910540799939268, 100.8561218137046),
-            //         ll.LatLng(12.908788526202928, 100.85827079011717),
-            //         ll.LatLng(12.91007552400327, 100.86500995068457),
-            //       ],
-            //       color: Colors.blue,
-            //     ),
-            //   ],
-            // ),
-            const Attribution(),
-            const Popover(),
-            TappablePolylineLayer(
-              polylineCulling: true,
-              pointerDistanceTolerance: 20,
-              polylines: [
-                TaggedPolyline(
-                  tag: 'My Polyline',
-                  points: [
-                    LatLng(5.58213, 45.13065),
-                    LatLng(5.58209, 45.13078),
-                    LatLng(5.58186, 45.13091),
-                    LatLng(5.58184, 45.13099),
-                  ],
-                  color: Colors.red,
-                  strokeWidth: 9.0,
-                ),
-                TaggedPolyline(
-                  tag: 'My 2nd Polyline',
-                  points: [
-                    LatLng(5.58178, 45.13105),
-                    LatLng(5.5817, 45.13109),
-                    LatLng(5.58163, 45.1311),
-                    LatLng(5.58149, 45.13108),
-                  ],
-                  color: Colors.black,
-                  strokeWidth: 3.0,
-                ),
-                TaggedPolyline(
-                  tag: 'My 3rd Polyline',
-                  points: [
-                    LatLng(5.58141, 45.13103),
-                    LatLng(5.58138, 45.13099),
-                    LatLng(5.58136, 45.13093),
-                    LatLng(5.58125, 45.13084),
-                  ],
-                  color: Colors.blue,
-                  strokeWidth: 3.0,
-                ),
-              ],
-              onTap: (polylines, tapPosition) => print('Tapped: ' +
-                  polylines.map((polyline) => polyline.tag).join(',') +
-                  ' at ' +
-                  tapPosition.globalPosition.toString()),
-              onMiss: (tapPosition) {
-                print('No polyline was tapped at position ' +
-                    tapPosition.globalPosition.toString());
-              },
-            ),
-          ],
+        TileLayer(
+          urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+          subdomains: const ['a', 'b', 'c'],
+          userAgentPackageName: 'guide.traveltime.app',
+          retinaMode: false, // MediaQuery.of(context).devicePixelRatio > 1.0,
+          minZoom: 3,
+          maxZoom: 18,
+          // maybe https://github.com/flutter/packages/tree/main/packages/flutter_image
+          tileProvider: CachedNetworkTileProvider(),
+          errorImage: const AssetImage('assets/imgs/empty_tile.png'),
+          // backgroundColor: const Color.fromRGBO(0, 0, 0, 0),
         ),
-        const MapTilesSelect(),
+        const MapTiles(),
+        const MapCurrentLocation(),
+        const MapMarkers(),
+        const MapRoutes(),
+
+        // MarkerLayer(
+        //   markers: [
+        //     Marker(
+        //       point: ll.LatLng(12.910540799939268, 100.8561218137046),
+        //       width: 20,
+        //       height: 20,
+        //       builder: (_) => const Icon(Icons.location_on, size: 20),
+        //       anchorPos: AnchorPos.align(AnchorAlign.top),
+        //     ),
+        //   ],
+        // ),
+        // PolygonLayer(
+        //   polygonCulling: false,
+        //   polygons: [
+        //     Polygon(
+        //       points: [
+        //         ll.LatLng(12.910540799939268, 100.8561218137046),
+        //         ll.LatLng(12.908788526202928, 100.85827079011717),
+        //         ll.LatLng(12.91007552400327, 100.86500995068457),
+        //       ],
+        //       color: Colors.blue.withAlpha(50),
+        //       isFilled: true,
+        //     ),
+        //   ],
+        // ),
+        // PolylineLayer(
+        //   polylineCulling: false,
+        //   polylines: [
+        //     Polyline(
+        //       strokeWidth: 2,
+        //       points: [
+        //         ll.LatLng(12.910540799939268, 100.8561218137046),
+        //         ll.LatLng(12.908788526202928, 100.85827079011717),
+        //         ll.LatLng(12.91007552400327, 100.86500995068457),
+        //       ],
+        //       color: Colors.blue,
+        //     ),
+        //   ],
+        // ),
+        const Attribution(),
+        const Popover(),
       ],
     );
   }
