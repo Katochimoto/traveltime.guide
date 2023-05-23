@@ -46,13 +46,9 @@ class MapRoutes extends ConsumerWidget {
           strokeWidth: 3.0,
         ),
       ],
-      onTap: (polylines, tapPosition) => print('Tapped: ' +
-          polylines.map((polyline) => polyline.tag).join(',') +
-          ' at ' +
-          tapPosition.globalPosition.toString()),
+      onTap: (polylines, tapPosition) => print('Tapped: ${polylines.map((polyline) => polyline.tag).join(',')} at ${tapPosition.globalPosition}'),
       onMiss: (tapPosition) {
-        print('No polyline was tapped at position ' +
-            tapPosition.globalPosition.toString());
+        print('No polyline was tapped at position ${tapPosition.globalPosition}');
       },
     );
   }

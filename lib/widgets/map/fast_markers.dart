@@ -4,9 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:traveltime/providers/map_tap_position.dart';
 import 'package:traveltime/providers/point_overview.dart';
-import 'package:traveltime/providers/points_filters.dart';
 import 'package:traveltime/store/models/point.dart';
-import 'package:traveltime/utils/debouncer.dart';
 
 class FastMarker {
   final int id;
@@ -100,22 +98,22 @@ class FastMarkersLayerController extends ConsumerStatefulWidget {
 class FastMarkersLayerState extends ConsumerState<FastMarkersLayerController> {
   late FastMarkersPainter painter;
 
-  final _debouncer = Debouncer(milliseconds: 100);
+  // final _debouncer = Debouncer(milliseconds: 100);
 
-  void _fitBounds() {
-    final points =
-        widget.markers.map((item) => item.point).toList(growable: true);
-    final bounds = LatLngBounds.fromPoints(points);
-    widget.mapState.fitBounds(
-      bounds,
-      const FitBoundsOptions(
-        padding: EdgeInsets.symmetric(
-          vertical: 100,
-          horizontal: 40,
-        ),
-      ),
-    );
-  }
+  // void _fitBounds() {
+  //   final points =
+  //       widget.markers.map((item) => item.point).toList(growable: true);
+  //   final bounds = LatLngBounds.fromPoints(points);
+  //   widget.mapState.fitBounds(
+  //     bounds,
+  //     const FitBoundsOptions(
+  //       padding: EdgeInsets.symmetric(
+  //         vertical: 100,
+  //         horizontal: 40,
+  //       ),
+  //     ),
+  //   );
+  // }
 
   @override
   void initState() {
@@ -129,9 +127,9 @@ class FastMarkersLayerState extends ConsumerState<FastMarkersLayerController> {
       clusterHeight: widget.clusterHeight,
     );
 
-    if (ref.read(pointOverviewProvider) == null) {
-      _debouncer.run(() => _fitBounds());
-    }
+    // if (ref.read(pointOverviewProvider) == null) {
+    //   _debouncer.run(() => _fitBounds());
+    // }
   }
 
   @override
@@ -159,9 +157,9 @@ class FastMarkersLayerState extends ConsumerState<FastMarkersLayerController> {
       painter.onTap(next.offset);
     });
 
-    ref.listen(pointsFiltersProvider, (previous, next) {
-      _debouncer.run(() => _fitBounds());
-    });
+    // ref.listen(pointsFiltersProvider, (previous, next) {
+    //   _debouncer.run(() => _fitBounds());
+    // });
 
     return CustomPaint(
       painter: painter,

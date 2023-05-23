@@ -52,14 +52,14 @@ class ProfileDetails extends StatelessWidget {
                                 .bodySmall,
                           ),
                           const SizedBox(height: UIGap.g1),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
+                          const Padding(
+                            padding: EdgeInsets.symmetric(
                                 horizontal: UIGap.g3),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               crossAxisAlignment: CrossAxisAlignment.end,
                               mainAxisSize: MainAxisSize.max,
-                              children: const [
+                              children: [
                                 DetailBookmarks(),
                                 // Column(
                                 //   crossAxisAlignment: CrossAxisAlignment.center,
@@ -89,12 +89,12 @@ class ProfileDetails extends StatelessWidget {
                 ],
               )),
         ),
-        Flexible(
+        const Flexible(
             flex: 3,
             child: PageLayout(
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: const [
+                  children: [
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: UIGap.g3),
                       child: MarkdownBody(data: 'test'),

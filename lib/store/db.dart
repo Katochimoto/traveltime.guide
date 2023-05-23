@@ -7,6 +7,7 @@ import 'package:traveltime/providers/points_filters.dart';
 import 'package:traveltime/store/models/article.dart';
 import 'package:traveltime/store/models/event.dart';
 import 'package:traveltime/store/models/point.dart';
+import 'package:traveltime/store/models/route.dart';
 import 'package:traveltime/store/models/user_bookmark.dart';
 
 class Db extends AsyncNotifier<Isar> {
@@ -19,8 +20,17 @@ class Db extends AsyncNotifier<Isar> {
     if (db == null || !db.isOpen) {
       final dir = await getApplicationSupportDirectory();
       db = await Isar.open(
-          [ArticleSchema, PointSchema, UserBookmarkSchema, EventSchema],
-          name: name, directory: dir.path, inspector: true);
+        [
+          ArticleSchema,
+          PointSchema,
+          UserBookmarkSchema,
+          EventSchema,
+          RouteSchema,
+        ],
+        name: name,
+        directory: dir.path,
+        inspector: true,
+      );
     }
 
     return db;

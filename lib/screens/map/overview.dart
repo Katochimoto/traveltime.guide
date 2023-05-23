@@ -145,7 +145,7 @@ class Overview extends ConsumerWidget {
     return point.when(
       data: (data) {
         return data == null
-            ? Stack(children: const [NotFound(), OverviewNavbar()])
+            ? const Stack(children: [NotFound(), OverviewNavbar()])
             : Stack(
                 children: [
                   OverviewContent(point: data, sc: sc),
@@ -154,7 +154,7 @@ class Overview extends ConsumerWidget {
               );
       },
       error: (error, stackTrace) {
-        return Stack(children: const [NotFound(), OverviewNavbar()]);
+        return const Stack(children: [NotFound(), OverviewNavbar()]);
       },
       loading: () {
         return const Center(child: CircularProgressIndicator());

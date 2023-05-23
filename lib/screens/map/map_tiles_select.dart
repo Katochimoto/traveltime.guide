@@ -16,9 +16,9 @@ class SelectTiles extends ConsumerWidget {
 
   List<DropdownMenuItem<MapWeatherTile>> get tileTypes {
     List<DropdownMenuItem<MapWeatherTile>> menuItems = [
-      DropdownMenuItem(
+      const DropdownMenuItem(
         value: MapWeatherTile.none,
-        child: Row(children: const [
+        child: Row(children: [
           Icon(
             Icons.layers_clear,
             size: 22,
@@ -29,9 +29,9 @@ class SelectTiles extends ConsumerWidget {
           Text('Clear')
         ]),
       ),
-      DropdownMenuItem(
+      const DropdownMenuItem(
         value: MapWeatherTile.precipitation,
-        child: Row(children: const [
+        child: Row(children: [
           Icon(
             Icons.cloudy_snowing,
             size: 22,
@@ -42,9 +42,9 @@ class SelectTiles extends ConsumerWidget {
           Text('Precipitation')
         ]),
       ),
-      DropdownMenuItem(
+      const DropdownMenuItem(
         value: MapWeatherTile.wind,
-        child: Row(children: const [
+        child: Row(children: [
           Icon(
             Icons.wind_power,
             size: 22,
@@ -55,9 +55,9 @@ class SelectTiles extends ConsumerWidget {
           Text('Wind speed')
         ]),
       ),
-      DropdownMenuItem(
+      const DropdownMenuItem(
         value: MapWeatherTile.clouds,
-        child: Row(children: const [
+        child: Row(children: [
           Icon(
             Icons.cloud,
             size: 22,
@@ -68,9 +68,9 @@ class SelectTiles extends ConsumerWidget {
           Text('Clouds')
         ]),
       ),
-      DropdownMenuItem(
+      const DropdownMenuItem(
         value: MapWeatherTile.temp,
-        child: Row(children: const [
+        child: Row(children: [
           Icon(
             Icons.thermostat,
             size: 22,

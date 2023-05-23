@@ -53,9 +53,9 @@ class ProductCarouselState extends State<ProductCarousel> {
                       child: Column(
                         children: [
                           Text(item["price"],
-                              style: Theme.of(context).textTheme.headline2),
+                              style: Theme.of(context).textTheme.displayMedium),
                           Text(item["title"],
-                              style: Theme.of(context).textTheme.headline4),
+                              style: Theme.of(context).textTheme.headlineMedium),
                           const SizedBox(height: UIGap.g1),
                           Text(
                             item["description"],

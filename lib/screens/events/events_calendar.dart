@@ -56,7 +56,9 @@ class EventsCalendar extends ConsumerWidget {
       },
       calendarBuilders: CalendarBuilders(
         // selectedBuilder: (context, day, focusedDay) {},
-        markerBuilder: (context, day, events) {},
+        markerBuilder: (context, day, events) {
+          return null;
+        },
         singleMarkerBuilder: (context, day, event) {
           return const Icon(
             Icons.circle,

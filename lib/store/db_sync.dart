@@ -11,6 +11,7 @@ import 'package:traveltime/store/models/point.dart';
 import 'package:traveltime/providers/app_auth.dart';
 import 'package:traveltime/providers/connectivity_status.dart';
 import 'package:traveltime/providers/shared_preferences.dart';
+import 'package:traveltime/store/models/route.dart';
 
 enum DBSyncStatus {
   runing,
@@ -130,53 +131,70 @@ class DbSync extends AsyncNotifier<DBSyncState> {
       final DateTime datetime = DateTime.parse(response.data['datetime']);
 
       await _db.writeTxn(() async {
-        // *** articles ****
-        final articles = _db.collection<Article>();
-        final articlesChanges = response.data?['changes']?['articles'];
-        if (articlesChanges?['deleted']?.isNotEmpty) {
-          await articles.deleteAll(articlesChanges['deleted']);
-        }
-        if (articlesChanges?['replaced']?.isNotEmpty) {
-          final List<Article> items = [];
-          for (var item in articlesChanges['replaced']) {
-            items.add(Article.fromJson(item));
+        final List<dynamic> syncList = [
+          [_db.collection<Article>(), Article, 'articles'],
+          [_db.collection<Point>(), Point, 'points'],
+          [_db.collection<Event>(), Event, 'events'],
+          [_db.collection<Route>(), Route, 'routes'],
+        ];
+
+        for (final item in syncList) {
+          final collection = item[0];
+          final changes = response.data?['changes']?[item[2]];
+          if (changes?['deleted']?.isNotEmpty) {
+            await collection.deleteAll(changes['deleted']);
           }
+          if (changes?['replaced']?.isNotEmpty) {
+            final items = [];
+            for (var item in changes['replaced']) {
+              items.add(item[1].fromJson(item));
+            }
 
-          await articles.putAll(items);
-        }
-        // *** /articles ****
-
-        // *** points ****
-        final points = _db.collection<Point>();
-        final pointsChanges = response.data?['changes']?['points'];
-        if (pointsChanges?['deleted']?.isNotEmpty) {
-          await points.deleteAll(pointsChanges['deleted']);
-        }
-        if (pointsChanges?['replaced']?.isNotEmpty) {
-          final List<Point> items = [];
-          for (var item in pointsChanges['replaced']) {
-            items.add(Point.fromJson(item));
+            await collection.putAll(items);
           }
-
-          await points.putAll(items);
         }
-        // *** /points ****
 
-        // *** events ****
-        final events = _db.collection<Event>();
-        final eventsChanges = response.data?['changes']?['events'];
-        if (eventsChanges?['deleted']?.isNotEmpty) {
-          await events.deleteAll(eventsChanges['deleted']);
-        }
-        if (eventsChanges?['replaced']?.isNotEmpty) {
-          final List<Event> items = [];
-          for (var item in eventsChanges['replaced']) {
-            items.add(Event.fromJson(item));
-          }
+        // final articles = _db.collection<Article>();
+        // final articlesChanges = response.data?['changes']?['articles'];
+        // if (articlesChanges?['deleted']?.isNotEmpty) {
+        //   await articles.deleteAll(articlesChanges['deleted']);
+        // }
+        // if (articlesChanges?['replaced']?.isNotEmpty) {
+        //   final List<Article> items = [];
+        //   for (var item in articlesChanges['replaced']) {
+        //     items.add(Article.fromJson(item));
+        //   }
 
-          await events.putAll(items);
-        }
-        // *** /events ****
+        //   await articles.putAll(items);
+        // }
+
+        // final points = _db.collection<Point>();
+        // final pointsChanges = response.data?['changes']?['points'];
+        // if (pointsChanges?['deleted']?.isNotEmpty) {
+        //   await points.deleteAll(pointsChanges['deleted']);
+        // }
+        // if (pointsChanges?['replaced']?.isNotEmpty) {
+        //   final List<Point> items = [];
+        //   for (var item in pointsChanges['replaced']) {
+        //     items.add(Point.fromJson(item));
+        //   }
+
+        //   await points.putAll(items);
+        // }
+
+        // final events = _db.collection<Event>();
+        // final eventsChanges = response.data?['changes']?['events'];
+        // if (eventsChanges?['deleted']?.isNotEmpty) {
+        //   await events.deleteAll(eventsChanges['deleted']);
+        // }
+        // if (eventsChanges?['replaced']?.isNotEmpty) {
+        //   final List<Event> items = [];
+        //   for (var item in eventsChanges['replaced']) {
+        //     items.add(Event.fromJson(item));
+        //   }
+
+        //   await events.putAll(items);
+        // }
       });
 
       await _updateLastSync(datetime);
