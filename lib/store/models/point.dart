@@ -68,6 +68,12 @@ class Point {
   final String? logoImg;
   final String? coverImg;
 
+  @ignore
+  LatLngBounds get bounds => LatLngBounds(
+        ll.LatLng(lat, lng),
+        ll.LatLng(lat, lng),
+      );
+
   factory Point.fromJson(data) {
     return Point(
       id: data['id'],
@@ -87,9 +93,9 @@ class Point {
     );
   }
 
-  @ignore
-  LatLngBounds get bounds => LatLngBounds(
-        ll.LatLng(lat, lng),
-        ll.LatLng(lat, lng),
-      );
+  static List<Point> fromJsonList(List<dynamic> data) {
+    return data
+        .map<Point>((item) => Point.fromJson(item))
+        .toList(growable: false);
+  }
 }

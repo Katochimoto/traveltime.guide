@@ -55,4 +55,10 @@ class Article {
       coverImg: data['coverImg'],
     );
   }
+
+  static List<Article> fromJsonList(List<dynamic> data) {
+    return data
+        .map<Article>((item) => Article.fromJson(item))
+        .toList(growable: false);
+  }
 }

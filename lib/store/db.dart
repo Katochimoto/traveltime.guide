@@ -8,6 +8,8 @@ import 'package:traveltime/store/models/article.dart';
 import 'package:traveltime/store/models/event.dart';
 import 'package:traveltime/store/models/point.dart';
 import 'package:traveltime/store/models/route.dart';
+import 'package:traveltime/store/models/route_leg.dart';
+import 'package:traveltime/store/models/route_waypoint.dart';
 import 'package:traveltime/store/models/user_bookmark.dart';
 
 class Db extends AsyncNotifier<Isar> {
@@ -26,6 +28,8 @@ class Db extends AsyncNotifier<Isar> {
           UserBookmarkSchema,
           EventSchema,
           RouteSchema,
+          RouteWaypointSchema,
+          RouteLegSchema,
         ],
         name: name,
         directory: dir.path,

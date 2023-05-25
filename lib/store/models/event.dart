@@ -308,4 +308,10 @@ class Event {
       dtend: data['dtend'] != null ? DateTime.parse(data['dtend']) : null,
     );
   }
+
+  static List<Event> fromJsonList(List<dynamic> data) {
+    return data
+        .map<Event>((item) => Event.fromJson(item))
+        .toList(growable: false);
+  }
 }

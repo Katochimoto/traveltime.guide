@@ -4,22 +4,21 @@ import 'package:latlong2/latlong.dart' as ll;
 import 'package:traveltime/providers/app_auth.dart';
 import 'package:traveltime/utils/fast_hash.dart';
 
-part 'route.g.dart';
+part 'route_waypoint.g.dart';
 
 @collection
-class Route {
-  Route({
+class RouteWaypoint {
+  RouteWaypoint({
     required this.id,
     required this.locale,
     required this.createdAt,
     required this.updatedAt,
     required this.publishedAt,
-    required this.title,
-    required this.description,
-    required this.bounds,
-    this.intro,
-    this.logoImg,
-    this.coverImg,
+    required this.route,
+    this.point,
+    this.title,
+    this.lat,
+    this.lng,
   });
 
   @Index(unique: true, type: IndexType.value)
@@ -35,40 +34,41 @@ class Route {
   final DateTime publishedAt;
 
   @Index(type: IndexType.value)
-  final String title;
-  final String description;
-  final String? intro;
-  final List<float> bounds;
-  final String? logoImg;
-  final String? coverImg;
+  final String route;
+
+  @Index(type: IndexType.value)
+  final String? point;
+
+  final String? title;
+  final float? lat;
+  final float? lng;
 
   @ignore
-  LatLngBounds get routeBounds => LatLngBounds(
-        ll.LatLng(bounds[0], bounds[1]),
-        ll.LatLng(bounds[2], bounds[3]),
-      );
+  LatLngBounds? get bounds => lat != null && lng != null
+      ? LatLngBounds(
+          ll.LatLng(lat!, lng!),
+          ll.LatLng(lat!, lng!),
+        )
+      : null;
 
-  factory Route.fromJson(data) {
-    return Route(
+  factory RouteWaypoint.fromJson(data) {
+    return RouteWaypoint(
       id: data['id'],
       locale: AppLocale.values.byName(data['locale']),
       createdAt: DateTime.parse(data['createdAt']),
       updatedAt: DateTime.parse(data['updatedAt']),
       publishedAt: DateTime.parse(data['publishedAt']),
+      route: data['route'],
+      point: data['point'],
       title: data['title'],
-      intro: data['intro'],
-      description: data['description'],
-      bounds: [...data['bounds']]
-          .map((item) => float.parse(item.toString()))
-          .toList(growable: false),
-      logoImg: data['logoImg'],
-      coverImg: data['coverImg'],
+      lat: data['lat'],
+      lng: data['lng'],
     );
   }
 
-  static List<Route> fromJsonList(List<dynamic> data) {
+  static List<RouteWaypoint> fromJsonList(List<dynamic> data) {
     return data
-        .map<Route>((item) => Route.fromJson(item))
+        .map<RouteWaypoint>((item) => RouteWaypoint.fromJson(item))
         .toList(growable: false);
   }
 }

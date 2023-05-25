@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
@@ -12,6 +13,8 @@ import 'package:traveltime/providers/app_auth.dart';
 import 'package:traveltime/providers/connectivity_status.dart';
 import 'package:traveltime/providers/shared_preferences.dart';
 import 'package:traveltime/store/models/route.dart';
+import 'package:traveltime/store/models/route_leg.dart';
+import 'package:traveltime/store/models/route_waypoint.dart';
 
 enum DBSyncStatus {
   runing,
@@ -132,74 +135,40 @@ class DbSync extends AsyncNotifier<DBSyncState> {
 
       await _db.writeTxn(() async {
         final List<dynamic> syncList = [
-          [_db.collection<Article>(), Article, 'articles'],
-          [_db.collection<Point>(), Point, 'points'],
-          [_db.collection<Event>(), Event, 'events'],
-          [_db.collection<Route>(), Route, 'routes'],
+          [_db.collection<Article>(), Article.fromJsonList, 'articles'],
+          [_db.collection<Point>(), Point.fromJsonList, 'points'],
+          [_db.collection<Event>(), Event.fromJsonList, 'events'],
+          [_db.collection<Route>(), Route.fromJsonList, 'routes'],
+          [
+            _db.collection<RouteWaypoint>(),
+            RouteWaypoint.fromJsonList,
+            'routeWaypoints'
+          ],
+          [_db.collection<RouteLeg>(), RouteLeg.fromJsonList, 'routeLegs'],
         ];
 
-        for (final item in syncList) {
-          final collection = item[0];
-          final changes = response.data?['changes']?[item[2]];
+        for (final syncItem in syncList) {
+          final collection = syncItem[0];
+          final changesFromJson = syncItem[1];
+          final collectionName = syncItem[2];
+          log('Sync start: $collectionName');
+          final changes = response.data?['changes']?[collectionName];
           if (changes?['deleted']?.isNotEmpty) {
             await collection.deleteAll(changes['deleted']);
           }
           if (changes?['replaced']?.isNotEmpty) {
-            final items = [];
-            for (var item in changes['replaced']) {
-              items.add(item[1].fromJson(item));
-            }
-
+            final items = changesFromJson(changes['replaced']);
             await collection.putAll(items);
           }
+          log('Sync finish: $collectionName');
         }
-
-        // final articles = _db.collection<Article>();
-        // final articlesChanges = response.data?['changes']?['articles'];
-        // if (articlesChanges?['deleted']?.isNotEmpty) {
-        //   await articles.deleteAll(articlesChanges['deleted']);
-        // }
-        // if (articlesChanges?['replaced']?.isNotEmpty) {
-        //   final List<Article> items = [];
-        //   for (var item in articlesChanges['replaced']) {
-        //     items.add(Article.fromJson(item));
-        //   }
-
-        //   await articles.putAll(items);
-        // }
-
-        // final points = _db.collection<Point>();
-        // final pointsChanges = response.data?['changes']?['points'];
-        // if (pointsChanges?['deleted']?.isNotEmpty) {
-        //   await points.deleteAll(pointsChanges['deleted']);
-        // }
-        // if (pointsChanges?['replaced']?.isNotEmpty) {
-        //   final List<Point> items = [];
-        //   for (var item in pointsChanges['replaced']) {
-        //     items.add(Point.fromJson(item));
-        //   }
-
-        //   await points.putAll(items);
-        // }
-
-        // final events = _db.collection<Event>();
-        // final eventsChanges = response.data?['changes']?['events'];
-        // if (eventsChanges?['deleted']?.isNotEmpty) {
-        //   await events.deleteAll(eventsChanges['deleted']);
-        // }
-        // if (eventsChanges?['replaced']?.isNotEmpty) {
-        //   final List<Event> items = [];
-        //   for (var item in eventsChanges['replaced']) {
-        //     items.add(Event.fromJson(item));
-        //   }
-
-        //   await events.putAll(items);
-        // }
       });
 
       await _updateLastSync(datetime);
       return DBSyncState(status: DBSyncStatus.pending, lastSync: datetime);
     });
+
+    print(state);
 
     // https://api.dart.dev/stable/2.19.0/dart-async/StreamController-class.html
     // https://stackoverflow.com/questions/66724183/how-can-i-queue-calls-to-an-async-function-and-execute-them-in-order

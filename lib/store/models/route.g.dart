@@ -20,7 +20,7 @@ const RouteSchema = CollectionSchema(
     r'bounds': PropertySchema(
       id: 0,
       name: r'bounds',
-      type: IsarType.doubleList,
+      type: IsarType.floatList,
     ),
     r'coverImg': PropertySchema(
       id: 1,
@@ -121,7 +121,7 @@ int _routeEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  bytesCount += 3 + object.bounds.length * 8;
+  bytesCount += 3 + object.bounds.length * 4;
   {
     final value = object.coverImg;
     if (value != null) {
@@ -152,7 +152,7 @@ void _routeSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeDoubleList(offsets[0], object.bounds);
+  writer.writeFloatList(offsets[0], object.bounds);
   writer.writeString(offsets[1], object.coverImg);
   writer.writeDateTime(offsets[2], object.createdAt);
   writer.writeString(offsets[3], object.description);
@@ -172,7 +172,7 @@ Route _routeDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Route(
-    bounds: reader.readDoubleList(offsets[0]) ?? [],
+    bounds: reader.readFloatList(offsets[0]) ?? [],
     coverImg: reader.readStringOrNull(offsets[1]),
     createdAt: reader.readDateTime(offsets[2]),
     description: reader.readString(offsets[3]),
@@ -196,7 +196,7 @@ P _routeDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDoubleList(offset) ?? []) as P;
+      return (reader.readFloatList(offset) ?? []) as P;
     case 1:
       return (reader.readStringOrNull(offset)) as P;
     case 2:
