@@ -55,6 +55,8 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                         ? IconButton(
                             style: isTransparent
                                 ? IconButton.styleFrom(
+                                    elevation: 3,
+                                    shadowColor: Theme.of(context).shadowColor,
                                     backgroundColor:
                                         Theme.of(context).canvasColor,
                                   )
@@ -70,6 +72,8 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                         : IconButton(
                             style: isTransparent
                                 ? IconButton.styleFrom(
+                                    elevation: 3,
+                                    shadowColor: Theme.of(context).shadowColor,
                                     backgroundColor:
                                         Theme.of(context).canvasColor,
                                   )
@@ -89,6 +93,8 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                     IconButton(
                       style: isTransparent
                           ? IconButton.styleFrom(
+                              elevation: 3,
+                              shadowColor: Theme.of(context).shadowColor,
                               backgroundColor: Theme.of(context).canvasColor,
                             )
                           : null,

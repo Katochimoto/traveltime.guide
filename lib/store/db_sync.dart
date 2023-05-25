@@ -119,7 +119,7 @@ class DbSync extends AsyncNotifier<DBSyncState> {
 
     state = AsyncValue.data(DBSyncState(status: DBSyncStatus.runing));
 
-    // await Future.delayed(const Duration(seconds: 3));
+    log('Sync status: ${state.value?.status}');
 
     state = await AsyncValue.guard(() async {
       _cancelToken = CancelToken();
@@ -168,7 +168,7 @@ class DbSync extends AsyncNotifier<DBSyncState> {
       return DBSyncState(status: DBSyncStatus.pending, lastSync: datetime);
     });
 
-    print(state);
+    log('Sync status: ${state.value?.status}');
 
     // https://api.dart.dev/stable/2.19.0/dart-async/StreamController-class.html
     // https://stackoverflow.com/questions/66724183/how-can-i-queue-calls-to-an-async-function-and-execute-them-in-order

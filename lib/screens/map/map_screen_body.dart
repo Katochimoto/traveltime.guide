@@ -24,6 +24,26 @@ class CachedNetworkTileProvider extends NetworkTileProvider {
       );
 }
 
+class OSMTileLayer extends StatelessWidget {
+  const OSMTileLayer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TileLayer(
+      urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      subdomains: const ['a', 'b', 'c'],
+      userAgentPackageName: 'guide.traveltime.app',
+      retinaMode: false, // MediaQuery.of(context).devicePixelRatio > 1.0,
+      minZoom: 3,
+      maxZoom: 18,
+      // maybe https://github.com/flutter/packages/tree/main/packages/flutter_image
+      tileProvider: CachedNetworkTileProvider(),
+      errorImage: const AssetImage('assets/imgs/empty_tile.png'),
+      // backgroundColor: const Color.fromRGBO(0, 0, 0, 0),
+    );
+  }
+}
+
 class MapScreenBody extends ConsumerWidget {
   const MapScreenBody({super.key, this.mc});
 
@@ -50,66 +70,15 @@ class MapScreenBody extends ConsumerWidget {
       nonRotatedChildren: const [
         MapTilesSelect(),
         MapCurrentLocationSelect(),
+        Attribution(),
+        Popover(),
       ],
-      children: [
-        TileLayer(
-          urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-          subdomains: const ['a', 'b', 'c'],
-          userAgentPackageName: 'guide.traveltime.app',
-          retinaMode: false, // MediaQuery.of(context).devicePixelRatio > 1.0,
-          minZoom: 3,
-          maxZoom: 18,
-          // maybe https://github.com/flutter/packages/tree/main/packages/flutter_image
-          tileProvider: CachedNetworkTileProvider(),
-          errorImage: const AssetImage('assets/imgs/empty_tile.png'),
-          // backgroundColor: const Color.fromRGBO(0, 0, 0, 0),
-        ),
-        const MapTiles(),
-        const MapCurrentLocation(),
-        const MapMarkers(),
-        const MapRoutes(),
-
-        // MarkerLayer(
-        //   markers: [
-        //     Marker(
-        //       point: ll.LatLng(12.910540799939268, 100.8561218137046),
-        //       width: 20,
-        //       height: 20,
-        //       builder: (_) => const Icon(Icons.location_on, size: 20),
-        //       anchorPos: AnchorPos.align(AnchorAlign.top),
-        //     ),
-        //   ],
-        // ),
-        // PolygonLayer(
-        //   polygonCulling: false,
-        //   polygons: [
-        //     Polygon(
-        //       points: [
-        //         ll.LatLng(12.910540799939268, 100.8561218137046),
-        //         ll.LatLng(12.908788526202928, 100.85827079011717),
-        //         ll.LatLng(12.91007552400327, 100.86500995068457),
-        //       ],
-        //       color: Colors.blue.withAlpha(50),
-        //       isFilled: true,
-        //     ),
-        //   ],
-        // ),
-        // PolylineLayer(
-        //   polylineCulling: false,
-        //   polylines: [
-        //     Polyline(
-        //       strokeWidth: 2,
-        //       points: [
-        //         ll.LatLng(12.910540799939268, 100.8561218137046),
-        //         ll.LatLng(12.908788526202928, 100.85827079011717),
-        //         ll.LatLng(12.91007552400327, 100.86500995068457),
-        //       ],
-        //       color: Colors.blue,
-        //     ),
-        //   ],
-        // ),
-        const Attribution(),
-        const Popover(),
+      children: const [
+        OSMTileLayer(),
+        MapTiles(),
+        MapCurrentLocation(),
+        MapMarkers(),
+        MapRoutes(),
       ],
     );
   }
