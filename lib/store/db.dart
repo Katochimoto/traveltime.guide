@@ -203,3 +203,63 @@ final eventPointsProvider =
     }
   }
 });
+
+final routesProvider = StreamProvider.autoDispose((ref) async* {
+  final locale =
+      await ref.watch(appAuthProvider.selectAsync((data) => data.locale));
+  final db = await ref.watch(dbProvider.future);
+  final query = db
+      .collection<Route>()
+      .filter()
+      .localeEqualTo(locale)
+      .sortByPublishedAtDesc()
+      .build();
+
+  await for (final results in query.watch(fireImmediately: true)) {
+    if (results.isNotEmpty) {
+      yield results;
+    }
+  }
+});
+
+final routeProvider =
+    StreamProvider.autoDispose.family<Route?, int>((ref, id) async* {
+  final db = await ref.watch(dbProvider.future);
+  final data = db.collection<Route>().watchObject(id, fireImmediately: true);
+  await for (final results in data) {
+    yield results;
+  }
+});
+
+final routeWaypointsProvider = StreamProvider.autoDispose
+    .family<List<RouteWaypoint>, String>((ref, routeId) async* {
+  final locale =
+      await ref.watch(appAuthProvider.selectAsync((data) => data.locale));
+  final db = await ref.watch(dbProvider.future);
+  final query = db
+      .collection<RouteWaypoint>()
+      .filter()
+      .localeEqualTo(locale)
+      .routeEqualTo(routeId)
+      .sortByPublishedAtDesc()
+      .build();
+
+  await for (final results in query.watch(fireImmediately: true)) {
+    if (results.isNotEmpty) {
+      yield results;
+    }
+  }
+});
+
+final routeLegsProvider = StreamProvider.autoDispose
+    .family<List<RouteLeg>, String>((ref, routeId) async* {
+  final db = await ref.watch(dbProvider.future);
+  final query =
+      db.collection<RouteLeg>().filter().routeEqualTo(routeId).build();
+
+  await for (final results in query.watch(fireImmediately: true)) {
+    if (results.isNotEmpty) {
+      yield results;
+    }
+  }
+});

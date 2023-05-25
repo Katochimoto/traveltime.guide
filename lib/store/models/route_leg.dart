@@ -1,5 +1,7 @@
+import 'package:google_polyline_algorithm/google_polyline_algorithm.dart';
 import 'package:isar/isar.dart';
 import 'package:traveltime/utils/fast_hash.dart';
+import 'package:latlong2/latlong.dart' as ll;
 
 part 'route_leg.g.dart';
 
@@ -29,6 +31,13 @@ class RouteLeg {
   final String fromWaypoint;
   final String toWaypoint;
   final String? path;
+
+  @ignore
+  List<ll.LatLng>? get points => path != null
+      ? decodePolyline(path!)
+          .map((item) => ll.LatLng(item[0].toDouble(), item[1].toDouble()))
+          .toList(growable: false)
+      : null;
 
   factory RouteLeg.fromJson(data) {
     return RouteLeg(

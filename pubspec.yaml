@@ -70,6 +70,7 @@ dependencies:
   rrule: ^0.2.10
   duration: ^3.0.12
   flutter_map_tappable_polyline: ^4.0.0+1
+  google_polyline_algorithm: ^3.1.0
 
 dev_dependencies:
   flutter_test:
