@@ -241,7 +241,7 @@ final routeWaypointsProvider = StreamProvider.autoDispose
       .filter()
       .localeEqualTo(locale)
       .routeEqualTo(routeId)
-      .sortByPublishedAtDesc()
+      .sortByOrder()
       .build();
 
   await for (final results in query.watch(fireImmediately: true)) {

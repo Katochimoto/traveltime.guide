@@ -14,6 +14,7 @@ class RouteWaypoint {
     required this.createdAt,
     required this.updatedAt,
     required this.publishedAt,
+    required this.order,
     required this.route,
     this.point,
     this.title,
@@ -32,6 +33,8 @@ class RouteWaypoint {
   final DateTime createdAt;
   final DateTime updatedAt;
   final DateTime publishedAt;
+
+  final short order;
 
   @Index(type: IndexType.value)
   final String route;
@@ -58,6 +61,7 @@ class RouteWaypoint {
       createdAt: DateTime.parse(data['createdAt']),
       updatedAt: DateTime.parse(data['updatedAt']),
       publishedAt: DateTime.parse(data['publishedAt']),
+      order: data['order'],
       route: data['route'],
       point: data['point'],
       title: data['title'],
