@@ -6,15 +6,10 @@ import 'package:isar/isar.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:traveltime/constants/constants.dart';
 import 'package:traveltime/store/db.dart';
-import 'package:traveltime/store/models/article.dart';
-import 'package:traveltime/store/models/event.dart';
-import 'package:traveltime/store/models/point.dart';
 import 'package:traveltime/providers/app_auth.dart';
 import 'package:traveltime/providers/connectivity_status.dart';
 import 'package:traveltime/providers/shared_preferences.dart';
-import 'package:traveltime/store/models/route.dart';
-import 'package:traveltime/store/models/route_leg.dart';
-import 'package:traveltime/store/models/route_waypoint.dart';
+import 'models.dart' as models;
 
 enum DBSyncStatus {
   runing,
@@ -135,16 +130,24 @@ class DbSync extends AsyncNotifier<DBSyncState> {
 
       await _db.writeTxn(() async {
         final List<dynamic> syncList = [
-          [_db.collection<Article>(), Article.fromJsonList, 'articles'],
-          [_db.collection<Point>(), Point.fromJsonList, 'points'],
-          [_db.collection<Event>(), Event.fromJsonList, 'events'],
-          [_db.collection<Route>(), Route.fromJsonList, 'routes'],
           [
-            _db.collection<RouteWaypoint>(),
-            RouteWaypoint.fromJsonList,
+            _db.collection<models.Article>(),
+            models.Article.fromJsonList,
+            'articles'
+          ],
+          [_db.collection<models.Point>(), models.Point.fromJsonList, 'points'],
+          [_db.collection<models.Event>(), models.Event.fromJsonList, 'events'],
+          [_db.collection<models.Route>(), models.Route.fromJsonList, 'routes'],
+          [
+            _db.collection<models.RouteWaypoint>(),
+            models.RouteWaypoint.fromJsonList,
             'routeWaypoints'
           ],
-          [_db.collection<RouteLeg>(), RouteLeg.fromJsonList, 'routeLegs'],
+          [
+            _db.collection<models.RouteLeg>(),
+            models.RouteLeg.fromJsonList,
+            'routeLegs'
+          ],
         ];
 
         for (final syncItem in syncList) {

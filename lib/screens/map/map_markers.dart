@@ -16,27 +16,27 @@ class MapMarkers extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final points = ref.watch(pointsProvider).value ?? [];
-    final markers = points.map((point) {
-      return FastMarker(
-        id: point.isarId,
-        category: point.category,
-        point: ll.LatLng(point.lat, point.lng),
-        width: markerSize,
-        height: markerSize,
-        anchorPos: AnchorPos.align(AnchorAlign.bottom),
-        onDraw: _drawMarker,
-        onTap: (bounds, marker) {
-          ref.read(popoverProvider.notifier).show(PopoverData(
-                bounds: bounds,
-                pointIds: [marker.id],
-              ));
-        },
-      );
-    });
+    final points = ref.watch(pointsProvider).valueOrNull ?? [];
+    final markers = points
+        .map((point) => FastMarker(
+              id: point.isarId,
+              category: point.category,
+              point: ll.LatLng(point.lat, point.lng),
+              width: markerSize,
+              height: markerSize,
+              anchorPos: AnchorPos.align(AnchorAlign.bottom),
+              onDraw: _drawMarker,
+              onTap: (bounds, marker) {
+                ref.read(popoverProvider.notifier).show(PopoverData(
+                      bounds: bounds,
+                      pointIds: [marker.id],
+                    ));
+              },
+            ))
+        .toList(growable: false);
 
     return FastMarkersLayer(
-      markers: markers.toList(growable: false),
+      markers: markers,
       clusterTap: (bounds, cluster) {
         final pointIds =
             cluster.markers!.map((marker) => marker.id).toList(growable: false);

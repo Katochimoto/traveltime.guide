@@ -2,12 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map_tappable_polyline/flutter_map_tappable_polyline.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:traveltime/store/db.dart';
+import 'package:traveltime/store/models.dart' as models;
+
+class MapRoute extends StatelessWidget {
+  const MapRoute({
+    super.key,
+    required this.route,
+    required this.waypoints,
+    required this.legs,
+  });
+
+  final models.Route route;
+  final List<models.RouteWaypoint> waypoints;
+  final List<models.RouteLeg> legs;
+
+  @override
+  Widget build(BuildContext context) {
+    return TappablePolylineLayer();
+  }
+}
 
 class MapRoutes extends ConsumerWidget {
   const MapRoutes({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final routes = ref.watch(routesProvider).valueOrNull ?? [];
+    final routeWaypoints = ref.watch(routeWaypointsProvider).valueOrNull ?? [];
+    final routeLegs = ref.watch(routeLegsProvider).valueOrNull ?? [];
+    print(routes);
+    print(routeWaypoints);
+    print(routeLegs);
     return TappablePolylineLayer(
       polylineCulling: true,
       pointerDistanceTolerance: 20,
@@ -46,9 +72,11 @@ class MapRoutes extends ConsumerWidget {
           strokeWidth: 3.0,
         ),
       ],
-      onTap: (polylines, tapPosition) => print('Tapped: ${polylines.map((polyline) => polyline.tag).join(',')} at ${tapPosition.globalPosition}'),
+      onTap: (polylines, tapPosition) => print(
+          'Tapped: ${polylines.map((polyline) => polyline.tag).join(',')} at ${tapPosition.globalPosition}'),
       onMiss: (tapPosition) {
-        print('No polyline was tapped at position ${tapPosition.globalPosition}');
+        print(
+            'No polyline was tapped at position ${tapPosition.globalPosition}');
       },
     );
   }

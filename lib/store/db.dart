@@ -4,13 +4,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:traveltime/providers/app_auth.dart';
 import 'package:traveltime/providers/bookmarks.dart';
 import 'package:traveltime/providers/points_filters.dart';
-import 'package:traveltime/store/models/article.dart';
-import 'package:traveltime/store/models/event.dart';
-import 'package:traveltime/store/models/point.dart';
-import 'package:traveltime/store/models/route.dart';
-import 'package:traveltime/store/models/route_leg.dart';
-import 'package:traveltime/store/models/route_waypoint.dart';
-import 'package:traveltime/store/models/user_bookmark.dart';
+import 'models.dart' as models;
 
 class Db extends AsyncNotifier<Isar> {
   @override
@@ -23,13 +17,13 @@ class Db extends AsyncNotifier<Isar> {
       final dir = await getApplicationSupportDirectory();
       db = await Isar.open(
         [
-          ArticleSchema,
-          PointSchema,
-          UserBookmarkSchema,
-          EventSchema,
-          RouteSchema,
-          RouteWaypointSchema,
-          RouteLegSchema,
+          models.ArticleSchema,
+          models.PointSchema,
+          models.UserBookmarkSchema,
+          models.EventSchema,
+          models.RouteSchema,
+          models.RouteWaypointSchema,
+          models.RouteLegSchema,
         ],
         name: name,
         directory: dir.path,
@@ -50,7 +44,7 @@ final articlesProvider = StreamProvider.autoDispose((ref) async* {
       await ref.watch(appAuthProvider.selectAsync((data) => data.locale));
   final db = await ref.watch(dbProvider.future);
   final query = db
-      .collection<Article>()
+      .collection<models.Article>()
       .filter()
       .localeEqualTo(locale)
       .sortByPublishedAtDesc()
@@ -64,9 +58,10 @@ final articlesProvider = StreamProvider.autoDispose((ref) async* {
 });
 
 final articleProvider =
-    StreamProvider.autoDispose.family<Article?, int>((ref, id) async* {
+    StreamProvider.autoDispose.family<models.Article?, int>((ref, id) async* {
   final db = await ref.watch(dbProvider.future);
-  final data = db.collection<Article>().watchObject(id, fireImmediately: true);
+  final data =
+      db.collection<models.Article>().watchObject(id, fireImmediately: true);
   await for (final results in data) {
     yield results;
   }
@@ -80,16 +75,16 @@ final pointsProvider = StreamProvider.autoDispose((ref) async* {
   final db = await ref.watch(dbProvider.future);
 
   var query = db
-      .collection<Point>()
+      .collection<models.Point>()
       .filter()
       .localeEqualTo(locale)
       .anyOf(filters.categories, (q, value) => q.categoryEqualTo(value));
 
   if (filters.bookmarks) {
     final bookmarks = await db
-        .collection<UserBookmark>()
+        .collection<models.UserBookmark>()
         .filter()
-        .typeEqualTo(UserBookmarkType.point)
+        .typeEqualTo(models.UserBookmarkType.point)
         .findAll();
     final bookmarkIds =
         bookmarks.map((item) => item.objectId).toList(growable: false);
@@ -106,21 +101,22 @@ final pointsProvider = StreamProvider.autoDispose((ref) async* {
 });
 
 final pointProvider =
-    StreamProvider.autoDispose.family<Point?, int>((ref, id) async* {
+    StreamProvider.autoDispose.family<models.Point?, int>((ref, id) async* {
   final db = await ref.watch(dbProvider.future);
-  final data = db.collection<Point>().watchObject(id, fireImmediately: true);
+  final data =
+      db.collection<models.Point>().watchObject(id, fireImmediately: true);
   await for (final results in data) {
     yield results;
   }
 });
 
-final pointBookmarkProvider =
-    StreamProvider.autoDispose.family<UserBookmark?, String>((ref, id) async* {
+final pointBookmarkProvider = StreamProvider.autoDispose
+    .family<models.UserBookmark?, String>((ref, id) async* {
   final db = await ref.watch(dbProvider.future);
   final query = db
-      .collection<UserBookmark>()
+      .collection<models.UserBookmark>()
       .filter()
-      .typeEqualTo(UserBookmarkType.point)
+      .typeEqualTo(models.UserBookmarkType.point)
       .objectIdEqualTo(id)
       .build();
 
@@ -139,7 +135,7 @@ final pointsCategoriesProvider = StreamProvider.autoDispose((ref) async* {
   final db = await ref.watch(dbProvider.future);
 
   final query = db
-      .collection<Point>()
+      .collection<models.Point>()
       .filter()
       .localeEqualTo(locale)
       .distinctByCategory()
@@ -157,7 +153,7 @@ final eventsProvider = StreamProvider.autoDispose((ref) async* {
       await ref.watch(appAuthProvider.selectAsync((data) => data.locale));
   final db = await ref.watch(dbProvider.future);
   final query = db
-      .collection<Event>()
+      .collection<models.Event>()
       .filter()
       .localeEqualTo(locale)
       .sortByPublishedAtDesc()
@@ -171,16 +167,17 @@ final eventsProvider = StreamProvider.autoDispose((ref) async* {
 });
 
 final eventProvider =
-    StreamProvider.autoDispose.family<Event?, int>((ref, id) async* {
+    StreamProvider.autoDispose.family<models.Event?, int>((ref, id) async* {
   final db = await ref.watch(dbProvider.future);
-  final data = db.collection<Event>().watchObject(id, fireImmediately: true);
+  final data =
+      db.collection<models.Event>().watchObject(id, fireImmediately: true);
   await for (final results in data) {
     yield results;
   }
 });
 
-final eventPointsProvider =
-    StreamProvider.autoDispose.family<List<Point>, Event>((ref, event) async* {
+final eventPointsProvider = StreamProvider.autoDispose
+    .family<List<models.Point>, models.Event>((ref, event) async* {
   if (event.points.isEmpty) {
     yield [];
   } else {
@@ -189,7 +186,7 @@ final eventPointsProvider =
     final db = await ref.watch(dbProvider.future);
 
     final query = db
-        .collection<Point>()
+        .collection<models.Point>()
         .filter()
         .localeEqualTo(locale)
         .anyOf(event.points, (q, value) => q.idEqualTo(value))
@@ -209,7 +206,7 @@ final routesProvider = StreamProvider.autoDispose((ref) async* {
       await ref.watch(appAuthProvider.selectAsync((data) => data.locale));
   final db = await ref.watch(dbProvider.future);
   final query = db
-      .collection<Route>()
+      .collection<models.Route>()
       .filter()
       .localeEqualTo(locale)
       .sortByPublishedAtDesc()
@@ -223,21 +220,41 @@ final routesProvider = StreamProvider.autoDispose((ref) async* {
 });
 
 final routeProvider =
-    StreamProvider.autoDispose.family<Route?, int>((ref, id) async* {
+    StreamProvider.autoDispose.family<models.Route?, int>((ref, id) async* {
   final db = await ref.watch(dbProvider.future);
-  final data = db.collection<Route>().watchObject(id, fireImmediately: true);
+  final data =
+      db.collection<models.Route>().watchObject(id, fireImmediately: true);
   await for (final results in data) {
     yield results;
   }
 });
 
-final routeWaypointsProvider = StreamProvider.autoDispose
-    .family<List<RouteWaypoint>, String>((ref, routeId) async* {
+final routeWaypointsProvider = StreamProvider.autoDispose((ref) async* {
   final locale =
       await ref.watch(appAuthProvider.selectAsync((data) => data.locale));
   final db = await ref.watch(dbProvider.future);
   final query = db
-      .collection<RouteWaypoint>()
+      .collection<models.RouteWaypoint>()
+      .filter()
+      .localeEqualTo(locale)
+      .routeIsNotEmpty()
+      .sortByRoute()
+      .build();
+
+  await for (final results in query.watch(fireImmediately: true)) {
+    if (results.isNotEmpty) {
+      yield results;
+    }
+  }
+});
+
+final routeWaypointsByRouteProvider = StreamProvider.autoDispose
+    .family<List<models.RouteWaypoint>, String>((ref, routeId) async* {
+  final locale =
+      await ref.watch(appAuthProvider.selectAsync((data) => data.locale));
+  final db = await ref.watch(dbProvider.future);
+  final query = db
+      .collection<models.RouteWaypoint>()
       .filter()
       .localeEqualTo(locale)
       .routeEqualTo(routeId)
@@ -251,11 +268,27 @@ final routeWaypointsProvider = StreamProvider.autoDispose
   }
 });
 
-final routeLegsProvider = StreamProvider.autoDispose
-    .family<List<RouteLeg>, String>((ref, routeId) async* {
+final routeLegsProvider = StreamProvider.autoDispose((ref) async* {
+  final db = await ref.watch(dbProvider.future);
+  final query = db
+      .collection<models.RouteLeg>()
+      .filter()
+      .routeIsNotEmpty()
+      .sortByRoute()
+      .build();
+
+  await for (final results in query.watch(fireImmediately: true)) {
+    if (results.isNotEmpty) {
+      yield results;
+    }
+  }
+});
+
+final routeLegsByRouteProvider = StreamProvider.autoDispose
+    .family<List<models.RouteLeg>, String>((ref, routeId) async* {
   final db = await ref.watch(dbProvider.future);
   final query =
-      db.collection<RouteLeg>().filter().routeEqualTo(routeId).build();
+      db.collection<models.RouteLeg>().filter().routeEqualTo(routeId).build();
 
   await for (final results in query.watch(fireImmediately: true)) {
     if (results.isNotEmpty) {
