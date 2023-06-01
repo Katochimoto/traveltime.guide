@@ -77,7 +77,7 @@ const UserBookmarkSchema = CollectionSchema(
   getId: _userBookmarkGetId,
   getLinks: _userBookmarkGetLinks,
   attach: _userBookmarkAttach,
-  version: '3.1.0',
+  version: '3.1.0+1',
 );
 
 int _userBookmarkEstimateSize(

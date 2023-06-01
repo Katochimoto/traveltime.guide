@@ -99,7 +99,7 @@ const ArticleSchema = CollectionSchema(
   getId: _articleGetId,
   getLinks: _articleGetLinks,
   attach: _articleAttach,
-  version: '3.1.0',
+  version: '3.1.0+1',
 );
 
 int _articleEstimateSize(

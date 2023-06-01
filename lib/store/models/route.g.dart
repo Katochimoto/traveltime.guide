@@ -112,7 +112,7 @@ const RouteSchema = CollectionSchema(
   getId: _routeGetId,
   getLinks: _routeGetLinks,
   attach: _routeAttach,
-  version: '3.1.0',
+  version: '3.1.0+1',
 );
 
 int _routeEstimateSize(

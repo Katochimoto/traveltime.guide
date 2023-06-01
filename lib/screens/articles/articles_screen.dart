@@ -37,7 +37,7 @@ class ArticlesList extends ConsumerWidget {
             img: article.logoImg,
             tap: () {
               context.pushNamed(Routes.article,
-                  params: {'id': article.isarId.toString()});
+                  pathParameters: {'id': article.isarId.toString()});
             });
       },
     );

@@ -55,7 +55,8 @@ class HomeScreen extends StatelessWidget {
               title: homeCards["Ice Cream"]['title'],
               img: homeCards["Ice Cream"]['image'],
               tap: () {
-                context.pushNamed(Routes.article, params: {'id': '123'});
+                context
+                    .pushNamed(Routes.article, pathParameters: {'id': '123'});
               }),
         ),
         const SizedBox(height: 8.0),
@@ -66,13 +67,15 @@ class HomeScreen extends StatelessWidget {
                 title: homeCards["Makeup"]['title'],
                 img: homeCards["Makeup"]['image'],
                 tap: () {
-                  context.pushNamed(Routes.article, params: {'id': '123'});
+                  context
+                      .pushNamed(Routes.article, pathParameters: {'id': '123'});
                 }),
             CardSmall(
                 title: homeCards["Coffee"]['title'],
                 img: homeCards["Coffee"]['image'],
                 tap: () {
-                  context.pushNamed(Routes.article, params: {'id': '123'});
+                  context
+                      .pushNamed(Routes.article, pathParameters: {'id': '123'});
                 })
           ],
         ),
@@ -81,7 +84,7 @@ class HomeScreen extends StatelessWidget {
             title: homeCards["Fashion"]['title'],
             img: homeCards["Fashion"]['image'],
             tap: () {
-              context.pushNamed(Routes.article, params: {'id': '123'});
+              context.pushNamed(Routes.article, pathParameters: {'id': '123'});
             }),
         const SizedBox(height: 8.0),
         Padding(
@@ -90,7 +93,8 @@ class HomeScreen extends StatelessWidget {
               title: homeCards["Argon"]['title'],
               img: homeCards["Argon"]['image'],
               tap: () {
-                context.pushNamed(Routes.article, params: {'id': '123'});
+                context
+                    .pushNamed(Routes.article, pathParameters: {'id': '123'});
               }),
         ),
       ],

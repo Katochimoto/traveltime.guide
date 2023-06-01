@@ -141,7 +141,7 @@ const PointSchema = CollectionSchema(
   getId: _pointGetId,
   getLinks: _pointGetLinks,
   attach: _pointAttach,
-  version: '3.1.0',
+  version: '3.1.0+1',
 );
 
 int _pointEstimateSize(

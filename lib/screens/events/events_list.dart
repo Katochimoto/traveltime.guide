@@ -34,8 +34,8 @@ class EventsList extends ConsumerWidget {
             tap: () {
               context.pushNamed(
                 Routes.event,
-                params: {'id': event.isarId.toString()},
-                queryParams: {'date': state.selectedDay.toIso8601String()},
+                pathParameters: {'id': event.isarId.toString()},
+                queryParameters: {'date': state.selectedDay.toIso8601String()},
               );
             });
       },

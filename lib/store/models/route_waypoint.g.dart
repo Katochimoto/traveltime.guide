@@ -125,7 +125,7 @@ const RouteWaypointSchema = CollectionSchema(
   getId: _routeWaypointGetId,
   getLinks: _routeWaypointGetLinks,
   attach: _routeWaypointAttach,
-  version: '3.1.0',
+  version: '3.1.0+1',
 );
 
 int _routeWaypointEstimateSize(
