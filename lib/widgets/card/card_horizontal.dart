@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:traveltime/constants/Theme.dart';
 
 class CardHorizontal extends StatelessWidget {
@@ -29,7 +28,7 @@ class CardHorizontal extends StatelessWidget {
                   topLeft: Radius.circular(UIGap.g2),
                   bottomLeft: Radius.circular(UIGap.g2)),
               image: DecorationImage(
-                image: CachedNetworkImageProvider(img),
+                image: NetworkImage(img),
                 fit: BoxFit.cover,
               ))),
     );

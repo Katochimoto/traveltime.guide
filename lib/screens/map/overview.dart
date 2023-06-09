@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -60,7 +59,7 @@ class OverviewContent extends StatelessWidget {
                       topRight: Radius.circular(UIGap.g3)),
                   image: point.coverImg != null
                       ? DecorationImage(
-                          image: CachedNetworkImageProvider(point.coverImg!),
+                          image: NetworkImage(point.coverImg!),
                           fit: BoxFit.cover,
                         )
                       : const DecorationImage(

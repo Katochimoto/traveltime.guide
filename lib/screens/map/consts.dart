@@ -7,6 +7,7 @@ const clusterSize = 40.0;
 
 const defaultMarkerColor = Colors.teal;
 const defaultMarkerIcon = Icons.location_on;
+const defaultRouteColor = Colors.teal;
 
 final markerColors = {
   PointCategory.entertainment: Colors.teal,

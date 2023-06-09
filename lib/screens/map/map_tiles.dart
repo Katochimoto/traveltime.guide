@@ -33,7 +33,6 @@ class MapTiles extends ConsumerWidget {
       maxZoom: 10,
       errorImage: const AssetImage('assets/imgs/empty_tile.png'),
       tileProvider: NetworkTileProvider(),
-      overrideTilesWhenUrlChanges: true,
       backgroundColor: const Color.fromRGBO(0, 0, 0, 0),
     );
   }

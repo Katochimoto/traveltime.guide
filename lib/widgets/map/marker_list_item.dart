@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:traveltime/constants/Theme.dart';
 import 'package:traveltime/providers/point_overview.dart';
@@ -75,7 +74,7 @@ class MarkerListItem extends StatelessWidget {
                   borderRadius:
                       const BorderRadius.all(Radius.circular(UIGap.g3)),
                   image: DecorationImage(
-                    image: CachedNetworkImageProvider(point.logoImg!),
+                    image: NetworkImage(point.logoImg!),
                     fit: BoxFit.cover,
                   ),
                 ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:traveltime/constants/Theme.dart';
 import 'package:traveltime/constants/routes.dart';
 import 'package:traveltime/screens/event/event_points.dart';
@@ -65,7 +64,7 @@ class EventDetails extends StatelessWidget {
                         image: AssetImage('assets/imgs/drawer_bg.jpg'),
                         fit: BoxFit.cover)
                     : DecorationImage(
-                        image: CachedNetworkImageProvider(event.coverImg!),
+                        image: NetworkImage(event.coverImg!),
                         fit: BoxFit.cover),
               ),
               child: Stack(

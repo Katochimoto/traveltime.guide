@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:traveltime/constants/Theme.dart';
 import 'package:traveltime/providers/point_overview.dart';
 import 'package:traveltime/store/db.dart';
@@ -92,7 +91,7 @@ class PopoverMarker extends StatelessWidget {
                         topLeft: Radius.circular(UIGap.g3),
                         bottomLeft: Radius.circular(UIGap.g3)),
                     image: DecorationImage(
-                      image: CachedNetworkImageProvider(point.logoImg!),
+                      image: NetworkImage(point.logoImg!),
                       fit: BoxFit.cover,
                     ),
                   )),

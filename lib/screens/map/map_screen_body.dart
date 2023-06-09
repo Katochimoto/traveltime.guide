@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:traveltime/providers/map_follow_location.dart';
 import 'package:traveltime/providers/map_tap_position.dart';
 import 'package:traveltime/screens/map/map_current_location.dart';
@@ -15,14 +14,13 @@ import 'package:traveltime/widgets/map/attribution.dart';
 import 'package:traveltime/widgets/map/popover.dart';
 import 'package:traveltime/providers/marker_popover.dart';
 
-class CachedNetworkTileProvider extends NetworkTileProvider {
-  @override
-  ImageProvider getImage(Coords<num> coords, TileLayer options) =>
-      CachedNetworkImageProvider(
-        getTileUrl(coords, options),
-        headers: headers,
-      );
-}
+// class CachedNetworkTileProvider extends NetworkTileProvider {
+//   @override
+//   ImageProvider getImage(TileCoordinates coordinates, TileLayer options) => NetworkImage(
+//         getTileUrl(coordinates, options),
+//         headers: headers,
+//       );
+// }
 
 class OSMTileLayer extends StatelessWidget {
   const OSMTileLayer({super.key});
@@ -37,7 +35,7 @@ class OSMTileLayer extends StatelessWidget {
       minZoom: 3,
       maxZoom: 18,
       // maybe https://github.com/flutter/packages/tree/main/packages/flutter_image
-      tileProvider: CachedNetworkTileProvider(),
+      tileProvider: NetworkTileProvider(),
       errorImage: const AssetImage('assets/imgs/empty_tile.png'),
       // backgroundColor: const Color.fromRGBO(0, 0, 0, 0),
     );
@@ -76,9 +74,9 @@ class MapScreenBody extends ConsumerWidget {
       children: const [
         OSMTileLayer(),
         MapTiles(),
+        MapRoutes(),
         MapCurrentLocation(),
         MapMarkers(),
-        MapRoutes(),
       ],
     );
   }

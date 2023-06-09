@@ -24,13 +24,13 @@ class FastMarker {
     this.height = 30.0,
     required this.onDraw,
     this.onTap,
-    AnchorPos? anchorPos,
-  }) : anchor = Anchor.forPos(anchorPos, width, height);
+    required AnchorPos anchorPos,
+  }) : anchor = Anchor.fromPos(anchorPos, width, height);
 }
 
 class FastCluster {
   LatLng? point;
-  Bounds? bounds;
+  Bounds<double>? bounds;
   List<FastMarker>? markers;
 
   FastCluster({
@@ -196,10 +196,10 @@ class FastMarkersPainter extends CustomPainter {
   /// Should be discarded when zoom changes
   // Has a fixed length of markerOpts.markers.length - better performance:
   // https://stackoverflow.com/questions/15943890/is-there-a-performance-benefit-in-using-fixed-length-lists-in-dart
-  var _pxCache = <CustomPoint>[];
+  var _pxCache = <CustomPoint<double>>[];
 
   // Calling this every time markerOpts change should guarantee proper length
-  List<CustomPoint> generatePxCache() => List.generate(
+  List<CustomPoint<double>> generatePxCache() => List.generate(
         markers.length,
         (i) => mapState.project(markers[i].point),
       );
@@ -210,7 +210,7 @@ class FastMarkersPainter extends CustomPainter {
     markersBoundsCache.clear();
     clustersBoundsCache.clear();
 
-    final markersBounds = <FastMarker, Bounds>{};
+    final markersBounds = <FastMarker, Bounds<double>>{};
     for (var i = 0; i < markers.length; i++) {
       final marker = markers[i];
       final pxPoint = sameZoom ? _pxCache[i] : mapState.project(marker.point);
@@ -218,15 +218,15 @@ class FastMarkersPainter extends CustomPainter {
         _pxCache[i] = pxPoint;
       }
 
-      final topLeft = CustomPoint(
+      final topLeft = CustomPoint<double>(
         pxPoint.x - marker.anchor.left,
         pxPoint.y - marker.anchor.top,
       );
-      final bottomRight = CustomPoint(
+      final bottomRight = CustomPoint<double>(
         topLeft.x + marker.width,
         topLeft.y + marker.height,
       );
-      markersBounds[marker] = Bounds(topLeft, bottomRight);
+      markersBounds[marker] = Bounds<double>(topLeft, bottomRight);
     }
 
     final clusters = _clusterMarkers(
@@ -254,7 +254,7 @@ class FastMarkersPainter extends CustomPainter {
 
         clustersBoundsCache.add(
           MapEntry(
-            Bounds(posTopLeft, posBottomRight),
+            Bounds<double>(posTopLeft, posBottomRight),
             cluster,
           ),
         );
@@ -276,7 +276,7 @@ class FastMarkersPainter extends CustomPainter {
 
         markersBoundsCache.add(
           MapEntry(
-            Bounds(posTopLeft, posBottomRight),
+            Bounds<double>(posTopLeft, posBottomRight),
             marker,
           ),
         );
@@ -290,7 +290,7 @@ class FastMarkersPainter extends CustomPainter {
     final markers = markersBoundsCache.reversed.toList();
     for (var i = 0; i < markers.length; i++) {
       var marker = markers[i];
-      if (marker.key.contains(CustomPoint(pos!.dx, pos.dy))) {
+      if (marker.key.contains(CustomPoint<double>(pos!.dx, pos.dy))) {
         marker.value.onTap?.call(marker.key, marker.value);
         return false;
       }
@@ -299,7 +299,7 @@ class FastMarkersPainter extends CustomPainter {
     final clusters = clustersBoundsCache.reversed.toList();
     for (var i = 0; i < clusters.length; i++) {
       var cluster = clusters[i];
-      if (cluster.key.contains(CustomPoint(pos!.dx, pos.dy))) {
+      if (cluster.key.contains(CustomPoint<double>(pos!.dx, pos.dy))) {
         clusterTap?.call(cluster.key, cluster.value);
         return false;
       }
@@ -315,12 +315,12 @@ class FastMarkersPainter extends CustomPainter {
 
   List<FastCluster> _clusterMarkers({
     required List<FastMarker> markers,
-    required List<CustomPoint<num>> pxPoints,
+    required List<CustomPoint<double>> pxPoints,
     double radius = 60.0,
   }) {
     final radiusSq = radius * radius;
     final clusters = <FastCluster>[];
-    final clustersBounds = <FastCluster, Bounds>{};
+    final clustersBounds = <FastCluster, Bounds<double>>{};
 
     for (var i = 0; i < markers.length; i++) {
       final marker = markers[i];
@@ -347,7 +347,7 @@ class FastMarkersPainter extends CustomPainter {
       if (nextCluster == null) {
         nextCluster = FastCluster(markers: []);
         clusters.add(nextCluster);
-        clustersBounds[nextCluster] = Bounds(point, point);
+        clustersBounds[nextCluster] = Bounds<double>(point, point);
       }
 
       final clusterBounds = clustersBounds[nextCluster]!;
@@ -358,12 +358,12 @@ class FastMarkersPainter extends CustomPainter {
     for (var i = 0; i < clusters.length; i++) {
       final cluster = clusters[i];
       final center = cluster.bounds!.center;
-      cluster.bounds = Bounds(
-        CustomPoint(
+      cluster.bounds = Bounds<double>(
+        CustomPoint<double>(
           center.x - clusterWidth! / 2,
           center.y - clusterHeight! / 2,
         ),
-        CustomPoint(
+        CustomPoint<double>(
           center.x + clusterWidth! / 2,
           center.y + clusterHeight! / 2,
         ),
