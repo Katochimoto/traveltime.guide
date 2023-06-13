@@ -32,23 +32,38 @@ const RouteLegSchema = CollectionSchema(
       name: r'id',
       type: IsarType.string,
     ),
-    r'path': PropertySchema(
+    r'isarFromWaypoint': PropertySchema(
       id: 3,
+      name: r'isarFromWaypoint',
+      type: IsarType.long,
+    ),
+    r'isarRoute': PropertySchema(
+      id: 4,
+      name: r'isarRoute',
+      type: IsarType.long,
+    ),
+    r'isarToWaypoint': PropertySchema(
+      id: 5,
+      name: r'isarToWaypoint',
+      type: IsarType.long,
+    ),
+    r'path': PropertySchema(
+      id: 6,
       name: r'path',
       type: IsarType.string,
     ),
     r'route': PropertySchema(
-      id: 4,
+      id: 7,
       name: r'route',
       type: IsarType.string,
     ),
     r'toWaypoint': PropertySchema(
-      id: 5,
+      id: 8,
       name: r'toWaypoint',
       type: IsarType.string,
     ),
     r'updatedAt': PropertySchema(
-      id: 6,
+      id: 9,
       name: r'updatedAt',
       type: IsarType.dateTime,
     )
@@ -122,10 +137,13 @@ void _routeLegSerialize(
   writer.writeDateTime(offsets[0], object.createdAt);
   writer.writeString(offsets[1], object.fromWaypoint);
   writer.writeString(offsets[2], object.id);
-  writer.writeString(offsets[3], object.path);
-  writer.writeString(offsets[4], object.route);
-  writer.writeString(offsets[5], object.toWaypoint);
-  writer.writeDateTime(offsets[6], object.updatedAt);
+  writer.writeLong(offsets[3], object.isarFromWaypoint);
+  writer.writeLong(offsets[4], object.isarRoute);
+  writer.writeLong(offsets[5], object.isarToWaypoint);
+  writer.writeString(offsets[6], object.path);
+  writer.writeString(offsets[7], object.route);
+  writer.writeString(offsets[8], object.toWaypoint);
+  writer.writeDateTime(offsets[9], object.updatedAt);
 }
 
 RouteLeg _routeLegDeserialize(
@@ -138,10 +156,10 @@ RouteLeg _routeLegDeserialize(
     createdAt: reader.readDateTime(offsets[0]),
     fromWaypoint: reader.readString(offsets[1]),
     id: reader.readString(offsets[2]),
-    path: reader.readStringOrNull(offsets[3]),
-    route: reader.readString(offsets[4]),
-    toWaypoint: reader.readString(offsets[5]),
-    updatedAt: reader.readDateTime(offsets[6]),
+    path: reader.readStringOrNull(offsets[6]),
+    route: reader.readString(offsets[7]),
+    toWaypoint: reader.readString(offsets[8]),
+    updatedAt: reader.readDateTime(offsets[9]),
   );
   return object;
 }
@@ -160,12 +178,18 @@ P _routeLegDeserializeProp<P>(
     case 2:
       return (reader.readString(offset)) as P;
     case 3:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 4:
-      return (reader.readString(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 5:
-      return (reader.readString(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 6:
+      return (reader.readStringOrNull(offset)) as P;
+    case 7:
+      return (reader.readString(offset)) as P;
+    case 8:
+      return (reader.readString(offset)) as P;
+    case 9:
       return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -918,6 +942,62 @@ extension RouteLegQueryFilter
     });
   }
 
+  QueryBuilder<RouteLeg, RouteLeg, QAfterFilterCondition>
+      isarFromWaypointEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isarFromWaypoint',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RouteLeg, RouteLeg, QAfterFilterCondition>
+      isarFromWaypointGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'isarFromWaypoint',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RouteLeg, RouteLeg, QAfterFilterCondition>
+      isarFromWaypointLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'isarFromWaypoint',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RouteLeg, RouteLeg, QAfterFilterCondition>
+      isarFromWaypointBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'isarFromWaypoint',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<RouteLeg, RouteLeg, QAfterFilterCondition> isarIdEqualTo(
       Id value) {
     return QueryBuilder.apply(this, (query) {
@@ -963,6 +1043,114 @@ extension RouteLegQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
         property: r'isarId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<RouteLeg, RouteLeg, QAfterFilterCondition> isarRouteEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isarRoute',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RouteLeg, RouteLeg, QAfterFilterCondition> isarRouteGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'isarRoute',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RouteLeg, RouteLeg, QAfterFilterCondition> isarRouteLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'isarRoute',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RouteLeg, RouteLeg, QAfterFilterCondition> isarRouteBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'isarRoute',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<RouteLeg, RouteLeg, QAfterFilterCondition> isarToWaypointEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isarToWaypoint',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RouteLeg, RouteLeg, QAfterFilterCondition>
+      isarToWaypointGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'isarToWaypoint',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RouteLeg, RouteLeg, QAfterFilterCondition>
+      isarToWaypointLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'isarToWaypoint',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RouteLeg, RouteLeg, QAfterFilterCondition> isarToWaypointBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'isarToWaypoint',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -1475,6 +1663,42 @@ extension RouteLegQuerySortBy on QueryBuilder<RouteLeg, RouteLeg, QSortBy> {
     });
   }
 
+  QueryBuilder<RouteLeg, RouteLeg, QAfterSortBy> sortByIsarFromWaypoint() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isarFromWaypoint', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RouteLeg, RouteLeg, QAfterSortBy> sortByIsarFromWaypointDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isarFromWaypoint', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RouteLeg, RouteLeg, QAfterSortBy> sortByIsarRoute() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isarRoute', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RouteLeg, RouteLeg, QAfterSortBy> sortByIsarRouteDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isarRoute', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RouteLeg, RouteLeg, QAfterSortBy> sortByIsarToWaypoint() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isarToWaypoint', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RouteLeg, RouteLeg, QAfterSortBy> sortByIsarToWaypointDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isarToWaypoint', Sort.desc);
+    });
+  }
+
   QueryBuilder<RouteLeg, RouteLeg, QAfterSortBy> sortByPath() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'path', Sort.asc);
@@ -1562,6 +1786,18 @@ extension RouteLegQuerySortThenBy
     });
   }
 
+  QueryBuilder<RouteLeg, RouteLeg, QAfterSortBy> thenByIsarFromWaypoint() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isarFromWaypoint', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RouteLeg, RouteLeg, QAfterSortBy> thenByIsarFromWaypointDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isarFromWaypoint', Sort.desc);
+    });
+  }
+
   QueryBuilder<RouteLeg, RouteLeg, QAfterSortBy> thenByIsarId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isarId', Sort.asc);
@@ -1571,6 +1807,30 @@ extension RouteLegQuerySortThenBy
   QueryBuilder<RouteLeg, RouteLeg, QAfterSortBy> thenByIsarIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isarId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RouteLeg, RouteLeg, QAfterSortBy> thenByIsarRoute() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isarRoute', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RouteLeg, RouteLeg, QAfterSortBy> thenByIsarRouteDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isarRoute', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RouteLeg, RouteLeg, QAfterSortBy> thenByIsarToWaypoint() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isarToWaypoint', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RouteLeg, RouteLeg, QAfterSortBy> thenByIsarToWaypointDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isarToWaypoint', Sort.desc);
     });
   }
 
@@ -1645,6 +1905,24 @@ extension RouteLegQueryWhereDistinct
     });
   }
 
+  QueryBuilder<RouteLeg, RouteLeg, QDistinct> distinctByIsarFromWaypoint() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isarFromWaypoint');
+    });
+  }
+
+  QueryBuilder<RouteLeg, RouteLeg, QDistinct> distinctByIsarRoute() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isarRoute');
+    });
+  }
+
+  QueryBuilder<RouteLeg, RouteLeg, QDistinct> distinctByIsarToWaypoint() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isarToWaypoint');
+    });
+  }
+
   QueryBuilder<RouteLeg, RouteLeg, QDistinct> distinctByPath(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1696,6 +1974,24 @@ extension RouteLegQueryProperty
   QueryBuilder<RouteLeg, String, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<RouteLeg, int, QQueryOperations> isarFromWaypointProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isarFromWaypoint');
+    });
+  }
+
+  QueryBuilder<RouteLeg, int, QQueryOperations> isarRouteProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isarRoute');
+    });
+  }
+
+  QueryBuilder<RouteLeg, int, QQueryOperations> isarToWaypointProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isarToWaypoint');
     });
   }
 

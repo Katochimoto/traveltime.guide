@@ -4,15 +4,11 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:traveltime/providers/map_tap_position.dart';
+import 'package:traveltime/store/models/route_leg.dart';
 
-/// A polyline with a tag
-class TaggedPolyline extends Polyline {
-  /// The name of the polyline
-  final String? tag;
-
-  final List<Offset> _offsets = [];
-
-  TaggedPolyline({
+class RouteLegPolyline extends Polyline {
+  RouteLegPolyline({
+    required this.leg,
     required super.points,
     super.strokeWidth = 1.0,
     super.color = const Color(0xFF00FF00),
@@ -21,8 +17,11 @@ class TaggedPolyline extends Polyline {
     super.gradientColors,
     super.colorsStop,
     super.isDotted = false,
-    this.tag,
   });
+
+  final RouteLeg leg;
+
+  final List<Offset> _offsets = [];
 }
 
 class TappablePolylineLayerController extends ConsumerWidget {
@@ -34,9 +33,9 @@ class TappablePolylineLayerController extends ConsumerWidget {
     this.pointerDistanceTolerance = 15,
   });
 
-  final List<TaggedPolyline> polylines;
-  final void Function(List<TaggedPolyline>, Offset offset)? onTap;
-  final void Function(Offset offset)? onMiss;
+  final List<RouteLegPolyline> polylines;
+  final void Function(List<RouteLegPolyline>, Bounds bounds)? onTap;
+  final void Function(Bounds bounds)? onMiss;
   final double? pointerDistanceTolerance;
 
   @override
@@ -56,14 +55,16 @@ class TappablePolylineLayerController extends ConsumerWidget {
   }
 
   void _handlePolylineTap(Offset tap) {
+    final bounds =
+        Bounds(CustomPoint(tap.dx, tap.dy), CustomPoint(tap.dx, tap.dy));
     // We might hit close to multiple polylines. We will therefore keep a reference to these in this map.
-    Map<double, List<TaggedPolyline>> candidates = {};
+    Map<double, List<RouteLegPolyline>> candidates = {};
 
     // Calculating taps in between points on the polyline. We
     // iterate over all the segments in the polyline to find any
     // matches with the tapped point within the
     // pointerDistanceTolerance.
-    for (TaggedPolyline currentPolyline in polylines) {
+    for (RouteLegPolyline currentPolyline in polylines) {
       for (var j = 0; j < currentPolyline._offsets.length - 1; j++) {
         // We consider the points point1, point2 and tap points in a triangle
         var point1 = currentPolyline._offsets[j];
@@ -107,18 +108,18 @@ class TappablePolylineLayerController extends ConsumerWidget {
             lengthDToOriginalSegment < pointerDistanceTolerance!) {
           var minimum = min(height, lengthDToOriginalSegment);
 
-          candidates[minimum] ??= <TaggedPolyline>[];
+          candidates[minimum] ??= <RouteLegPolyline>[];
           candidates[minimum]!.add(currentPolyline);
         }
       }
     }
 
     if (candidates.isEmpty) {
-      onMiss?.call(tap);
+      onMiss?.call(bounds);
     } else {
       // We look up in the map of distances to the tap, and choose the shortest one.
       var closestToTapKey = candidates.keys.reduce(min);
-      onTap!(candidates[closestToTapKey]!, tap);
+      onTap!(candidates[closestToTapKey]!, bounds);
     }
   }
 
@@ -140,15 +141,15 @@ class TappablePolylineLayer extends PolylineLayer {
     super.key,
   });
 
-  /// The list of [TaggedPolyline] which could be tapped
+  /// The list of [RouteLegPolyline] which could be tapped
   @override
-  final List<TaggedPolyline> polylines;
+  final List<RouteLegPolyline> polylines;
 
   /// The tolerated distance between pointer and user tap to trigger the [onTap] callback
   final double? pointerDistanceTolerance;
 
-  final void Function(List<TaggedPolyline>, Offset offset)? onTap;
-  final void Function(Offset offset)? onMiss;
+  final void Function(List<RouteLegPolyline>, Bounds bounds)? onTap;
+  final void Function(Bounds bounds)? onMiss;
 
   @override
   Widget build(BuildContext context) {
@@ -159,7 +160,7 @@ class TappablePolylineLayer extends PolylineLayer {
             .toList()
         : polylines;
 
-    for (TaggedPolyline polyline in lines) {
+    for (RouteLegPolyline polyline in lines) {
       polyline._offsets.clear();
       var i = 0;
       for (var point in polyline.points) {

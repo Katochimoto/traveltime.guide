@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:traveltime/widgets/map/popover_cluster.dart';
 import 'package:traveltime/widgets/map/popover_marker.dart';
 import 'package:traveltime/providers/marker_popover.dart';
+import 'package:traveltime/widgets/map/popover_not_found.dart';
+import 'package:traveltime/widgets/map/popover_route.dart';
 import 'package:traveltime/widgets/map/triangle_painter.dart';
 
 class Popover extends ConsumerWidget {
@@ -44,11 +46,19 @@ class Popover extends ConsumerWidget {
                   height: height,
                   popover: popover,
                 )
-              : PopoverMarkerController(
-                  width: width,
-                  height: height,
-                  popover: popover,
-                ),
+              : popover.type == PopoverType.marker
+                  ? PopoverMarkerController(
+                      width: width,
+                      height: height,
+                      popover: popover,
+                    )
+                  : popover.type == PopoverType.route
+                      ? PopoverRouteController(
+                          width: width,
+                          height: height,
+                          popover: popover,
+                        )
+                      : PopoverNotFound(width: width, height: height),
         ),
       ],
     );

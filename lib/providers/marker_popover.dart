@@ -4,6 +4,7 @@ import 'package:latlong2/latlong.dart';
 
 enum PopoverType {
   marker,
+  route,
   cluster,
 }
 
@@ -12,12 +13,14 @@ class PopoverData {
   final Bounds? bounds;
   final LatLng? point;
   final List<int?>? pointIds;
+  final List<int?>? routeIds;
 
   const PopoverData({
     this.bounds,
     this.point,
     this.type = PopoverType.marker,
     this.pointIds,
+    this.routeIds,
   });
 
   factory PopoverData.empty() {

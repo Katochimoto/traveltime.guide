@@ -27,9 +27,14 @@ class RouteLeg {
 
   @Index(type: IndexType.value)
   final String route;
+  int get isarRoute => fastHash(route);
 
   final String fromWaypoint;
+  int get isarFromWaypoint => fastHash(route);
+
   final String toWaypoint;
+  int get isarToWaypoint => fastHash(route);
+
   final String? path;
 
   @ignore
