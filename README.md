@@ -21,10 +21,8 @@ samples, guidance on mobile development, and a full API reference.
 https://pub.dev/packages/flutter_native_splash
 
 ```
-flutter pub run flutter_native_splash:create
-```
-
-```
 flutter gen-l10n
 dart run build_runner build
+dart run flutter_launcher_icons
+dart run flutter_native_splash:create
 ```

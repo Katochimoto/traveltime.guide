@@ -4,13 +4,13 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:traveltime/constants/constants.dart';
 import 'package:traveltime/constants/theme/dark.dart';
 import 'package:traveltime/constants/theme/light.dart';
 import 'package:traveltime/routes.dart';
 import 'package:traveltime/store/db_sync.dart';
 import 'package:traveltime/providers/app_auth.dart';
 import 'package:traveltime/providers/shared_preferences.dart';
+import 'package:traveltime/utils/env.dart';
 
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +19,7 @@ Future<void> main() async {
   final sharedPreferences = await SharedPreferences.getInstance();
 
   await SentryFlutter.init((options) {
-    options.dsn = sentryDSN;
+    options.dsn = Env.sentryDsn;
     options.tracesSampleRate = 1.0;
   },
       appRunner: () => runApp(ProviderScope(

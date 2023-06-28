@@ -4,11 +4,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:traveltime/constants/constants.dart';
 import 'package:traveltime/store/db.dart';
 import 'package:traveltime/providers/app_auth.dart';
 import 'package:traveltime/providers/connectivity_status.dart';
 import 'package:traveltime/providers/shared_preferences.dart';
+import 'package:traveltime/utils/env.dart';
 import 'models.dart' as models;
 
 enum DBSyncStatus {
@@ -36,7 +36,7 @@ class DbSync extends AsyncNotifier<DBSyncState> {
   }
 
   final Dio _dio = Dio(BaseOptions(
-    baseUrl: 'http://79.98.28.215:1337/api',
+    baseUrl: Env.apiBaseUrl,
     connectTimeout: const Duration(seconds: 5),
     receiveTimeout: const Duration(seconds: 30),
   ));
@@ -123,7 +123,8 @@ class DbSync extends AsyncNotifier<DBSyncState> {
             'lastSync': _lastSync?.toIso8601String(),
             'locale': _locale.name,
           },
-          options: Options(headers: {'Authorization': 'Bearer $syncApiToken'}),
+          options:
+              Options(headers: {'Authorization': 'Bearer ${Env.syncApiToken}'}),
           cancelToken: _cancelToken);
 
       final DateTime datetime = DateTime.parse(response.data['datetime']);
