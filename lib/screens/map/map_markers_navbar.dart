@@ -12,6 +12,7 @@ class MapMarkersNavbar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final loc = AppLocalizations.of(context)!;
     final filters = ref.watch(pointsFiltersProvider);
     final points = ref.watch(pointsCategoriesProvider).value ?? [];
 
@@ -19,10 +20,18 @@ class MapMarkersNavbar extends ConsumerWidget {
       items: [
         NavbarCategorieButton(
           icon: Icons.bookmarks,
-          title: 'Bookmarks',
+          title: loc.bookmarks,
           selected: filters.bookmarks,
           onPressed: () {
             ref.read(pointsFiltersProvider.notifier).toggleBookmarks();
+          },
+        ),
+        NavbarCategorieButton(
+          icon: Icons.route,
+          title: loc.routes,
+          selected: filters.routes,
+          onPressed: () {
+            ref.read(pointsFiltersProvider.notifier).toggleRoutes();
           },
         ),
         for (final point in points)
@@ -41,33 +50,34 @@ class MapMarkersNavbar extends ConsumerWidget {
   }
 
   String localizedCategory(PointCategory category, BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     switch (category) {
       case PointCategory.entertainment:
-        return AppLocalizations.of(context)!.pointCategoryEntertainment;
+        return loc.pointCategoryEntertainment;
       case PointCategory.event:
-        return AppLocalizations.of(context)!.pointCategoryEvents;
+        return loc.pointCategoryEvents;
       case PointCategory.attraction:
-        return AppLocalizations.of(context)!.pointCategoryAttraction;
+        return loc.pointCategoryAttraction;
       case PointCategory.nightMarket:
-        return AppLocalizations.of(context)!.pointCategoryNightMarket;
+        return loc.pointCategoryNightMarket;
       case PointCategory.hypermarket:
-        return AppLocalizations.of(context)!.pointCategoryHypermarket;
+        return loc.pointCategoryHypermarket;
       case PointCategory.beach:
-        return AppLocalizations.of(context)!.pointCategoryBeach;
+        return loc.pointCategoryBeach;
       case PointCategory.restaurant:
-        return AppLocalizations.of(context)!.pointCategoryRestaurant;
+        return loc.pointCategoryRestaurant;
       case PointCategory.cafe:
-        return AppLocalizations.of(context)!.pointCategoryCafe;
+        return loc.pointCategoryCafe;
       case PointCategory.marina:
-        return AppLocalizations.of(context)!.pointCategoryMarina;
+        return loc.pointCategoryMarina;
       case PointCategory.police:
-        return AppLocalizations.of(context)!.pointCategoryPolice;
+        return loc.pointCategoryPolice;
       case PointCategory.gasStation:
-        return AppLocalizations.of(context)!.pointCategoryGasStation;
+        return loc.pointCategoryGasStation;
       case PointCategory.carRental:
-        return AppLocalizations.of(context)!.pointCategoryCarRental;
+        return loc.pointCategoryCarRental;
       case PointCategory.hotel:
-        return AppLocalizations.of(context)!.pointCategoryHotel;
+        return loc.pointCategoryHotel;
     }
   }
 }

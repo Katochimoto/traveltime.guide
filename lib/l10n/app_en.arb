@@ -25,5 +25,7 @@
 	"pointCategoryPolice": "Police",
 	"pointCategoryRestaurant": "Restaurant",
 	"eventsTitle": "Events",
-	"location": "Location"
+	"location": "Location",
+	"bookmarks": "Bookmarks",
+	"routes": "Routes"
 }

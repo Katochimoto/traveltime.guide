@@ -74,6 +74,7 @@ dependencies:
   duration: ^3.0.12
   flutter_launcher_icons: ^0.13.1
   envied: ^0.3.0+3
+  copy_with_extension: ^5.0.3
 
 dev_dependencies:
   flutter_test:
@@ -88,6 +89,7 @@ dev_dependencies:
   isar_generator: ^3.0.5
   build_runner: ^2.3.3
   envied_generator: ^0.3.0+3
+  copy_with_extension_gen: ^5.0.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
