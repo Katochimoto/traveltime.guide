@@ -7,6 +7,7 @@ part 'user_bookmark.g.dart';
 
 enum UserBookmarkType {
   point,
+  route,
   article,
 }
 

@@ -1,21 +1,21 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:traveltime/store/models/point.dart';
 
-part 'points_filters_data.g.dart';
+part 'map_objects_filters_data.g.dart';
 
 @CopyWith()
-class PointsFiltersData {
+class MapObjectsFiltersData {
   final List<PointCategory> categories;
   final bool bookmarks;
   final bool routes;
 
-  const PointsFiltersData({
+  const MapObjectsFiltersData({
     this.categories = const [],
     this.bookmarks = false,
     this.routes = false,
   });
 
-  PointsFiltersData toggleCategory(PointCategory data) {
+  MapObjectsFiltersData toggleCategory(PointCategory data) {
     final next = [...categories];
     if (next.contains(data)) {
       next.remove(data);
@@ -25,11 +25,11 @@ class PointsFiltersData {
     return copyWith.categories(next);
   }
 
-  PointsFiltersData toggleBookmarks({bool? toggle}) {
+  MapObjectsFiltersData toggleBookmarks({bool? toggle}) {
     return copyWith.bookmarks(toggle ?? !bookmarks);
   }
 
-  PointsFiltersData toggleRoutes({bool? toggle}) {
+  MapObjectsFiltersData toggleRoutes({bool? toggle}) {
     return copyWith.routes(toggle ?? !routes);
   }
 }

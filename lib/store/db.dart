@@ -3,7 +3,7 @@ import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:traveltime/providers/app_auth.dart';
 import 'package:traveltime/providers/bookmarks.dart';
-import 'package:traveltime/providers/points_filters.dart';
+import 'package:traveltime/providers/map_objects_filters.dart';
 import 'models.dart' as models;
 
 class Db extends AsyncNotifier<Isar> {
@@ -69,7 +69,7 @@ final articleProvider =
 
 final pointsProvider = StreamProvider.autoDispose((ref) async* {
   await ref.watch(bookmarksProvider.future);
-  final filters = ref.watch(pointsFiltersProvider);
+  final filters = ref.watch(mapObjectsFiltersProvider);
   final locale =
       await ref.watch(appAuthProvider.selectAsync((data) => data.locale));
   final db = await ref.watch(dbProvider.future);
@@ -202,17 +202,30 @@ final eventPointsProvider = StreamProvider.autoDispose
 });
 
 final routesProvider = StreamProvider.autoDispose((ref) async* {
+  await ref.watch(bookmarksProvider.future);
+  final filters = ref.watch(mapObjectsFiltersProvider);
+
   final locale =
       await ref.watch(appAuthProvider.selectAsync((data) => data.locale));
   final db = await ref.watch(dbProvider.future);
-  final query = db
-      .collection<models.Route>()
-      .filter()
-      .localeEqualTo(locale)
-      .sortByPublishedAtDesc()
-      .build();
 
-  await for (final results in query.watch(fireImmediately: true)) {
+  var query = db.collection<models.Route>().filter().localeEqualTo(locale);
+  // .anyOf(filters.categories, (q, value) => q.categoryEqualTo(value));
+
+  if (filters.bookmarks) {
+    final bookmarks = await db
+        .collection<models.UserBookmark>()
+        .filter()
+        .typeEqualTo(models.UserBookmarkType.route)
+        .findAll();
+    final bookmarkIds =
+        bookmarks.map((item) => item.objectId).toList(growable: false);
+    query = query.anyOf(bookmarkIds, (q, value) => q.idEqualTo(value));
+  }
+
+  final buildQuery = query.sortByPublishedAtDesc().build();
+
+  await for (final results in buildQuery.watch(fireImmediately: true)) {
     if (results.isNotEmpty) {
       yield results;
     }
@@ -299,12 +312,14 @@ final routeLegsByRouteProvider = StreamProvider.autoDispose
 
 final mapObjectsProvider =
     StreamProvider.autoDispose<List<models.MapObject>>((ref) async* {
-  final filters = ref.watch(pointsFiltersProvider);
+  final filters = ref.watch(mapObjectsFiltersProvider);
   final points = await ref.watch(pointsProvider.future);
   final routes = await ref.watch(routesProvider.future);
 
   if (filters.routes) {
     yield routes;
+  } else if (filters.categories.isNotEmpty) {
+    yield points;
   } else {
     yield [...points, ...routes];
   }

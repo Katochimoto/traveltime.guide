@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:traveltime/constants/Theme.dart';
-import 'package:traveltime/providers/point_overview.dart';
+import 'package:traveltime/providers/overview/overview.dart';
 import 'package:traveltime/store/db.dart';
 import 'package:traveltime/store/models/point.dart';
 import 'package:traveltime/widgets/map/popover_not_found.dart';
@@ -33,7 +33,7 @@ class PopoverMarkerController extends ConsumerWidget {
                 point: data,
                 onTap: (point) {
                   ref
-                      .read(pointOverviewProvider.notifier)
+                      .read(overviewProvider.notifier)
                       .show(OverviewData(point: point));
                   ref.read(popoverProvider.notifier).hide();
                 },

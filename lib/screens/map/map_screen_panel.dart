@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:traveltime/screens/map/map_markers_navbar.dart';
 import 'package:traveltime/screens/map/markers.dart';
-import 'package:traveltime/providers/point_overview.dart';
+import 'package:traveltime/providers/overview/overview.dart';
 import 'package:traveltime/screens/map/overview.dart';
 import 'package:traveltime/widgets/stateful_wrapper.dart';
 
@@ -17,7 +17,7 @@ class MapScreenPanel extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final overview = ref.watch(pointOverviewProvider);
+    final overview = ref.watch(overviewProvider);
     return MediaQuery.removePadding(
         context: context,
         removeTop: true,

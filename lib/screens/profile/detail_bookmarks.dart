@@ -3,7 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:traveltime/constants/routes.dart';
-import 'package:traveltime/providers/points_filters.dart';
+import 'package:traveltime/providers/map_objects_filters.dart';
 
 class DetailBookmarks extends ConsumerWidget {
   const DetailBookmarks({super.key});
@@ -19,7 +19,7 @@ class DetailBookmarks extends ConsumerWidget {
           icon: const Icon(Icons.bookmarks),
           onPressed: () {
             ref
-                .read(pointsFiltersProvider.notifier)
+                .read(mapObjectsFiltersProvider.notifier)
                 .toggleBookmarks(toggle: true);
             context.pushNamed(Routes.map);
           },

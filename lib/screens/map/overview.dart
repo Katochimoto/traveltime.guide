@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:traveltime/constants/Theme.dart';
-import 'package:traveltime/providers/point_overview.dart';
+import 'package:traveltime/providers/overview/overview.dart';
 import 'package:traveltime/screens/map/overview_bookmark.dart';
 import 'package:traveltime/screens/map/overview_openapp.dart';
 // import 'package:traveltime/screens/map/overview_visited.dart';
@@ -29,7 +29,7 @@ class OverviewNavbar extends ConsumerWidget {
               iconSize: 24,
               icon: const Icon(Icons.arrow_back),
               onPressed: () {
-                ref.invalidate(pointOverviewProvider);
+                ref.invalidate(overviewProvider);
               },
             )
           ],

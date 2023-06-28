@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:traveltime/providers/points_filters_data.dart';
+import 'package:traveltime/providers/map_objects_filters_data.dart';
 import 'package:traveltime/store/models/point.dart';
 
-class PointsFiltersController extends Notifier<PointsFiltersData> {
+class MapObjectsFiltersController extends Notifier<MapObjectsFiltersData> {
   @override
-  PointsFiltersData build() {
-    return const PointsFiltersData();
+  MapObjectsFiltersData build() {
+    return const MapObjectsFiltersData();
   }
 
   void toggleCategory(PointCategory data) {
@@ -21,7 +21,7 @@ class PointsFiltersController extends Notifier<PointsFiltersData> {
   }
 }
 
-final pointsFiltersProvider =
-    NotifierProvider<PointsFiltersController, PointsFiltersData>(() {
-  return PointsFiltersController();
+final mapObjectsFiltersProvider =
+    NotifierProvider<MapObjectsFiltersController, MapObjectsFiltersData>(() {
+  return MapObjectsFiltersController();
 });

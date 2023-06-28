@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:traveltime/constants/Theme.dart';
 import 'package:traveltime/constants/routes.dart';
-import 'package:traveltime/providers/point_overview.dart';
+import 'package:traveltime/providers/overview/overview.dart';
 import 'package:traveltime/store/db.dart';
 import 'package:traveltime/store/models/point.dart';
 import 'package:traveltime/store/models/event.dart';
@@ -32,7 +32,7 @@ class EventPointsList extends ConsumerWidget {
                 point: point,
                 onTap: (point) {
                   ref
-                      .read(pointOverviewProvider.notifier)
+                      .read(overviewProvider.notifier)
                       .show(OverviewData(point: point));
                   context.pushNamed(Routes.map);
                 },

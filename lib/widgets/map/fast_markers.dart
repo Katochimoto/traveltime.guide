@@ -3,7 +3,7 @@ import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:traveltime/providers/map_tap_position.dart';
-import 'package:traveltime/providers/point_overview.dart';
+import 'package:traveltime/providers/overview/overview.dart';
 import 'package:traveltime/store/models/point.dart';
 
 class FastMarker {
@@ -127,7 +127,7 @@ class FastMarkersLayerState extends ConsumerState<FastMarkersLayerController> {
       clusterHeight: widget.clusterHeight,
     );
 
-    // if (ref.read(pointOverviewProvider) == null) {
+    // if (ref.read(overviewProvider) == null) {
     //   _debouncer.run(() => _fitBounds());
     // }
   }
@@ -147,7 +147,7 @@ class FastMarkersLayerState extends ConsumerState<FastMarkersLayerController> {
 
   @override
   void dispose() {
-    ref.invalidate(pointOverviewProvider);
+    ref.invalidate(overviewProvider);
     super.dispose();
   }
 
@@ -157,7 +157,7 @@ class FastMarkersLayerState extends ConsumerState<FastMarkersLayerController> {
       painter.onTap(next.offset);
     });
 
-    // ref.listen(pointsFiltersProvider, (previous, next) {
+    // ref.listen(mapObjectsFiltersProvider, (previous, next) {
     //   _debouncer.run(() => _fitBounds());
     // });
 

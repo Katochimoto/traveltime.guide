@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:traveltime/providers/points_filters.dart';
+import 'package:traveltime/providers/map_objects_filters.dart';
 import 'package:traveltime/screens/map/consts.dart';
 import 'package:traveltime/store/db.dart';
 import 'package:traveltime/store/models/point.dart';
@@ -13,7 +13,7 @@ class MapMarkersNavbar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final loc = AppLocalizations.of(context)!;
-    final filters = ref.watch(pointsFiltersProvider);
+    final filters = ref.watch(mapObjectsFiltersProvider);
     final points = ref.watch(pointsCategoriesProvider).value ?? [];
 
     return NavbarCategories(
@@ -23,7 +23,7 @@ class MapMarkersNavbar extends ConsumerWidget {
           title: loc.bookmarks,
           selected: filters.bookmarks,
           onPressed: () {
-            ref.read(pointsFiltersProvider.notifier).toggleBookmarks();
+            ref.read(mapObjectsFiltersProvider.notifier).toggleBookmarks();
           },
         ),
         NavbarCategorieButton(
@@ -31,7 +31,7 @@ class MapMarkersNavbar extends ConsumerWidget {
           title: loc.routes,
           selected: filters.routes,
           onPressed: () {
-            ref.read(pointsFiltersProvider.notifier).toggleRoutes();
+            ref.read(mapObjectsFiltersProvider.notifier).toggleRoutes();
           },
         ),
         for (final point in points)
@@ -41,7 +41,7 @@ class MapMarkersNavbar extends ConsumerWidget {
             selected: filters.categories.contains(point.category),
             onPressed: () {
               ref
-                  .read(pointsFiltersProvider.notifier)
+                  .read(mapObjectsFiltersProvider.notifier)
                   .toggleCategory(point.category);
             },
           ),

@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:traveltime/store/models/point.dart';
+import 'package:traveltime/store/models.dart' as models;
 
 class OverviewData {
-  final Point point;
+  final models.Point point;
   final bool animation;
 
   const OverviewData({
@@ -28,7 +28,7 @@ class OverviewController extends Notifier<OverviewData?> {
   }
 }
 
-final pointOverviewProvider =
+final overviewProvider =
     NotifierProvider<OverviewController, OverviewData?>(() {
   return OverviewController();
 });
