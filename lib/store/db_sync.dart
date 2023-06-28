@@ -9,6 +9,7 @@ import 'package:traveltime/providers/app_auth.dart';
 import 'package:traveltime/providers/connectivity_status.dart';
 import 'package:traveltime/providers/shared_preferences.dart';
 import 'package:traveltime/utils/env.dart';
+import 'package:traveltime/utils/fast_hash.dart';
 import 'models.dart' as models;
 
 enum DBSyncStatus {
@@ -97,7 +98,7 @@ class DbSync extends AsyncNotifier<DBSyncState> {
     _timer?.cancel();
     _cancelToken?.cancel('cancelled');
     Timer.run(() => _run());
-    _timer = Timer.periodic(const Duration(minutes: 10), (_) {
+    _timer = Timer.periodic(const Duration(minutes: 1), (_) {
       _run();
     });
   }
@@ -157,8 +158,12 @@ class DbSync extends AsyncNotifier<DBSyncState> {
           final collectionName = syncItem[2];
           log('Sync start: $collectionName');
           final changes = response.data?['changes']?[collectionName];
-          if (changes?['deleted']?.isNotEmpty) {
-            await collection.deleteAll(changes['deleted']);
+          final List<int> deleted =
+              ((changes?['deleted'] ?? []) as List<dynamic>)
+                  .map((e) => fastHash(e))
+                  .toList(growable: false);
+          if (deleted.isNotEmpty) {
+            await collection.deleteAll(deleted);
           }
           if (changes?['replaced']?.isNotEmpty) {
             final items = changesFromJson(changes['replaced']);
@@ -172,7 +177,7 @@ class DbSync extends AsyncNotifier<DBSyncState> {
       return DBSyncState(status: DBSyncStatus.pending, lastSync: datetime);
     });
 
-    log('Sync status: ${state.value?.status}');
+    log('Sync status: ${state.value?.status}, error: ${state.error}');
 
     // https://api.dart.dev/stable/2.19.0/dart-async/StreamController-class.html
     // https://stackoverflow.com/questions/66724183/how-can-i-queue-calls-to-an-async-function-and-execute-them-in-order

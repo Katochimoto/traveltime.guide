@@ -140,15 +140,6 @@ class AppDrawer extends StatelessWidget {
                           title: "Routes",
                           isSelected:
                               currentPage == Routes.components ? true : false),
-                      // DrawerTile(
-                      //     icon: FontAwesomeIcons.fileInvoice,
-                      //     onTap: () {
-                      //       if (currentPage != Routes.account) {
-                      //         context.goNamed(Routes.account);
-                      //       }
-                      //     },
-                      //     title: "Account",
-                      //     isSelected: currentPage == Routes.account ? true : false),
                       DrawerTile(
                           icon: Icons.settings,
                           onTap: () {

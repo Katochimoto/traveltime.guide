@@ -2,12 +2,13 @@ import 'package:flutter_map/plugin_api.dart';
 import 'package:isar/isar.dart';
 import 'package:latlong2/latlong.dart' as ll;
 import 'package:traveltime/providers/app_auth.dart';
+import 'package:traveltime/store/models/map_object.dart';
 import 'package:traveltime/utils/fast_hash.dart';
 
 part 'route.g.dart';
 
 @collection
-class Route {
+class Route implements MapObject {
   Route({
     required this.id,
     required this.locale,

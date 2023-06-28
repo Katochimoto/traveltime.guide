@@ -7,7 +7,6 @@ import 'package:traveltime/screens/onboarding/onboarding_screen.dart';
 import 'package:traveltime/screens/home/home_screen.dart';
 import 'package:traveltime/screens/profile/profile_screen.dart';
 import 'package:traveltime/screens/settings/settings_screen.dart';
-import 'package:traveltime/screens/register/register_screen.dart';
 import 'package:traveltime/screens/articles/articles_screen.dart';
 import 'package:traveltime/screens/article/article_screen.dart';
 import 'package:traveltime/screens/components/components_screen.dart';
@@ -55,11 +54,6 @@ final router = GoRouter(
       name: Routes.components,
       path: '/components',
       builder: (context, state) => const ComponentsScreen(),
-    ),
-    GoRoute(
-      name: Routes.account,
-      path: '/account',
-      builder: (context, state) => const RegisterScreen(),
     ),
     GoRoute(
       name: Routes.map,

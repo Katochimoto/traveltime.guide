@@ -2,6 +2,7 @@ import 'package:flutter_map/plugin_api.dart';
 import 'package:isar/isar.dart';
 import 'package:latlong2/latlong.dart' as ll;
 import 'package:traveltime/providers/app_auth.dart';
+import 'package:traveltime/store/models/map_object.dart';
 import 'package:traveltime/utils/fast_hash.dart';
 
 part 'point.g.dart';
@@ -23,7 +24,7 @@ enum PointCategory {
 }
 
 @collection
-class Point {
+class Point implements MapObject {
   Point({
     required this.id,
     required this.lat,
@@ -77,8 +78,8 @@ class Point {
   factory Point.fromJson(data) {
     return Point(
       id: data['id'],
-      lat: data['lat'],
-      lng: data['lng'],
+      lat: double.parse(data['lat'].toString()),
+      lng: double.parse(data['lng'].toString()),
       locale: AppLocale.values.byName(data['locale']),
       category: PointCategory.values.byName(data['category']),
       createdAt: DateTime.parse(data['createdAt']),

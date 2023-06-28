@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:traveltime/providers/point_overview.dart';
 import 'package:traveltime/store/db.dart';
 import 'package:traveltime/widgets/map/marker_list_item.dart';
+import 'package:traveltime/store/models.dart' as models;
 
 class Markers extends ConsumerWidget {
   const Markers({super.key, this.sc});
@@ -11,22 +12,26 @@ class Markers extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final points = ref.watch(pointsProvider).value ?? [];
+    final objects = ref.watch(mapObjectsProvider).value ?? [];
     return ListView.builder(
       controller: sc,
       physics: const BouncingScrollPhysics(),
       itemBuilder: (_, idx) {
-        return MarkerListItem(
-          point: points[idx],
-          onTap: (point) {
-            ref.read(pointOverviewProvider.notifier).show(OverviewData(
-                  point: point,
-                  animation: true,
-                ));
-          },
-        );
+        if (objects[idx] is models.Point) {
+          return MarkerListItem(
+            point: objects[idx] as models.Point,
+            onTap: (point) {
+              ref.read(pointOverviewProvider.notifier).show(OverviewData(
+                    point: point,
+                    animation: true,
+                  ));
+            },
+          );
+        }
+
+        return const SizedBox.shrink();
       },
-      itemCount: points.length,
+      itemCount: objects.length,
     );
   }
 }

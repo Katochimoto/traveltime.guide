@@ -5,7 +5,6 @@ class Routes {
   static const String components = "components";
   static const String home = "home";
   static const String profile = "profile";
-  static const String account = "account";
   static const String settings = "settings";
   static const String map = "map";
   static const String events = "events";

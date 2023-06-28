@@ -296,3 +296,16 @@ final routeLegsByRouteProvider = StreamProvider.autoDispose
     }
   }
 });
+
+final mapObjectsProvider =
+    StreamProvider.autoDispose<List<models.MapObject>>((ref) async* {
+  final filters = ref.watch(pointsFiltersProvider);
+  final points = await ref.watch(pointsProvider.future);
+  final routes = await ref.watch(routesProvider.future);
+
+  if (filters.routes) {
+    yield routes;
+  } else {
+    yield [...points, ...routes];
+  }
+});
