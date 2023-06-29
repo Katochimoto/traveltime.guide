@@ -45,6 +45,7 @@ class Point implements MapObject {
   @Index(unique: true, type: IndexType.value)
   final String id;
 
+  @override
   Id get isarId => fastHash(id);
 
   final float lat;
@@ -69,6 +70,7 @@ class Point implements MapObject {
   final String? logoImg;
   final String? coverImg;
 
+  @override
   @ignore
   LatLngBounds get bounds => LatLngBounds(
         ll.LatLng(lat, lng),

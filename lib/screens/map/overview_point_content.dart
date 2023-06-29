@@ -1,47 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:traveltime/constants/Theme.dart';
-import 'package:traveltime/providers/overview/overview.dart';
 import 'package:traveltime/screens/map/overview_bookmark.dart';
 import 'package:traveltime/screens/map/overview_openapp.dart';
-// import 'package:traveltime/screens/map/overview_visited.dart';
-import 'package:traveltime/store/db.dart';
-import 'package:traveltime/store/models/point.dart';
-import 'package:traveltime/widgets/not_found.dart';
+import 'package:traveltime/store/models.dart' as models;
 
-class OverviewNavbar extends ConsumerWidget {
-  const OverviewNavbar({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Padding(
-        padding: const EdgeInsets.symmetric(
-            vertical: UIGap.g2, horizontal: UIGap.g2),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            IconButton(
-              style: IconButton.styleFrom(
-                backgroundColor: Theme.of(context).canvasColor,
-              ),
-              iconSize: 24,
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () {
-                ref.invalidate(overviewProvider);
-              },
-            )
-          ],
-        ));
-  }
-}
-
-class OverviewContent extends StatelessWidget {
-  const OverviewContent({super.key, this.sc, required this.point});
+class OverviewPointContent extends StatelessWidget {
+  const OverviewPointContent({super.key, this.sc, required this.point});
 
   final ScrollController? sc;
-  final Point point;
+  final models.Point point;
 
   @override
   Widget build(BuildContext context) {
@@ -128,36 +96,6 @@ class OverviewContent extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class Overview extends ConsumerWidget {
-  const Overview({super.key, this.sc, required this.id});
-
-  final int id;
-  final ScrollController? sc;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final point = ref.watch(pointProvider(id));
-    return point.when(
-      data: (data) {
-        return data == null
-            ? const Stack(children: [NotFound(), OverviewNavbar()])
-            : Stack(
-                children: [
-                  OverviewContent(point: data, sc: sc),
-                  const OverviewNavbar(),
-                ],
-              );
-      },
-      error: (error, stackTrace) {
-        return const Stack(children: [NotFound(), OverviewNavbar()]);
-      },
-      loading: () {
-        return const Center(child: CircularProgressIndicator());
-      },
     );
   }
 }

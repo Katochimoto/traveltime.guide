@@ -23,7 +23,7 @@ class Markers extends ConsumerWidget {
             point: objects[idx] as models.Point,
             onTap: (point) {
               ref.read(overviewProvider.notifier).show(OverviewData(
-                    point: point,
+                    object: point,
                     animation: true,
                   ));
             },
@@ -32,10 +32,10 @@ class Markers extends ConsumerWidget {
           return RouteListItem(
             route: objects[idx] as models.Route,
             onTap: (route) {
-              // ref.read(overviewProvider.notifier).show(OverviewData(
-              //       route: route,
-              //       animation: true,
-              //     ));
+              ref.read(overviewProvider.notifier).show(OverviewData(
+                    object: route,
+                    animation: true,
+                  ));
             },
           );
         }

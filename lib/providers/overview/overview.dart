@@ -2,11 +2,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:traveltime/store/models.dart' as models;
 
 class OverviewData {
-  final models.Point point;
+  final models.MapObject object;
   final bool animation;
 
   const OverviewData({
-    required this.point,
+    required this.object,
     this.animation = false,
   });
 }

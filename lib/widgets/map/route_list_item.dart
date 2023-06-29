@@ -24,9 +24,9 @@ class RouteListItemController extends ConsumerWidget {
             : RouteListItem(
                 route: data,
                 onTap: (route) {
-                  // ref
-                  //     .read(overviewProvider.notifier)
-                  //     .show(OverviewData(point: point));
+                  ref
+                      .read(overviewProvider.notifier)
+                      .show(OverviewData(object: route));
                   ref.read(popoverProvider.notifier).hide();
                 });
       },

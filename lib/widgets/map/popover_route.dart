@@ -31,10 +31,10 @@ class PopoverRouteController extends ConsumerWidget {
                 width: width,
                 height: height,
                 route: data,
-                onTap: (point) {
-                  // ref
-                  //     .read(overviewProvider.notifier)
-                  //     .show(OverviewData(point: point));
+                onTap: (route) {
+                  ref
+                      .read(overviewProvider.notifier)
+                      .show(OverviewData(object: route));
                   ref.read(popoverProvider.notifier).hide();
                 },
               );

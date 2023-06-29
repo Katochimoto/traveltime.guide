@@ -5,8 +5,10 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:traveltime/screens/map/map_markers_navbar.dart';
 import 'package:traveltime/screens/map/markers.dart';
 import 'package:traveltime/providers/overview/overview.dart';
-import 'package:traveltime/screens/map/overview.dart';
+import 'package:traveltime/screens/map/overview_point.dart';
+import 'package:traveltime/screens/map/overview_route.dart';
 import 'package:traveltime/widgets/stateful_wrapper.dart';
+import 'package:traveltime/store/models.dart' as models;
 
 class MapScreenPanel extends ConsumerWidget {
   const MapScreenPanel({super.key, this.sc, this.pc, this.mc});
@@ -40,13 +42,15 @@ class MapScreenPanel extends ConsumerWidget {
                   : StatefulWrapper(
                       onInit: () {
                         pc?.open();
-                        mc?.fitBounds(overview.point.bounds);
+                        mc?.fitBounds(overview.object.bounds);
                       },
                       onUpdate: () {
                         pc?.open();
-                        mc?.fitBounds(overview.point.bounds);
+                        mc?.fitBounds(overview.object.bounds);
                       },
-                      child: Overview(sc: sc, id: overview.point.isarId),
+                      child: overview.object is models.Point
+                          ? OverviewPoint(sc: sc, id: overview.object.isarId)
+                          : OverviewRoute(sc: sc, id: overview.object.isarId),
                     ),
             ),
             AnimatedSwitcher(

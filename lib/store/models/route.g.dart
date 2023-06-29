@@ -17,35 +17,35 @@ const RouteSchema = CollectionSchema(
   name: r'Route',
   id: 2886924706719904506,
   properties: {
-    r'bounds': PropertySchema(
-      id: 0,
-      name: r'bounds',
-      type: IsarType.floatList,
-    ),
     r'coverImg': PropertySchema(
-      id: 1,
+      id: 0,
       name: r'coverImg',
       type: IsarType.string,
     ),
     r'createdAt': PropertySchema(
-      id: 2,
+      id: 1,
       name: r'createdAt',
       type: IsarType.dateTime,
     ),
     r'description': PropertySchema(
-      id: 3,
+      id: 2,
       name: r'description',
       type: IsarType.string,
     ),
     r'id': PropertySchema(
-      id: 4,
+      id: 3,
       name: r'id',
       type: IsarType.string,
     ),
     r'intro': PropertySchema(
-      id: 5,
+      id: 4,
       name: r'intro',
       type: IsarType.string,
+    ),
+    r'latlngBounds': PropertySchema(
+      id: 5,
+      name: r'latlngBounds',
+      type: IsarType.floatList,
     ),
     r'locale': PropertySchema(
       id: 6,
@@ -121,7 +121,6 @@ int _routeEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  bytesCount += 3 + object.bounds.length * 4;
   {
     final value = object.coverImg;
     if (value != null) {
@@ -136,6 +135,7 @@ int _routeEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
+  bytesCount += 3 + object.latlngBounds.length * 4;
   {
     final value = object.logoImg;
     if (value != null) {
@@ -152,12 +152,12 @@ void _routeSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeFloatList(offsets[0], object.bounds);
-  writer.writeString(offsets[1], object.coverImg);
-  writer.writeDateTime(offsets[2], object.createdAt);
-  writer.writeString(offsets[3], object.description);
-  writer.writeString(offsets[4], object.id);
-  writer.writeString(offsets[5], object.intro);
+  writer.writeString(offsets[0], object.coverImg);
+  writer.writeDateTime(offsets[1], object.createdAt);
+  writer.writeString(offsets[2], object.description);
+  writer.writeString(offsets[3], object.id);
+  writer.writeString(offsets[4], object.intro);
+  writer.writeFloatList(offsets[5], object.latlngBounds);
   writer.writeByte(offsets[6], object.locale.index);
   writer.writeString(offsets[7], object.logoImg);
   writer.writeDateTime(offsets[8], object.publishedAt);
@@ -172,12 +172,12 @@ Route _routeDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Route(
-    bounds: reader.readFloatList(offsets[0]) ?? [],
-    coverImg: reader.readStringOrNull(offsets[1]),
-    createdAt: reader.readDateTime(offsets[2]),
-    description: reader.readString(offsets[3]),
-    id: reader.readString(offsets[4]),
-    intro: reader.readStringOrNull(offsets[5]),
+    coverImg: reader.readStringOrNull(offsets[0]),
+    createdAt: reader.readDateTime(offsets[1]),
+    description: reader.readString(offsets[2]),
+    id: reader.readString(offsets[3]),
+    intro: reader.readStringOrNull(offsets[4]),
+    latlngBounds: reader.readFloatList(offsets[5]) ?? [],
     locale: _RoutelocaleValueEnumMap[reader.readByteOrNull(offsets[6])] ??
         AppLocale.en,
     logoImg: reader.readStringOrNull(offsets[7]),
@@ -196,17 +196,17 @@ P _routeDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readFloatList(offset) ?? []) as P;
-    case 1:
       return (reader.readStringOrNull(offset)) as P;
-    case 2:
+    case 1:
       return (reader.readDateTime(offset)) as P;
+    case 2:
+      return (reader.readString(offset)) as P;
     case 3:
       return (reader.readString(offset)) as P;
     case 4:
-      return (reader.readString(offset)) as P;
-    case 5:
       return (reader.readStringOrNull(offset)) as P;
+    case 5:
+      return (reader.readFloatList(offset) ?? []) as P;
     case 6:
       return (_RoutelocaleValueEnumMap[reader.readByteOrNull(offset)] ??
           AppLocale.en) as P;
@@ -655,152 +655,6 @@ extension RouteQueryWhere on QueryBuilder<Route, Route, QWhereClause> {
 }
 
 extension RouteQueryFilter on QueryBuilder<Route, Route, QFilterCondition> {
-  QueryBuilder<Route, Route, QAfterFilterCondition> boundsElementEqualTo(
-    double value, {
-    double epsilon = Query.epsilon,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'bounds',
-        value: value,
-        epsilon: epsilon,
-      ));
-    });
-  }
-
-  QueryBuilder<Route, Route, QAfterFilterCondition> boundsElementGreaterThan(
-    double value, {
-    bool include = false,
-    double epsilon = Query.epsilon,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'bounds',
-        value: value,
-        epsilon: epsilon,
-      ));
-    });
-  }
-
-  QueryBuilder<Route, Route, QAfterFilterCondition> boundsElementLessThan(
-    double value, {
-    bool include = false,
-    double epsilon = Query.epsilon,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'bounds',
-        value: value,
-        epsilon: epsilon,
-      ));
-    });
-  }
-
-  QueryBuilder<Route, Route, QAfterFilterCondition> boundsElementBetween(
-    double lower,
-    double upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    double epsilon = Query.epsilon,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'bounds',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        epsilon: epsilon,
-      ));
-    });
-  }
-
-  QueryBuilder<Route, Route, QAfterFilterCondition> boundsLengthEqualTo(
-      int length) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'bounds',
-        length,
-        true,
-        length,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Route, Route, QAfterFilterCondition> boundsIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'bounds',
-        0,
-        true,
-        0,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Route, Route, QAfterFilterCondition> boundsIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'bounds',
-        0,
-        false,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Route, Route, QAfterFilterCondition> boundsLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'bounds',
-        0,
-        true,
-        length,
-        include,
-      );
-    });
-  }
-
-  QueryBuilder<Route, Route, QAfterFilterCondition> boundsLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'bounds',
-        length,
-        include,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Route, Route, QAfterFilterCondition> boundsLengthBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'bounds',
-        lower,
-        includeLower,
-        upper,
-        includeUpper,
-      );
-    });
-  }
-
   QueryBuilder<Route, Route, QAfterFilterCondition> coverImgIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -1451,6 +1305,154 @@ extension RouteQueryFilter on QueryBuilder<Route, Route, QFilterCondition> {
         upper: upper,
         includeUpper: includeUpper,
       ));
+    });
+  }
+
+  QueryBuilder<Route, Route, QAfterFilterCondition> latlngBoundsElementEqualTo(
+    double value, {
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'latlngBounds',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<Route, Route, QAfterFilterCondition>
+      latlngBoundsElementGreaterThan(
+    double value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'latlngBounds',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<Route, Route, QAfterFilterCondition> latlngBoundsElementLessThan(
+    double value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'latlngBounds',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<Route, Route, QAfterFilterCondition> latlngBoundsElementBetween(
+    double lower,
+    double upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'latlngBounds',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<Route, Route, QAfterFilterCondition> latlngBoundsLengthEqualTo(
+      int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'latlngBounds',
+        length,
+        true,
+        length,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Route, Route, QAfterFilterCondition> latlngBoundsIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'latlngBounds',
+        0,
+        true,
+        0,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Route, Route, QAfterFilterCondition> latlngBoundsIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'latlngBounds',
+        0,
+        false,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Route, Route, QAfterFilterCondition> latlngBoundsLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'latlngBounds',
+        0,
+        true,
+        length,
+        include,
+      );
+    });
+  }
+
+  QueryBuilder<Route, Route, QAfterFilterCondition>
+      latlngBoundsLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'latlngBounds',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Route, Route, QAfterFilterCondition> latlngBoundsLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'latlngBounds',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
     });
   }
 
@@ -2149,12 +2151,6 @@ extension RouteQuerySortThenBy on QueryBuilder<Route, Route, QSortThenBy> {
 }
 
 extension RouteQueryWhereDistinct on QueryBuilder<Route, Route, QDistinct> {
-  QueryBuilder<Route, Route, QDistinct> distinctByBounds() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'bounds');
-    });
-  }
-
   QueryBuilder<Route, Route, QDistinct> distinctByCoverImg(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -2186,6 +2182,12 @@ extension RouteQueryWhereDistinct on QueryBuilder<Route, Route, QDistinct> {
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'intro', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<Route, Route, QDistinct> distinctByLatlngBounds() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'latlngBounds');
     });
   }
 
@@ -2229,12 +2231,6 @@ extension RouteQueryProperty on QueryBuilder<Route, Route, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Route, List<double>, QQueryOperations> boundsProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'bounds');
-    });
-  }
-
   QueryBuilder<Route, String?, QQueryOperations> coverImgProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'coverImg');
@@ -2262,6 +2258,12 @@ extension RouteQueryProperty on QueryBuilder<Route, Route, QQueryProperty> {
   QueryBuilder<Route, String?, QQueryOperations> introProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'intro');
+    });
+  }
+
+  QueryBuilder<Route, List<double>, QQueryOperations> latlngBoundsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'latlngBounds');
     });
   }
 

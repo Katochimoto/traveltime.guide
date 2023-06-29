@@ -138,11 +138,13 @@ P _userBookmarkDeserializeProp<P>(
 
 const _UserBookmarktypeEnumValueMap = {
   'point': 0,
-  'article': 1,
+  'route': 1,
+  'article': 2,
 };
 const _UserBookmarktypeValueEnumMap = {
   0: UserBookmarkType.point,
-  1: UserBookmarkType.article,
+  1: UserBookmarkType.route,
+  2: UserBookmarkType.article,
 };
 
 Id _userBookmarkGetId(UserBookmark object) {

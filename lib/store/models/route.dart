@@ -17,7 +17,7 @@ class Route implements MapObject {
     required this.publishedAt,
     required this.title,
     required this.description,
-    required this.bounds,
+    required this.latlngBounds,
     this.intro,
     this.logoImg,
     this.coverImg,
@@ -26,6 +26,7 @@ class Route implements MapObject {
   @Index(unique: true, type: IndexType.value)
   final String id;
 
+  @override
   Id get isarId => fastHash(id);
 
   @enumerated
@@ -39,14 +40,15 @@ class Route implements MapObject {
   final String title;
   final String description;
   final String? intro;
-  final List<float> bounds;
+  final List<float> latlngBounds;
   final String? logoImg;
   final String? coverImg;
 
+  @override
   @ignore
-  LatLngBounds get routeBounds => LatLngBounds(
-        ll.LatLng(bounds[0], bounds[1]),
-        ll.LatLng(bounds[2], bounds[3]),
+  LatLngBounds get bounds => LatLngBounds(
+        ll.LatLng(latlngBounds[0], latlngBounds[1]),
+        ll.LatLng(latlngBounds[2], latlngBounds[3]),
       );
 
   factory Route.fromJson(data) {
@@ -59,7 +61,7 @@ class Route implements MapObject {
       title: data['title'],
       intro: data['intro'],
       description: data['description'],
-      bounds: [...data['bounds']]
+      latlngBounds: [...data['latlngBounds']]
           .map((item) => float.parse(item.toString()))
           .toList(growable: false),
       logoImg: data['logoImg'],

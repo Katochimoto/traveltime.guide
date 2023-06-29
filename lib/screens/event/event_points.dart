@@ -33,7 +33,7 @@ class EventPointsList extends ConsumerWidget {
                 onTap: (point) {
                   ref
                       .read(overviewProvider.notifier)
-                      .show(OverviewData(point: point));
+                      .show(OverviewData(object: point));
                   context.pushNamed(Routes.map);
                 },
               )
