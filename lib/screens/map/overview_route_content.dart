@@ -8,23 +8,39 @@ import 'package:traveltime/store/db.dart';
 // import 'package:traveltime/screens/map/overview_openapp.dart';
 import 'package:traveltime/store/models.dart' as models;
 
-class _OverviewRouteWaypoints extends ConsumerWidget {
-  const _OverviewRouteWaypoints({required this.route, this.sc});
+class _RouteWaypoint extends ConsumerWidget {
+  const _RouteWaypoint({required this.waypoint});
 
-  final ScrollController? sc;
+  final models.RouteWaypoint waypoint;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(waypoint.title ?? waypoint.id),
+        ],
+      ),
+    );
+  }
+}
+
+class _RouteWaypoints extends ConsumerWidget {
+  const _RouteWaypoints({required this.route});
+
   final models.Route route;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final waypoints =
         ref.watch(routeWaypointsByRouteProvider(route.id)).valueOrNull ?? [];
-    print('>>>>> ${waypoints}');
-    return Timeline.tileBuilder(
-      controller: sc,
+    return FixedTimeline.tileBuilder(
       theme: TimelineThemeData(
         nodePosition: 0,
         connectorTheme: ConnectorThemeData(
-          thickness: 1.0,
+          thickness: 1.5,
           color: Theme.of(context).disabledColor,
         ),
         indicatorTheme: IndicatorThemeData(
@@ -32,21 +48,10 @@ class _OverviewRouteWaypoints extends ConsumerWidget {
           color: Theme.of(context).disabledColor,
         ),
       ),
-      padding: const EdgeInsets.symmetric(vertical: 0.0),
       builder: TimelineTileBuilder.connected(
         contentsAlign: ContentsAlign.basic,
-        contentsBuilder: (context, index) {
-          final wp = waypoints[index];
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(wp.title ?? wp.id),
-              ],
-            ),
-          );
-        },
+        contentsBuilder: (context, index) =>
+            _RouteWaypoint(waypoint: waypoints[index]),
         itemCount: waypoints.length,
         nodePositionBuilder: (context, index) => 0,
         connectorBuilder: (_, index, connectorType) =>
@@ -54,7 +59,7 @@ class _OverviewRouteWaypoints extends ConsumerWidget {
         indicatorBuilder: (_, index) => Stack(
           alignment: AlignmentDirectional.center,
           children: [
-            const OutlinedDotIndicator(borderWidth: 1),
+            const OutlinedDotIndicator(borderWidth: 1.5),
             Text((index + 1).toString()),
           ],
         ),
@@ -135,21 +140,15 @@ class OverviewRouteContent extends StatelessWidget {
           ),
         ),
         Flexible(
-          // flex: 1,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: UIGap.g3),
-            child: _OverviewRouteWaypoints(route: route, sc: sc),
-          ),
-        ),
-        Flexible(
           flex: 3,
           child: Padding(
             padding: const EdgeInsets.all(UIGap.g3),
             child: ListView(
               controller: sc,
               physics: const BouncingScrollPhysics(),
-              children: <Widget>[
+              children: [
                 MarkdownBody(data: route.description),
+                _RouteWaypoints(route: route),
               ],
             ),
           ),
