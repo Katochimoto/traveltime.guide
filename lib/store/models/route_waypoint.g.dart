@@ -27,49 +27,54 @@ const RouteWaypointSchema = CollectionSchema(
       name: r'id',
       type: IsarType.string,
     ),
-    r'lat': PropertySchema(
+    r'intro': PropertySchema(
       id: 2,
+      name: r'intro',
+      type: IsarType.string,
+    ),
+    r'lat': PropertySchema(
+      id: 3,
       name: r'lat',
       type: IsarType.float,
     ),
     r'lng': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'lng',
       type: IsarType.float,
     ),
     r'locale': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'locale',
       type: IsarType.byte,
       enumMap: _RouteWaypointlocaleEnumValueMap,
     ),
     r'order': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'order',
       type: IsarType.int,
     ),
     r'point': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'point',
       type: IsarType.string,
     ),
     r'publishedAt': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'publishedAt',
       type: IsarType.dateTime,
     ),
     r'route': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'route',
       type: IsarType.string,
     ),
     r'title': PropertySchema(
-      id: 9,
+      id: 10,
       name: r'title',
       type: IsarType.string,
     ),
     r'updatedAt': PropertySchema(
-      id: 10,
+      id: 11,
       name: r'updatedAt',
       type: IsarType.dateTime,
     )
@@ -136,6 +141,12 @@ int _routeWaypointEstimateSize(
   var bytesCount = offsets.last;
   bytesCount += 3 + object.id.length * 3;
   {
+    final value = object.intro;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
     final value = object.point;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
@@ -159,15 +170,16 @@ void _routeWaypointSerialize(
 ) {
   writer.writeDateTime(offsets[0], object.createdAt);
   writer.writeString(offsets[1], object.id);
-  writer.writeFloat(offsets[2], object.lat);
-  writer.writeFloat(offsets[3], object.lng);
-  writer.writeByte(offsets[4], object.locale.index);
-  writer.writeInt(offsets[5], object.order);
-  writer.writeString(offsets[6], object.point);
-  writer.writeDateTime(offsets[7], object.publishedAt);
-  writer.writeString(offsets[8], object.route);
-  writer.writeString(offsets[9], object.title);
-  writer.writeDateTime(offsets[10], object.updatedAt);
+  writer.writeString(offsets[2], object.intro);
+  writer.writeFloat(offsets[3], object.lat);
+  writer.writeFloat(offsets[4], object.lng);
+  writer.writeByte(offsets[5], object.locale.index);
+  writer.writeInt(offsets[6], object.order);
+  writer.writeString(offsets[7], object.point);
+  writer.writeDateTime(offsets[8], object.publishedAt);
+  writer.writeString(offsets[9], object.route);
+  writer.writeString(offsets[10], object.title);
+  writer.writeDateTime(offsets[11], object.updatedAt);
 }
 
 RouteWaypoint _routeWaypointDeserialize(
@@ -179,17 +191,18 @@ RouteWaypoint _routeWaypointDeserialize(
   final object = RouteWaypoint(
     createdAt: reader.readDateTime(offsets[0]),
     id: reader.readString(offsets[1]),
-    lat: reader.readFloatOrNull(offsets[2]),
-    lng: reader.readFloatOrNull(offsets[3]),
+    intro: reader.readStringOrNull(offsets[2]),
+    lat: reader.readFloatOrNull(offsets[3]),
+    lng: reader.readFloatOrNull(offsets[4]),
     locale:
-        _RouteWaypointlocaleValueEnumMap[reader.readByteOrNull(offsets[4])] ??
+        _RouteWaypointlocaleValueEnumMap[reader.readByteOrNull(offsets[5])] ??
             AppLocale.en,
-    order: reader.readInt(offsets[5]),
-    point: reader.readStringOrNull(offsets[6]),
-    publishedAt: reader.readDateTime(offsets[7]),
-    route: reader.readString(offsets[8]),
-    title: reader.readStringOrNull(offsets[9]),
-    updatedAt: reader.readDateTime(offsets[10]),
+    order: reader.readInt(offsets[6]),
+    point: reader.readStringOrNull(offsets[7]),
+    publishedAt: reader.readDateTime(offsets[8]),
+    route: reader.readString(offsets[9]),
+    title: reader.readStringOrNull(offsets[10]),
+    updatedAt: reader.readDateTime(offsets[11]),
   );
   return object;
 }
@@ -206,23 +219,25 @@ P _routeWaypointDeserializeProp<P>(
     case 1:
       return (reader.readString(offset)) as P;
     case 2:
-      return (reader.readFloatOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 3:
       return (reader.readFloatOrNull(offset)) as P;
     case 4:
+      return (reader.readFloatOrNull(offset)) as P;
+    case 5:
       return (_RouteWaypointlocaleValueEnumMap[reader.readByteOrNull(offset)] ??
           AppLocale.en) as P;
-    case 5:
-      return (reader.readInt(offset)) as P;
     case 6:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readInt(offset)) as P;
     case 7:
-      return (reader.readDateTime(offset)) as P;
-    case 8:
-      return (reader.readString(offset)) as P;
-    case 9:
       return (reader.readStringOrNull(offset)) as P;
+    case 8:
+      return (reader.readDateTime(offset)) as P;
+    case 9:
+      return (reader.readString(offset)) as P;
     case 10:
+      return (reader.readStringOrNull(offset)) as P;
+    case 11:
       return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1028,6 +1043,160 @@ extension RouteWaypointQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'id',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
+      introIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'intro',
+      ));
+    });
+  }
+
+  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
+      introIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'intro',
+      ));
+    });
+  }
+
+  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
+      introEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'intro',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
+      introGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'intro',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
+      introLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'intro',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
+      introBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'intro',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
+      introStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'intro',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
+      introEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'intro',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
+      introContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'intro',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
+      introMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'intro',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
+      introIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'intro',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
+      introIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'intro',
         value: '',
       ));
     });
@@ -1953,6 +2122,18 @@ extension RouteWaypointQuerySortBy
     });
   }
 
+  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterSortBy> sortByIntro() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'intro', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterSortBy> sortByIntroDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'intro', Sort.desc);
+    });
+  }
+
   QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterSortBy> sortByLat() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lat', Sort.asc);
@@ -2088,6 +2269,18 @@ extension RouteWaypointQuerySortThenBy
   QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterSortBy> thenByIntro() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'intro', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterSortBy> thenByIntroDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'intro', Sort.desc);
     });
   }
 
@@ -2229,6 +2422,13 @@ extension RouteWaypointQueryWhereDistinct
     });
   }
 
+  QueryBuilder<RouteWaypoint, RouteWaypoint, QDistinct> distinctByIntro(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'intro', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<RouteWaypoint, RouteWaypoint, QDistinct> distinctByLat() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'lat');
@@ -2305,6 +2505,12 @@ extension RouteWaypointQueryProperty
   QueryBuilder<RouteWaypoint, String, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<RouteWaypoint, String?, QQueryOperations> introProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'intro');
     });
   }
 

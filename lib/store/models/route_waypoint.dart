@@ -18,6 +18,7 @@ class RouteWaypoint {
     required this.route,
     this.point,
     this.title,
+    this.intro,
     this.lat,
     this.lng,
   });
@@ -43,6 +44,7 @@ class RouteWaypoint {
   final String? point;
 
   final String? title;
+  final String? intro;
   final float? lat;
   final float? lng;
 
@@ -65,6 +67,7 @@ class RouteWaypoint {
       route: data['route'],
       point: data['point'],
       title: data['title'],
+      intro: data['intro'],
       lat: data['lat'],
       lng: data['lng'],
     );

@@ -20,7 +20,15 @@ class _RouteWaypoint extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(waypoint.title ?? waypoint.id),
+          if (waypoint.point != null)
+            const Text('asd')
+          else if (waypoint.title != null)
+            Text(waypoint.title!)
+          else
+            Text(
+                '${waypoint.lat!.toStringAsFixed(6)}, ${waypoint.lng!.toStringAsFixed(6)}'),
+          if (waypoint.intro != null)
+            Text(waypoint.intro!, style: Theme.of(context).textTheme.bodySmall),
         ],
       ),
     );
@@ -40,7 +48,7 @@ class _RouteWaypoints extends ConsumerWidget {
       theme: TimelineThemeData(
         nodePosition: 0,
         connectorTheme: ConnectorThemeData(
-          thickness: 1.5,
+          thickness: 2,
           color: Theme.of(context).disabledColor,
         ),
         indicatorTheme: IndicatorThemeData(
@@ -54,12 +62,14 @@ class _RouteWaypoints extends ConsumerWidget {
             _RouteWaypoint(waypoint: waypoints[index]),
         itemCount: waypoints.length,
         nodePositionBuilder: (context, index) => 0,
-        connectorBuilder: (_, index, connectorType) =>
-            const SolidLineConnector(),
+        connectorBuilder: (_, index, connectorType) => SolidLineConnector(
+          indent: connectorType == ConnectorType.start ? 0 : 2.0,
+          endIndent: connectorType == ConnectorType.end ? 0 : 2.0,
+        ),
         indicatorBuilder: (_, index) => Stack(
           alignment: AlignmentDirectional.center,
           children: [
-            const OutlinedDotIndicator(borderWidth: 1.5),
+            const OutlinedDotIndicator(borderWidth: 1),
             Text((index + 1).toString()),
           ],
         ),
