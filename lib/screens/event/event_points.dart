@@ -26,19 +26,25 @@ class EventPointsList extends ConsumerWidget {
         ),
         const SizedBox(height: UIGap.g1),
         Card(
-          child: Column(children: [
-            for (Point point in points) ...[
-              MarkerListItem(
-                point: point,
+          child: ListView.separated(
+            padding: const EdgeInsets.symmetric(
+                horizontal: UIGap.g2, vertical: UIGap.g2),
+            physics: const NeverScrollableScrollPhysics(),
+            separatorBuilder: (context, index) =>
+                const SizedBox(height: UIGap.g2),
+            itemBuilder: (_, idx) {
+              return MarkerListItem(
+                point: points[idx],
                 onTap: (point) {
                   ref
                       .read(overviewProvider.notifier)
                       .show(OverviewData(object: point));
                   context.pushNamed(Routes.map);
                 },
-              )
-            ]
-          ]),
+              );
+            },
+            itemCount: points.length,
+          ),
         )
       ],
     );

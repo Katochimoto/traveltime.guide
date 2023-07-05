@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:traveltime/constants/Theme.dart';
 import 'package:traveltime/providers/overview/overview.dart';
 import 'package:traveltime/store/db.dart';
 import 'package:traveltime/widgets/map/marker_list_item.dart';
@@ -14,9 +15,12 @@ class Markers extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final objects = ref.watch(mapObjectsProvider).value ?? [];
-    return ListView.builder(
+    return ListView.separated(
       controller: sc,
       physics: const BouncingScrollPhysics(),
+      padding:
+          const EdgeInsets.symmetric(horizontal: UIGap.g3, vertical: UIGap.g2),
+      separatorBuilder: (context, index) => const SizedBox(height: UIGap.g2),
       itemBuilder: (_, idx) {
         if (objects[idx] is models.Point) {
           return MarkerListItem(

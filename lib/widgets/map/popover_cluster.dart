@@ -31,9 +31,12 @@ class PopoverCluster extends ConsumerWidget {
           context: context,
           removeTop: true,
           removeBottom: true,
-          child: ListView.builder(
-            padding: const EdgeInsets.symmetric(vertical: UIGap.g1),
+          child: ListView.separated(
+            padding: const EdgeInsets.symmetric(
+                horizontal: UIGap.g2, vertical: UIGap.g2),
             physics: const BouncingScrollPhysics(),
+            separatorBuilder: (context, index) =>
+                const SizedBox(height: UIGap.g2),
             itemBuilder: (_, idx) {
               return MarkerListItemController(id: popover.pointIds![idx]!);
             },

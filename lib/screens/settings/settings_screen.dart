@@ -40,7 +40,7 @@ class SelectLocale extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final authorized = ref.watch(appAuthProvider).value;
     return DropdownButton2(
-      underline: Container(),
+      underline: const SizedBox.shrink(),
       alignment: AlignmentDirectional.bottomEnd,
       items: locales,
       value: authorized?.locale,
@@ -67,7 +67,7 @@ class SelectTheme extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final authorized = ref.watch(appAuthProvider).value;
     return DropdownButton2(
-      underline: Container(),
+      underline: const SizedBox.shrink(),
       alignment: AlignmentDirectional.bottomEnd,
       items: themes,
       value: authorized?.theme,

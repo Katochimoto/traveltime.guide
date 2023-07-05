@@ -14,7 +14,7 @@ class Popover extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final popover = ref.watch(popoverProvider);
     if (popover.bounds == null) {
-      return Container();
+      return const SizedBox.shrink();
     }
 
     const width = 300.0;

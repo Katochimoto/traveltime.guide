@@ -38,7 +38,7 @@ class MapScreenPanel extends ConsumerWidget {
                 );
               },
               child: overview == null
-                  ? Container()
+                  ? const SizedBox.shrink()
                   : StatefulWrapper(
                       onInit: () {
                         pc?.open();
@@ -72,7 +72,7 @@ class MapScreenPanel extends ConsumerWidget {
                         Expanded(child: Markers(sc: sc)),
                       ],
                     )
-                  : Container(),
+                  : const SizedBox.shrink(),
             ),
             Container(
               transform: Matrix4.translationValues(0, -10, 0),

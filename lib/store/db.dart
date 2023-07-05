@@ -250,7 +250,7 @@ final routeWaypointsProvider = StreamProvider.autoDispose((ref) async* {
       .collection<models.RouteWaypoint>()
       .filter()
       .localeEqualTo(locale)
-      .routeIsNotEmpty()
+      .routeIsNotNull()
       .sortByRoute()
       .build();
 
@@ -262,7 +262,7 @@ final routeWaypointsProvider = StreamProvider.autoDispose((ref) async* {
 });
 
 final routeWaypointsByRouteProvider = StreamProvider.autoDispose
-    .family<List<models.RouteWaypoint>, String>((ref, routeId) async* {
+    .family<List<models.RouteWaypoint>, int>((ref, routeId) async* {
   final locale =
       await ref.watch(appAuthProvider.selectAsync((data) => data.locale));
   final db = await ref.watch(dbProvider.future);

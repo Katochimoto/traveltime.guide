@@ -7,6 +7,22 @@ import 'package:traveltime/store/db.dart';
 // import 'package:traveltime/screens/map/overview_bookmark.dart';
 // import 'package:traveltime/screens/map/overview_openapp.dart';
 import 'package:traveltime/store/models.dart' as models;
+import 'package:traveltime/widgets/map/marker_list_item.dart';
+
+class _RouteWaypointPoint extends ConsumerWidget {
+  const _RouteWaypointPoint({required this.id});
+
+  final int id;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final point = ref.watch(pointProvider(id)).value;
+    if (point == null) {
+      return const SizedBox.shrink();
+    }
+    return MarkerListItem(point: point);
+  }
+}
 
 class _RouteWaypoint extends ConsumerWidget {
   const _RouteWaypoint({required this.waypoint});
@@ -21,12 +37,14 @@ class _RouteWaypoint extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (waypoint.point != null)
-            const Text('asd')
+            _RouteWaypointPoint(id: waypoint.point!)
           else if (waypoint.title != null)
             Text(waypoint.title!)
           else
             Text(
                 '${waypoint.lat!.toStringAsFixed(6)}, ${waypoint.lng!.toStringAsFixed(6)}'),
+          if (waypoint.intro != null && waypoint.point != null)
+            const SizedBox(height: UIGap.g1),
           if (waypoint.intro != null)
             Text(waypoint.intro!, style: Theme.of(context).textTheme.bodySmall),
         ],
@@ -43,7 +61,8 @@ class _RouteWaypoints extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final waypoints =
-        ref.watch(routeWaypointsByRouteProvider(route.id)).valueOrNull ?? [];
+        ref.watch(routeWaypointsByRouteProvider(route.isarId)).valueOrNull ??
+            [];
     return FixedTimeline.tileBuilder(
       theme: TimelineThemeData(
         nodePosition: 0,

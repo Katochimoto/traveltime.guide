@@ -56,7 +56,7 @@ const RouteWaypointSchema = CollectionSchema(
     r'point': PropertySchema(
       id: 7,
       name: r'point',
-      type: IsarType.string,
+      type: IsarType.long,
     ),
     r'publishedAt': PropertySchema(
       id: 8,
@@ -66,7 +66,7 @@ const RouteWaypointSchema = CollectionSchema(
     r'route': PropertySchema(
       id: 9,
       name: r'route',
-      type: IsarType.string,
+      type: IsarType.long,
     ),
     r'title': PropertySchema(
       id: 10,
@@ -107,7 +107,7 @@ const RouteWaypointSchema = CollectionSchema(
         IndexPropertySchema(
           name: r'route',
           type: IndexType.value,
-          caseSensitive: true,
+          caseSensitive: false,
         )
       ],
     ),
@@ -120,7 +120,7 @@ const RouteWaypointSchema = CollectionSchema(
         IndexPropertySchema(
           name: r'point',
           type: IndexType.value,
-          caseSensitive: true,
+          caseSensitive: false,
         )
       ],
     )
@@ -147,13 +147,6 @@ int _routeWaypointEstimateSize(
     }
   }
   {
-    final value = object.point;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  bytesCount += 3 + object.route.length * 3;
-  {
     final value = object.title;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
@@ -175,9 +168,9 @@ void _routeWaypointSerialize(
   writer.writeFloat(offsets[4], object.lng);
   writer.writeByte(offsets[5], object.locale.index);
   writer.writeInt(offsets[6], object.order);
-  writer.writeString(offsets[7], object.point);
+  writer.writeLong(offsets[7], object.point);
   writer.writeDateTime(offsets[8], object.publishedAt);
-  writer.writeString(offsets[9], object.route);
+  writer.writeLong(offsets[9], object.route);
   writer.writeString(offsets[10], object.title);
   writer.writeDateTime(offsets[11], object.updatedAt);
 }
@@ -198,9 +191,9 @@ RouteWaypoint _routeWaypointDeserialize(
         _RouteWaypointlocaleValueEnumMap[reader.readByteOrNull(offsets[5])] ??
             AppLocale.en,
     order: reader.readInt(offsets[6]),
-    point: reader.readStringOrNull(offsets[7]),
+    point: reader.readLongOrNull(offsets[7]),
     publishedAt: reader.readDateTime(offsets[8]),
-    route: reader.readString(offsets[9]),
+    route: reader.readLongOrNull(offsets[9]),
     title: reader.readStringOrNull(offsets[10]),
     updatedAt: reader.readDateTime(offsets[11]),
   );
@@ -230,11 +223,11 @@ P _routeWaypointDeserializeProp<P>(
     case 6:
       return (reader.readInt(offset)) as P;
     case 7:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 8:
       return (reader.readDateTime(offset)) as P;
     case 9:
-      return (reader.readString(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 10:
       return (reader.readStringOrNull(offset)) as P;
     case 11:
@@ -558,8 +551,29 @@ extension RouteWaypointQueryWhere
     });
   }
 
+  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterWhereClause> routeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'route',
+        value: [null],
+      ));
+    });
+  }
+
+  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterWhereClause>
+      routeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'route',
+        lower: [null],
+        includeLower: false,
+        upper: [],
+      ));
+    });
+  }
+
   QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterWhereClause> routeEqualTo(
-      String route) {
+      int? route) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'route',
@@ -569,7 +583,7 @@ extension RouteWaypointQueryWhere
   }
 
   QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterWhereClause> routeNotEqualTo(
-      String route) {
+      int? route) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -605,7 +619,7 @@ extension RouteWaypointQueryWhere
 
   QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterWhereClause>
       routeGreaterThan(
-    String route, {
+    int? route, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -619,7 +633,7 @@ extension RouteWaypointQueryWhere
   }
 
   QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterWhereClause> routeLessThan(
-    String route, {
+    int? route, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -633,8 +647,8 @@ extension RouteWaypointQueryWhere
   }
 
   QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterWhereClause> routeBetween(
-    String lowerRoute,
-    String upperRoute, {
+    int? lowerRoute,
+    int? upperRoute, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -646,53 +660,6 @@ extension RouteWaypointQueryWhere
         upper: [upperRoute],
         includeUpper: includeUpper,
       ));
-    });
-  }
-
-  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterWhereClause> routeStartsWith(
-      String RoutePrefix) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'route',
-        lower: [RoutePrefix],
-        upper: ['$RoutePrefix\u{FFFFF}'],
-      ));
-    });
-  }
-
-  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterWhereClause> routeIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'route',
-        value: [''],
-      ));
-    });
-  }
-
-  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterWhereClause>
-      routeIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      if (query.whereSort == Sort.asc) {
-        return query
-            .addWhereClause(IndexWhereClause.lessThan(
-              indexName: r'route',
-              upper: [''],
-            ))
-            .addWhereClause(IndexWhereClause.greaterThan(
-              indexName: r'route',
-              lower: [''],
-            ));
-      } else {
-        return query
-            .addWhereClause(IndexWhereClause.greaterThan(
-              indexName: r'route',
-              lower: [''],
-            ))
-            .addWhereClause(IndexWhereClause.lessThan(
-              indexName: r'route',
-              upper: [''],
-            ));
-      }
     });
   }
 
@@ -718,7 +685,7 @@ extension RouteWaypointQueryWhere
   }
 
   QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterWhereClause> pointEqualTo(
-      String? point) {
+      int? point) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'point',
@@ -728,7 +695,7 @@ extension RouteWaypointQueryWhere
   }
 
   QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterWhereClause> pointNotEqualTo(
-      String? point) {
+      int? point) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -764,7 +731,7 @@ extension RouteWaypointQueryWhere
 
   QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterWhereClause>
       pointGreaterThan(
-    String? point, {
+    int? point, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -778,7 +745,7 @@ extension RouteWaypointQueryWhere
   }
 
   QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterWhereClause> pointLessThan(
-    String? point, {
+    int? point, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -792,8 +759,8 @@ extension RouteWaypointQueryWhere
   }
 
   QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterWhereClause> pointBetween(
-    String? lowerPoint,
-    String? upperPoint, {
+    int? lowerPoint,
+    int? upperPoint, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -805,53 +772,6 @@ extension RouteWaypointQueryWhere
         upper: [upperPoint],
         includeUpper: includeUpper,
       ));
-    });
-  }
-
-  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterWhereClause> pointStartsWith(
-      String PointPrefix) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'point',
-        lower: [PointPrefix],
-        upper: ['$PointPrefix\u{FFFFF}'],
-      ));
-    });
-  }
-
-  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterWhereClause> pointIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'point',
-        value: [''],
-      ));
-    });
-  }
-
-  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterWhereClause>
-      pointIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      if (query.whereSort == Sort.asc) {
-        return query
-            .addWhereClause(IndexWhereClause.lessThan(
-              indexName: r'point',
-              upper: [''],
-            ))
-            .addWhereClause(IndexWhereClause.greaterThan(
-              indexName: r'point',
-              lower: [''],
-            ));
-      } else {
-        return query
-            .addWhereClause(IndexWhereClause.greaterThan(
-              indexName: r'point',
-              lower: [''],
-            ))
-            .addWhereClause(IndexWhereClause.lessThan(
-              indexName: r'point',
-              upper: [''],
-            ));
-      }
     });
   }
 }
@@ -1551,58 +1471,49 @@ extension RouteWaypointQueryFilter
   }
 
   QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
-      pointEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+      pointEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'point',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
       pointGreaterThan(
-    String? value, {
+    int? value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'point',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
       pointLessThan(
-    String? value, {
+    int? value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'point',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
       pointBetween(
-    String? lower,
-    String? upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -1611,77 +1522,6 @@ extension RouteWaypointQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
-      pointStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'point',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
-      pointEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'point',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
-      pointContains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'point',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
-      pointMatches(String pattern, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'point',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
-      pointIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'point',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
-      pointIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'point',
-        value: '',
       ));
     });
   }
@@ -1743,58 +1583,67 @@ extension RouteWaypointQueryFilter
   }
 
   QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
-      routeEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+      routeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'route',
+      ));
+    });
+  }
+
+  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
+      routeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'route',
+      ));
+    });
+  }
+
+  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
+      routeEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'route',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
       routeGreaterThan(
-    String value, {
+    int? value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'route',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
       routeLessThan(
-    String value, {
+    int? value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'route',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
       routeBetween(
-    String lower,
-    String upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -1803,77 +1652,6 @@ extension RouteWaypointQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
-      routeStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'route',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
-      routeEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'route',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
-      routeContains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'route',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
-      routeMatches(String pattern, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'route',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
-      routeIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'route',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
-      routeIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'route',
-        value: '',
       ));
     });
   }
@@ -2453,10 +2231,9 @@ extension RouteWaypointQueryWhereDistinct
     });
   }
 
-  QueryBuilder<RouteWaypoint, RouteWaypoint, QDistinct> distinctByPoint(
-      {bool caseSensitive = true}) {
+  QueryBuilder<RouteWaypoint, RouteWaypoint, QDistinct> distinctByPoint() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'point', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'point');
     });
   }
 
@@ -2467,10 +2244,9 @@ extension RouteWaypointQueryWhereDistinct
     });
   }
 
-  QueryBuilder<RouteWaypoint, RouteWaypoint, QDistinct> distinctByRoute(
-      {bool caseSensitive = true}) {
+  QueryBuilder<RouteWaypoint, RouteWaypoint, QDistinct> distinctByRoute() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'route', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'route');
     });
   }
 
@@ -2538,7 +2314,7 @@ extension RouteWaypointQueryProperty
     });
   }
 
-  QueryBuilder<RouteWaypoint, String?, QQueryOperations> pointProperty() {
+  QueryBuilder<RouteWaypoint, int?, QQueryOperations> pointProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'point');
     });
@@ -2551,7 +2327,7 @@ extension RouteWaypointQueryProperty
     });
   }
 
-  QueryBuilder<RouteWaypoint, String, QQueryOperations> routeProperty() {
+  QueryBuilder<RouteWaypoint, int?, QQueryOperations> routeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'route');
     });

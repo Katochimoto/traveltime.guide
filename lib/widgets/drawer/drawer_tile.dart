@@ -39,11 +39,11 @@ class DrawerTile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          icon != null ? Icon(icon, size: 18) : Container(),
+          icon != null ? Icon(icon, size: 18) : const SizedBox.shrink(),
           icon != null && title!.isNotEmpty
               ? const SizedBox(width: 10)
-              : Container(),
-          title!.isNotEmpty ? Text(title ?? '') : Container(),
+              : const SizedBox.shrink(),
+          title!.isNotEmpty ? Text(title ?? '') : const SizedBox.shrink(),
         ],
       ),
     );

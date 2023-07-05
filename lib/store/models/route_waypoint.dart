@@ -38,10 +38,10 @@ class RouteWaypoint {
   final short order;
 
   @Index(type: IndexType.value)
-  final String route;
+  final int? route;
 
   @Index(type: IndexType.value)
-  final String? point;
+  final int? point;
 
   final String? title;
   final String? intro;
@@ -64,8 +64,8 @@ class RouteWaypoint {
       updatedAt: DateTime.parse(data['updatedAt']),
       publishedAt: DateTime.parse(data['publishedAt']),
       order: data['order'],
-      route: data['route'],
-      point: data['point'],
+      route: data['route'] != null ? fastHash(data['route']) : null,
+      point: data['point'] != null ? fastHash(data['point']) : null,
       title: data['title'],
       intro: data['intro'],
       lat: data['lat'],
