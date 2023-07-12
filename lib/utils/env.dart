@@ -12,4 +12,7 @@ abstract class Env {
 
   @EnviedField(varName: 'SENTRY_DSN')
   static const String sentryDsn = _Env.sentryDsn;
+
+  @EnviedField(varName: 'OPEN_WEATHER_API')
+  static const String openWeatherApi = _Env.openWeatherApi;
 }

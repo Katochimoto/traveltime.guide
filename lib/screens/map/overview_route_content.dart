@@ -60,19 +60,22 @@ class _RouteWaypoints extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final timelineColor =
+        Theme.of(context).colorScheme.secondary.withOpacity(0.5);
     final waypoints =
         ref.watch(routeWaypointsByRouteProvider(route.isarId)).valueOrNull ??
             [];
     return FixedTimeline.tileBuilder(
       theme: TimelineThemeData(
         nodePosition: 0,
+        nodeItemOverlap: true,
         connectorTheme: ConnectorThemeData(
-          thickness: 2,
-          color: Theme.of(context).disabledColor,
+          thickness: 2.0,
+          color: timelineColor,
         ),
         indicatorTheme: IndicatorThemeData(
-          size: 25.0,
-          color: Theme.of(context).disabledColor,
+          size: 20.0,
+          color: timelineColor,
         ),
       ),
       builder: TimelineTileBuilder.connected(
@@ -82,14 +85,22 @@ class _RouteWaypoints extends ConsumerWidget {
         itemCount: waypoints.length,
         nodePositionBuilder: (context, index) => 0,
         connectorBuilder: (_, index, connectorType) => SolidLineConnector(
-          indent: connectorType == ConnectorType.start ? 0 : 2.0,
-          endIndent: connectorType == ConnectorType.end ? 0 : 2.0,
+          indent: connectorType == ConnectorType.start ? 0 : 0.0,
+          endIndent: connectorType == ConnectorType.end ? 0 : 0.0,
         ),
         indicatorBuilder: (_, index) => Stack(
           alignment: AlignmentDirectional.center,
           children: [
-            const OutlinedDotIndicator(borderWidth: 1),
-            Text((index + 1).toString()),
+            DotIndicator(
+              color: Colors.white,
+              size: 20.0,
+              border: Border.all(color: timelineColor, width: 2),
+              child: Align(
+                alignment: Alignment.center,
+                child: Text((index + 1).toString(),
+                    style: const TextStyle(fontSize: 11)),
+              ),
+            ),
           ],
         ),
       ),

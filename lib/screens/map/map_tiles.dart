@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:traveltime/providers/map_weather_tiles.dart';
+import 'package:traveltime/utils/env.dart';
 
 const tileApiLayer = {
   MapWeatherTile.precipitation: 'precipitation_new',
@@ -26,7 +27,7 @@ class MapTiles extends ConsumerWidget {
     return TileLayer(
       // @see https://openweathermap.org/api/weathermaps
       urlTemplate:
-          'https://tile.openweathermap.org/map/${tileApiLayer[tileType]}/{z}/{x}/{y}.png?appid=27b74938c3db783a84f6d0722ea2bdba',
+          'https://tile.openweathermap.org/map/${tileApiLayer[tileType]}/{z}/{x}/{y}.png?appid=${Env.openWeatherApi}',
       userAgentPackageName: 'guide.traveltime.app',
       retinaMode: false,
       minZoom: 3,

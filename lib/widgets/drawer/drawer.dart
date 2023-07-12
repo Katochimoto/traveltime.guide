@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:traveltime/constants/routes.dart';
+import 'package:traveltime/widgets/drawer/app_details.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:traveltime/widgets/drawer/drawer_tile.dart';
 
@@ -174,10 +175,23 @@ class AppDrawer extends StatelessWidget {
                           isSelected:
                               currentPage == "Getting started" ? true : false),
                       DrawerTile(
-                          onTap: _launchURL,
-                          title: "About",
-                          isSelected:
-                              currentPage == "Getting started" ? true : false),
+                        onTap: _launchURL,
+                        title: "About",
+                        isSelected:
+                            currentPage == "Getting started" ? true : false,
+                      ),
+                      DrawerTile(
+                        onTap: _launchURL,
+                        title: "Privacy",
+                        isSelected:
+                            currentPage == "Getting started" ? true : false,
+                      ),
+                      DrawerTile(
+                        onTap: _launchURL,
+                        title: "Terms",
+                        isSelected:
+                            currentPage == "Getting started" ? true : false,
+                      ),
                     ],
                   ),
                 ),
@@ -185,34 +199,10 @@ class AppDrawer extends StatelessWidget {
                 Container(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    child: Row(
+                    child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            "v1.123.1233",
-                            style: Theme.of(context)
-                                .textTheme
-                                .merge(Typography.whiteCupertino)
-                                .bodySmall,
-                          ),
-                          GestureDetector(
-                              onTap: () {},
-                              child: Text(
-                                " / Privacy",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .merge(Typography.whiteCupertino)
-                                    .bodySmall,
-                              )),
-                          GestureDetector(
-                              onTap: () {},
-                              child: Text(
-                                " / Terms",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .merge(Typography.whiteCupertino)
-                                    .bodySmall,
-                              )),
+                          AppDetails(),
                         ])),
               ]),
             )));
