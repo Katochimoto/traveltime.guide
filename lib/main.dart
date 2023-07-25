@@ -18,16 +18,21 @@ Future<void> main() async {
 
   final sharedPreferences = await SharedPreferences.getInstance();
 
-  await SentryFlutter.init((options) {
-    options.dsn = Env.sentryDsn;
-    options.tracesSampleRate = 1.0;
-  },
-      appRunner: () => runApp(ProviderScope(
-            overrides: [
-              sharedPreferencesProvider.overrideWithValue(sharedPreferences),
-            ],
-            child: const App(),
-          )));
+  await SentryFlutter.init(
+    (options) {
+      options.dsn = Env.sentryDsn;
+      options.tracesSampleRate = 1.0;
+      options.debug = false;
+    },
+    appRunner: () => runApp(
+      ProviderScope(
+        overrides: [
+          sharedPreferencesProvider.overrideWithValue(sharedPreferences),
+        ],
+        child: const App(),
+      ),
+    ),
+  );
 }
 
 class App extends ConsumerWidget {
@@ -48,9 +53,7 @@ class App extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       darkTheme: darkTheme,
       theme: lightTheme,
-      themeMode: user?.theme == AppTheme.light
-          ? ThemeMode.light
-          : (user?.theme == AppTheme.dark ? ThemeMode.dark : ThemeMode.system),
+      themeMode: user?.theme ?? ThemeMode.system,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: Locale.fromSubtags(languageCode: user?.locale.name ?? 'en'),

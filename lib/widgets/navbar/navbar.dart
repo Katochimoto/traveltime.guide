@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:traveltime/constants/Theme.dart';
+import 'package:traveltime/constants/_theme.dart';
 
 class Navbar extends StatelessWidget implements PreferredSizeWidget {
   final String title;

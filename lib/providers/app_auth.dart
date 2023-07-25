@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:traveltime/providers/shared_preferences.dart';
@@ -8,27 +9,13 @@ enum AppLocale {
   th,
 }
 
-enum AppTheme {
-  system,
-  light,
-  dark,
-}
-
-enum AppAuthRole {
-  user,
-  admin,
-  demo,
-}
-
 class AppAuthorized {
-  AppAuthRole role;
-  AppTheme theme;
+  ThemeMode theme;
   AppLocale locale;
 
   AppAuthorized({
-    required this.role,
     this.locale = AppLocale.en,
-    this.theme = AppTheme.system,
+    this.theme = ThemeMode.system,
   });
 }
 
@@ -44,9 +31,9 @@ class AppAuth extends AsyncNotifier<AppAuthorized> {
   AppAuthorized authorizedFactory() {
     final locale = AppLocale.values
         .byName(_prefs.getString('locale') ?? AppLocale.en.name);
-    final theme = AppTheme.values
-        .byName(_prefs.getString('theme') ?? AppTheme.system.name);
-    return AppAuthorized(role: AppAuthRole.demo, locale: locale, theme: theme);
+    final theme = ThemeMode.values
+        .byName(_prefs.getString('theme') ?? ThemeMode.system.name);
+    return AppAuthorized(locale: locale, theme: theme);
   }
 
   Future<void> signIn() async {
@@ -56,9 +43,9 @@ class AppAuth extends AsyncNotifier<AppAuthorized> {
     });
   }
 
-  Future<void> updateTheme(AppTheme? data) async {
+  Future<void> updateTheme(ThemeMode? data) async {
     state = await AsyncValue.guard(() async {
-      await _prefs.setString('theme', data?.name ?? AppTheme.system.name);
+      await _prefs.setString('theme', data?.name ?? ThemeMode.system.name);
       return authorizedFactory();
     });
   }

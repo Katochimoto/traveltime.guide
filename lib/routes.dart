@@ -9,7 +9,6 @@ import 'package:traveltime/screens/profile/profile_screen.dart';
 import 'package:traveltime/screens/settings/settings_screen.dart';
 import 'package:traveltime/screens/articles/articles_screen.dart';
 import 'package:traveltime/screens/article/article_screen.dart';
-import 'package:traveltime/screens/components/components_screen.dart';
 
 final router = GoRouter(
   initialLocation: '/',
@@ -51,11 +50,6 @@ final router = GoRouter(
       ],
     ),
     GoRoute(
-      name: Routes.components,
-      path: '/components',
-      builder: (context, state) => const ComponentsScreen(),
-    ),
-    GoRoute(
       name: Routes.map,
       path: '/map',
       builder: (context, state) => const MapScreen(),
@@ -70,7 +64,7 @@ final router = GoRouter(
           path: ':id',
           builder: (context, state) => EventScreen(
             id: int.parse(state.pathParameters['id']!),
-            date: DateTime.tryParse(state.queryParameters['date']!),
+            date: DateTime.tryParse(state.uri.queryParameters['date']!),
           ),
         ),
       ],

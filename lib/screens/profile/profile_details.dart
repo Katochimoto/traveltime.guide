@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:traveltime/constants/Theme.dart';
+import 'package:traveltime/constants/_theme.dart';
 import 'package:traveltime/screens/profile/detail_bookmarks.dart';
 import 'package:traveltime/widgets/page_layout.dart';
 
@@ -53,8 +53,7 @@ class ProfileDetails extends StatelessWidget {
                           ),
                           const SizedBox(height: UIGap.g1),
                           const Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: UIGap.g3),
+                            padding: EdgeInsets.symmetric(horizontal: UIGap.g3),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               crossAxisAlignment: CrossAxisAlignment.end,

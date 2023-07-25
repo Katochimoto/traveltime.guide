@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:traveltime/constants/Theme.dart';
+import 'package:traveltime/constants/_theme.dart';
 import 'package:traveltime/constants/routes.dart';
 import 'package:traveltime/store/db_sync.dart';
 import 'package:traveltime/providers/app_auth.dart';
@@ -54,11 +54,11 @@ class SelectLocale extends ConsumerWidget {
 class SelectTheme extends ConsumerWidget {
   const SelectTheme({super.key});
 
-  List<DropdownMenuItem<AppTheme>> get themes {
-    List<DropdownMenuItem<AppTheme>> menuItems = [
-      const DropdownMenuItem(value: AppTheme.system, child: Text('System')),
-      const DropdownMenuItem(value: AppTheme.dark, child: Text('Dark')),
-      const DropdownMenuItem(value: AppTheme.light, child: Text('Light')),
+  List<DropdownMenuItem<ThemeMode>> get themes {
+    List<DropdownMenuItem<ThemeMode>> menuItems = [
+      const DropdownMenuItem(value: ThemeMode.system, child: Text('System')),
+      const DropdownMenuItem(value: ThemeMode.dark, child: Text('Dark')),
+      const DropdownMenuItem(value: ThemeMode.light, child: Text('Light')),
     ];
     return menuItems;
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-import 'package:traveltime/constants/Theme.dart';
+import 'package:traveltime/constants/_theme.dart';
 
 class ProductCarousel extends StatefulWidget {
   final List<dynamic> imgArray;
@@ -55,7 +55,8 @@ class ProductCarouselState extends State<ProductCarousel> {
                           Text(item["price"],
                               style: Theme.of(context).textTheme.displayMedium),
                           Text(item["title"],
-                              style: Theme.of(context).textTheme.headlineMedium),
+                              style:
+                                  Theme.of(context).textTheme.headlineMedium),
                           const SizedBox(height: UIGap.g1),
                           Text(
                             item["description"],

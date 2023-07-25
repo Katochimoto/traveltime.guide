@@ -126,21 +126,16 @@ class AppDrawer extends StatelessWidget {
                           title: "Map",
                           isSelected: currentPage == Routes.map ? true : false),
                       DrawerTile(
-                          icon: Icons.hiking,
-                          onTap: () {
-                            context.goNamed(Routes.components);
-                          },
-                          title: "Activities",
-                          isSelected:
-                              currentPage == Routes.components ? true : false),
+                        icon: Icons.hiking,
+                        onTap: () {},
+                        title: "Activities",
+                        isSelected: false,
+                      ),
                       DrawerTile(
                           icon: Icons.route,
-                          onTap: () {
-                            context.goNamed(Routes.components);
-                          },
+                          onTap: () {},
                           title: "Routes",
-                          isSelected:
-                              currentPage == Routes.components ? true : false),
+                          isSelected: false),
                       DrawerTile(
                           icon: Icons.settings,
                           onTap: () {

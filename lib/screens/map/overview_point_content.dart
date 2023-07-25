@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:traveltime/constants/Theme.dart';
+import 'package:traveltime/constants/_theme.dart';
 import 'package:traveltime/screens/map/overview_bookmark.dart';
 import 'package:traveltime/screens/map/overview_openapp.dart';
 import 'package:traveltime/store/models.dart' as models;

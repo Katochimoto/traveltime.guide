@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:timelines/timelines.dart';
-import 'package:traveltime/constants/Theme.dart';
+import 'package:traveltime/constants/_theme.dart';
 import 'package:traveltime/store/db.dart';
 // import 'package:traveltime/screens/map/overview_bookmark.dart';
 // import 'package:traveltime/screens/map/overview_openapp.dart';
@@ -160,8 +160,8 @@ class OverviewRouteContent extends StatelessWidget {
                           .headlineMedium,
                     ),
                     const SizedBox(height: UIGap.g2),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: UIGap.g3),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: UIGap.g3),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.end,
