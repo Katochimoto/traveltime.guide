@@ -3,6 +3,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:traveltime/constants/theme.dart';
 import 'package:traveltime/screens/map/widgets/overview/overview_bookmark.dart';
 import 'package:traveltime/screens/map/widgets/overview/overview_openapp.dart';
+import 'package:traveltime/screens/map/widgets/overview/point_events.dart';
 import 'package:traveltime/store/models.dart' as models;
 
 class OverviewPointContent extends StatelessWidget {
@@ -91,6 +92,10 @@ class OverviewPointContent extends StatelessWidget {
               physics: const BouncingScrollPhysics(),
               children: <Widget>[
                 MarkdownBody(data: point.description),
+                PointEvents(
+                  point: point,
+                  padding: const EdgeInsets.symmetric(vertical: UIGap.g2),
+                ),
               ],
             ),
           ),

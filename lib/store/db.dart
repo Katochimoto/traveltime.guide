@@ -201,6 +201,34 @@ final eventPointsProvider = StreamProvider.autoDispose
   }
 });
 
+final pointEventsProvider = StreamProvider.autoDispose
+    .family<List<models.Event>, models.Point>((ref, point) async* {
+  final locale =
+      await ref.watch(appAuthProvider.selectAsync((data) => data.locale));
+  final db = await ref.watch(dbProvider.future);
+
+  final query = db
+      .collection<models.Event>()
+      .filter()
+      .localeEqualTo(locale)
+      .pointsElementContains(point.id)
+      .sortByPublishedAtDesc()
+      .build();
+
+  await for (final results in query.watch(fireImmediately: true)) {
+    final now = DateTime.now();
+    final items = results
+        .where((event) => event.actualInstanceFrom(now) != null)
+        .toList(growable: false);
+
+    print('>>>> $items');
+
+    if (items.isNotEmpty) {
+      yield items;
+    }
+  }
+});
+
 final routesProvider = StreamProvider.autoDispose((ref) async* {
   await ref.watch(bookmarksProvider.future);
   final filters = ref.watch(mapObjectsFiltersProvider);

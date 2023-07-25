@@ -6,14 +6,13 @@ import 'package:traveltime/constants/theme.dart';
 import 'package:traveltime/constants/routes.dart';
 import 'package:traveltime/providers/overview/overview.dart';
 import 'package:traveltime/store/db.dart';
-import 'package:traveltime/store/models/point.dart';
-import 'package:traveltime/store/models/event.dart';
+import 'package:traveltime/store/models.dart' as models;
 import 'package:traveltime/screens/map/widgets/popover/marker_list_item.dart';
 
 class EventPointsList extends ConsumerWidget {
-  final List<Point> points;
-
   const EventPointsList({super.key, required this.points});
+
+  final List<models.Point> points;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,24 +25,26 @@ class EventPointsList extends ConsumerWidget {
         ),
         const SizedBox(height: UIGap.g1),
         Card(
-          child: ListView.separated(
+          child: Padding(
             padding: const EdgeInsets.symmetric(
-                horizontal: UIGap.g2, vertical: UIGap.g2),
-            physics: const NeverScrollableScrollPhysics(),
-            separatorBuilder: (context, index) =>
-                const SizedBox(height: UIGap.g2),
-            itemBuilder: (_, idx) {
-              return MarkerListItem(
-                point: points[idx],
-                onTap: (point) {
-                  ref
-                      .read(overviewProvider.notifier)
-                      .show(OverviewData(object: point));
-                  context.pushNamed(Routes.map);
-                },
-              );
-            },
-            itemCount: points.length,
+                horizontal: UIGap.g2, vertical: UIGap.g1),
+            child: Column(
+              children: [
+                for (final point in points)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: UIGap.g1),
+                    child: MarkerListItem(
+                      point: point,
+                      onTap: (point) {
+                        ref
+                            .read(overviewProvider.notifier)
+                            .show(OverviewData(object: point));
+                        context.pushNamed(Routes.map);
+                      },
+                    ),
+                  ),
+              ],
+            ),
           ),
         )
       ],
@@ -52,9 +53,9 @@ class EventPointsList extends ConsumerWidget {
 }
 
 class EventPoints extends ConsumerWidget {
-  final Event event;
-
   const EventPoints({super.key, required this.event});
+
+  final models.Event event;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

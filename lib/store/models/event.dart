@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 import 'package:rrule/rrule.dart';
 import 'package:traveltime/providers/app_auth.dart';
+import 'package:traveltime/utils/date.dart';
 import 'package:traveltime/utils/fast_hash.dart';
 
 part 'event.g.dart';
@@ -285,6 +286,20 @@ class Event {
     }
 
     return instance;
+  }
+
+  /// event actual on "date" or will happen after "date"
+  EventInstance? actualInstanceFrom(DateTime date) {
+    EventInstance? instance;
+
+    if (rrule == null) {
+      instance = EventInstance(
+        start: dtstart!,
+        end: dtend ?? dtstart!.add(durationObject ?? const Duration()),
+      );
+    }
+
+    return instance != null && date.isBefore(instance.end) ? instance : null;
   }
 
   factory Event.fromJson(data) {
