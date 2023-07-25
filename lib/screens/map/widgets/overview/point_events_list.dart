@@ -48,27 +48,6 @@ class PointEventsList extends ConsumerWidget {
             ),
           ),
         ),
-        // Card(
-        //   child: ListView.separated(
-        //     padding: const EdgeInsets.symmetric(
-        //         horizontal: UIGap.g2, vertical: UIGap.g2),
-        //     physics: const NeverScrollableScrollPhysics(),
-        //     separatorBuilder: (context, index) =>
-        //         const SizedBox(height: UIGap.g2),
-        //     itemBuilder: (_, idx) {
-        //       return ListItemEvent(
-        //         event: events[idx],
-        //         onTap: (point) {
-        //           // ref
-        //           //     .read(overviewProvider.notifier)
-        //           //     .show(OverviewData(object: point));
-        //           context.pushNamed(Routes.map);
-        //         },
-        //       );
-        //     },
-        //     itemCount: events.length,
-        //   ),
-        // )
       ],
     );
   }

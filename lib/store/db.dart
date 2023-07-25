@@ -221,8 +221,6 @@ final pointEventsProvider = StreamProvider.autoDispose
         .where((event) => event.actualInstanceFrom(now) != null)
         .toList(growable: false);
 
-    print('>>>> $items');
-
     if (items.isNotEmpty) {
       yield items;
     }

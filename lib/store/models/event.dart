@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 import 'package:rrule/rrule.dart';
 import 'package:traveltime/providers/app_auth.dart';
-import 'package:traveltime/utils/date.dart';
 import 'package:traveltime/utils/fast_hash.dart';
 
 part 'event.g.dart';
@@ -292,6 +291,7 @@ class Event {
   EventInstance? actualInstanceFrom(DateTime date) {
     EventInstance? instance;
 
+    // FIXME add case for rrule
     if (rrule == null) {
       instance = EventInstance(
         start: dtstart!,
