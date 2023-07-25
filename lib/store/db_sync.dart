@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
@@ -10,6 +9,7 @@ import 'package:traveltime/providers/connectivity_status.dart';
 import 'package:traveltime/providers/shared_preferences.dart';
 import 'package:traveltime/utils/env.dart';
 import 'package:traveltime/utils/fast_hash.dart';
+import 'package:traveltime/utils/logger.dart';
 import 'models.dart' as models;
 
 enum DBSyncStatus {
@@ -115,7 +115,7 @@ class DbSync extends AsyncNotifier<DBSyncState> {
 
     state = AsyncValue.data(DBSyncState(status: DBSyncStatus.runing));
 
-    log('Sync status: ${state.value?.status}');
+    logger.i('Sync status: ${state.value?.status}');
 
     state = await AsyncValue.guard(() async {
       _cancelToken = CancelToken();
@@ -156,7 +156,7 @@ class DbSync extends AsyncNotifier<DBSyncState> {
           final collection = syncItem[0];
           final changesFromJson = syncItem[1];
           final collectionName = syncItem[2];
-          log('Sync start: $collectionName');
+          logger.i('Sync start: $collectionName');
           final changes = response.data?['changes']?[collectionName];
           final List<int> deleted =
               ((changes?['deleted'] ?? []) as List<dynamic>)
@@ -169,7 +169,7 @@ class DbSync extends AsyncNotifier<DBSyncState> {
             final items = changesFromJson(changes['replaced']);
             await collection.putAll(items);
           }
-          log('Sync finish: $collectionName');
+          logger.i('Sync finish: $collectionName');
         }
       });
 
@@ -177,7 +177,7 @@ class DbSync extends AsyncNotifier<DBSyncState> {
       return DBSyncState(status: DBSyncStatus.pending, lastSync: datetime);
     });
 
-    log('Sync status: ${state.value?.status}, error: ${state.error}');
+    logger.i('Sync status: ${state.value?.status}, error: ${state.error}');
 
     // https://api.dart.dev/stable/2.19.0/dart-async/StreamController-class.html
     // https://stackoverflow.com/questions/66724183/how-can-i-queue-calls-to-an-async-function-and-execute-them-in-order

@@ -10,8 +10,8 @@ import 'package:traveltime/screens/map/map_markers.dart';
 import 'package:traveltime/screens/map/map_routes.dart';
 import 'package:traveltime/screens/map/map_tiles.dart';
 import 'package:traveltime/screens/map/map_tiles_select.dart';
+import 'package:traveltime/screens/map/widgets/popover/popover.dart';
 import 'package:traveltime/widgets/map/attribution.dart';
-import 'package:traveltime/widgets/map/popover.dart';
 import 'package:traveltime/providers/marker_popover.dart';
 
 // class CachedNetworkTileProvider extends NetworkTileProvider {

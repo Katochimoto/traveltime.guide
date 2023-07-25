@@ -1,32 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:traveltime/constants/_theme.dart';
+import 'package:traveltime/constants/theme.dart';
 import 'package:traveltime/providers/overview/overview.dart';
 import 'package:traveltime/store/db.dart';
 import 'package:traveltime/store/models.dart' as models;
 import 'package:traveltime/providers/marker_popover.dart';
 
-class MarkerListItemController extends ConsumerWidget {
+class RouteListItemController extends ConsumerWidget {
   final int id;
 
-  const MarkerListItemController({
+  const RouteListItemController({
     super.key,
     required this.id,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final point = ref.watch(pointProvider(id));
-    return point.when(
+    final route = ref.watch(routeProvider(id));
+    return route.when(
       data: (data) {
         return data == null
             ? const SizedBox.shrink()
-            : MarkerListItem(
-                point: data,
-                onTap: (point) {
+            : RouteListItem(
+                route: data,
+                onTap: (route) {
                   ref
                       .read(overviewProvider.notifier)
-                      .show(OverviewData(object: point));
+                      .show(OverviewData(object: route));
                   ref.read(popoverProvider.notifier).hide();
                 });
       },
@@ -40,29 +40,30 @@ class MarkerListItemController extends ConsumerWidget {
   }
 }
 
-class MarkerListItem extends StatelessWidget {
-  const MarkerListItem({super.key, required this.point, this.onTap});
+class RouteListItem extends StatelessWidget {
+  const RouteListItem({super.key, required this.route, this.onTap});
 
-  final models.Point point;
-  final void Function(models.Point point)? onTap;
+  final models.Route route;
+  final void Function(models.Route route)? onTap;
 
   @override
   Widget build(BuildContext context) {
     const height = 60.0;
     return ElevatedButton(
-      onPressed: onTap != null ? () => onTap?.call(point) : null,
+      onPressed: () {
+        onTap?.call(route);
+      },
       style: ElevatedButton.styleFrom(
           elevation: 0,
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,
-          disabledBackgroundColor: Colors.transparent,
           padding: const EdgeInsets.all(0),
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(UIGap.g3)))),
       child: SizedBox(
         height: height,
         child: Row(children: [
-          if (point.logoImg != null)
+          if (route.logoImg != null)
             Container(
               width: height,
               height: height,
@@ -72,7 +73,7 @@ class MarkerListItem extends StatelessWidget {
                 borderRadius: const BorderRadius.all(Radius.circular(UIGap.g3)),
               ),
               child: Image.network(
-                point.logoImg!,
+                route.logoImg!,
                 fit: BoxFit.cover,
                 loadingBuilder: (context, child, loadingProgress) {
                   if (loadingProgress == null) return child;
@@ -102,11 +103,11 @@ class MarkerListItem extends StatelessWidget {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(point.title,
+                    Text(route.title,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.bodyMedium),
-                    Text(point.intro ?? point.description,
+                    Text(route.intro ?? route.description,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.bodySmall),
@@ -118,8 +119,3 @@ class MarkerListItem extends StatelessWidget {
     );
   }
 }
-
-// Padding(
-//       padding:
-//           const EdgeInsets.symmetric(vertical: UIGap.g2, horizontal: UIGap.g3),
-//       child: 

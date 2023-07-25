@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:traveltime/constants/_theme.dart';
+import 'package:traveltime/constants/theme.dart';
 import 'package:traveltime/providers/overview/overview.dart';
+import 'package:traveltime/screens/map/widgets/popover/popover_not_found.dart';
+import 'package:traveltime/screens/map/widgets/popover/popover_progress.dart';
 import 'package:traveltime/store/db.dart';
-import 'package:traveltime/store/models.dart' as models;
-import 'package:traveltime/widgets/map/popover_not_found.dart';
-import 'package:traveltime/widgets/map/popover_progress.dart';
+import 'package:traveltime/store/models/point.dart';
 import 'package:traveltime/providers/marker_popover.dart';
 
-class PopoverRouteController extends ConsumerWidget {
+class PopoverMarkerController extends ConsumerWidget {
   final double width;
   final double height;
   final PopoverData popover;
 
-  const PopoverRouteController({
+  const PopoverMarkerController({
     super.key,
     required this.width,
     required this.height,
@@ -22,19 +22,19 @@ class PopoverRouteController extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final route = ref.watch(routeProvider(popover.routeIds![0]!));
-    return route.when(
+    final point = ref.watch(pointProvider(popover.pointIds![0]!));
+    return point.when(
       data: (data) {
         return data == null
             ? PopoverNotFound(width: width, height: height)
-            : PopoverRoute(
+            : PopoverMarker(
                 width: width,
                 height: height,
-                route: data,
-                onTap: (route) {
+                point: data,
+                onTap: (point) {
                   ref
                       .read(overviewProvider.notifier)
-                      .show(OverviewData(object: route));
+                      .show(OverviewData(object: point));
                   ref.read(popoverProvider.notifier).hide();
                 },
               );
@@ -49,25 +49,25 @@ class PopoverRouteController extends ConsumerWidget {
   }
 }
 
-class PopoverRoute extends StatelessWidget {
-  const PopoverRoute({
+class PopoverMarker extends StatelessWidget {
+  const PopoverMarker({
     super.key,
     required this.width,
     required this.height,
-    required this.route,
+    required this.point,
     this.onTap,
   });
 
   final double width;
   final double height;
-  final models.Route route;
-  final void Function(models.Route route)? onTap;
+  final Point point;
+  final void Function(Point point)? onTap;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        onTap?.call(route);
+        onTap?.call(point);
       },
       style: ElevatedButton.styleFrom(
         elevation: 0,
@@ -82,7 +82,7 @@ class PopoverRoute extends StatelessWidget {
         height: height,
         child: Row(
           children: [
-            if (route.logoImg != null)
+            if (point.logoImg != null)
               Container(
                   height: 120,
                   width: 120,
@@ -91,7 +91,7 @@ class PopoverRoute extends StatelessWidget {
                         topLeft: Radius.circular(UIGap.g3),
                         bottomLeft: Radius.circular(UIGap.g3)),
                     image: DecorationImage(
-                      image: NetworkImage(route.logoImg!),
+                      image: NetworkImage(point.logoImg!),
                       fit: BoxFit.cover,
                     ),
                   )),
@@ -107,11 +107,11 @@ class PopoverRoute extends StatelessWidget {
                       Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(route.title,
+                            Text(point.title,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: Theme.of(context).textTheme.bodyMedium),
-                            Text(route.intro ?? route.description,
+                            Text(point.intro ?? point.description,
                                 maxLines: 3,
                                 overflow: TextOverflow.ellipsis,
                                 style: Theme.of(context).textTheme.bodySmall),

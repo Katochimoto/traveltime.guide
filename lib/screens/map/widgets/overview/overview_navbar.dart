@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:traveltime/constants/_theme.dart';
+import 'package:traveltime/constants/theme.dart';
 import 'package:traveltime/providers/overview/overview.dart';
 
 class OverviewNavbar extends ConsumerWidget {

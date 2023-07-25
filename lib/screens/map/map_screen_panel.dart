@@ -5,8 +5,8 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:traveltime/screens/map/map_markers_navbar.dart';
 import 'package:traveltime/screens/map/markers.dart';
 import 'package:traveltime/providers/overview/overview.dart';
-import 'package:traveltime/screens/map/overview_point.dart';
-import 'package:traveltime/screens/map/overview_route.dart';
+import 'package:traveltime/screens/map/widgets/overview/overview_point.dart';
+import 'package:traveltime/screens/map/widgets/overview/overview_route.dart';
 import 'package:traveltime/widgets/stateful_wrapper.dart';
 import 'package:traveltime/store/models.dart' as models;
 

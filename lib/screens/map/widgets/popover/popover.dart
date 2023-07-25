@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:traveltime/widgets/map/popover_cluster.dart';
-import 'package:traveltime/widgets/map/popover_marker.dart';
 import 'package:traveltime/providers/marker_popover.dart';
-import 'package:traveltime/widgets/map/popover_not_found.dart';
-import 'package:traveltime/widgets/map/popover_route.dart';
+import 'package:traveltime/screens/map/widgets/popover/popover_cluster.dart';
+import 'package:traveltime/screens/map/widgets/popover/popover_marker.dart';
+import 'package:traveltime/screens/map/widgets/popover/popover_not_found.dart';
+import 'package:traveltime/screens/map/widgets/popover/popover_route.dart';
 import 'package:traveltime/widgets/map/triangle_painter.dart';
 
 class Popover extends ConsumerWidget {

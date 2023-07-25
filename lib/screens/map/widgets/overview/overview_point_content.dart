@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:traveltime/constants/_theme.dart';
-import 'package:traveltime/screens/map/overview_bookmark.dart';
-import 'package:traveltime/screens/map/overview_openapp.dart';
+import 'package:traveltime/constants/theme.dart';
+import 'package:traveltime/screens/map/widgets/overview/overview_bookmark.dart';
+import 'package:traveltime/screens/map/widgets/overview/overview_openapp.dart';
 import 'package:traveltime/store/models.dart' as models;
 
 class OverviewPointContent extends StatelessWidget {
@@ -54,7 +54,7 @@ class OverviewPointContent extends StatelessWidget {
                       style: Theme.of(context)
                           .textTheme
                           .merge(Typography.whiteCupertino)
-                          .headlineMedium,
+                          .headlineSmall,
                     ),
                     if (point.address != null)
                       Text(point.address!,

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:timelines/timelines.dart';
-import 'package:traveltime/constants/_theme.dart';
+import 'package:traveltime/constants/theme.dart';
 import 'package:traveltime/store/db.dart';
 // import 'package:traveltime/screens/map/overview_bookmark.dart';
 // import 'package:traveltime/screens/map/overview_openapp.dart';
 import 'package:traveltime/store/models.dart' as models;
-import 'package:traveltime/widgets/map/marker_list_item.dart';
+import 'package:traveltime/screens/map/widgets/popover/marker_list_item.dart';
 
 class _RouteWaypointPoint extends ConsumerWidget {
   const _RouteWaypointPoint({required this.id});

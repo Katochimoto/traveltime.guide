@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:traveltime/constants/_theme.dart';
+import 'package:traveltime/constants/theme.dart';
 
 class PhotoAlbum extends StatelessWidget {
   final List<String> imgArray;

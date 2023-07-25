@@ -12,9 +12,9 @@ class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key, required this.currentPage});
 
   _launchURL() async {
-    const url = 'https://creative-tim.com';
-    if (await canLaunch(url)) {
-      await launch(url);
+    final url = Uri.parse('https://creative-tim.com');
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
     } else {
       throw 'Could not launch $url';
     }

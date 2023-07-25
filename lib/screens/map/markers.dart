@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:traveltime/constants/_theme.dart';
+import 'package:traveltime/constants/theme.dart';
 import 'package:traveltime/providers/overview/overview.dart';
 import 'package:traveltime/store/db.dart';
-import 'package:traveltime/widgets/map/marker_list_item.dart';
+import 'package:traveltime/screens/map/widgets/popover/marker_list_item.dart';
 import 'package:traveltime/store/models.dart' as models;
-import 'package:traveltime/widgets/map/route_list_item.dart';
+import 'package:traveltime/screens/map/widgets/popover/route_list_item.dart';
 
 class Markers extends ConsumerWidget {
   const Markers({super.key, this.sc});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:traveltime/constants/_theme.dart';
+import 'package:traveltime/constants/theme.dart';
 import 'package:traveltime/constants/routes.dart';
 import 'package:traveltime/screens/map/map_screen_body.dart';
 import 'package:traveltime/screens/map/map_screen_panel.dart';
