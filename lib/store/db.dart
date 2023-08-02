@@ -92,7 +92,6 @@ final pointsProvider = StreamProvider.autoDispose((ref) async* {
   }
 
   final buildQuery = query.sortByPublishedAtDesc().build();
-
   await for (final results in buildQuery.watch(fireImmediately: true)) {
     if (results.isNotEmpty) {
       yield results;

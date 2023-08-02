@@ -62,49 +62,51 @@ class _RouteWaypoints extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final timelineColor =
         Theme.of(context).colorScheme.secondary.withOpacity(0.5);
-    final waypoints =
-        ref.watch(routeWaypointsByRouteProvider(route.isarId)).valueOrNull ??
-            [];
-    return FixedTimeline.tileBuilder(
-      theme: TimelineThemeData(
-        nodePosition: 0,
-        nodeItemOverlap: true,
-        connectorTheme: ConnectorThemeData(
-          thickness: 2.0,
-          color: timelineColor,
-        ),
-        indicatorTheme: IndicatorThemeData(
-          size: 20.0,
-          color: timelineColor,
-        ),
-      ),
-      builder: TimelineTileBuilder.connected(
-        contentsAlign: ContentsAlign.basic,
-        contentsBuilder: (context, index) =>
-            _RouteWaypoint(waypoint: waypoints[index]),
-        itemCount: waypoints.length,
-        nodePositionBuilder: (context, index) => 0,
-        connectorBuilder: (_, index, connectorType) => SolidLineConnector(
-          indent: connectorType == ConnectorType.start ? 0 : 0.0,
-          endIndent: connectorType == ConnectorType.end ? 0 : 0.0,
-        ),
-        indicatorBuilder: (_, index) => Stack(
-          alignment: AlignmentDirectional.center,
-          children: [
-            DotIndicator(
-              color: Colors.white,
-              size: 20.0,
-              border: Border.all(color: timelineColor, width: 2),
-              child: Align(
-                alignment: Alignment.center,
-                child: Text((index + 1).toString(),
-                    style: const TextStyle(fontSize: 11)),
+
+    return ref.watch(routeWaypointsByRouteProvider(route.isarId)).when(
+          data: (data) => FixedTimeline.tileBuilder(
+            theme: TimelineThemeData(
+              nodePosition: 0,
+              nodeItemOverlap: true,
+              connectorTheme: ConnectorThemeData(
+                thickness: 2.0,
+                color: timelineColor,
+              ),
+              indicatorTheme: IndicatorThemeData(
+                size: 20.0,
+                color: timelineColor,
               ),
             ),
-          ],
-        ),
-      ),
-    );
+            builder: TimelineTileBuilder.connected(
+              contentsAlign: ContentsAlign.basic,
+              contentsBuilder: (context, index) =>
+                  _RouteWaypoint(waypoint: data[index]),
+              itemCount: data.length,
+              nodePositionBuilder: (context, index) => 0,
+              connectorBuilder: (_, index, connectorType) => SolidLineConnector(
+                indent: connectorType == ConnectorType.start ? 0 : 0.0,
+                endIndent: connectorType == ConnectorType.end ? 0 : 0.0,
+              ),
+              indicatorBuilder: (_, index) => Stack(
+                alignment: AlignmentDirectional.center,
+                children: [
+                  DotIndicator(
+                    color: Colors.white,
+                    size: 20.0,
+                    border: Border.all(color: timelineColor, width: 2),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text((index + 1).toString(),
+                          style: const TextStyle(fontSize: 11)),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          error: (error, stackTrace) => const SizedBox.shrink(),
+          loading: () => const SizedBox.shrink(),
+        );
   }
 }
 

@@ -40,7 +40,7 @@ class TappablePolylineLayerController extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final mapState = FlutterMapState.maybeOf(context)!;
+    final mapState = FlutterMapState.of(context);
     ref.listen(mapTapPositionProvider, (previous, next) {
       _handlePolylineTap(next.offset!);
     });
@@ -153,7 +153,7 @@ class TappablePolylineLayer extends PolylineLayer {
 
   @override
   Widget build(BuildContext context) {
-    final mapState = FlutterMapState.maybeOf(context)!;
+    final mapState = FlutterMapState.of(context);
     final lines = polylineCulling
         ? polylines
             .where((p) => p.boundingBox.isOverlapping(mapState.bounds))

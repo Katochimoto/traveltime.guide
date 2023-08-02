@@ -52,7 +52,7 @@ final router = GoRouter(
     GoRoute(
       name: Routes.map,
       path: '/map',
-      builder: (context, state) => const MapScreen(),
+      builder: (context, state) => MapScreen(),
     ),
     GoRoute(
       name: Routes.events,

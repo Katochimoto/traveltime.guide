@@ -79,6 +79,7 @@ class DbSync extends AsyncNotifier<DBSyncState> {
 
   @override
   Future<DBSyncState> build() async {
+    print('>>1');
     _db = await ref.watch(dbProvider.future);
     _locale =
         await ref.watch(appAuthProvider.selectAsync((data) => data.locale));

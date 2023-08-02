@@ -7,9 +7,9 @@ import 'package:traveltime/widgets/card/card_horizontal.dart';
 import 'package:traveltime/store/models/event.dart';
 
 class EventsList extends ConsumerWidget {
-  final List<Event> events;
-
   const EventsList({super.key, required this.events});
+
+  final List<Event> events;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -11,8 +11,8 @@ const tileApiLayer = {
   MapWeatherTile.temp: 'temp_new'
 };
 
-class MapTiles extends ConsumerWidget {
-  const MapTiles({super.key});
+class WeatherTiles extends ConsumerWidget {
+  const WeatherTiles({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

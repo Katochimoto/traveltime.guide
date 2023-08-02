@@ -35,16 +35,25 @@ Future<void> main() async {
   );
 }
 
-class App extends ConsumerWidget {
+class App extends ConsumerStatefulWidget {
   const App({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<App> createState() => AppState();
+}
+
+class AppState extends ConsumerState<App> {
+  @override
+  void initState() {
+    ref.read(dbSyncProvider);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback(((_) {
       FlutterNativeSplash.remove();
     }));
-
-    ref.watch(dbSyncProvider);
 
     final user = ref.watch(appAuthProvider).value;
 

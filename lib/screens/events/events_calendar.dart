@@ -6,9 +6,9 @@ import 'package:traveltime/providers/events_calendar.dart';
 import 'package:traveltime/store/models/event.dart';
 
 class EventsCalendar extends ConsumerWidget {
-  final List<Event> events;
-
   const EventsCalendar({super.key, required this.events});
+
+  final List<Event> events;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
