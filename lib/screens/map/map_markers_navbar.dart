@@ -26,14 +26,14 @@ class MapMarkersNavbar extends ConsumerWidget {
             ref.read(mapObjectsFiltersProvider.notifier).toggleBookmarks();
           },
         ),
-        NavbarCategorieButton(
-          icon: Icons.route,
-          title: loc.routes,
-          selected: filters.routes,
-          onPressed: () {
-            ref.read(mapObjectsFiltersProvider.notifier).toggleRoutes();
-          },
-        ),
+        // NavbarCategorieButton(
+        //   icon: Icons.route,
+        //   title: loc.routes,
+        //   selected: filters.routes,
+        //   onPressed: () {
+        //     ref.read(mapObjectsFiltersProvider.notifier).toggleRoutes();
+        //   },
+        // ),
         for (final point in points)
           NavbarCategorieButton(
             icon: markerIcons[point.category] ?? defaultMarkerIcon,

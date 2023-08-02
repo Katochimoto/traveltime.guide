@@ -11,11 +11,16 @@ import 'package:traveltime/widgets/stateful_wrapper.dart';
 import 'package:traveltime/store/models.dart' as models;
 
 class MapScreenPanel extends ConsumerWidget {
-  const MapScreenPanel({super.key, this.sc, this.pc, this.mc});
+  const MapScreenPanel({
+    super.key,
+    required this.sc,
+    required this.pc,
+    required this.mc,
+  });
 
-  final ScrollController? sc;
-  final PanelController? pc;
-  final MapController? mc;
+  final ScrollController sc;
+  final PanelController pc;
+  final MapController mc;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -41,12 +46,12 @@ class MapScreenPanel extends ConsumerWidget {
                   ? const SizedBox.shrink()
                   : StatefulWrapper(
                       onInit: () {
-                        pc?.open();
-                        mc?.fitBounds(overview.object.bounds);
+                        pc.open();
+                        mc.fitBounds(overview.object.bounds);
                       },
                       onUpdate: () {
-                        pc?.open();
-                        mc?.fitBounds(overview.object.bounds);
+                        pc.open();
+                        mc.fitBounds(overview.object.bounds);
                       },
                       child: overview.object is models.Point
                           ? OverviewPoint(sc: sc, id: overview.object.isarId)

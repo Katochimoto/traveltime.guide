@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong2/latlong.dart' as ll;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,14 +7,38 @@ import 'package:traveltime/store/db.dart';
 import 'package:traveltime/store/models/point.dart';
 import 'package:traveltime/widgets/map/draw_cluster.dart';
 import 'package:traveltime/widgets/map/draw_text.dart';
-import 'package:traveltime/widgets/map/fast_markers.dart';
+import 'package:traveltime/widgets/map/fast_cluster.dart';
+import 'package:traveltime/widgets/map/fast_marker.dart';
 import 'package:traveltime/providers/marker_popover.dart';
+import 'package:traveltime/widgets/map/fast_markers_layer.dart';
 
-class MapMarkers extends ConsumerWidget {
+class MapMarkers extends ConsumerStatefulWidget {
   const MapMarkers({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MapMarkers> createState() => MapMarkersState();
+}
+
+class MapMarkersState extends ConsumerState<MapMarkers> {
+  _onTap(Bounds<num> bounds, FastMarker marker) {
+    ref.read(popoverProvider.notifier).show(PopoverData(
+          bounds: bounds,
+          pointIds: [marker.id],
+        ));
+  }
+
+  _clusterTap(Bounds<num> bounds, FastCluster cluster) {
+    final pointIds =
+        cluster.markers!.map((marker) => marker.id).toList(growable: false);
+    ref.read(popoverProvider.notifier).show(PopoverData(
+          bounds: bounds,
+          type: PopoverType.cluster,
+          pointIds: pointIds,
+        ));
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return ref.watch(pointsProvider).when(
           data: (points) => FastMarkersLayer(
             markers: points
@@ -27,24 +50,10 @@ class MapMarkers extends ConsumerWidget {
                       height: markerSize,
                       anchorPos: AnchorPos.align(AnchorAlign.bottom),
                       onDraw: _drawMarker,
-                      onTap: (bounds, marker) {
-                        ref.read(popoverProvider.notifier).show(PopoverData(
-                              bounds: bounds,
-                              pointIds: [marker.id],
-                            ));
-                      },
+                      onTap: _onTap,
                     ))
                 .toList(growable: false),
-            clusterTap: (bounds, cluster) {
-              final pointIds = cluster.markers!
-                  .map((marker) => marker.id)
-                  .toList(growable: false);
-              ref.read(popoverProvider.notifier).show(PopoverData(
-                    bounds: bounds,
-                    type: PopoverType.cluster,
-                    pointIds: pointIds,
-                  ));
-            },
+            clusterTap: _clusterTap,
             clusterDraw: _drawCluster,
             clusterWidth: clusterSize,
             clusterHeight: clusterSize,

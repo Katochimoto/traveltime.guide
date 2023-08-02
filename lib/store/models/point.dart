@@ -77,6 +77,9 @@ class Point implements MapObject {
         ll.LatLng(lat, lng),
       );
 
+  @ignore
+  ll.LatLng get coordinates => ll.LatLng(lat, lng);
+
   factory Point.fromJson(data) {
     return Point(
       id: data['id'],
