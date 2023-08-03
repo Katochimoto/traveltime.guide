@@ -20,7 +20,7 @@ class EventsCalendarState {
     return EventsCalendarState(
       today: today,
       firstDay: DateTime.utc(today.year, today.month - 3, today.day),
-      lastDay: DateTime.utc(today.year, today.month + 3, today.day),
+      lastDay: DateTime.utc(today.year, today.month + 6, today.day),
       selectedDay: today,
       focusedDay: today,
     );

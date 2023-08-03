@@ -48,7 +48,7 @@ class MarkerListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const height = 60.0;
+    const height = 65.0;
     return ElevatedButton(
       onPressed: onTap != null ? () => onTap?.call(point) : null,
       style: ElevatedButton.styleFrom(

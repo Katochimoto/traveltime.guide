@@ -48,7 +48,7 @@ class EventDetails extends StatelessWidget {
                         children: [
                           Text(
                             event.title,
-                            style: headTextTheme.headlineMedium,
+                            style: headTextTheme.headlineSmall,
                           ),
                           const SizedBox(height: UIGap.g1),
                           Text('$instance', style: headTextTheme.bodySmall),

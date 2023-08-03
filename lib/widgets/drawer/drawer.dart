@@ -159,31 +159,41 @@ class AppDrawer extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Column(
                     children: [
+                      // DrawerTile(
+                      //     onTap: _launchURL,
+                      //     title: "Support",
+                      //     isSelected:
+                      //         currentPage == "Getting started" ? true : false),
+                      // DrawerTile(
+                      //     onTap: _launchURL,
+                      //     title: "Get Pro",
+                      //     isSelected:
+                      //         currentPage == "Getting started" ? true : false),
                       DrawerTile(
-                          onTap: _launchURL,
-                          title: "Support",
-                          isSelected:
-                              currentPage == "Getting started" ? true : false),
-                      DrawerTile(
-                          onTap: _launchURL,
-                          title: "Get Pro",
-                          isSelected:
-                              currentPage == "Getting started" ? true : false),
-                      DrawerTile(
+                        isSecondary: true,
                         onTap: _launchURL,
                         title: "About",
                         isSelected:
                             currentPage == "Getting started" ? true : false,
                       ),
                       DrawerTile(
+                        isSecondary: true,
                         onTap: _launchURL,
-                        title: "Privacy",
+                        title: "Disclaimer",
                         isSelected:
                             currentPage == "Getting started" ? true : false,
                       ),
                       DrawerTile(
+                        isSecondary: true,
                         onTap: _launchURL,
-                        title: "Terms",
+                        title: "Privacy Policy",
+                        isSelected:
+                            currentPage == "Getting started" ? true : false,
+                      ),
+                      DrawerTile(
+                        isSecondary: true,
+                        onTap: _launchURL,
+                        title: "Terms and Conditions",
                         isSelected:
                             currentPage == "Getting started" ? true : false,
                       ),

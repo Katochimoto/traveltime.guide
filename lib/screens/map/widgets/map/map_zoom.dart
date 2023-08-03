@@ -22,9 +22,11 @@ class MapZoomState extends ConsumerState<MapZoom> {
     widget.mc.fitBounds(
       _bounds!,
       options: const FitBoundsOptions(
-        padding: EdgeInsets.symmetric(
-          vertical: 100,
-          horizontal: 40,
+        padding: EdgeInsets.only(
+          left: 40,
+          right: 40,
+          top: 100,
+          bottom: 150,
         ),
       ),
     );
@@ -36,9 +38,9 @@ class MapZoomState extends ConsumerState<MapZoom> {
     //   return;
     // }
 
-    ref.listen(mapObjectsFiltersProvider, (previous, next) {
+    ref.listenManual(mapObjectsFiltersProvider, (previous, next) {
       _zoomCompleter = Completer()..future.whenComplete(_fitBounds);
-    });
+    }, fireImmediately: true);
 
     ref.listenManual(pointsProvider.future, (previous, next) async {
       final points = await next;

@@ -11,7 +11,7 @@ class ListItemEvent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final instance = event.actualInstanceFrom(DateTime.now());
-    const height = 60.0;
+    const height = 65.0;
     return ElevatedButton(
       onPressed: onTap != null ? () => onTap?.call(event) : null,
       style: ElevatedButton.styleFrom(
