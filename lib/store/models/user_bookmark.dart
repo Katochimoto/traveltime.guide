@@ -23,7 +23,7 @@ class UserBookmark {
 
   Id get isarId => fastHash(id);
 
-  @enumerated
+  @Enumerated(EnumType.name)
   @Index(type: IndexType.value)
   final UserBookmarkType type;
 

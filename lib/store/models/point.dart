@@ -40,6 +40,7 @@ class Point implements MapObject {
     this.address,
     this.logoImg,
     this.coverImg,
+    this.web,
   });
 
   @Index(unique: true, type: IndexType.value)
@@ -51,10 +52,10 @@ class Point implements MapObject {
   final float lat;
   final float lng;
 
-  @enumerated
+  @Enumerated(EnumType.name)
   final AppLocale locale;
 
-  @enumerated
+  @Enumerated(EnumType.name)
   @Index(type: IndexType.value)
   final PointCategory category;
 
@@ -69,6 +70,7 @@ class Point implements MapObject {
   final String? address;
   final String? logoImg;
   final String? coverImg;
+  final String? web;
 
   @override
   @ignore
@@ -96,6 +98,7 @@ class Point implements MapObject {
       description: data['description'],
       logoImg: data['logoImg'],
       coverImg: data['coverImg'],
+      web: data['web'],
     );
   }
 

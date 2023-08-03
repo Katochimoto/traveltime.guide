@@ -45,7 +45,7 @@ const RouteWaypointSchema = CollectionSchema(
     r'locale': PropertySchema(
       id: 5,
       name: r'locale',
-      type: IsarType.byte,
+      type: IsarType.string,
       enumMap: _RouteWaypointlocaleEnumValueMap,
     ),
     r'order': PropertySchema(
@@ -146,6 +146,7 @@ int _routeWaypointEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
+  bytesCount += 3 + object.locale.name.length * 3;
   {
     final value = object.title;
     if (value != null) {
@@ -166,7 +167,7 @@ void _routeWaypointSerialize(
   writer.writeString(offsets[2], object.intro);
   writer.writeFloat(offsets[3], object.lat);
   writer.writeFloat(offsets[4], object.lng);
-  writer.writeByte(offsets[5], object.locale.index);
+  writer.writeString(offsets[5], object.locale.name);
   writer.writeInt(offsets[6], object.order);
   writer.writeLong(offsets[7], object.point);
   writer.writeDateTime(offsets[8], object.publishedAt);
@@ -188,7 +189,7 @@ RouteWaypoint _routeWaypointDeserialize(
     lat: reader.readFloatOrNull(offsets[3]),
     lng: reader.readFloatOrNull(offsets[4]),
     locale:
-        _RouteWaypointlocaleValueEnumMap[reader.readByteOrNull(offsets[5])] ??
+        _RouteWaypointlocaleValueEnumMap[reader.readStringOrNull(offsets[5])] ??
             AppLocale.en,
     order: reader.readInt(offsets[6]),
     point: reader.readLongOrNull(offsets[7]),
@@ -218,7 +219,8 @@ P _routeWaypointDeserializeProp<P>(
     case 4:
       return (reader.readFloatOrNull(offset)) as P;
     case 5:
-      return (_RouteWaypointlocaleValueEnumMap[reader.readByteOrNull(offset)] ??
+      return (_RouteWaypointlocaleValueEnumMap[
+              reader.readStringOrNull(offset)] ??
           AppLocale.en) as P;
     case 6:
       return (reader.readInt(offset)) as P;
@@ -238,12 +240,12 @@ P _routeWaypointDeserializeProp<P>(
 }
 
 const _RouteWaypointlocaleEnumValueMap = {
-  'en': 0,
-  'th': 1,
+  r'en': r'en',
+  r'th': r'th',
 };
 const _RouteWaypointlocaleValueEnumMap = {
-  0: AppLocale.en,
-  1: AppLocale.th,
+  r'en': AppLocale.en,
+  r'th': AppLocale.th,
 };
 
 Id _routeWaypointGetId(RouteWaypoint object) {
@@ -1341,11 +1343,15 @@ extension RouteWaypointQueryFilter
   }
 
   QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
-      localeEqualTo(AppLocale value) {
+      localeEqualTo(
+    AppLocale value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'locale',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
@@ -1354,12 +1360,14 @@ extension RouteWaypointQueryFilter
       localeGreaterThan(
     AppLocale value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'locale',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
@@ -1368,12 +1376,14 @@ extension RouteWaypointQueryFilter
       localeLessThan(
     AppLocale value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'locale',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
@@ -1384,6 +1394,7 @@ extension RouteWaypointQueryFilter
     AppLocale upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -1392,6 +1403,77 @@ extension RouteWaypointQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
+      localeStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'locale',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
+      localeEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'locale',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
+      localeContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'locale',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
+      localeMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'locale',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
+      localeIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'locale',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
+      localeIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'locale',
+        value: '',
       ));
     });
   }
@@ -2219,9 +2301,10 @@ extension RouteWaypointQueryWhereDistinct
     });
   }
 
-  QueryBuilder<RouteWaypoint, RouteWaypoint, QDistinct> distinctByLocale() {
+  QueryBuilder<RouteWaypoint, RouteWaypoint, QDistinct> distinctByLocale(
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'locale');
+      return query.addDistinctBy(r'locale', caseSensitive: caseSensitive);
     });
   }
 

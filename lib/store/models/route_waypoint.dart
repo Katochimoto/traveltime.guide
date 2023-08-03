@@ -28,7 +28,7 @@ class RouteWaypoint {
 
   Id get isarId => fastHash(id);
 
-  @enumerated
+  @Enumerated(EnumType.name)
   final AppLocale locale;
 
   final DateTime createdAt;

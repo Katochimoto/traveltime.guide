@@ -50,7 +50,7 @@ const RouteSchema = CollectionSchema(
     r'locale': PropertySchema(
       id: 6,
       name: r'locale',
-      type: IsarType.byte,
+      type: IsarType.string,
       enumMap: _RoutelocaleEnumValueMap,
     ),
     r'logoImg': PropertySchema(
@@ -72,6 +72,11 @@ const RouteSchema = CollectionSchema(
       id: 10,
       name: r'updatedAt',
       type: IsarType.dateTime,
+    ),
+    r'web': PropertySchema(
+      id: 11,
+      name: r'web',
+      type: IsarType.string,
     )
   },
   estimateSize: _routeEstimateSize,
@@ -136,6 +141,7 @@ int _routeEstimateSize(
     }
   }
   bytesCount += 3 + object.latlngBounds.length * 4;
+  bytesCount += 3 + object.locale.name.length * 3;
   {
     final value = object.logoImg;
     if (value != null) {
@@ -143,6 +149,12 @@ int _routeEstimateSize(
     }
   }
   bytesCount += 3 + object.title.length * 3;
+  {
+    final value = object.web;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -158,11 +170,12 @@ void _routeSerialize(
   writer.writeString(offsets[3], object.id);
   writer.writeString(offsets[4], object.intro);
   writer.writeFloatList(offsets[5], object.latlngBounds);
-  writer.writeByte(offsets[6], object.locale.index);
+  writer.writeString(offsets[6], object.locale.name);
   writer.writeString(offsets[7], object.logoImg);
   writer.writeDateTime(offsets[8], object.publishedAt);
   writer.writeString(offsets[9], object.title);
   writer.writeDateTime(offsets[10], object.updatedAt);
+  writer.writeString(offsets[11], object.web);
 }
 
 Route _routeDeserialize(
@@ -178,12 +191,13 @@ Route _routeDeserialize(
     id: reader.readString(offsets[3]),
     intro: reader.readStringOrNull(offsets[4]),
     latlngBounds: reader.readFloatList(offsets[5]) ?? [],
-    locale: _RoutelocaleValueEnumMap[reader.readByteOrNull(offsets[6])] ??
+    locale: _RoutelocaleValueEnumMap[reader.readStringOrNull(offsets[6])] ??
         AppLocale.en,
     logoImg: reader.readStringOrNull(offsets[7]),
     publishedAt: reader.readDateTime(offsets[8]),
     title: reader.readString(offsets[9]),
     updatedAt: reader.readDateTime(offsets[10]),
+    web: reader.readStringOrNull(offsets[11]),
   );
   return object;
 }
@@ -208,7 +222,7 @@ P _routeDeserializeProp<P>(
     case 5:
       return (reader.readFloatList(offset) ?? []) as P;
     case 6:
-      return (_RoutelocaleValueEnumMap[reader.readByteOrNull(offset)] ??
+      return (_RoutelocaleValueEnumMap[reader.readStringOrNull(offset)] ??
           AppLocale.en) as P;
     case 7:
       return (reader.readStringOrNull(offset)) as P;
@@ -218,18 +232,20 @@ P _routeDeserializeProp<P>(
       return (reader.readString(offset)) as P;
     case 10:
       return (reader.readDateTime(offset)) as P;
+    case 11:
+      return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
 
 const _RoutelocaleEnumValueMap = {
-  'en': 0,
-  'th': 1,
+  r'en': r'en',
+  r'th': r'th',
 };
 const _RoutelocaleValueEnumMap = {
-  0: AppLocale.en,
-  1: AppLocale.th,
+  r'en': AppLocale.en,
+  r'th': AppLocale.th,
 };
 
 Id _routeGetId(Route object) {
@@ -1457,11 +1473,14 @@ extension RouteQueryFilter on QueryBuilder<Route, Route, QFilterCondition> {
   }
 
   QueryBuilder<Route, Route, QAfterFilterCondition> localeEqualTo(
-      AppLocale value) {
+    AppLocale value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'locale',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
@@ -1469,12 +1488,14 @@ extension RouteQueryFilter on QueryBuilder<Route, Route, QFilterCondition> {
   QueryBuilder<Route, Route, QAfterFilterCondition> localeGreaterThan(
     AppLocale value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'locale',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
@@ -1482,12 +1503,14 @@ extension RouteQueryFilter on QueryBuilder<Route, Route, QFilterCondition> {
   QueryBuilder<Route, Route, QAfterFilterCondition> localeLessThan(
     AppLocale value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'locale',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
@@ -1497,6 +1520,7 @@ extension RouteQueryFilter on QueryBuilder<Route, Route, QFilterCondition> {
     AppLocale upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -1505,6 +1529,74 @@ extension RouteQueryFilter on QueryBuilder<Route, Route, QFilterCondition> {
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Route, Route, QAfterFilterCondition> localeStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'locale',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Route, Route, QAfterFilterCondition> localeEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'locale',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Route, Route, QAfterFilterCondition> localeContains(String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'locale',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Route, Route, QAfterFilterCondition> localeMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'locale',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Route, Route, QAfterFilterCondition> localeIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'locale',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Route, Route, QAfterFilterCondition> localeIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'locale',
+        value: '',
       ));
     });
   }
@@ -1888,6 +1980,150 @@ extension RouteQueryFilter on QueryBuilder<Route, Route, QFilterCondition> {
       ));
     });
   }
+
+  QueryBuilder<Route, Route, QAfterFilterCondition> webIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'web',
+      ));
+    });
+  }
+
+  QueryBuilder<Route, Route, QAfterFilterCondition> webIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'web',
+      ));
+    });
+  }
+
+  QueryBuilder<Route, Route, QAfterFilterCondition> webEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'web',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Route, Route, QAfterFilterCondition> webGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'web',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Route, Route, QAfterFilterCondition> webLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'web',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Route, Route, QAfterFilterCondition> webBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'web',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Route, Route, QAfterFilterCondition> webStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'web',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Route, Route, QAfterFilterCondition> webEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'web',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Route, Route, QAfterFilterCondition> webContains(String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'web',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Route, Route, QAfterFilterCondition> webMatches(String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'web',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Route, Route, QAfterFilterCondition> webIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'web',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Route, Route, QAfterFilterCondition> webIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'web',
+        value: '',
+      ));
+    });
+  }
 }
 
 extension RouteQueryObject on QueryBuilder<Route, Route, QFilterCondition> {}
@@ -2012,6 +2248,18 @@ extension RouteQuerySortBy on QueryBuilder<Route, Route, QSortBy> {
   QueryBuilder<Route, Route, QAfterSortBy> sortByUpdatedAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'updatedAt', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Route, Route, QAfterSortBy> sortByWeb() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'web', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Route, Route, QAfterSortBy> sortByWebDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'web', Sort.desc);
     });
   }
 }
@@ -2148,6 +2396,18 @@ extension RouteQuerySortThenBy on QueryBuilder<Route, Route, QSortThenBy> {
       return query.addSortBy(r'updatedAt', Sort.desc);
     });
   }
+
+  QueryBuilder<Route, Route, QAfterSortBy> thenByWeb() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'web', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Route, Route, QAfterSortBy> thenByWebDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'web', Sort.desc);
+    });
+  }
 }
 
 extension RouteQueryWhereDistinct on QueryBuilder<Route, Route, QDistinct> {
@@ -2191,9 +2451,10 @@ extension RouteQueryWhereDistinct on QueryBuilder<Route, Route, QDistinct> {
     });
   }
 
-  QueryBuilder<Route, Route, QDistinct> distinctByLocale() {
+  QueryBuilder<Route, Route, QDistinct> distinctByLocale(
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'locale');
+      return query.addDistinctBy(r'locale', caseSensitive: caseSensitive);
     });
   }
 
@@ -2220,6 +2481,13 @@ extension RouteQueryWhereDistinct on QueryBuilder<Route, Route, QDistinct> {
   QueryBuilder<Route, Route, QDistinct> distinctByUpdatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'updatedAt');
+    });
+  }
+
+  QueryBuilder<Route, Route, QDistinct> distinctByWeb(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'web', caseSensitive: caseSensitive);
     });
   }
 }
@@ -2294,6 +2562,12 @@ extension RouteQueryProperty on QueryBuilder<Route, Route, QQueryProperty> {
   QueryBuilder<Route, DateTime, QQueryOperations> updatedAtProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'updatedAt');
+    });
+  }
+
+  QueryBuilder<Route, String?, QQueryOperations> webProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'web');
     });
   }
 }

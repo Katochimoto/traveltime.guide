@@ -13,8 +13,8 @@ class PageLayoutContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 1200),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: UIGap.g2),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: UIGap.g3),
         child: child,
       ),
     );

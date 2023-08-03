@@ -25,7 +25,7 @@ const PointSchema = CollectionSchema(
     r'category': PropertySchema(
       id: 1,
       name: r'category',
-      type: IsarType.byte,
+      type: IsarType.string,
       enumMap: _PointcategoryEnumValueMap,
     ),
     r'coverImg': PropertySchema(
@@ -66,7 +66,7 @@ const PointSchema = CollectionSchema(
     r'locale': PropertySchema(
       id: 9,
       name: r'locale',
-      type: IsarType.byte,
+      type: IsarType.string,
       enumMap: _PointlocaleEnumValueMap,
     ),
     r'logoImg': PropertySchema(
@@ -88,6 +88,11 @@ const PointSchema = CollectionSchema(
       id: 13,
       name: r'updatedAt',
       type: IsarType.dateTime,
+    ),
+    r'web': PropertySchema(
+      id: 14,
+      name: r'web',
+      type: IsarType.string,
     )
   },
   estimateSize: _pointEstimateSize,
@@ -118,7 +123,7 @@ const PointSchema = CollectionSchema(
         IndexPropertySchema(
           name: r'category',
           type: IndexType.value,
-          caseSensitive: false,
+          caseSensitive: true,
         )
       ],
     ),
@@ -156,6 +161,7 @@ int _pointEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
+  bytesCount += 3 + object.category.name.length * 3;
   {
     final value = object.coverImg;
     if (value != null) {
@@ -170,6 +176,7 @@ int _pointEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
+  bytesCount += 3 + object.locale.name.length * 3;
   {
     final value = object.logoImg;
     if (value != null) {
@@ -177,6 +184,12 @@ int _pointEstimateSize(
     }
   }
   bytesCount += 3 + object.title.length * 3;
+  {
+    final value = object.web;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -187,7 +200,7 @@ void _pointSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.address);
-  writer.writeByte(offsets[1], object.category.index);
+  writer.writeString(offsets[1], object.category.name);
   writer.writeString(offsets[2], object.coverImg);
   writer.writeDateTime(offsets[3], object.createdAt);
   writer.writeString(offsets[4], object.description);
@@ -195,11 +208,12 @@ void _pointSerialize(
   writer.writeString(offsets[6], object.intro);
   writer.writeFloat(offsets[7], object.lat);
   writer.writeFloat(offsets[8], object.lng);
-  writer.writeByte(offsets[9], object.locale.index);
+  writer.writeString(offsets[9], object.locale.name);
   writer.writeString(offsets[10], object.logoImg);
   writer.writeDateTime(offsets[11], object.publishedAt);
   writer.writeString(offsets[12], object.title);
   writer.writeDateTime(offsets[13], object.updatedAt);
+  writer.writeString(offsets[14], object.web);
 }
 
 Point _pointDeserialize(
@@ -210,7 +224,7 @@ Point _pointDeserialize(
 ) {
   final object = Point(
     address: reader.readStringOrNull(offsets[0]),
-    category: _PointcategoryValueEnumMap[reader.readByteOrNull(offsets[1])] ??
+    category: _PointcategoryValueEnumMap[reader.readStringOrNull(offsets[1])] ??
         PointCategory.entertainment,
     coverImg: reader.readStringOrNull(offsets[2]),
     createdAt: reader.readDateTime(offsets[3]),
@@ -219,12 +233,13 @@ Point _pointDeserialize(
     intro: reader.readStringOrNull(offsets[6]),
     lat: reader.readFloat(offsets[7]),
     lng: reader.readFloat(offsets[8]),
-    locale: _PointlocaleValueEnumMap[reader.readByteOrNull(offsets[9])] ??
+    locale: _PointlocaleValueEnumMap[reader.readStringOrNull(offsets[9])] ??
         AppLocale.en,
     logoImg: reader.readStringOrNull(offsets[10]),
     publishedAt: reader.readDateTime(offsets[11]),
     title: reader.readString(offsets[12]),
     updatedAt: reader.readDateTime(offsets[13]),
+    web: reader.readStringOrNull(offsets[14]),
   );
   return object;
 }
@@ -239,7 +254,7 @@ P _pointDeserializeProp<P>(
     case 0:
       return (reader.readStringOrNull(offset)) as P;
     case 1:
-      return (_PointcategoryValueEnumMap[reader.readByteOrNull(offset)] ??
+      return (_PointcategoryValueEnumMap[reader.readStringOrNull(offset)] ??
           PointCategory.entertainment) as P;
     case 2:
       return (reader.readStringOrNull(offset)) as P;
@@ -256,7 +271,7 @@ P _pointDeserializeProp<P>(
     case 8:
       return (reader.readFloat(offset)) as P;
     case 9:
-      return (_PointlocaleValueEnumMap[reader.readByteOrNull(offset)] ??
+      return (_PointlocaleValueEnumMap[reader.readStringOrNull(offset)] ??
           AppLocale.en) as P;
     case 10:
       return (reader.readStringOrNull(offset)) as P;
@@ -266,48 +281,50 @@ P _pointDeserializeProp<P>(
       return (reader.readString(offset)) as P;
     case 13:
       return (reader.readDateTime(offset)) as P;
+    case 14:
+      return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
 
 const _PointcategoryEnumValueMap = {
-  'entertainment': 0,
-  'event': 1,
-  'attraction': 2,
-  'nightMarket': 3,
-  'hypermarket': 4,
-  'beach': 5,
-  'restaurant': 6,
-  'cafe': 7,
-  'marina': 8,
-  'police': 9,
-  'gasStation': 10,
-  'carRental': 11,
-  'hotel': 12,
+  r'entertainment': r'entertainment',
+  r'event': r'event',
+  r'attraction': r'attraction',
+  r'nightMarket': r'nightMarket',
+  r'hypermarket': r'hypermarket',
+  r'beach': r'beach',
+  r'restaurant': r'restaurant',
+  r'cafe': r'cafe',
+  r'marina': r'marina',
+  r'police': r'police',
+  r'gasStation': r'gasStation',
+  r'carRental': r'carRental',
+  r'hotel': r'hotel',
 };
 const _PointcategoryValueEnumMap = {
-  0: PointCategory.entertainment,
-  1: PointCategory.event,
-  2: PointCategory.attraction,
-  3: PointCategory.nightMarket,
-  4: PointCategory.hypermarket,
-  5: PointCategory.beach,
-  6: PointCategory.restaurant,
-  7: PointCategory.cafe,
-  8: PointCategory.marina,
-  9: PointCategory.police,
-  10: PointCategory.gasStation,
-  11: PointCategory.carRental,
-  12: PointCategory.hotel,
+  r'entertainment': PointCategory.entertainment,
+  r'event': PointCategory.event,
+  r'attraction': PointCategory.attraction,
+  r'nightMarket': PointCategory.nightMarket,
+  r'hypermarket': PointCategory.hypermarket,
+  r'beach': PointCategory.beach,
+  r'restaurant': PointCategory.restaurant,
+  r'cafe': PointCategory.cafe,
+  r'marina': PointCategory.marina,
+  r'police': PointCategory.police,
+  r'gasStation': PointCategory.gasStation,
+  r'carRental': PointCategory.carRental,
+  r'hotel': PointCategory.hotel,
 };
 const _PointlocaleEnumValueMap = {
-  'en': 0,
-  'th': 1,
+  r'en': r'en',
+  r'th': r'th',
 };
 const _PointlocaleValueEnumMap = {
-  0: AppLocale.en,
-  1: AppLocale.th,
+  r'en': AppLocale.en,
+  r'th': AppLocale.th,
 };
 
 Id _pointGetId(Point object) {
@@ -695,6 +712,52 @@ extension PointQueryWhere on QueryBuilder<Point, Point, QWhereClause> {
     });
   }
 
+  QueryBuilder<Point, Point, QAfterWhereClause> categoryStartsWith(
+      String CategoryPrefix) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'category',
+        lower: [CategoryPrefix],
+        upper: ['$CategoryPrefix\u{FFFFF}'],
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterWhereClause> categoryIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'category',
+        value: [''],
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterWhereClause> categoryIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.lessThan(
+              indexName: r'category',
+              upper: [''],
+            ))
+            .addWhereClause(IndexWhereClause.greaterThan(
+              indexName: r'category',
+              lower: [''],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.greaterThan(
+              indexName: r'category',
+              lower: [''],
+            ))
+            .addWhereClause(IndexWhereClause.lessThan(
+              indexName: r'category',
+              upper: [''],
+            ));
+      }
+    });
+  }
+
   QueryBuilder<Point, Point, QAfterWhereClause> titleEqualTo(String title) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
@@ -978,11 +1041,14 @@ extension PointQueryFilter on QueryBuilder<Point, Point, QFilterCondition> {
   }
 
   QueryBuilder<Point, Point, QAfterFilterCondition> categoryEqualTo(
-      PointCategory value) {
+    PointCategory value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'category',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
@@ -990,12 +1056,14 @@ extension PointQueryFilter on QueryBuilder<Point, Point, QFilterCondition> {
   QueryBuilder<Point, Point, QAfterFilterCondition> categoryGreaterThan(
     PointCategory value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'category',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
@@ -1003,12 +1071,14 @@ extension PointQueryFilter on QueryBuilder<Point, Point, QFilterCondition> {
   QueryBuilder<Point, Point, QAfterFilterCondition> categoryLessThan(
     PointCategory value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'category',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
@@ -1018,6 +1088,7 @@ extension PointQueryFilter on QueryBuilder<Point, Point, QFilterCondition> {
     PointCategory upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -1026,6 +1097,75 @@ extension PointQueryFilter on QueryBuilder<Point, Point, QFilterCondition> {
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> categoryStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'category',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> categoryEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'category',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> categoryContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'category',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> categoryMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'category',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> categoryIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'category',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> categoryIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'category',
+        value: '',
       ));
     });
   }
@@ -1808,11 +1948,14 @@ extension PointQueryFilter on QueryBuilder<Point, Point, QFilterCondition> {
   }
 
   QueryBuilder<Point, Point, QAfterFilterCondition> localeEqualTo(
-      AppLocale value) {
+    AppLocale value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'locale',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
@@ -1820,12 +1963,14 @@ extension PointQueryFilter on QueryBuilder<Point, Point, QFilterCondition> {
   QueryBuilder<Point, Point, QAfterFilterCondition> localeGreaterThan(
     AppLocale value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'locale',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
@@ -1833,12 +1978,14 @@ extension PointQueryFilter on QueryBuilder<Point, Point, QFilterCondition> {
   QueryBuilder<Point, Point, QAfterFilterCondition> localeLessThan(
     AppLocale value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'locale',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
@@ -1848,6 +1995,7 @@ extension PointQueryFilter on QueryBuilder<Point, Point, QFilterCondition> {
     AppLocale upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -1856,6 +2004,74 @@ extension PointQueryFilter on QueryBuilder<Point, Point, QFilterCondition> {
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> localeStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'locale',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> localeEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'locale',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> localeContains(String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'locale',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> localeMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'locale',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> localeIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'locale',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> localeIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'locale',
+        value: '',
       ));
     });
   }
@@ -2239,6 +2455,150 @@ extension PointQueryFilter on QueryBuilder<Point, Point, QFilterCondition> {
       ));
     });
   }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> webIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'web',
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> webIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'web',
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> webEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'web',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> webGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'web',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> webLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'web',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> webBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'web',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> webStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'web',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> webEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'web',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> webContains(String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'web',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> webMatches(String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'web',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> webIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'web',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterFilterCondition> webIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'web',
+        value: '',
+      ));
+    });
+  }
 }
 
 extension PointQueryObject on QueryBuilder<Point, Point, QFilterCondition> {}
@@ -2411,6 +2771,18 @@ extension PointQuerySortBy on QueryBuilder<Point, Point, QSortBy> {
   QueryBuilder<Point, Point, QAfterSortBy> sortByUpdatedAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'updatedAt', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterSortBy> sortByWeb() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'web', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterSortBy> sortByWebDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'web', Sort.desc);
     });
   }
 }
@@ -2595,6 +2967,18 @@ extension PointQuerySortThenBy on QueryBuilder<Point, Point, QSortThenBy> {
       return query.addSortBy(r'updatedAt', Sort.desc);
     });
   }
+
+  QueryBuilder<Point, Point, QAfterSortBy> thenByWeb() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'web', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Point, Point, QAfterSortBy> thenByWebDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'web', Sort.desc);
+    });
+  }
 }
 
 extension PointQueryWhereDistinct on QueryBuilder<Point, Point, QDistinct> {
@@ -2605,9 +2989,10 @@ extension PointQueryWhereDistinct on QueryBuilder<Point, Point, QDistinct> {
     });
   }
 
-  QueryBuilder<Point, Point, QDistinct> distinctByCategory() {
+  QueryBuilder<Point, Point, QDistinct> distinctByCategory(
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'category');
+      return query.addDistinctBy(r'category', caseSensitive: caseSensitive);
     });
   }
 
@@ -2657,9 +3042,10 @@ extension PointQueryWhereDistinct on QueryBuilder<Point, Point, QDistinct> {
     });
   }
 
-  QueryBuilder<Point, Point, QDistinct> distinctByLocale() {
+  QueryBuilder<Point, Point, QDistinct> distinctByLocale(
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'locale');
+      return query.addDistinctBy(r'locale', caseSensitive: caseSensitive);
     });
   }
 
@@ -2686,6 +3072,13 @@ extension PointQueryWhereDistinct on QueryBuilder<Point, Point, QDistinct> {
   QueryBuilder<Point, Point, QDistinct> distinctByUpdatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'updatedAt');
+    });
+  }
+
+  QueryBuilder<Point, Point, QDistinct> distinctByWeb(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'web', caseSensitive: caseSensitive);
     });
   }
 }
@@ -2778,6 +3171,12 @@ extension PointQueryProperty on QueryBuilder<Point, Point, QQueryProperty> {
   QueryBuilder<Point, DateTime, QQueryOperations> updatedAtProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'updatedAt');
+    });
+  }
+
+  QueryBuilder<Point, String?, QQueryOperations> webProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'web');
     });
   }
 }

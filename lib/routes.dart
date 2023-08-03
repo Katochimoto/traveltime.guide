@@ -9,6 +9,7 @@ import 'package:traveltime/screens/profile/profile_screen.dart';
 import 'package:traveltime/screens/settings/settings_screen.dart';
 import 'package:traveltime/screens/articles/articles_screen.dart';
 import 'package:traveltime/screens/article/article_screen.dart';
+import 'package:traveltime/screens/static/static_screen.dart';
 
 final router = GoRouter(
   initialLocation: '/',
@@ -69,6 +70,11 @@ final router = GoRouter(
           ),
         ),
       ],
+    ),
+    GoRoute(
+      name: Routes.about,
+      path: '/about',
+      builder: (context, state) => StaticScreen(routeName: Routes.about),
     ),
   ],
 );

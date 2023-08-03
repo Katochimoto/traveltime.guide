@@ -133,6 +133,7 @@ class Event {
     this.coverImg,
     this.dtstart, // included
     this.dtend, // not included
+    this.web,
   });
 
   final String id;
@@ -141,10 +142,10 @@ class Event {
 
   final String country;
 
-  @enumerated
+  @Enumerated(EnumType.name)
   final AppLocale locale;
 
-  @enumerated
+  @Enumerated(EnumType.name)
   @Index(type: IndexType.value)
   final EventCategory category;
 
@@ -166,6 +167,7 @@ class Event {
 
   final DateTime? dtstart;
   final DateTime? dtend;
+  final String? web;
 
   @ignore
   Duration? get durationObject =>
@@ -321,6 +323,7 @@ class Event {
       points: List<String>.from(data['points'] ?? []),
       dtstart: data['dtstart'] != null ? DateTime.parse(data['dtstart']) : null,
       dtend: data['dtend'] != null ? DateTime.parse(data['dtend']) : null,
+      web: data['web'],
     );
   }
 

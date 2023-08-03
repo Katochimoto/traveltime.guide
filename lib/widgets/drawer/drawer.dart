@@ -171,10 +171,11 @@ class AppDrawer extends StatelessWidget {
                       //         currentPage == "Getting started" ? true : false),
                       DrawerTile(
                         isSecondary: true,
-                        onTap: _launchURL,
+                        onTap: () {
+                          context.goNamed(Routes.about);
+                        },
                         title: "About",
-                        isSelected:
-                            currentPage == "Getting started" ? true : false,
+                        isSelected: currentPage == Routes.about ? true : false,
                       ),
                       DrawerTile(
                         isSecondary: true,

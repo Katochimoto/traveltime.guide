@@ -50,7 +50,7 @@ const ArticleSchema = CollectionSchema(
     r'locale': PropertySchema(
       id: 6,
       name: r'locale',
-      type: IsarType.byte,
+      type: IsarType.string,
       enumMap: _ArticlelocaleEnumValueMap,
     ),
     r'logoImg': PropertySchema(
@@ -72,6 +72,11 @@ const ArticleSchema = CollectionSchema(
       id: 10,
       name: r'updatedAt',
       type: IsarType.dateTime,
+    ),
+    r'web': PropertySchema(
+      id: 11,
+      name: r'web',
+      type: IsarType.string,
     )
   },
   estimateSize: _articleEstimateSize,
@@ -123,6 +128,7 @@ int _articleEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
+  bytesCount += 3 + object.locale.name.length * 3;
   {
     final value = object.logoImg;
     if (value != null) {
@@ -130,6 +136,12 @@ int _articleEstimateSize(
     }
   }
   bytesCount += 3 + object.title.length * 3;
+  {
+    final value = object.web;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -145,11 +157,12 @@ void _articleSerialize(
   writer.writeString(offsets[3], object.description);
   writer.writeString(offsets[4], object.id);
   writer.writeString(offsets[5], object.intro);
-  writer.writeByte(offsets[6], object.locale.index);
+  writer.writeString(offsets[6], object.locale.name);
   writer.writeString(offsets[7], object.logoImg);
   writer.writeDateTime(offsets[8], object.publishedAt);
   writer.writeString(offsets[9], object.title);
   writer.writeDateTime(offsets[10], object.updatedAt);
+  writer.writeString(offsets[11], object.web);
 }
 
 Article _articleDeserialize(
@@ -165,12 +178,13 @@ Article _articleDeserialize(
     description: reader.readString(offsets[3]),
     id: reader.readString(offsets[4]),
     intro: reader.readStringOrNull(offsets[5]),
-    locale: _ArticlelocaleValueEnumMap[reader.readByteOrNull(offsets[6])] ??
+    locale: _ArticlelocaleValueEnumMap[reader.readStringOrNull(offsets[6])] ??
         AppLocale.en,
     logoImg: reader.readStringOrNull(offsets[7]),
     publishedAt: reader.readDateTime(offsets[8]),
     title: reader.readString(offsets[9]),
     updatedAt: reader.readDateTime(offsets[10]),
+    web: reader.readStringOrNull(offsets[11]),
   );
   return object;
 }
@@ -195,7 +209,7 @@ P _articleDeserializeProp<P>(
     case 5:
       return (reader.readStringOrNull(offset)) as P;
     case 6:
-      return (_ArticlelocaleValueEnumMap[reader.readByteOrNull(offset)] ??
+      return (_ArticlelocaleValueEnumMap[reader.readStringOrNull(offset)] ??
           AppLocale.en) as P;
     case 7:
       return (reader.readStringOrNull(offset)) as P;
@@ -205,18 +219,20 @@ P _articleDeserializeProp<P>(
       return (reader.readString(offset)) as P;
     case 10:
       return (reader.readDateTime(offset)) as P;
+    case 11:
+      return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
 
 const _ArticlelocaleEnumValueMap = {
-  'en': 0,
-  'th': 1,
+  r'en': r'en',
+  r'th': r'th',
 };
 const _ArticlelocaleValueEnumMap = {
-  0: AppLocale.en,
-  1: AppLocale.th,
+  r'en': AppLocale.en,
+  r'th': AppLocale.th,
 };
 
 Id _articleGetId(Article object) {
@@ -1239,11 +1255,14 @@ extension ArticleQueryFilter
   }
 
   QueryBuilder<Article, Article, QAfterFilterCondition> localeEqualTo(
-      AppLocale value) {
+    AppLocale value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'locale',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
@@ -1251,12 +1270,14 @@ extension ArticleQueryFilter
   QueryBuilder<Article, Article, QAfterFilterCondition> localeGreaterThan(
     AppLocale value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'locale',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
@@ -1264,12 +1285,14 @@ extension ArticleQueryFilter
   QueryBuilder<Article, Article, QAfterFilterCondition> localeLessThan(
     AppLocale value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'locale',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
@@ -1279,6 +1302,7 @@ extension ArticleQueryFilter
     AppLocale upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -1287,6 +1311,75 @@ extension ArticleQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> localeStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'locale',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> localeEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'locale',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> localeContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'locale',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> localeMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'locale',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> localeIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'locale',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> localeIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'locale',
+        value: '',
       ));
     });
   }
@@ -1672,6 +1765,152 @@ extension ArticleQueryFilter
       ));
     });
   }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> webIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'web',
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> webIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'web',
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> webEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'web',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> webGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'web',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> webLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'web',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> webBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'web',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> webStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'web',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> webEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'web',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> webContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'web',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> webMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'web',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> webIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'web',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> webIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'web',
+        value: '',
+      ));
+    });
+  }
 }
 
 extension ArticleQueryObject
@@ -1810,6 +2049,18 @@ extension ArticleQuerySortBy on QueryBuilder<Article, Article, QSortBy> {
   QueryBuilder<Article, Article, QAfterSortBy> sortByUpdatedAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'updatedAt', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterSortBy> sortByWeb() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'web', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterSortBy> sortByWebDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'web', Sort.desc);
     });
   }
 }
@@ -1959,6 +2210,18 @@ extension ArticleQuerySortThenBy
       return query.addSortBy(r'updatedAt', Sort.desc);
     });
   }
+
+  QueryBuilder<Article, Article, QAfterSortBy> thenByWeb() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'web', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterSortBy> thenByWebDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'web', Sort.desc);
+    });
+  }
 }
 
 extension ArticleQueryWhereDistinct
@@ -2004,9 +2267,10 @@ extension ArticleQueryWhereDistinct
     });
   }
 
-  QueryBuilder<Article, Article, QDistinct> distinctByLocale() {
+  QueryBuilder<Article, Article, QDistinct> distinctByLocale(
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'locale');
+      return query.addDistinctBy(r'locale', caseSensitive: caseSensitive);
     });
   }
 
@@ -2033,6 +2297,13 @@ extension ArticleQueryWhereDistinct
   QueryBuilder<Article, Article, QDistinct> distinctByUpdatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'updatedAt');
+    });
+  }
+
+  QueryBuilder<Article, Article, QDistinct> distinctByWeb(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'web', caseSensitive: caseSensitive);
     });
   }
 }
@@ -2108,6 +2379,12 @@ extension ArticleQueryProperty
   QueryBuilder<Article, DateTime, QQueryOperations> updatedAtProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'updatedAt');
+    });
+  }
+
+  QueryBuilder<Article, String?, QQueryOperations> webProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'web');
     });
   }
 }

@@ -30,7 +30,7 @@ const UserBookmarkSchema = CollectionSchema(
     r'type': PropertySchema(
       id: 2,
       name: r'type',
-      type: IsarType.byte,
+      type: IsarType.string,
       enumMap: _UserBookmarktypeEnumValueMap,
     )
   },
@@ -49,7 +49,7 @@ const UserBookmarkSchema = CollectionSchema(
         IndexPropertySchema(
           name: r'type',
           type: IndexType.value,
-          caseSensitive: false,
+          caseSensitive: true,
         )
       ],
     ),
@@ -66,8 +66,8 @@ const UserBookmarkSchema = CollectionSchema(
         ),
         IndexPropertySchema(
           name: r'type',
-          type: IndexType.value,
-          caseSensitive: false,
+          type: IndexType.hash,
+          caseSensitive: true,
         )
       ],
     )
@@ -88,6 +88,7 @@ int _userBookmarkEstimateSize(
   var bytesCount = offsets.last;
   bytesCount += 3 + object.id.length * 3;
   bytesCount += 3 + object.objectId.length * 3;
+  bytesCount += 3 + object.type.name.length * 3;
   return bytesCount;
 }
 
@@ -99,7 +100,7 @@ void _userBookmarkSerialize(
 ) {
   writer.writeString(offsets[0], object.id);
   writer.writeString(offsets[1], object.objectId);
-  writer.writeByte(offsets[2], object.type.index);
+  writer.writeString(offsets[2], object.type.name);
 }
 
 UserBookmark _userBookmarkDeserialize(
@@ -111,7 +112,7 @@ UserBookmark _userBookmarkDeserialize(
   final object = UserBookmark(
     id: reader.readString(offsets[0]),
     objectId: reader.readString(offsets[1]),
-    type: _UserBookmarktypeValueEnumMap[reader.readByteOrNull(offsets[2])] ??
+    type: _UserBookmarktypeValueEnumMap[reader.readStringOrNull(offsets[2])] ??
         UserBookmarkType.point,
   );
   return object;
@@ -129,7 +130,7 @@ P _userBookmarkDeserializeProp<P>(
     case 1:
       return (reader.readString(offset)) as P;
     case 2:
-      return (_UserBookmarktypeValueEnumMap[reader.readByteOrNull(offset)] ??
+      return (_UserBookmarktypeValueEnumMap[reader.readStringOrNull(offset)] ??
           UserBookmarkType.point) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -137,14 +138,14 @@ P _userBookmarkDeserializeProp<P>(
 }
 
 const _UserBookmarktypeEnumValueMap = {
-  'point': 0,
-  'route': 1,
-  'article': 2,
+  r'point': r'point',
+  r'route': r'route',
+  r'article': r'article',
 };
 const _UserBookmarktypeValueEnumMap = {
-  0: UserBookmarkType.point,
-  1: UserBookmarkType.route,
-  2: UserBookmarkType.article,
+  r'point': UserBookmarkType.point,
+  r'route': UserBookmarkType.route,
+  r'article': UserBookmarkType.article,
 };
 
 Id _userBookmarkGetId(UserBookmark object) {
@@ -424,6 +425,52 @@ extension UserBookmarkQueryWhere
     });
   }
 
+  QueryBuilder<UserBookmark, UserBookmark, QAfterWhereClause> typeStartsWith(
+      String TypePrefix) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'type',
+        lower: [TypePrefix],
+        upper: ['$TypePrefix\u{FFFFF}'],
+      ));
+    });
+  }
+
+  QueryBuilder<UserBookmark, UserBookmark, QAfterWhereClause> typeIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'type',
+        value: [''],
+      ));
+    });
+  }
+
+  QueryBuilder<UserBookmark, UserBookmark, QAfterWhereClause> typeIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.lessThan(
+              indexName: r'type',
+              upper: [''],
+            ))
+            .addWhereClause(IndexWhereClause.greaterThan(
+              indexName: r'type',
+              lower: [''],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.greaterThan(
+              indexName: r'type',
+              lower: [''],
+            ))
+            .addWhereClause(IndexWhereClause.lessThan(
+              indexName: r'type',
+              upper: [''],
+            ));
+      }
+    });
+  }
+
   QueryBuilder<UserBookmark, UserBookmark, QAfterWhereClause>
       objectIdEqualToAnyType(String objectId) {
     return QueryBuilder.apply(this, (query) {
@@ -511,57 +558,6 @@ extension UserBookmarkQueryWhere
               includeUpper: false,
             ));
       }
-    });
-  }
-
-  QueryBuilder<UserBookmark, UserBookmark, QAfterWhereClause>
-      objectIdEqualToTypeGreaterThan(
-    String objectId,
-    UserBookmarkType type, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'objectId_type',
-        lower: [objectId, type],
-        includeLower: include,
-        upper: [objectId],
-      ));
-    });
-  }
-
-  QueryBuilder<UserBookmark, UserBookmark, QAfterWhereClause>
-      objectIdEqualToTypeLessThan(
-    String objectId,
-    UserBookmarkType type, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'objectId_type',
-        lower: [objectId],
-        upper: [objectId, type],
-        includeUpper: include,
-      ));
-    });
-  }
-
-  QueryBuilder<UserBookmark, UserBookmark, QAfterWhereClause>
-      objectIdEqualToTypeBetween(
-    String objectId,
-    UserBookmarkType lowerType,
-    UserBookmarkType upperType, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'objectId_type',
-        lower: [objectId, lowerType],
-        includeLower: includeLower,
-        upper: [objectId, upperType],
-        includeUpper: includeUpper,
-      ));
     });
   }
 }
@@ -891,11 +887,14 @@ extension UserBookmarkQueryFilter
   }
 
   QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition> typeEqualTo(
-      UserBookmarkType value) {
+    UserBookmarkType value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'type',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
@@ -904,12 +903,14 @@ extension UserBookmarkQueryFilter
       typeGreaterThan(
     UserBookmarkType value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'type',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
@@ -917,12 +918,14 @@ extension UserBookmarkQueryFilter
   QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition> typeLessThan(
     UserBookmarkType value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'type',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
@@ -932,6 +935,7 @@ extension UserBookmarkQueryFilter
     UserBookmarkType upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -940,6 +944,78 @@ extension UserBookmarkQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition>
+      typeStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'type',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition> typeEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'type',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition> typeContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'type',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition> typeMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'type',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition>
+      typeIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'type',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<UserBookmark, UserBookmark, QAfterFilterCondition>
+      typeIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'type',
+        value: '',
       ));
     });
   }
@@ -1057,9 +1133,10 @@ extension UserBookmarkQueryWhereDistinct
     });
   }
 
-  QueryBuilder<UserBookmark, UserBookmark, QDistinct> distinctByType() {
+  QueryBuilder<UserBookmark, UserBookmark, QDistinct> distinctByType(
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'type');
+      return query.addDistinctBy(r'type', caseSensitive: caseSensitive);
     });
   }
 }

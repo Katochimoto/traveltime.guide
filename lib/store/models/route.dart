@@ -21,6 +21,7 @@ class Route implements MapObject {
     this.intro,
     this.logoImg,
     this.coverImg,
+    this.web,
   });
 
   @Index(unique: true, type: IndexType.value)
@@ -29,7 +30,7 @@ class Route implements MapObject {
   @override
   Id get isarId => fastHash(id);
 
-  @enumerated
+  @Enumerated(EnumType.name)
   final AppLocale locale;
 
   final DateTime createdAt;
@@ -43,6 +44,7 @@ class Route implements MapObject {
   final List<float> latlngBounds;
   final String? logoImg;
   final String? coverImg;
+  final String? web;
 
   @override
   @ignore
@@ -66,6 +68,7 @@ class Route implements MapObject {
           .toList(growable: false),
       logoImg: data['logoImg'],
       coverImg: data['coverImg'],
+      web: data['web'],
     );
   }
 
