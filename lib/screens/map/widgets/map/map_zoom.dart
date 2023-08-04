@@ -22,6 +22,8 @@ class MapZoomState extends ConsumerState<MapZoom> {
     widget.mc.fitBounds(
       _bounds!,
       options: const FitBoundsOptions(
+        maxZoom: 18,
+        forceIntegerZoomLevel: true,
         padding: EdgeInsets.only(
           left: 40,
           right: 40,
