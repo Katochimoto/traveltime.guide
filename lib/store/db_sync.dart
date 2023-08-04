@@ -150,6 +150,7 @@ class DbSync extends AsyncNotifier<DBSyncState> {
             models.RouteLeg.fromJsonList,
             'routeLegs'
           ],
+          [_db.collection<models.Page>(), models.Page.fromJsonList, 'pages'],
         ];
 
         for (final syncItem in syncList) {

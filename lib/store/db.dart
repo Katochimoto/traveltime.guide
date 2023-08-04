@@ -24,6 +24,7 @@ class Db extends AsyncNotifier<Isar> {
           models.RouteSchema,
           models.RouteWaypointSchema,
           models.RouteLegSchema,
+          models.PageSchema,
         ],
         name: name,
         directory: dir.path,
@@ -347,5 +348,15 @@ final mapObjectsProvider =
     yield points;
   } else {
     yield [...points, ...routes];
+  }
+});
+
+final pageProvider = StreamProvider.autoDispose
+    .family<models.Page?, models.PageType>((ref, type) async* {
+  final db = await ref.watch(dbProvider.future);
+  final query = db.collection<models.Page>().filter().typeEqualTo(type).build();
+
+  await for (final results in query.watch(fireImmediately: true)) {
+    yield results.first;
   }
 });

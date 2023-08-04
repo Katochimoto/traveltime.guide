@@ -10,6 +10,7 @@ import 'package:traveltime/screens/settings/settings_screen.dart';
 import 'package:traveltime/screens/articles/articles_screen.dart';
 import 'package:traveltime/screens/article/article_screen.dart';
 import 'package:traveltime/screens/static/static_screen.dart';
+import 'package:traveltime/store/models.dart' as models;
 
 final router = GoRouter(
   initialLocation: '/',
@@ -74,7 +75,34 @@ final router = GoRouter(
     GoRoute(
       name: Routes.about,
       path: '/about',
-      builder: (context, state) => StaticScreen(routeName: Routes.about),
+      builder: (context, state) => const StaticScreen(
+        routeName: Routes.about,
+        type: models.PageType.about,
+      ),
+    ),
+    GoRoute(
+      name: Routes.disclaimer,
+      path: '/disclaimer',
+      builder: (context, state) => const StaticScreen(
+        routeName: Routes.disclaimer,
+        type: models.PageType.disclaimer,
+      ),
+    ),
+    GoRoute(
+      name: Routes.policy,
+      path: '/policy',
+      builder: (context, state) => const StaticScreen(
+        routeName: Routes.policy,
+        type: models.PageType.policy,
+      ),
+    ),
+    GoRoute(
+      name: Routes.terms,
+      path: '/terms',
+      builder: (context, state) => const StaticScreen(
+        routeName: Routes.terms,
+        type: models.PageType.terms,
+      ),
     ),
   ],
 );

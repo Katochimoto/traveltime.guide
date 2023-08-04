@@ -39,9 +39,7 @@ class PageLayout extends StatelessWidget {
         slivers: [
           SliverFillRemaining(
             hasScrollBody: false,
-            child: Center(
-              child: PageLayoutContent(child: child),
-            ),
+            child: Center(child: PageLayoutContent(child: child)),
           ),
         ],
       );

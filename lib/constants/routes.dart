@@ -10,4 +10,7 @@ class Routes {
   static const String events = 'events';
   static const String event = 'event';
   static const String about = 'about';
+  static const String disclaimer = 'disclaimer';
+  static const String policy = 'policy';
+  static const String terms = 'terms';
 }

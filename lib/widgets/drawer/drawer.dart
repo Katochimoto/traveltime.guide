@@ -179,24 +179,28 @@ class AppDrawer extends StatelessWidget {
                       ),
                       DrawerTile(
                         isSecondary: true,
-                        onTap: _launchURL,
+                        onTap: () {
+                          context.goNamed(Routes.disclaimer);
+                        },
                         title: "Disclaimer",
                         isSelected:
-                            currentPage == "Getting started" ? true : false,
+                            currentPage == Routes.disclaimer ? true : false,
                       ),
                       DrawerTile(
                         isSecondary: true,
-                        onTap: _launchURL,
+                        onTap: () {
+                          context.goNamed(Routes.policy);
+                        },
                         title: "Privacy Policy",
-                        isSelected:
-                            currentPage == "Getting started" ? true : false,
+                        isSelected: currentPage == Routes.policy ? true : false,
                       ),
                       DrawerTile(
                         isSecondary: true,
-                        onTap: _launchURL,
+                        onTap: () {
+                          context.goNamed(Routes.terms);
+                        },
                         title: "Terms and Conditions",
-                        isSelected:
-                            currentPage == "Getting started" ? true : false,
+                        isSelected: currentPage == Routes.terms ? true : false,
                       ),
                     ],
                   ),
