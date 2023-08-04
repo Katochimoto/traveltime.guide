@@ -83,7 +83,7 @@ class SettingsScreen extends StatelessWidget {
 
   Widget _content(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const SizedBox(height: UIGap.g4),
         Text(
@@ -113,30 +113,7 @@ class SettingsScreen extends StatelessWidget {
         //     onTap: () {
         //       Navigator.pushNamed(context, '/components');
         //     }),
-        const SizedBox(height: UIGap.g5),
-        Text(
-          "Privacy Settings",
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
-        Text(
-          "Third most important settings",
-          style: Theme.of(context).textTheme.titleSmall,
-        ),
-        TableCellSettings(
-            title: "User Agreement",
-            onTap: () {
-              Navigator.pushNamed(context, '/components');
-            }),
-        TableCellSettings(
-            title: "Privacy",
-            onTap: () {
-              Navigator.pushNamed(context, '/components');
-            }),
-        TableCellSettings(
-            title: "About",
-            onTap: () {
-              Navigator.pushNamed(context, '/components');
-            }),
+
         const SizedBox(height: UIGap.g5),
         Text(
           "Local Data",
@@ -147,17 +124,7 @@ class SettingsScreen extends StatelessWidget {
           style: Theme.of(context).textTheme.titleSmall,
         ),
         const SizedBox(height: UIGap.g2),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-                child: Text("Reset local data and sync again",
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.labelLarge)),
-            const ResetLocalData(),
-          ],
-        ),
+        const ResetLocalData(),
       ],
     );
   }
