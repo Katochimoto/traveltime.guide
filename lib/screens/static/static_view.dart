@@ -22,14 +22,10 @@ class StaticView extends ConsumerWidget {
               ? const NotFound()
               : PageLayout(
                   scroll: false,
-                  child: Padding(
+                  child: ListView(
                     padding: const EdgeInsets.symmetric(vertical: UIGap.g2),
-                    child: ListView(
-                      physics: const BouncingScrollPhysics(),
-                      children: [
-                        MarkdownBody(data: data.content),
-                      ],
-                    ),
+                    physics: const BouncingScrollPhysics(),
+                    children: [MarkdownBody(data: data.content)],
                   ),
                 ),
           error: (error, stackTrace) => const NotFound(),

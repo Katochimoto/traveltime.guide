@@ -24,5 +24,9 @@
 	"eventsTitle": "เหตุการณ์ที่เกิดขึ้น",
 	"location": "ที่ตั้ง",
 	"bookmarks": "ที่คั่น",
-	"routes": "เส้นทาง"
+	"routes": "เส้นทาง",
+	"aboutTitle": "",
+	"disclaimerTitle": "",
+	"policyTitle": "",
+	"termsTitle": ""
 }

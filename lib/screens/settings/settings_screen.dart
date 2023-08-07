@@ -8,7 +8,6 @@ import 'package:traveltime/store/db_sync.dart';
 import 'package:traveltime/providers/app_auth.dart';
 import 'package:traveltime/widgets/navbar/navbar.dart';
 import 'package:traveltime/widgets/page_layout.dart';
-import 'package:traveltime/widgets/table_cell.dart';
 import 'package:traveltime/widgets/drawer/drawer.dart';
 
 class ResetLocalData extends ConsumerWidget {

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/plugin_api.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:traveltime/providers/map_fit.dart';
 import 'package:traveltime/screens/map/map_markers_navbar.dart';
 import 'package:traveltime/screens/map/markers.dart';
 import 'package:traveltime/providers/overview/overview.dart';
@@ -47,11 +48,13 @@ class MapScreenPanel extends ConsumerWidget {
                   : StatefulWrapper(
                       onInit: () {
                         pc.open();
-                        mc.fitBounds(overview.object.bounds);
+                        ref.read(mapFitProvider.notifier).fitBounds(
+                            MapFitData(bounds: overview.object.bounds));
                       },
                       onUpdate: () {
                         pc.open();
-                        mc.fitBounds(overview.object.bounds);
+                        ref.read(mapFitProvider.notifier).fitBounds(
+                            MapFitData(bounds: overview.object.bounds));
                       },
                       child: overview.object is models.Point
                           ? OverviewPoint(sc: sc, id: overview.object.isarId)

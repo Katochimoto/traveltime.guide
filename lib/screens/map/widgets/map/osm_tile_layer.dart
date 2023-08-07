@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_map/plugin_api.dart';
 
 class OSMTileLayer extends StatelessWidget {
   const OSMTileLayer({super.key});

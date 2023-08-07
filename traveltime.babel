@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<babeledit_project be_version="4.1.0" version="1.3">
+<babeledit_project be_version="5.0.0" version="1.3">
 	<!--
 
     BabelEdit project file
@@ -20,10 +20,24 @@
 				<name>main</name>
 				<children>
 					<concept_node>
+						<name>aboutTitle</name>
+						<description/>
+						<comment/>
+						<translations>
+							<translation>
+								<language>en-US</language>
+								<approved>false</approved>
+							</translation>
+							<translation>
+								<language>th-TH</language>
+								<approved>false</approved>
+							</translation>
+						</translations>
+					</concept_node>
+					<concept_node>
 						<name>appSubtitle</name>
 						<description/>
 						<comment/>
-						<default_text/>
 						<translations>
 							<translation>
 								<language>en-US</language>
@@ -39,7 +53,6 @@
 						<name>appTitle</name>
 						<description/>
 						<comment/>
-						<default_text/>
 						<translations>
 							<translation>
 								<language>en-US</language>
@@ -55,7 +68,6 @@
 						<name>articlesTitle</name>
 						<description/>
 						<comment/>
-						<default_text/>
 						<translations>
 							<translation>
 								<language>en-US</language>
@@ -71,7 +83,21 @@
 						<name>bookmarks</name>
 						<description/>
 						<comment/>
-						<default_text/>
+						<translations>
+							<translation>
+								<language>en-US</language>
+								<approved>false</approved>
+							</translation>
+							<translation>
+								<language>th-TH</language>
+								<approved>false</approved>
+							</translation>
+						</translations>
+					</concept_node>
+					<concept_node>
+						<name>disclaimerTitle</name>
+						<description/>
+						<comment/>
 						<translations>
 							<translation>
 								<language>en-US</language>
@@ -87,7 +113,6 @@
 						<name>discoverTitle</name>
 						<description/>
 						<comment/>
-						<default_text/>
 						<translations>
 							<translation>
 								<language>en-US</language>
@@ -103,7 +128,6 @@
 						<name>eventsTitle</name>
 						<description/>
 						<comment/>
-						<default_text/>
 						<translations>
 							<translation>
 								<language>en-US</language>
@@ -119,7 +143,6 @@
 						<name>getStarted</name>
 						<description/>
 						<comment/>
-						<default_text/>
 						<translations>
 							<translation>
 								<language>en-US</language>
@@ -135,7 +158,6 @@
 						<name>helloWorld</name>
 						<description/>
 						<comment>The conventional newborn programmer greeting</comment>
-						<default_text/>
 						<translations>
 							<translation>
 								<language>en-US</language>
@@ -151,7 +173,6 @@
 						<name>location</name>
 						<description/>
 						<comment/>
-						<default_text/>
 						<translations>
 							<translation>
 								<language>en-US</language>
@@ -167,7 +188,6 @@
 						<name>pointCategoryAttraction</name>
 						<description/>
 						<comment/>
-						<default_text/>
 						<translations>
 							<translation>
 								<language>en-US</language>
@@ -183,7 +203,6 @@
 						<name>pointCategoryBeach</name>
 						<description/>
 						<comment/>
-						<default_text/>
 						<translations>
 							<translation>
 								<language>en-US</language>
@@ -199,7 +218,6 @@
 						<name>pointCategoryCafe</name>
 						<description/>
 						<comment/>
-						<default_text/>
 						<translations>
 							<translation>
 								<language>en-US</language>
@@ -215,7 +233,6 @@
 						<name>pointCategoryCarRental</name>
 						<description/>
 						<comment/>
-						<default_text/>
 						<translations>
 							<translation>
 								<language>en-US</language>
@@ -231,7 +248,6 @@
 						<name>pointCategoryEntertainment</name>
 						<description/>
 						<comment/>
-						<default_text/>
 						<translations>
 							<translation>
 								<language>en-US</language>
@@ -247,7 +263,6 @@
 						<name>pointCategoryEvents</name>
 						<description/>
 						<comment/>
-						<default_text/>
 						<translations>
 							<translation>
 								<language>en-US</language>
@@ -263,7 +278,6 @@
 						<name>pointCategoryGasStation</name>
 						<description/>
 						<comment/>
-						<default_text/>
 						<translations>
 							<translation>
 								<language>en-US</language>
@@ -279,7 +293,6 @@
 						<name>pointCategoryHotel</name>
 						<description/>
 						<comment/>
-						<default_text/>
 						<translations>
 							<translation>
 								<language>en-US</language>
@@ -295,7 +308,6 @@
 						<name>pointCategoryHypermarket</name>
 						<description/>
 						<comment/>
-						<default_text/>
 						<translations>
 							<translation>
 								<language>en-US</language>
@@ -311,7 +323,6 @@
 						<name>pointCategoryMarina</name>
 						<description/>
 						<comment/>
-						<default_text/>
 						<translations>
 							<translation>
 								<language>en-US</language>
@@ -327,7 +338,6 @@
 						<name>pointCategoryNightMarket</name>
 						<description/>
 						<comment/>
-						<default_text/>
 						<translations>
 							<translation>
 								<language>en-US</language>
@@ -343,7 +353,6 @@
 						<name>pointCategoryPolice</name>
 						<description/>
 						<comment/>
-						<default_text/>
 						<translations>
 							<translation>
 								<language>en-US</language>
@@ -359,7 +368,21 @@
 						<name>pointCategoryRestaurant</name>
 						<description/>
 						<comment/>
-						<default_text/>
+						<translations>
+							<translation>
+								<language>en-US</language>
+								<approved>false</approved>
+							</translation>
+							<translation>
+								<language>th-TH</language>
+								<approved>false</approved>
+							</translation>
+						</translations>
+					</concept_node>
+					<concept_node>
+						<name>policyTitle</name>
+						<description/>
+						<comment/>
 						<translations>
 							<translation>
 								<language>en-US</language>
@@ -375,7 +398,6 @@
 						<name>routes</name>
 						<description/>
 						<comment/>
-						<default_text/>
 						<translations>
 							<translation>
 								<language>en-US</language>
@@ -391,7 +413,6 @@
 						<name>settingsResetLocalData</name>
 						<description/>
 						<comment/>
-						<default_text/>
 						<translations>
 							<translation>
 								<language>en-US</language>
@@ -407,7 +428,21 @@
 						<name>settingsTitle</name>
 						<description/>
 						<comment/>
-						<default_text/>
+						<translations>
+							<translation>
+								<language>en-US</language>
+								<approved>false</approved>
+							</translation>
+							<translation>
+								<language>th-TH</language>
+								<approved>false</approved>
+							</translation>
+						</translations>
+					</concept_node>
+					<concept_node>
+						<name>termsTitle</name>
+						<description/>
+						<comment/>
 						<translations>
 							<translation>
 								<language>en-US</language>

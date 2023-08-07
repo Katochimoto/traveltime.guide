@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_map/plugin_api.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:traveltime/providers/map_fit.dart';
 import 'package:traveltime/providers/map_objects_filters.dart';
 import 'package:traveltime/store/db.dart';
 
@@ -32,6 +33,9 @@ class MapZoomState extends ConsumerState<MapZoom> {
         ),
       ),
     );
+    // to force upload tiles
+    widget.mc.rotate(0.001);
+    widget.mc.rotate(0.0);
   }
 
   @override
@@ -50,6 +54,14 @@ class MapZoomState extends ConsumerState<MapZoom> {
           LatLngBounds.fromPoints(points.map((e) => e.coordinates).toList());
       _zoomCompleter?.complete();
     }, fireImmediately: true);
+
+    ref.listen(mapFitProvider, (previous, next) {
+      if (next != null) {
+        _zoomCompleter = null;
+        _bounds = next.bounds;
+        _fitBounds();
+      }
+    });
 
     return const SizedBox.shrink();
   }

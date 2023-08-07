@@ -27,5 +27,9 @@
 	"eventsTitle": "Events",
 	"location": "Location",
 	"bookmarks": "Bookmarks",
-	"routes": "Routes"
+	"routes": "Routes",
+	"aboutTitle": "About",
+	"disclaimerTitle": "Disclaimer",
+	"policyTitle": "Privacy Policy",
+	"termsTitle": "Terms and Conditions"
 }

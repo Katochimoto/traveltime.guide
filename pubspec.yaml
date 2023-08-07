@@ -76,7 +76,7 @@ dependencies:
   async: ^2.11.0
   timelines: ^0.1.0
   package_info_plus: ^4.0.2
-  logger: ^1.4.0
+  logger: ^2.0.1
   collection: ^1.17.1
 
 dev_dependencies:
