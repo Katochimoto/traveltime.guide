@@ -183,16 +183,14 @@ class OverviewRouteContent extends StatelessWidget {
         ),
         Flexible(
           flex: 3,
-          child: Padding(
+          child: ListView(
+            controller: sc,
             padding: const EdgeInsets.all(UIGap.g3),
-            child: ListView(
-              controller: sc,
-              physics: const BouncingScrollPhysics(),
-              children: [
-                MarkdownBody(data: route.description),
-                _RouteWaypoints(route: route),
-              ],
-            ),
+            physics: const BouncingScrollPhysics(),
+            children: [
+              MarkdownBody(data: route.description),
+              _RouteWaypoints(route: route),
+            ],
           ),
         ),
       ],

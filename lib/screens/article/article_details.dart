@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:traveltime/constants/theme.dart';
-import 'package:traveltime/store/models/article.dart';
+import 'package:traveltime/store/models.dart' as models;
 import 'package:traveltime/widgets/page_layout.dart';
 
 class ArticleDetails extends StatelessWidget {
-  final Article article;
-
   const ArticleDetails({super.key, required this.article});
+
+  final models.Article article;
 
   @override
   Widget build(BuildContext context) {

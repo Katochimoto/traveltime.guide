@@ -3,22 +3,12 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:traveltime/constants/routes.dart';
 import 'package:traveltime/widgets/drawer/app_details.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:traveltime/widgets/drawer/drawer_tile.dart';
 
 class AppDrawer extends StatelessWidget {
-  final String currentPage;
-
   const AppDrawer({super.key, required this.currentPage});
 
-  _launchURL() async {
-    final url = Uri.parse('https://creative-tim.com');
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
+  final String currentPage;
 
   @override
   Widget build(BuildContext context) {
@@ -68,12 +58,12 @@ class AppDrawer extends StatelessWidget {
                     physics: const BouncingScrollPhysics(),
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     children: [
-                      DrawerTile(
-                          icon: Icons.login,
-                          onTap: _launchURL,
-                          title: "Login",
-                          isSelected:
-                              currentPage == "Getting started" ? true : false),
+                      // DrawerTile(
+                      //     icon: Icons.login,
+                      //     onTap: _launchURL,
+                      //     title: "Login",
+                      //     isSelected:
+                      //         currentPage == "Getting started" ? true : false),
                       Row(
                         children: [
                           Flexible(
@@ -88,7 +78,7 @@ class AppDrawer extends StatelessWidget {
                                       : false)),
                           DrawerTile(
                               icon: Icons.logout,
-                              onTap: _launchURL,
+                              onTap: () {},
                               isSelected: currentPage == "Getting started"
                                   ? true
                                   : false),

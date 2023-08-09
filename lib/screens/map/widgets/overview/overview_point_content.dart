@@ -3,8 +3,10 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:traveltime/constants/theme.dart';
 import 'package:traveltime/screens/map/widgets/overview/overview_bookmark.dart';
 import 'package:traveltime/screens/map/widgets/overview/overview_openapp.dart';
+import 'package:traveltime/screens/map/widgets/overview/overview_web.dart';
 import 'package:traveltime/screens/map/widgets/overview/point_events.dart';
 import 'package:traveltime/store/models.dart' as models;
+import 'package:traveltime/utils/url_launch.dart';
 
 class OverviewPointContent extends StatelessWidget {
   const OverviewPointContent({super.key, this.sc, required this.point});
@@ -71,6 +73,7 @@ class OverviewPointContent extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisSize: MainAxisSize.max,
                         children: [
+                          if (point.web != null) OverviewWeb(point: point),
                           OverviewOpenapp(point: point),
                           OverviewBookmark(point: point),
                           // OverviewVisited(point: point),
@@ -85,19 +88,20 @@ class OverviewPointContent extends StatelessWidget {
         ),
         Flexible(
           flex: 3,
-          child: Padding(
+          child: ListView(
+            controller: sc,
             padding: const EdgeInsets.all(UIGap.g3),
-            child: ListView(
-              controller: sc,
-              physics: const BouncingScrollPhysics(),
-              children: <Widget>[
-                MarkdownBody(data: point.description),
-                PointEvents(
-                  point: point,
-                  padding: const EdgeInsets.symmetric(vertical: UIGap.g2),
-                ),
-              ],
-            ),
+            physics: const BouncingScrollPhysics(),
+            children: <Widget>[
+              MarkdownBody(
+                data: point.description,
+                onTapLink: (text, href, title) => urlLaunch(href),
+              ),
+              PointEvents(
+                point: point,
+                padding: const EdgeInsets.symmetric(vertical: UIGap.g2),
+              ),
+            ],
           ),
         ),
       ],

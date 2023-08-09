@@ -11,6 +11,7 @@ import 'package:traveltime/screens/articles/articles_screen.dart';
 import 'package:traveltime/screens/article/article_screen.dart';
 import 'package:traveltime/screens/static/static_screen.dart';
 import 'package:traveltime/store/models.dart' as models;
+import 'package:traveltime/utils/extra_nav_params.dart';
 
 final router = GoRouter(
   initialLocation: '/',
@@ -54,7 +55,9 @@ final router = GoRouter(
     GoRoute(
       name: Routes.map,
       path: '/map',
-      builder: (context, state) => MapScreen(),
+      builder: (context, state) => MapScreen(
+        onBack: (state.extra as ExtraNavParams?)?.onBack,
+      ),
     ),
     GoRoute(
       name: Routes.events,
@@ -68,6 +71,7 @@ final router = GoRouter(
             id: int.parse(state.pathParameters['id']!),
             date:
                 DateTime.tryParse(state.uri.queryParameters['date'].toString()),
+            onBack: (state.extra as ExtraNavParams?)?.onBack,
           ),
         ),
       ],

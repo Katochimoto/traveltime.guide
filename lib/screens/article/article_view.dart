@@ -5,9 +5,9 @@ import 'package:traveltime/store/db.dart';
 import 'package:traveltime/widgets/not_found.dart';
 
 class ArticleView extends ConsumerWidget {
-  final int id;
-
   const ArticleView({super.key, required this.id});
+
+  final int id;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

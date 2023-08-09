@@ -7,13 +7,16 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? categories;
   final Widget? search;
   final bool isTransparent;
+  final VoidCallback? onBack;
 
-  const Navbar(
-      {super.key,
-      this.title,
-      this.categories,
-      this.search,
-      this.isTransparent = false});
+  const Navbar({
+    super.key,
+    this.title,
+    this.categories,
+    this.search,
+    this.onBack,
+    this.isTransparent = false,
+  });
 
   @override
   Size get preferredSize => Size.fromHeight(UINavbar.hMenu +
@@ -24,7 +27,6 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final safePadding = MediaQuery.of(context).padding.top;
-    final navigator = Navigator.of(context);
     final scaffold = Scaffold.of(context);
     return Container(
         height: preferredSize.height + safePadding,
@@ -55,14 +57,10 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                       alignment: Alignment.centerLeft,
                       child: _iconButton(
                         context,
-                        onPressed: context.canPop()
-                            ? () async {
-                                if (!await navigator.maybePop()) {
-                                  scaffold.openDrawer();
-                                }
-                              }
+                        onPressed: onBack != null
+                            ? () => onBack!()
                             : () => scaffold.openDrawer(),
-                        icon: context.canPop() ? Icons.arrow_back : Icons.menu,
+                        icon: onBack != null ? Icons.arrow_back : Icons.menu,
                       ),
                     ),
                     Align(

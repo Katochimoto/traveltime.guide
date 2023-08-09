@@ -8,10 +8,9 @@ import 'package:traveltime/screens/map/markers.dart';
 import 'package:traveltime/providers/overview/overview.dart';
 import 'package:traveltime/screens/map/widgets/overview/overview_point.dart';
 import 'package:traveltime/screens/map/widgets/overview/overview_route.dart';
-import 'package:traveltime/widgets/stateful_wrapper.dart';
 import 'package:traveltime/store/models.dart' as models;
 
-class MapScreenPanel extends ConsumerWidget {
+class MapScreenPanel extends ConsumerStatefulWidget {
   const MapScreenPanel({
     super.key,
     required this.sc,
@@ -24,7 +23,35 @@ class MapScreenPanel extends ConsumerWidget {
   final MapController mc;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MapScreenPanel> createState() => MapScreenPanelState();
+}
+
+class MapScreenPanelState extends ConsumerState<MapScreenPanel> {
+  @override
+  void initState() {
+    ref.listenManual(
+      overviewProvider,
+      (previous, next) {
+        if (next != null) {
+          widget.pc.open();
+          ref
+              .read(mapFitProvider.notifier)
+              .fitBounds(MapFitData(bounds: next.object.bounds));
+        }
+      },
+      fireImmediately: true,
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    ref.invalidate(overviewProvider);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final overview = ref.watch(overviewProvider);
     return MediaQuery.removePadding(
         context: context,
@@ -45,21 +72,10 @@ class MapScreenPanel extends ConsumerWidget {
               },
               child: overview == null
                   ? const SizedBox.shrink()
-                  : StatefulWrapper(
-                      onInit: () {
-                        pc.open();
-                        ref.read(mapFitProvider.notifier).fitBounds(
-                            MapFitData(bounds: overview.object.bounds));
-                      },
-                      onUpdate: () {
-                        pc.open();
-                        ref.read(mapFitProvider.notifier).fitBounds(
-                            MapFitData(bounds: overview.object.bounds));
-                      },
-                      child: overview.object is models.Point
-                          ? OverviewPoint(sc: sc, id: overview.object.isarId)
-                          : OverviewRoute(sc: sc, id: overview.object.isarId),
-                    ),
+                  : overview.object is models.Point
+                      ? OverviewPoint(sc: widget.sc, id: overview.object.isarId)
+                      : OverviewRoute(
+                          sc: widget.sc, id: overview.object.isarId),
             ),
             AnimatedSwitcher(
               duration: const Duration(milliseconds: 250),
@@ -77,7 +93,7 @@ class MapScreenPanel extends ConsumerWidget {
                       children: [
                         const SizedBox(height: 15),
                         const MapMarkersNavbar(),
-                        Expanded(child: Markers(sc: sc)),
+                        Expanded(child: Markers(sc: widget.sc)),
                       ],
                     )
                   : const SizedBox.shrink(),

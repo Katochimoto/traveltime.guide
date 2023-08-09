@@ -21,7 +21,7 @@ class DetailBookmarks extends ConsumerWidget {
             ref
                 .read(mapObjectsFiltersProvider.notifier)
                 .toggleBookmarks(toggle: true);
-            context.pushNamed(Routes.map);
+            context.goNamed(Routes.map);
           },
           iconSize: 25,
           color: Colors.white,

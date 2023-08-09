@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:traveltime/constants/theme.dart';
 import 'package:traveltime/constants/routes.dart';
@@ -8,17 +9,26 @@ import 'package:traveltime/screens/map/map_screen_panel.dart';
 import 'package:traveltime/widgets/navbar/navbar.dart';
 import 'package:traveltime/widgets/drawer/drawer.dart';
 
-class MapScreen extends StatelessWidget {
-  MapScreen({super.key});
+class MapScreen extends ConsumerWidget {
+  MapScreen({
+    super.key,
+    this.id,
+    this.onBack,
+  });
 
   final PanelController pc = PanelController();
   final MapController mc = MapController();
+  final int? id;
+  final void Function(BuildContext context, WidgetRef ref)? onBack;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: const Navbar(isTransparent: true),
+      appBar: Navbar(
+        isTransparent: true,
+        onBack: onBack != null ? () => onBack!(context, ref) : null,
+      ),
       drawer: const AppDrawer(currentPage: Routes.map),
       body: SlidingUpPanel(
         controller: pc,

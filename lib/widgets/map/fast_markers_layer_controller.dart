@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:traveltime/providers/map_tap_position.dart';
-import 'package:traveltime/providers/overview/overview.dart';
 import 'package:traveltime/widgets/map/fast_cluster.dart';
 import 'package:traveltime/widgets/map/fast_marker.dart';
 import 'package:traveltime/widgets/map/fast_markers_painter.dart';
@@ -59,12 +58,6 @@ class FastMarkersLayerControllerState
       clusterHeight: widget.clusterHeight,
     );
     super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  void dispose() {
-    ref.invalidate(overviewProvider);
-    super.dispose();
   }
 
   @override
