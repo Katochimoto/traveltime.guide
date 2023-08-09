@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:traveltime/store/models/point.dart';
+import 'package:traveltime/store/models.dart' as models;
 
 class OverviewVisited extends StatelessWidget {
   const OverviewVisited({super.key, required this.point});
 
-  final Point point;
+  final models.Point point;
 
   @override
   Widget build(BuildContext context) {

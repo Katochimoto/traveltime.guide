@@ -3,12 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:traveltime/providers/bookmarks.dart';
 import 'package:traveltime/screens/map/widgets/overview/overview_button.dart';
 import 'package:traveltime/store/db.dart';
-import 'package:traveltime/store/models/point.dart';
+import 'package:traveltime/store/models.dart' as models;
 
 class OverviewBookmark extends ConsumerWidget {
   const OverviewBookmark({super.key, required this.point});
 
-  final Point point;
+  final models.Point point;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

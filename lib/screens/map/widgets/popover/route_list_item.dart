@@ -7,12 +7,12 @@ import 'package:traveltime/store/models.dart' as models;
 import 'package:traveltime/providers/marker_popover.dart';
 
 class RouteListItemController extends ConsumerWidget {
-  final int id;
-
   const RouteListItemController({
     super.key,
     required this.id,
   });
+
+  final int id;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

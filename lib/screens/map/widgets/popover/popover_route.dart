@@ -9,16 +9,16 @@ import 'package:traveltime/store/models.dart' as models;
 import 'package:traveltime/providers/marker_popover.dart';
 
 class PopoverRouteController extends ConsumerWidget {
-  final double width;
-  final double height;
-  final PopoverData popover;
-
   const PopoverRouteController({
     super.key,
     required this.width,
     required this.height,
     required this.popover,
   });
+
+  final double width;
+  final double height;
+  final PopoverData popover;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

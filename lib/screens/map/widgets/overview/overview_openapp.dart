@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:traveltime/screens/map/widgets/overview/overview_button.dart';
-import 'package:traveltime/store/models/point.dart';
+import 'package:traveltime/store/models.dart' as models;
 
 class OverviewOpenapp extends StatelessWidget {
   const OverviewOpenapp({super.key, required this.point});
 
-  final Point point;
+  final models.Point point;
 
   @override
   Widget build(BuildContext context) {

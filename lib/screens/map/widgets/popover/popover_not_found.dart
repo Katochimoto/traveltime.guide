@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:traveltime/constants/theme.dart';
 
 class PopoverNotFound extends StatelessWidget {
-  final double width;
-  final double height;
-
   const PopoverNotFound({
     super.key,
     required this.width,
     required this.height,
   });
+
+  final double width;
+  final double height;
 
   @override
   Widget build(BuildContext context) {

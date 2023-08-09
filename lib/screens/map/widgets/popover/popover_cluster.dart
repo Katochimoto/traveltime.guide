@@ -5,16 +5,16 @@ import 'package:traveltime/screens/map/widgets/popover/marker_list_item.dart';
 import 'package:traveltime/providers/marker_popover.dart';
 
 class PopoverCluster extends ConsumerWidget {
-  final double width;
-  final double height;
-  final PopoverData popover;
-
   const PopoverCluster({
     super.key,
     required this.width,
     required this.height,
     required this.popover,
   });
+
+  final double width;
+  final double height;
+  final PopoverData popover;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
