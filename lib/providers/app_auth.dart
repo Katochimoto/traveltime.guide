@@ -4,19 +4,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:traveltime/providers/shared_preferences.dart';
 
-enum AppLocale {
-  en,
-  th,
-}
+const defaultTheme = ThemeMode.system;
+const defaultLocale = Locale('en');
 
 class AppAuthorized {
-  ThemeMode theme;
-  AppLocale locale;
-
-  AppAuthorized({
-    this.locale = AppLocale.en,
-    this.theme = ThemeMode.system,
+  const AppAuthorized({
+    required this.locale,
+    required this.theme,
   });
+
+  final ThemeMode theme;
+  final Locale locale;
 }
 
 class AppAuth extends AsyncNotifier<AppAuthorized> {
@@ -29,10 +27,10 @@ class AppAuth extends AsyncNotifier<AppAuthorized> {
   }
 
   AppAuthorized authorizedFactory() {
-    final locale = AppLocale.values
-        .byName(_prefs.getString('locale') ?? AppLocale.en.name);
-    final theme = ThemeMode.values
-        .byName(_prefs.getString('theme') ?? ThemeMode.system.name);
+    final locale =
+        Locale(_prefs.getString('locale') ?? defaultLocale.languageCode);
+    final theme =
+        ThemeMode.values.byName(_prefs.getString('theme') ?? defaultTheme.name);
     return AppAuthorized(locale: locale, theme: theme);
   }
 
@@ -45,14 +43,15 @@ class AppAuth extends AsyncNotifier<AppAuthorized> {
 
   Future<void> updateTheme(ThemeMode? data) async {
     state = await AsyncValue.guard(() async {
-      await _prefs.setString('theme', data?.name ?? ThemeMode.system.name);
+      await _prefs.setString('theme', data?.name ?? defaultTheme.name);
       return authorizedFactory();
     });
   }
 
-  Future<void> updateLocale(AppLocale? data) async {
+  Future<void> updateLocale(Locale? data) async {
     state = await AsyncValue.guard(() async {
-      await _prefs.setString('locale', data?.name ?? AppLocale.en.name);
+      await _prefs.setString(
+          'locale', data?.languageCode ?? defaultLocale.languageCode);
       return authorizedFactory();
     });
   }

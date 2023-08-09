@@ -26,3 +26,29 @@ dart run build_runner build
 dart run flutter_launcher_icons
 dart run flutter_native_splash:create
 ```
+
+## iOS 
+```
+xcode clean cache before archive
+shift + cmd + k
+flutter build ipa
+```
+
+
+## Android
+
+1. Add `keystore.properties` file
+```
+storePassword=ruptela
+keyPassword=ruptela
+keyAlias=ontrack
+storeFile=../OnTrack.jks
+```
+
+2. Add `xxxxxxxxxx.jks` file
+3. Build
+```
+flutter build apk --split-per-abi --obfuscate --split-debug-info=.tmp
+flutter build appbundle --obfuscate --split-debug-info=.tmp
+flutter run --release
+```

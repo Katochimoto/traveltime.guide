@@ -72,7 +72,6 @@ const EventSchema = CollectionSchema(
       id: 10,
       name: r'locale',
       type: IsarType.string,
-      enumMap: _EventlocaleEnumValueMap,
     ),
     r'logoImg': PropertySchema(
       id: 11,
@@ -192,7 +191,7 @@ int _eventEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
-  bytesCount += 3 + object.locale.name.length * 3;
+  bytesCount += 3 + object.locale.length * 3;
   {
     final value = object.logoImg;
     if (value != null) {
@@ -238,7 +237,7 @@ void _eventSerialize(
   writer.writeString(offsets[7], object.duration);
   writer.writeString(offsets[8], object.id);
   writer.writeString(offsets[9], object.intro);
-  writer.writeString(offsets[10], object.locale.name);
+  writer.writeString(offsets[10], object.locale);
   writer.writeString(offsets[11], object.logoImg);
   writer.writeStringList(offsets[12], object.points);
   writer.writeDateTime(offsets[13], object.publishedAt);
@@ -266,8 +265,7 @@ Event _eventDeserialize(
     duration: reader.readStringOrNull(offsets[7]),
     id: reader.readString(offsets[8]),
     intro: reader.readStringOrNull(offsets[9]),
-    locale: _EventlocaleValueEnumMap[reader.readStringOrNull(offsets[10])] ??
-        AppLocale.en,
+    locale: reader.readString(offsets[10]),
     logoImg: reader.readStringOrNull(offsets[11]),
     points: reader.readStringList(offsets[12]) ?? [],
     publishedAt: reader.readDateTime(offsets[13]),
@@ -308,8 +306,7 @@ P _eventDeserializeProp<P>(
     case 9:
       return (reader.readStringOrNull(offset)) as P;
     case 10:
-      return (_EventlocaleValueEnumMap[reader.readStringOrNull(offset)] ??
-          AppLocale.en) as P;
+      return (reader.readString(offset)) as P;
     case 11:
       return (reader.readStringOrNull(offset)) as P;
     case 12:
@@ -336,14 +333,6 @@ const _EventcategoryEnumValueMap = {
 const _EventcategoryValueEnumMap = {
   r'event': EventCategory.event,
   r'holiday': EventCategory.holiday,
-};
-const _EventlocaleEnumValueMap = {
-  r'en': r'en',
-  r'th': r'th',
-};
-const _EventlocaleValueEnumMap = {
-  r'en': AppLocale.en,
-  r'th': AppLocale.th,
 };
 
 Id _eventGetId(Event object) {
@@ -2060,7 +2049,7 @@ extension EventQueryFilter on QueryBuilder<Event, Event, QFilterCondition> {
   }
 
   QueryBuilder<Event, Event, QAfterFilterCondition> localeEqualTo(
-    AppLocale value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -2073,7 +2062,7 @@ extension EventQueryFilter on QueryBuilder<Event, Event, QFilterCondition> {
   }
 
   QueryBuilder<Event, Event, QAfterFilterCondition> localeGreaterThan(
-    AppLocale value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -2088,7 +2077,7 @@ extension EventQueryFilter on QueryBuilder<Event, Event, QFilterCondition> {
   }
 
   QueryBuilder<Event, Event, QAfterFilterCondition> localeLessThan(
-    AppLocale value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -2103,8 +2092,8 @@ extension EventQueryFilter on QueryBuilder<Event, Event, QFilterCondition> {
   }
 
   QueryBuilder<Event, Event, QAfterFilterCondition> localeBetween(
-    AppLocale lower,
-    AppLocale upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -3688,7 +3677,7 @@ extension EventQueryProperty on QueryBuilder<Event, Event, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Event, AppLocale, QQueryOperations> localeProperty() {
+  QueryBuilder<Event, String, QQueryOperations> localeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'locale');
     });

@@ -47,7 +47,7 @@ final articlesProvider = StreamProvider.autoDispose((ref) async* {
   final query = db
       .collection<models.Article>()
       .filter()
-      .localeEqualTo(locale)
+      .localeEqualTo(locale.languageCode)
       .sortByPublishedAtDesc()
       .build();
 
@@ -78,7 +78,7 @@ final pointsProvider = StreamProvider.autoDispose((ref) async* {
   var query = db
       .collection<models.Point>()
       .filter()
-      .localeEqualTo(locale)
+      .localeEqualTo(locale.languageCode)
       .anyOf(filters.categories, (q, value) => q.categoryEqualTo(value));
 
   if (filters.bookmarks) {
@@ -137,7 +137,7 @@ final pointsCategoriesProvider = StreamProvider.autoDispose((ref) async* {
   final query = db
       .collection<models.Point>()
       .filter()
-      .localeEqualTo(locale)
+      .localeEqualTo(locale.languageCode)
       .distinctByCategory()
       .build();
 
@@ -155,7 +155,7 @@ final eventsProvider = StreamProvider.autoDispose((ref) async* {
   final query = db
       .collection<models.Event>()
       .filter()
-      .localeEqualTo(locale)
+      .localeEqualTo(locale.languageCode)
       .sortByPublishedAtDesc()
       .build();
 
@@ -188,7 +188,7 @@ final eventPointsProvider = StreamProvider.autoDispose
     final query = db
         .collection<models.Point>()
         .filter()
-        .localeEqualTo(locale)
+        .localeEqualTo(locale.languageCode)
         .anyOf(event.points, (q, value) => q.idEqualTo(value))
         .sortByPublishedAtDesc()
         .build();
@@ -210,7 +210,7 @@ final pointEventsProvider = StreamProvider.autoDispose
   final query = db
       .collection<models.Event>()
       .filter()
-      .localeEqualTo(locale)
+      .localeEqualTo(locale.languageCode)
       .pointsElementContains(point.id)
       .sortByPublishedAtDesc()
       .build();
@@ -235,7 +235,8 @@ final routesProvider = StreamProvider.autoDispose((ref) async* {
       await ref.watch(appAuthProvider.selectAsync((data) => data.locale));
   final db = await ref.watch(dbProvider.future);
 
-  var query = db.collection<models.Route>().filter().localeEqualTo(locale);
+  var query =
+      db.collection<models.Route>().filter().localeEqualTo(locale.languageCode);
   // .anyOf(filters.categories, (q, value) => q.categoryEqualTo(value));
 
   if (filters.bookmarks) {
@@ -275,7 +276,7 @@ final routeWaypointsProvider = StreamProvider.autoDispose((ref) async* {
   final query = db
       .collection<models.RouteWaypoint>()
       .filter()
-      .localeEqualTo(locale)
+      .localeEqualTo(locale.languageCode)
       .routeIsNotNull()
       .sortByRoute()
       .build();
@@ -295,7 +296,7 @@ final routeWaypointsByRouteProvider = StreamProvider.autoDispose
   final query = db
       .collection<models.RouteWaypoint>()
       .filter()
-      .localeEqualTo(locale)
+      .localeEqualTo(locale.languageCode)
       .routeEqualTo(routeId)
       .sortByOrder()
       .build();

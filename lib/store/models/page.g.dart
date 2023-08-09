@@ -36,7 +36,6 @@ const PageSchema = CollectionSchema(
       id: 3,
       name: r'locale',
       type: IsarType.string,
-      enumMap: _PagelocaleEnumValueMap,
     ),
     r'publishedAt': PropertySchema(
       id: 4,
@@ -91,7 +90,7 @@ int _pageEstimateSize(
   var bytesCount = offsets.last;
   bytesCount += 3 + object.content.length * 3;
   bytesCount += 3 + object.id.length * 3;
-  bytesCount += 3 + object.locale.name.length * 3;
+  bytesCount += 3 + object.locale.length * 3;
   bytesCount += 3 + object.type.name.length * 3;
   return bytesCount;
 }
@@ -105,7 +104,7 @@ void _pageSerialize(
   writer.writeString(offsets[0], object.content);
   writer.writeDateTime(offsets[1], object.createdAt);
   writer.writeString(offsets[2], object.id);
-  writer.writeString(offsets[3], object.locale.name);
+  writer.writeString(offsets[3], object.locale);
   writer.writeDateTime(offsets[4], object.publishedAt);
   writer.writeString(offsets[5], object.type.name);
   writer.writeDateTime(offsets[6], object.updatedAt);
@@ -121,8 +120,7 @@ Page _pageDeserialize(
     content: reader.readString(offsets[0]),
     createdAt: reader.readDateTime(offsets[1]),
     id: reader.readString(offsets[2]),
-    locale: _PagelocaleValueEnumMap[reader.readStringOrNull(offsets[3])] ??
-        AppLocale.en,
+    locale: reader.readString(offsets[3]),
     publishedAt: reader.readDateTime(offsets[4]),
     type: _PagetypeValueEnumMap[reader.readStringOrNull(offsets[5])] ??
         PageType.about,
@@ -145,8 +143,7 @@ P _pageDeserializeProp<P>(
     case 2:
       return (reader.readString(offset)) as P;
     case 3:
-      return (_PagelocaleValueEnumMap[reader.readStringOrNull(offset)] ??
-          AppLocale.en) as P;
+      return (reader.readString(offset)) as P;
     case 4:
       return (reader.readDateTime(offset)) as P;
     case 5:
@@ -159,14 +156,6 @@ P _pageDeserializeProp<P>(
   }
 }
 
-const _PagelocaleEnumValueMap = {
-  r'en': r'en',
-  r'th': r'th',
-};
-const _PagelocaleValueEnumMap = {
-  r'en': AppLocale.en,
-  r'th': AppLocale.th,
-};
 const _PagetypeEnumValueMap = {
   r'about': r'about',
   r'terms': r'terms',
@@ -770,7 +759,7 @@ extension PageQueryFilter on QueryBuilder<Page, Page, QFilterCondition> {
   }
 
   QueryBuilder<Page, Page, QAfterFilterCondition> localeEqualTo(
-    AppLocale value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -783,7 +772,7 @@ extension PageQueryFilter on QueryBuilder<Page, Page, QFilterCondition> {
   }
 
   QueryBuilder<Page, Page, QAfterFilterCondition> localeGreaterThan(
-    AppLocale value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -798,7 +787,7 @@ extension PageQueryFilter on QueryBuilder<Page, Page, QFilterCondition> {
   }
 
   QueryBuilder<Page, Page, QAfterFilterCondition> localeLessThan(
-    AppLocale value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -813,8 +802,8 @@ extension PageQueryFilter on QueryBuilder<Page, Page, QFilterCondition> {
   }
 
   QueryBuilder<Page, Page, QAfterFilterCondition> localeBetween(
-    AppLocale lower,
-    AppLocale upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -1393,7 +1382,7 @@ extension PageQueryProperty on QueryBuilder<Page, Page, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Page, AppLocale, QQueryOperations> localeProperty() {
+  QueryBuilder<Page, String, QQueryOperations> localeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'locale');
     });

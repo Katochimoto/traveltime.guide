@@ -55,17 +55,16 @@ class AppState extends ConsumerState<App> {
       FlutterNativeSplash.remove();
     }));
 
-    final user = ref.watch(appAuthProvider).value;
+    final user = ref.watch(appAuthProvider).valueOrNull;
 
     return MaterialApp.router(
-      // title: 'Now UI PRO Flutter',
       debugShowCheckedModeBanner: false,
       darkTheme: darkTheme,
       theme: lightTheme,
-      themeMode: user?.theme ?? ThemeMode.system,
+      themeMode: user?.theme ?? defaultTheme,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      locale: Locale.fromSubtags(languageCode: user?.locale.name ?? 'en'),
+      locale: user?.locale ?? defaultLocale,
       routerConfig: router,
       onGenerateTitle: (context) => AppLocalizations.of(context)!.helloWorld,
     );

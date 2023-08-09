@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:isar/isar.dart';
 import 'package:latlong2/latlong.dart' as ll;
@@ -30,8 +31,7 @@ class Route implements MapObject {
   @override
   Id get isarId => fastHash(id);
 
-  @Enumerated(EnumType.name)
-  final AppLocale locale;
+  final String locale;
 
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -56,7 +56,7 @@ class Route implements MapObject {
   factory Route.fromJson(data) {
     return Route(
       id: data['id'],
-      locale: AppLocale.values.byName(data['locale']),
+      locale: data['locale'],
       createdAt: DateTime.parse(data['createdAt']),
       updatedAt: DateTime.parse(data['updatedAt']),
       publishedAt: DateTime.parse(data['publishedAt']),

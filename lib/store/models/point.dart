@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:isar/isar.dart';
 import 'package:latlong2/latlong.dart' as ll;
@@ -52,8 +53,7 @@ class Point implements MapObject {
   final float lat;
   final float lng;
 
-  @Enumerated(EnumType.name)
-  final AppLocale locale;
+  final String locale;
 
   @Enumerated(EnumType.name)
   @Index(type: IndexType.value)
@@ -87,7 +87,7 @@ class Point implements MapObject {
       id: data['id'],
       lat: double.parse(data['lat'].toString()),
       lng: double.parse(data['lng'].toString()),
-      locale: AppLocale.values.byName(data['locale']),
+      locale: data['locale'],
       category: PointCategory.values.byName(data['category']),
       createdAt: DateTime.parse(data['createdAt']),
       updatedAt: DateTime.parse(data['updatedAt']),

@@ -46,7 +46,6 @@ const RouteWaypointSchema = CollectionSchema(
       id: 5,
       name: r'locale',
       type: IsarType.string,
-      enumMap: _RouteWaypointlocaleEnumValueMap,
     ),
     r'order': PropertySchema(
       id: 6,
@@ -146,7 +145,7 @@ int _routeWaypointEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
-  bytesCount += 3 + object.locale.name.length * 3;
+  bytesCount += 3 + object.locale.length * 3;
   {
     final value = object.title;
     if (value != null) {
@@ -167,7 +166,7 @@ void _routeWaypointSerialize(
   writer.writeString(offsets[2], object.intro);
   writer.writeFloat(offsets[3], object.lat);
   writer.writeFloat(offsets[4], object.lng);
-  writer.writeString(offsets[5], object.locale.name);
+  writer.writeString(offsets[5], object.locale);
   writer.writeInt(offsets[6], object.order);
   writer.writeLong(offsets[7], object.point);
   writer.writeDateTime(offsets[8], object.publishedAt);
@@ -188,9 +187,7 @@ RouteWaypoint _routeWaypointDeserialize(
     intro: reader.readStringOrNull(offsets[2]),
     lat: reader.readFloatOrNull(offsets[3]),
     lng: reader.readFloatOrNull(offsets[4]),
-    locale:
-        _RouteWaypointlocaleValueEnumMap[reader.readStringOrNull(offsets[5])] ??
-            AppLocale.en,
+    locale: reader.readString(offsets[5]),
     order: reader.readInt(offsets[6]),
     point: reader.readLongOrNull(offsets[7]),
     publishedAt: reader.readDateTime(offsets[8]),
@@ -219,9 +216,7 @@ P _routeWaypointDeserializeProp<P>(
     case 4:
       return (reader.readFloatOrNull(offset)) as P;
     case 5:
-      return (_RouteWaypointlocaleValueEnumMap[
-              reader.readStringOrNull(offset)] ??
-          AppLocale.en) as P;
+      return (reader.readString(offset)) as P;
     case 6:
       return (reader.readInt(offset)) as P;
     case 7:
@@ -238,15 +233,6 @@ P _routeWaypointDeserializeProp<P>(
       throw IsarError('Unknown property with id $propertyId');
   }
 }
-
-const _RouteWaypointlocaleEnumValueMap = {
-  r'en': r'en',
-  r'th': r'th',
-};
-const _RouteWaypointlocaleValueEnumMap = {
-  r'en': AppLocale.en,
-  r'th': AppLocale.th,
-};
 
 Id _routeWaypointGetId(RouteWaypoint object) {
   return object.isarId;
@@ -1344,7 +1330,7 @@ extension RouteWaypointQueryFilter
 
   QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
       localeEqualTo(
-    AppLocale value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1358,7 +1344,7 @@ extension RouteWaypointQueryFilter
 
   QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
       localeGreaterThan(
-    AppLocale value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1374,7 +1360,7 @@ extension RouteWaypointQueryFilter
 
   QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
       localeLessThan(
-    AppLocale value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1390,8 +1376,8 @@ extension RouteWaypointQueryFilter
 
   QueryBuilder<RouteWaypoint, RouteWaypoint, QAfterFilterCondition>
       localeBetween(
-    AppLocale lower,
-    AppLocale upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -2385,7 +2371,7 @@ extension RouteWaypointQueryProperty
     });
   }
 
-  QueryBuilder<RouteWaypoint, AppLocale, QQueryOperations> localeProperty() {
+  QueryBuilder<RouteWaypoint, String, QQueryOperations> localeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'locale');
     });

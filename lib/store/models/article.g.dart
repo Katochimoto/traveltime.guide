@@ -51,7 +51,6 @@ const ArticleSchema = CollectionSchema(
       id: 6,
       name: r'locale',
       type: IsarType.string,
-      enumMap: _ArticlelocaleEnumValueMap,
     ),
     r'logoImg': PropertySchema(
       id: 7,
@@ -128,7 +127,7 @@ int _articleEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
-  bytesCount += 3 + object.locale.name.length * 3;
+  bytesCount += 3 + object.locale.length * 3;
   {
     final value = object.logoImg;
     if (value != null) {
@@ -157,7 +156,7 @@ void _articleSerialize(
   writer.writeString(offsets[3], object.description);
   writer.writeString(offsets[4], object.id);
   writer.writeString(offsets[5], object.intro);
-  writer.writeString(offsets[6], object.locale.name);
+  writer.writeString(offsets[6], object.locale);
   writer.writeString(offsets[7], object.logoImg);
   writer.writeDateTime(offsets[8], object.publishedAt);
   writer.writeString(offsets[9], object.title);
@@ -178,8 +177,7 @@ Article _articleDeserialize(
     description: reader.readString(offsets[3]),
     id: reader.readString(offsets[4]),
     intro: reader.readStringOrNull(offsets[5]),
-    locale: _ArticlelocaleValueEnumMap[reader.readStringOrNull(offsets[6])] ??
-        AppLocale.en,
+    locale: reader.readString(offsets[6]),
     logoImg: reader.readStringOrNull(offsets[7]),
     publishedAt: reader.readDateTime(offsets[8]),
     title: reader.readString(offsets[9]),
@@ -209,8 +207,7 @@ P _articleDeserializeProp<P>(
     case 5:
       return (reader.readStringOrNull(offset)) as P;
     case 6:
-      return (_ArticlelocaleValueEnumMap[reader.readStringOrNull(offset)] ??
-          AppLocale.en) as P;
+      return (reader.readString(offset)) as P;
     case 7:
       return (reader.readStringOrNull(offset)) as P;
     case 8:
@@ -225,15 +222,6 @@ P _articleDeserializeProp<P>(
       throw IsarError('Unknown property with id $propertyId');
   }
 }
-
-const _ArticlelocaleEnumValueMap = {
-  r'en': r'en',
-  r'th': r'th',
-};
-const _ArticlelocaleValueEnumMap = {
-  r'en': AppLocale.en,
-  r'th': AppLocale.th,
-};
 
 Id _articleGetId(Article object) {
   return object.isarId;
@@ -1255,7 +1243,7 @@ extension ArticleQueryFilter
   }
 
   QueryBuilder<Article, Article, QAfterFilterCondition> localeEqualTo(
-    AppLocale value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1268,7 +1256,7 @@ extension ArticleQueryFilter
   }
 
   QueryBuilder<Article, Article, QAfterFilterCondition> localeGreaterThan(
-    AppLocale value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1283,7 +1271,7 @@ extension ArticleQueryFilter
   }
 
   QueryBuilder<Article, Article, QAfterFilterCondition> localeLessThan(
-    AppLocale value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1298,8 +1286,8 @@ extension ArticleQueryFilter
   }
 
   QueryBuilder<Article, Article, QAfterFilterCondition> localeBetween(
-    AppLocale lower,
-    AppLocale upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -2352,7 +2340,7 @@ extension ArticleQueryProperty
     });
   }
 
-  QueryBuilder<Article, AppLocale, QQueryOperations> localeProperty() {
+  QueryBuilder<Article, String, QQueryOperations> localeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'locale');
     });

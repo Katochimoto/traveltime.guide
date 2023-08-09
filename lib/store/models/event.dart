@@ -1,4 +1,5 @@
 import 'package:duration/duration.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 import 'package:rrule/rrule.dart';
@@ -141,9 +142,7 @@ class Event {
   Id get isarId => fastHash(id);
 
   final String country;
-
-  @Enumerated(EnumType.name)
-  final AppLocale locale;
+  final String locale;
 
   @Enumerated(EnumType.name)
   @Index(type: IndexType.value)
@@ -308,7 +307,7 @@ class Event {
     return Event(
       id: data['id'],
       country: data['country'],
-      locale: AppLocale.values.byName(data['locale']),
+      locale: data['locale'],
       category: EventCategory.values.byName(data['category']),
       createdAt: DateTime.parse(data['createdAt']),
       updatedAt: DateTime.parse(data['updatedAt']),

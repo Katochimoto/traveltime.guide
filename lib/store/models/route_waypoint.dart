@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:isar/isar.dart';
 import 'package:latlong2/latlong.dart' as ll;
@@ -28,8 +29,7 @@ class RouteWaypoint {
 
   Id get isarId => fastHash(id);
 
-  @Enumerated(EnumType.name)
-  final AppLocale locale;
+  final String locale;
 
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -59,7 +59,7 @@ class RouteWaypoint {
   factory RouteWaypoint.fromJson(data) {
     return RouteWaypoint(
       id: data['id'],
-      locale: AppLocale.values.byName(data['locale']),
+      locale: data['locale'],
       createdAt: DateTime.parse(data['createdAt']),
       updatedAt: DateTime.parse(data['updatedAt']),
       publishedAt: DateTime.parse(data['publishedAt']),

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -19,10 +20,16 @@ enum DBSyncStatus {
 }
 
 class DBSyncState {
+  DBSyncState({
+    required this.status,
+    this.lastSync,
+    this.firstRun = false,
+    this.size,
+  });
   final DBSyncStatus status;
   final DateTime? lastSync;
   final bool? firstRun;
-  DBSyncState({required this.status, this.lastSync, this.firstRun = false});
+  final int? size;
 }
 
 class DbSync extends AsyncNotifier<DBSyncState> {
@@ -44,11 +51,13 @@ class DbSync extends AsyncNotifier<DBSyncState> {
 
   late Isar _db;
 
-  late AppLocale _locale;
+  late Locale _locale;
 
   Timer? _timer;
 
   CancelToken? _cancelToken;
+
+  int? _dbSize;
 
   bool get _firstRun {
     final prefs = ref.read(sharedPreferencesProvider);
@@ -57,7 +66,7 @@ class DbSync extends AsyncNotifier<DBSyncState> {
   }
 
   String get _lastSyncName {
-    return 'lastSync:${_db.name}:${_locale.name}';
+    return 'lastSync:${_db.name}:${_locale.languageCode}';
   }
 
   DateTime? get _lastSync {
@@ -73,8 +82,15 @@ class DbSync extends AsyncNotifier<DBSyncState> {
 
   Future<void> _removeLastSync() async {
     final prefs = ref.read(sharedPreferencesProvider);
-    await prefs.remove('lastSync:${_db.name}:${AppLocale.en.name}');
-    await prefs.remove('lastSync:${_db.name}:${AppLocale.th.name}');
+    await prefs.remove('lastSync:${_db.name}:en');
+    await prefs.remove('lastSync:${_db.name}:th');
+  }
+
+  Future<void> _updateDbSize() async {
+    _dbSize = await _db.getSize(
+      includeIndexes: true,
+      includeLinks: true,
+    );
   }
 
   @override
@@ -83,7 +99,7 @@ class DbSync extends AsyncNotifier<DBSyncState> {
     _locale =
         await ref.watch(appAuthProvider.selectAsync((data) => data.locale));
     _restart();
-    return DBSyncState(status: DBSyncStatus.runing);
+    return DBSyncState(status: DBSyncStatus.runing, size: _dbSize);
   }
 
   Future<void> reset() async {
@@ -107,13 +123,18 @@ class DbSync extends AsyncNotifier<DBSyncState> {
     final connectivityStatus = ref.read(connectivityStatusProvider);
     if (connectivityStatus == ConnectivityStatus.isDisonnected) {
       state = AsyncValue.data(DBSyncState(
-          status: DBSyncStatus.pending,
-          lastSync: _lastSync,
-          firstRun: _firstRun));
+        status: DBSyncStatus.pending,
+        lastSync: _lastSync,
+        firstRun: _firstRun,
+        size: _dbSize,
+      ));
       return;
     }
 
-    state = AsyncValue.data(DBSyncState(status: DBSyncStatus.runing));
+    state = AsyncValue.data(DBSyncState(
+      status: DBSyncStatus.runing,
+      size: _dbSize,
+    ));
 
     logger.i('Sync status: ${state.value?.status}');
 
@@ -122,7 +143,7 @@ class DbSync extends AsyncNotifier<DBSyncState> {
       final response = await _dio.get('/sync',
           queryParameters: {
             'lastSync': _lastSync?.toIso8601String(),
-            'locale': _locale.name,
+            'locale': _locale.languageCode,
           },
           options:
               Options(headers: {'Authorization': 'Bearer ${Env.syncApiToken}'}),
@@ -175,7 +196,12 @@ class DbSync extends AsyncNotifier<DBSyncState> {
       });
 
       await _updateLastSync(datetime);
-      return DBSyncState(status: DBSyncStatus.pending, lastSync: datetime);
+      await _updateDbSize();
+      return DBSyncState(
+        status: DBSyncStatus.pending,
+        lastSync: datetime,
+        size: _dbSize,
+      );
     });
 
     logger.i('Sync status: ${state.value?.status}, error: ${state.error}');

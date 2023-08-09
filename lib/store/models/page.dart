@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:traveltime/providers/app_auth.dart';
 import 'package:traveltime/utils/fast_hash.dart';
@@ -27,8 +28,7 @@ class Page {
 
   Id get isarId => fastHash(id);
 
-  @Enumerated(EnumType.name)
-  final AppLocale locale;
+  final String locale;
 
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -43,7 +43,7 @@ class Page {
   factory Page.fromJson(data) {
     return Page(
       id: data['id'],
-      locale: AppLocale.values.byName(data['locale']),
+      locale: data['locale'],
       createdAt: DateTime.parse(data['createdAt']),
       updatedAt: DateTime.parse(data['updatedAt']),
       publishedAt: DateTime.parse(data['publishedAt']),

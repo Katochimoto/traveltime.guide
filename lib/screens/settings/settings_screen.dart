@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:filesize/filesize.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -15,22 +16,31 @@ class ResetLocalData extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ElevatedButton(
-      onPressed: () {
-        ref.read(dbSyncProvider.notifier).reset();
-      },
-      child: Text(AppLocalizations.of(context)!.settingsResetLocalData),
-    );
+    return ref.watch(dbSyncProvider).when(
+          skipLoadingOnReload: true,
+          skipLoadingOnRefresh: true,
+          data: (data) => ElevatedButton(
+            onPressed: () {
+              ref.read(dbSyncProvider.notifier).reset();
+            },
+            child: Text(AppLocalizations.of(context)!.settingsResetLocalData +
+                (data.size != null && data.size! > 0
+                    ? ', ${filesize(data.size)}'
+                    : '')),
+          ),
+          error: (error, stackTrace) => const SizedBox.shrink(),
+          loading: () => const SizedBox.shrink(),
+        );
   }
 }
 
 class SelectLocale extends ConsumerWidget {
   const SelectLocale({super.key});
 
-  List<DropdownMenuItem<AppLocale>> get locales {
-    List<DropdownMenuItem<AppLocale>> menuItems = [
-      const DropdownMenuItem(value: AppLocale.en, child: Text('English')),
-      const DropdownMenuItem(value: AppLocale.th, child: Text('Thai')),
+  List<DropdownMenuItem<Locale>> get locales {
+    List<DropdownMenuItem<Locale>> menuItems = [
+      const DropdownMenuItem(value: Locale('en'), child: Text('English')),
+      const DropdownMenuItem(value: Locale('th'), child: Text('Thai')),
     ];
     return menuItems;
   }

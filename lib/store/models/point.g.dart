@@ -67,7 +67,6 @@ const PointSchema = CollectionSchema(
       id: 9,
       name: r'locale',
       type: IsarType.string,
-      enumMap: _PointlocaleEnumValueMap,
     ),
     r'logoImg': PropertySchema(
       id: 10,
@@ -176,7 +175,7 @@ int _pointEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
-  bytesCount += 3 + object.locale.name.length * 3;
+  bytesCount += 3 + object.locale.length * 3;
   {
     final value = object.logoImg;
     if (value != null) {
@@ -208,7 +207,7 @@ void _pointSerialize(
   writer.writeString(offsets[6], object.intro);
   writer.writeFloat(offsets[7], object.lat);
   writer.writeFloat(offsets[8], object.lng);
-  writer.writeString(offsets[9], object.locale.name);
+  writer.writeString(offsets[9], object.locale);
   writer.writeString(offsets[10], object.logoImg);
   writer.writeDateTime(offsets[11], object.publishedAt);
   writer.writeString(offsets[12], object.title);
@@ -233,8 +232,7 @@ Point _pointDeserialize(
     intro: reader.readStringOrNull(offsets[6]),
     lat: reader.readFloat(offsets[7]),
     lng: reader.readFloat(offsets[8]),
-    locale: _PointlocaleValueEnumMap[reader.readStringOrNull(offsets[9])] ??
-        AppLocale.en,
+    locale: reader.readString(offsets[9]),
     logoImg: reader.readStringOrNull(offsets[10]),
     publishedAt: reader.readDateTime(offsets[11]),
     title: reader.readString(offsets[12]),
@@ -271,8 +269,7 @@ P _pointDeserializeProp<P>(
     case 8:
       return (reader.readFloat(offset)) as P;
     case 9:
-      return (_PointlocaleValueEnumMap[reader.readStringOrNull(offset)] ??
-          AppLocale.en) as P;
+      return (reader.readString(offset)) as P;
     case 10:
       return (reader.readStringOrNull(offset)) as P;
     case 11:
@@ -317,14 +314,6 @@ const _PointcategoryValueEnumMap = {
   r'gasStation': PointCategory.gasStation,
   r'carRental': PointCategory.carRental,
   r'hotel': PointCategory.hotel,
-};
-const _PointlocaleEnumValueMap = {
-  r'en': r'en',
-  r'th': r'th',
-};
-const _PointlocaleValueEnumMap = {
-  r'en': AppLocale.en,
-  r'th': AppLocale.th,
 };
 
 Id _pointGetId(Point object) {
@@ -1948,7 +1937,7 @@ extension PointQueryFilter on QueryBuilder<Point, Point, QFilterCondition> {
   }
 
   QueryBuilder<Point, Point, QAfterFilterCondition> localeEqualTo(
-    AppLocale value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1961,7 +1950,7 @@ extension PointQueryFilter on QueryBuilder<Point, Point, QFilterCondition> {
   }
 
   QueryBuilder<Point, Point, QAfterFilterCondition> localeGreaterThan(
-    AppLocale value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1976,7 +1965,7 @@ extension PointQueryFilter on QueryBuilder<Point, Point, QFilterCondition> {
   }
 
   QueryBuilder<Point, Point, QAfterFilterCondition> localeLessThan(
-    AppLocale value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1991,8 +1980,8 @@ extension PointQueryFilter on QueryBuilder<Point, Point, QFilterCondition> {
   }
 
   QueryBuilder<Point, Point, QAfterFilterCondition> localeBetween(
-    AppLocale lower,
-    AppLocale upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -3144,7 +3133,7 @@ extension PointQueryProperty on QueryBuilder<Point, Point, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Point, AppLocale, QQueryOperations> localeProperty() {
+  QueryBuilder<Point, String, QQueryOperations> localeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'locale');
     });

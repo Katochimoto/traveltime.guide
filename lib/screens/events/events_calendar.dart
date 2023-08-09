@@ -14,13 +14,14 @@ class EventsCalendar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final primaryColor = Theme.of(context).primaryColor;
     final state = ref.watch(eventsCalendarProvider);
+    final user = ref.watch(appAuthProvider).value!;
 
     return TableCalendar<Event>(
       firstDay: state.firstDay,
       lastDay: state.lastDay,
       focusedDay: state.focusedDay,
       calendarFormat: CalendarFormat.month,
-      locale: AppLocale.en.name,
+      locale: user.locale.languageCode,
       calendarStyle: CalendarStyle(
         todayDecoration: BoxDecoration(
           color: primaryColor.withOpacity(0.5),

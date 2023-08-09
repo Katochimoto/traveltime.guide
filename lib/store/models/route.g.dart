@@ -51,7 +51,6 @@ const RouteSchema = CollectionSchema(
       id: 6,
       name: r'locale',
       type: IsarType.string,
-      enumMap: _RoutelocaleEnumValueMap,
     ),
     r'logoImg': PropertySchema(
       id: 7,
@@ -141,7 +140,7 @@ int _routeEstimateSize(
     }
   }
   bytesCount += 3 + object.latlngBounds.length * 4;
-  bytesCount += 3 + object.locale.name.length * 3;
+  bytesCount += 3 + object.locale.length * 3;
   {
     final value = object.logoImg;
     if (value != null) {
@@ -170,7 +169,7 @@ void _routeSerialize(
   writer.writeString(offsets[3], object.id);
   writer.writeString(offsets[4], object.intro);
   writer.writeFloatList(offsets[5], object.latlngBounds);
-  writer.writeString(offsets[6], object.locale.name);
+  writer.writeString(offsets[6], object.locale);
   writer.writeString(offsets[7], object.logoImg);
   writer.writeDateTime(offsets[8], object.publishedAt);
   writer.writeString(offsets[9], object.title);
@@ -191,8 +190,7 @@ Route _routeDeserialize(
     id: reader.readString(offsets[3]),
     intro: reader.readStringOrNull(offsets[4]),
     latlngBounds: reader.readFloatList(offsets[5]) ?? [],
-    locale: _RoutelocaleValueEnumMap[reader.readStringOrNull(offsets[6])] ??
-        AppLocale.en,
+    locale: reader.readString(offsets[6]),
     logoImg: reader.readStringOrNull(offsets[7]),
     publishedAt: reader.readDateTime(offsets[8]),
     title: reader.readString(offsets[9]),
@@ -222,8 +220,7 @@ P _routeDeserializeProp<P>(
     case 5:
       return (reader.readFloatList(offset) ?? []) as P;
     case 6:
-      return (_RoutelocaleValueEnumMap[reader.readStringOrNull(offset)] ??
-          AppLocale.en) as P;
+      return (reader.readString(offset)) as P;
     case 7:
       return (reader.readStringOrNull(offset)) as P;
     case 8:
@@ -238,15 +235,6 @@ P _routeDeserializeProp<P>(
       throw IsarError('Unknown property with id $propertyId');
   }
 }
-
-const _RoutelocaleEnumValueMap = {
-  r'en': r'en',
-  r'th': r'th',
-};
-const _RoutelocaleValueEnumMap = {
-  r'en': AppLocale.en,
-  r'th': AppLocale.th,
-};
 
 Id _routeGetId(Route object) {
   return object.isarId;
@@ -1473,7 +1461,7 @@ extension RouteQueryFilter on QueryBuilder<Route, Route, QFilterCondition> {
   }
 
   QueryBuilder<Route, Route, QAfterFilterCondition> localeEqualTo(
-    AppLocale value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1486,7 +1474,7 @@ extension RouteQueryFilter on QueryBuilder<Route, Route, QFilterCondition> {
   }
 
   QueryBuilder<Route, Route, QAfterFilterCondition> localeGreaterThan(
-    AppLocale value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1501,7 +1489,7 @@ extension RouteQueryFilter on QueryBuilder<Route, Route, QFilterCondition> {
   }
 
   QueryBuilder<Route, Route, QAfterFilterCondition> localeLessThan(
-    AppLocale value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1516,8 +1504,8 @@ extension RouteQueryFilter on QueryBuilder<Route, Route, QFilterCondition> {
   }
 
   QueryBuilder<Route, Route, QAfterFilterCondition> localeBetween(
-    AppLocale lower,
-    AppLocale upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -2535,7 +2523,7 @@ extension RouteQueryProperty on QueryBuilder<Route, Route, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Route, AppLocale, QQueryOperations> localeProperty() {
+  QueryBuilder<Route, String, QQueryOperations> localeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'locale');
     });
