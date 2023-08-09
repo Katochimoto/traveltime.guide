@@ -78,33 +78,38 @@ const EventSchema = CollectionSchema(
       name: r'logoImg',
       type: IsarType.string,
     ),
-    r'points': PropertySchema(
+    r'moveMondayIfWeekend': PropertySchema(
       id: 12,
+      name: r'moveMondayIfWeekend',
+      type: IsarType.bool,
+    ),
+    r'points': PropertySchema(
+      id: 13,
       name: r'points',
       type: IsarType.stringList,
     ),
     r'publishedAt': PropertySchema(
-      id: 13,
+      id: 14,
       name: r'publishedAt',
       type: IsarType.dateTime,
     ),
     r'rrule': PropertySchema(
-      id: 14,
+      id: 15,
       name: r'rrule',
       type: IsarType.string,
     ),
     r'title': PropertySchema(
-      id: 15,
+      id: 16,
       name: r'title',
       type: IsarType.string,
     ),
     r'updatedAt': PropertySchema(
-      id: 16,
+      id: 17,
       name: r'updatedAt',
       type: IsarType.dateTime,
     ),
     r'web': PropertySchema(
-      id: 17,
+      id: 18,
       name: r'web',
       type: IsarType.string,
     )
@@ -239,12 +244,13 @@ void _eventSerialize(
   writer.writeString(offsets[9], object.intro);
   writer.writeString(offsets[10], object.locale);
   writer.writeString(offsets[11], object.logoImg);
-  writer.writeStringList(offsets[12], object.points);
-  writer.writeDateTime(offsets[13], object.publishedAt);
-  writer.writeString(offsets[14], object.rrule);
-  writer.writeString(offsets[15], object.title);
-  writer.writeDateTime(offsets[16], object.updatedAt);
-  writer.writeString(offsets[17], object.web);
+  writer.writeBool(offsets[12], object.moveMondayIfWeekend);
+  writer.writeStringList(offsets[13], object.points);
+  writer.writeDateTime(offsets[14], object.publishedAt);
+  writer.writeString(offsets[15], object.rrule);
+  writer.writeString(offsets[16], object.title);
+  writer.writeDateTime(offsets[17], object.updatedAt);
+  writer.writeString(offsets[18], object.web);
 }
 
 Event _eventDeserialize(
@@ -267,12 +273,13 @@ Event _eventDeserialize(
     intro: reader.readStringOrNull(offsets[9]),
     locale: reader.readString(offsets[10]),
     logoImg: reader.readStringOrNull(offsets[11]),
-    points: reader.readStringList(offsets[12]) ?? [],
-    publishedAt: reader.readDateTime(offsets[13]),
-    rrule: reader.readStringOrNull(offsets[14]),
-    title: reader.readString(offsets[15]),
-    updatedAt: reader.readDateTime(offsets[16]),
-    web: reader.readStringOrNull(offsets[17]),
+    moveMondayIfWeekend: reader.readBool(offsets[12]),
+    points: reader.readStringList(offsets[13]) ?? [],
+    publishedAt: reader.readDateTime(offsets[14]),
+    rrule: reader.readStringOrNull(offsets[15]),
+    title: reader.readString(offsets[16]),
+    updatedAt: reader.readDateTime(offsets[17]),
+    web: reader.readStringOrNull(offsets[18]),
   );
   return object;
 }
@@ -310,16 +317,18 @@ P _eventDeserializeProp<P>(
     case 11:
       return (reader.readStringOrNull(offset)) as P;
     case 12:
-      return (reader.readStringList(offset) ?? []) as P;
+      return (reader.readBool(offset)) as P;
     case 13:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readStringList(offset) ?? []) as P;
     case 14:
-      return (reader.readStringOrNull(offset)) as P;
-    case 15:
-      return (reader.readString(offset)) as P;
-    case 16:
       return (reader.readDateTime(offset)) as P;
+    case 15:
+      return (reader.readStringOrNull(offset)) as P;
+    case 16:
+      return (reader.readString(offset)) as P;
     case 17:
+      return (reader.readDateTime(offset)) as P;
+    case 18:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -329,10 +338,18 @@ P _eventDeserializeProp<P>(
 const _EventcategoryEnumValueMap = {
   r'event': r'event',
   r'holiday': r'holiday',
+  r'nationalHoliday': r'nationalHoliday',
+  r'regionalHoliday': r'regionalHoliday',
+  r'governmentHoliday': r'governmentHoliday',
+  r'notPublicHoliday': r'notPublicHoliday',
 };
 const _EventcategoryValueEnumMap = {
   r'event': EventCategory.event,
   r'holiday': EventCategory.holiday,
+  r'nationalHoliday': EventCategory.nationalHoliday,
+  r'regionalHoliday': EventCategory.regionalHoliday,
+  r'governmentHoliday': EventCategory.governmentHoliday,
+  r'notPublicHoliday': EventCategory.notPublicHoliday,
 };
 
 Id _eventGetId(Event object) {
@@ -2323,6 +2340,16 @@ extension EventQueryFilter on QueryBuilder<Event, Event, QFilterCondition> {
     });
   }
 
+  QueryBuilder<Event, Event, QAfterFilterCondition> moveMondayIfWeekendEqualTo(
+      bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'moveMondayIfWeekend',
+        value: value,
+      ));
+    });
+  }
+
   QueryBuilder<Event, Event, QAfterFilterCondition> pointsElementEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -3209,6 +3236,18 @@ extension EventQuerySortBy on QueryBuilder<Event, Event, QSortBy> {
     });
   }
 
+  QueryBuilder<Event, Event, QAfterSortBy> sortByMoveMondayIfWeekend() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'moveMondayIfWeekend', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterSortBy> sortByMoveMondayIfWeekendDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'moveMondayIfWeekend', Sort.desc);
+    });
+  }
+
   QueryBuilder<Event, Event, QAfterSortBy> sortByPublishedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'publishedAt', Sort.asc);
@@ -3427,6 +3466,18 @@ extension EventQuerySortThenBy on QueryBuilder<Event, Event, QSortThenBy> {
     });
   }
 
+  QueryBuilder<Event, Event, QAfterSortBy> thenByMoveMondayIfWeekend() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'moveMondayIfWeekend', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterSortBy> thenByMoveMondayIfWeekendDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'moveMondayIfWeekend', Sort.desc);
+    });
+  }
+
   QueryBuilder<Event, Event, QAfterSortBy> thenByPublishedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'publishedAt', Sort.asc);
@@ -3570,6 +3621,12 @@ extension EventQueryWhereDistinct on QueryBuilder<Event, Event, QDistinct> {
     });
   }
 
+  QueryBuilder<Event, Event, QDistinct> distinctByMoveMondayIfWeekend() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'moveMondayIfWeekend');
+    });
+  }
+
   QueryBuilder<Event, Event, QDistinct> distinctByPoints() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'points');
@@ -3686,6 +3743,12 @@ extension EventQueryProperty on QueryBuilder<Event, Event, QQueryProperty> {
   QueryBuilder<Event, String?, QQueryOperations> logoImgProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'logoImg');
+    });
+  }
+
+  QueryBuilder<Event, bool, QQueryOperations> moveMondayIfWeekendProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'moveMondayIfWeekend');
     });
   }
 
