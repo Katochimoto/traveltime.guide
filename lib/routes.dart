@@ -3,6 +3,7 @@ import 'package:traveltime/constants/routes.dart';
 import 'package:traveltime/screens/event/event_screen.dart';
 import 'package:traveltime/screens/events/events_screen.dart';
 import 'package:traveltime/screens/map/map_screen.dart';
+import 'package:traveltime/screens/not_found/not_found_screen.dart';
 import 'package:traveltime/screens/onboarding/onboarding_screen.dart';
 import 'package:traveltime/screens/home/home_screen.dart';
 import 'package:traveltime/screens/profile/profile_screen.dart';
@@ -12,11 +13,12 @@ import 'package:traveltime/screens/article/article_screen.dart';
 import 'package:traveltime/screens/static/static_screen.dart';
 import 'package:traveltime/store/models.dart' as models;
 import 'package:traveltime/utils/extra_nav_params.dart';
+import 'package:traveltime/widgets/not_found.dart';
 
 final router = GoRouter(
   initialLocation: '/',
   debugLogDiagnostics: true,
-  // errorBuilder: (context, state) => ErrorScreen(state.error),
+  // errorBuilder: (context, state) => SettingsScreen(),
   routes: <RouteBase>[
     GoRoute(
       name: Routes.home,
@@ -106,6 +108,20 @@ final router = GoRouter(
       builder: (context, state) => const StaticScreen(
         routeName: Routes.terms,
         type: models.PageType.terms,
+      ),
+    ),
+    GoRoute(
+      name: Routes.activities,
+      path: '/activities',
+      builder: (context, state) => const NotFoundScreen(
+        routeName: Routes.activities,
+      ),
+    ),
+    GoRoute(
+      name: Routes.routes,
+      path: '/routes',
+      builder: (context, state) => const NotFoundScreen(
+        routeName: Routes.routes,
       ),
     ),
   ],
