@@ -3,12 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:traveltime/providers/app_auth.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:traveltime/providers/events_calendar.dart';
-import 'package:traveltime/store/models/event.dart';
+import 'package:traveltime/store/models.dart' as models;
 
 class EventsCalendar extends ConsumerWidget {
-  const EventsCalendar({super.key, required this.events});
+  const EventsCalendar({super.key, required this.eventsByDay});
 
-  final List<Event> events;
+  final List<models.Event> Function(DateTime day) eventsByDay;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -16,7 +16,7 @@ class EventsCalendar extends ConsumerWidget {
     final state = ref.watch(eventsCalendarProvider);
     final user = ref.watch(appAuthProvider).value!;
 
-    return TableCalendar<Event>(
+    return TableCalendar<models.Event>(
       firstDay: state.firstDay,
       lastDay: state.lastDay,
       focusedDay: state.focusedDay,
@@ -43,27 +43,22 @@ class EventsCalendar extends ConsumerWidget {
         titleCentered: true,
         formatButtonVisible: false,
       ),
-      holidayPredicate: (day) {
-        // Every 20th day of the month will be treated as a holiday
-        return day.day == 20;
-      },
+      holidayPredicate: (day) =>
+          eventsByDay(day).any((event) => event.isHoliday),
       selectedDayPredicate: (day) {
         return isSameDay(state.selectedDay, day);
       },
-      eventLoader: (day) {
-        return events
-            .where((event) => event.hasOnDay(day))
-            .toList(growable: false);
-      },
+      eventLoader: (day) => eventsByDay(day),
       calendarBuilders: CalendarBuilders(
         // selectedBuilder: (context, day, focusedDay) {},
         markerBuilder: (context, day, events) {
           return null;
         },
         singleMarkerBuilder: (context, day, event) {
-          return const Icon(
+          return Icon(
             Icons.circle,
             size: 10,
+            color: models.eventCategoryDeepColor[event.category],
           );
         },
         // dowBuilder: (context, day) {

@@ -5,6 +5,7 @@ import 'package:traveltime/screens/events/events_calendar.dart';
 import 'package:traveltime/screens/events/events_list.dart';
 import 'package:traveltime/store/db.dart';
 import 'package:traveltime/widgets/not_found.dart';
+import 'package:traveltime/store/models.dart' as models;
 
 class EventsView extends ConsumerWidget {
   const EventsView({super.key});
@@ -12,16 +13,25 @@ class EventsView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ref.watch(eventsProvider).when(
-          data: (data) => data.isEmpty
-              ? const NotFound()
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    EventsCalendar(events: data),
-                    const SizedBox(height: UIGap.g2),
-                    Expanded(child: EventsList(events: data)),
-                  ],
-                ),
+          data: (data) {
+            if (data.isEmpty) {
+              return const NotFound();
+            }
+
+            final cache = <DateTime, List<models.Event>>{};
+            eventsByDay(DateTime day) => cache[day] ??= data
+                .where((event) => event.hasOnDay(day))
+                .toList(growable: false);
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                EventsCalendar(eventsByDay: eventsByDay),
+                const SizedBox(height: UIGap.g2),
+                Expanded(child: EventsList(eventsByDay: eventsByDay)),
+              ],
+            );
+          },
           error: (error, stackTrace) => const NotFound(),
           loading: () => const Center(child: CircularProgressIndicator()),
         );

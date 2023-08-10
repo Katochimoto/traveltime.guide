@@ -4,19 +4,17 @@ import 'package:go_router/go_router.dart';
 import 'package:traveltime/constants/routes.dart';
 import 'package:traveltime/providers/events_calendar.dart';
 import 'package:traveltime/widgets/card/card_horizontal.dart';
-import 'package:traveltime/store/models/event.dart';
+import 'package:traveltime/store/models.dart' as models;
 
 class EventsList extends ConsumerWidget {
-  const EventsList({super.key, required this.events});
+  const EventsList({super.key, required this.eventsByDay});
 
-  final List<Event> events;
+  final List<models.Event> Function(DateTime day) eventsByDay;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(eventsCalendarProvider);
-    final list = events
-        .where((event) => event.hasOnDay(state.selectedDay))
-        .toList(growable: false);
+    final list = eventsByDay(state.selectedDay);
 
     if (list.isEmpty) {
       return const SizedBox.shrink();
@@ -28,8 +26,9 @@ class EventsList extends ConsumerWidget {
       itemBuilder: (_, idx) {
         final event = list[idx];
         return CardHorizontal(
+            color: models.eventCategoryColor[event.category],
             title: event.title,
-            details: event.intro,
+            details: event.intro ?? event.description,
             img: event.logoImg,
             tap: () {
               context.pushNamed(

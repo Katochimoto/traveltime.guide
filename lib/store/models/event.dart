@@ -120,6 +120,24 @@ enum EventCategory {
   notPublicHoliday,
 }
 
+final eventCategoryColor = <EventCategory, Color?>{
+  EventCategory.event: null,
+  EventCategory.holiday: Colors.blue[100],
+  EventCategory.nationalHoliday: Colors.blue[100],
+  EventCategory.regionalHoliday: Colors.green[100],
+  EventCategory.governmentHoliday: Colors.red[100],
+  EventCategory.notPublicHoliday: Colors.yellow[100],
+};
+
+final eventCategoryDeepColor = <EventCategory, Color?>{
+  EventCategory.event: null,
+  EventCategory.holiday: Colors.blue[500],
+  EventCategory.nationalHoliday: Colors.blue[500],
+  EventCategory.regionalHoliday: Colors.green[500],
+  EventCategory.governmentHoliday: Colors.red[500],
+  EventCategory.notPublicHoliday: Colors.yellow[500],
+};
+
 @collection
 class Event {
   Event({
@@ -180,38 +198,11 @@ class Event {
   Duration? get durationObject =>
       duration?.isNotEmpty == true ? tryParseDurationAny(duration!) : null;
 
-  bool _hasOnDayRRule(
-    RecurrenceRule recurrenceRule,
-    DateTime day,
-    DateTime? startDay,
-  ) {
-    return recurrenceRule
-        .getInstances(
-          start: startDay ?? day,
-          after: day,
-          before: day.add(const Duration(days: 1)),
-          includeAfter: true,
-          includeBefore: false,
-        )
-        .take(1)
-        .isNotEmpty;
-  }
-
-  bool _hasOnDayRange(
-    DateTime day,
-    DateTime? startDay,
-    DateTime? endDay,
-  ) {
-    bool exists = false;
-    if (startDay != null && endDay != null) {
-      exists = isBeforeOrEqualTo(startDay, day) && endDay.isAfter(day);
-    } else if (startDay != null) {
-      exists = isBeforeOrEqualTo(startDay, day);
-    } else if (endDay != null) {
-      exists = endDay.isAfter(day);
-    }
-    return exists;
-  }
+  @ignore
+  bool get isHoliday =>
+      category == EventCategory.holiday ||
+      category == EventCategory.nationalHoliday ||
+      category == EventCategory.governmentHoliday;
 
   bool hasOnDay(DateTime date) {
     final day = normalizeDate(date);
@@ -231,20 +222,24 @@ class Event {
         final RecurrenceRule recurrenceRule = RecurrenceRule.fromString(rrule!);
         exists = _hasOnDayRRule(recurrenceRule, day, startDay);
 
-        if (!exists && moveMondayIfWeekend && day.weekday == DateTime.monday) {
-          exists = _hasOnDayRRule(recurrenceRule,
-                  day.subtract(const Duration(days: 1)), startDay) ||
-              _hasOnDayRRule(recurrenceRule,
-                  day.subtract(const Duration(days: 2)), startDay);
+        if (!exists && moveMondayIfWeekend) {
+          exists = _hasIfWeekendRRule(
+            recurrenceRule,
+            day,
+            startDay,
+            durationObject,
+          );
         }
       }
     } else {
       exists = _hasOnDayRange(day, startDay, endDay);
-      if (!exists && moveMondayIfWeekend && day.weekday == DateTime.monday) {
-        exists = _hasOnDayRange(
-                day.subtract(const Duration(days: 1)), startDay, endDay) ||
-            _hasOnDayRange(
-                day.subtract(const Duration(days: 2)), startDay, endDay);
+      if (!exists && moveMondayIfWeekend) {
+        exists = _hasIfWeekendRange(
+          day,
+          startDay,
+          endDay,
+          durationObject,
+        );
       }
     }
 
@@ -350,4 +345,96 @@ class Event {
         .map<Event>((item) => Event.fromJson(item))
         .toList(growable: false);
   }
+}
+
+bool _hasOnDayRRule(
+  RecurrenceRule recurrenceRule,
+  DateTime day,
+  DateTime? startDay,
+) {
+  return recurrenceRule
+      .getInstances(
+        start: startDay ?? day,
+        after: day,
+        before: day.add(const Duration(days: 1)),
+        includeAfter: true,
+        includeBefore: false,
+      )
+      .take(1)
+      .isNotEmpty;
+}
+
+bool _hasOnDayRange(
+  DateTime day,
+  DateTime? startDay,
+  DateTime? endDay,
+) {
+  bool exists = false;
+  if (startDay != null && endDay != null) {
+    exists = isBeforeOrEqualTo(startDay, day) && endDay.isAfter(day);
+  } else if (startDay != null) {
+    exists = isBeforeOrEqualTo(startDay, day);
+  } else if (endDay != null) {
+    exists = endDay.isAfter(day);
+  }
+  return exists;
+}
+
+_hasIfWeekendRRule(
+  RecurrenceRule recurrenceRule,
+  DateTime day,
+  DateTime? startDay,
+  Duration? duration,
+) {
+  final durationDays = duration?.inDays ?? 1;
+  bool hasWeekend = false;
+  if (day.weekday <= durationDays) {
+    bool hasEvent = false;
+    for (int i = durationDays + 1; i >= 1; i--) {
+      final d = day.subtract(Duration(days: i));
+      if (startDay != null && d.isBefore(startDay)) continue;
+
+      final isWeekend =
+          d.weekday == DateTime.saturday || d.weekday == DateTime.sunday;
+      if (!_hasOnDayRRule(recurrenceRule, d, startDay)) {
+        if (!isWeekend && hasEvent) {
+          return false;
+        }
+      } else {
+        hasEvent = true;
+        hasWeekend = hasWeekend || isWeekend;
+      }
+    }
+  }
+  return hasWeekend;
+}
+
+_hasIfWeekendRange(
+  DateTime day,
+  DateTime? startDay,
+  DateTime? endDay,
+  Duration? duration,
+) {
+  final durationDays = duration?.inDays ?? 1;
+  bool hasWeekend = false;
+  if (day.weekday <= durationDays) {
+    bool hasEvent = false;
+    for (int i = durationDays + 1; i > 0; i--) {
+      final d = day.subtract(Duration(days: i));
+      if (startDay != null && d.isBefore(startDay)) continue;
+
+      final isWeekend =
+          d.weekday == DateTime.saturday || d.weekday == DateTime.sunday;
+
+      if (!_hasOnDayRange(d, startDay, endDay)) {
+        if (!isWeekend && hasEvent) {
+          return false;
+        }
+      } else {
+        hasEvent = true;
+        hasWeekend = hasWeekend || isWeekend;
+      }
+    }
+  }
+  return hasWeekend;
 }

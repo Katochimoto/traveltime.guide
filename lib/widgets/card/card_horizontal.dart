@@ -6,10 +6,12 @@ class CardHorizontalContainer extends StatelessWidget {
     super.key,
     required this.child,
     required this.tap,
+    this.color,
   });
 
   final Widget child;
   final void Function() tap;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class CardHorizontalContainer extends StatelessWidget {
           elevation: 1,
           alignment: Alignment.topLeft,
           // surfaceTintColor: Colors.transparent,
-          backgroundColor: Theme.of(context).cardColor,
+          backgroundColor: color ?? Theme.of(context).cardColor,
           shadowColor: Theme.of(context).shadowColor,
           padding: const EdgeInsets.all(0),
           shape: const RoundedRectangleBorder(
@@ -41,18 +43,20 @@ class CardHorizontalContainer extends StatelessWidget {
 }
 
 class CardHorizontal extends StatelessWidget {
-  final String? img;
-  final void Function() tap;
-  final String title;
-  final String? details;
-
   const CardHorizontal({
     super.key,
     required this.title,
     required this.tap,
     this.details,
     this.img,
+    this.color,
   });
+
+  final String? img;
+  final void Function() tap;
+  final String title;
+  final String? details;
+  final Color? color;
 
   Widget _img(String? img) {
     if (img == null) {
@@ -62,20 +66,22 @@ class CardHorizontal extends StatelessWidget {
     return Flexible(
       flex: 1,
       child: Container(
-          decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(UIGap.g2),
-                  bottomLeft: Radius.circular(UIGap.g2)),
-              image: DecorationImage(
-                image: NetworkImage(img),
-                fit: BoxFit.cover,
-              ))),
+        decoration: BoxDecoration(
+            borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(UIGap.g2),
+                bottomLeft: Radius.circular(UIGap.g2)),
+            image: DecorationImage(
+              image: NetworkImage(img),
+              fit: BoxFit.cover,
+            )),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return CardHorizontalContainer(
+      color: color,
       tap: tap,
       child: Row(
         children: [
