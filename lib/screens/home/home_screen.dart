@@ -253,7 +253,6 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       drawer: const AppDrawer(currentPage: Routes.discover),
-      bottomNavigationBar: const BottomNavbar(),
       body: PageLayout(child: _content(context)),
     );
   }

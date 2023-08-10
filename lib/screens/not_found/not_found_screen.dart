@@ -16,7 +16,9 @@ class NotFoundScreen extends StatelessWidget {
     return Scaffold(
       appBar: const Navbar(),
       drawer: AppDrawer(currentPage: routeName),
-      body: const NotFound(),
+      body: const NotFound(
+        text: 'Page is in development',
+      ),
     );
   }
 }
