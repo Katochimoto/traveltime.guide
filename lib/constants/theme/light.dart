@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:traveltime/constants/theme/custom_colors.dart';
+import 'package:traveltime/store/models.dart' as models;
 
 final ThemeData lightTheme = ThemeData(
   useMaterial3: true,
@@ -232,4 +234,24 @@ final ThemeData lightTheme = ThemeData(
     ),
     borderRadius: BorderRadius.all(Radius.circular(0.0)),
   )),
+  extensions: [
+    CustomColors(
+      eventCategoryColor: {
+        models.EventCategory.event: null,
+        models.EventCategory.holiday: Colors.blue[100],
+        models.EventCategory.nationalHoliday: Colors.blue[100],
+        models.EventCategory.regionalHoliday: Colors.green[100],
+        models.EventCategory.governmentHoliday: Colors.red[100],
+        models.EventCategory.notPublicHoliday: Colors.yellow[100],
+      },
+      eventCategoryDeepColor: {
+        models.EventCategory.event: null,
+        models.EventCategory.holiday: Colors.blue[500],
+        models.EventCategory.nationalHoliday: Colors.blue[500],
+        models.EventCategory.regionalHoliday: Colors.green[500],
+        models.EventCategory.governmentHoliday: Colors.red[500],
+        models.EventCategory.notPublicHoliday: Colors.yellow[500],
+      },
+    ),
+  ],
 );

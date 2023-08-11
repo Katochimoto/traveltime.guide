@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:traveltime/constants/theme/custom_colors.dart';
 import 'package:traveltime/providers/app_auth.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:traveltime/providers/events_calendar.dart';
@@ -12,6 +13,7 @@ class EventsCalendar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final colors = Theme.of(context).extension<CustomColors>();
     final primaryColor = Theme.of(context).primaryColor;
     final state = ref.watch(eventsCalendarProvider);
     final user = ref.watch(appAuthProvider).value!;
@@ -58,7 +60,7 @@ class EventsCalendar extends ConsumerWidget {
           return Icon(
             Icons.circle,
             size: 10,
-            color: models.eventCategoryDeepColor[event.category],
+            color: colors!.eventCategoryDeepColor[event.category],
           );
         },
         // dowBuilder: (context, day) {

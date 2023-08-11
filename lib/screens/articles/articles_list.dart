@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:traveltime/constants/routes.dart';
+import 'package:traveltime/constants/theme.dart';
 import 'package:traveltime/store/db.dart';
 import 'package:traveltime/widgets/card/card_horizontal.dart';
 import 'package:traveltime/widgets/not_found.dart';
@@ -15,6 +16,7 @@ class ArticlesList extends ConsumerWidget {
           data: (data) => data.isEmpty
               ? const NotFound()
               : ListView.builder(
+                  padding: const EdgeInsets.symmetric(vertical: UIGap.g2),
                   itemCount: data.length,
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (_, idx) {

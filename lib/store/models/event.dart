@@ -1,10 +1,8 @@
 import 'package:duration/duration.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 import 'package:rrule/rrule.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:traveltime/providers/app_auth.dart';
 import 'package:traveltime/utils/date.dart';
 import 'package:traveltime/utils/fast_hash.dart';
 
@@ -119,24 +117,6 @@ enum EventCategory {
   governmentHoliday,
   notPublicHoliday,
 }
-
-final eventCategoryColor = <EventCategory, Color?>{
-  EventCategory.event: null,
-  EventCategory.holiday: Colors.blue[100],
-  EventCategory.nationalHoliday: Colors.blue[100],
-  EventCategory.regionalHoliday: Colors.green[100],
-  EventCategory.governmentHoliday: Colors.red[100],
-  EventCategory.notPublicHoliday: Colors.yellow[100],
-};
-
-final eventCategoryDeepColor = <EventCategory, Color?>{
-  EventCategory.event: null,
-  EventCategory.holiday: Colors.blue[500],
-  EventCategory.nationalHoliday: Colors.blue[500],
-  EventCategory.regionalHoliday: Colors.green[500],
-  EventCategory.governmentHoliday: Colors.red[500],
-  EventCategory.notPublicHoliday: Colors.yellow[500],
-};
 
 @collection
 class Event {

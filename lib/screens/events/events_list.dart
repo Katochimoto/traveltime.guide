@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:traveltime/constants/routes.dart';
+import 'package:traveltime/constants/theme/custom_colors.dart';
 import 'package:traveltime/providers/events_calendar.dart';
 import 'package:traveltime/widgets/card/card_horizontal.dart';
 import 'package:traveltime/store/models.dart' as models;
@@ -13,6 +14,7 @@ class EventsList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final colors = Theme.of(context).extension<CustomColors>();
     final state = ref.watch(eventsCalendarProvider);
     final list = eventsByDay(state.selectedDay);
 
@@ -26,7 +28,7 @@ class EventsList extends ConsumerWidget {
       itemBuilder: (_, idx) {
         final event = list[idx];
         return CardHorizontal(
-            color: models.eventCategoryColor[event.category],
+            color: colors!.eventCategoryColor[event.category],
             title: event.title,
             details: event.intro ?? event.description,
             img: event.logoImg,

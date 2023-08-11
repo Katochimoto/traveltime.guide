@@ -58,70 +58,80 @@ class HomeScreen extends StatelessWidget {
               context.pushNamed(Routes.article, pathParameters: {'id': '123'});
             },
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: UIGap.g5),
+              padding: const EdgeInsets.symmetric(horizontal: UIGap.g4),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 70,
-                        height: 70,
-                        decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.5),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(35))),
-                        child: Image.network(
-                          'https://openweathermap.org/img/wn/10d@2x.png',
-                          width: 50,
-                          height: 50,
-                        ),
-                      ),
-                      const SizedBox(width: UIGap.g2),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Chon Buri',
-                            style: Theme.of(context).textTheme.titleMedium,
+                  Flexible(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 70,
+                          height: 70,
+                          decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.5),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(35))),
+                          child: Image.network(
+                            'https://openweathermap.org/img/wn/10d@2x.png',
+                            width: 50,
+                            height: 50,
                           ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.baseline,
-                            textBaseline: TextBaseline.alphabetic,
+                        ),
+                        const SizedBox(width: UIGap.g2),
+                        Flexible(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '27C',
-                                style:
-                                    Theme.of(context).textTheme.headlineSmall,
+                                'Chon Buri',
+                                style: Theme.of(context).textTheme.titleMedium,
+                                softWrap: true,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              const SizedBox(width: UIGap.g1),
-                              // Transform.rotate(
-                              //   angle: 180 * pi / 180,
-                              //   child: const Icon(Icons.arrow_right_alt, size: 20),
-                              // ),
-                              // Text(
-                              //   '10m/c',
-                              //   style: Theme.of(context).textTheme.bodySmall,
-                              // ),
-                              Text(
-                                'Cloudy',
-                                style: Theme.of(context).textTheme.bodyMedium,
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.baseline,
+                                textBaseline: TextBaseline.alphabetic,
+                                children: [
+                                  Text(
+                                    '27 ℃',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall,
+                                  ),
+                                  const SizedBox(width: UIGap.g1),
+                                  // Transform.rotate(
+                                  //   angle: 180 * pi / 180,
+                                  //   child: const Icon(Icons.arrow_right_alt, size: 20),
+                                  // ),
+                                  // Text(
+                                  //   '10m/c',
+                                  //   style: Theme.of(context).textTheme.bodySmall,
+                                  // ),
+                                  Text(
+                                    'Cloudy',
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
+                  const SizedBox(width: UIGap.g2),
                   Table(
                     defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                     columnWidths: const <int, TableColumnWidth>{
                       0: IntrinsicColumnWidth(),
-                      1: IntrinsicColumnWidth(),
+                      1: FixedColumnWidth(40),
                       2: IntrinsicColumnWidth(),
                     },
                     children: [
@@ -129,12 +139,22 @@ class HomeScreen extends StatelessWidget {
                         children: [
                           Text('Sat',
                               style: Theme.of(context).textTheme.labelSmall),
-                          Image.network(
-                            'https://openweathermap.org/img/wn/10d@2x.png',
+                          Center(
+                              child: Container(
+                            margin: const EdgeInsets.symmetric(vertical: 2),
                             width: 30,
                             height: 30,
-                          ),
-                          Text('20C',
+                            decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.5),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(30))),
+                            child: Image.network(
+                              'https://openweathermap.org/img/wn/10d@2x.png',
+                              width: 25,
+                              height: 25,
+                            ),
+                          )),
+                          Text('20 ℃',
                               style: Theme.of(context).textTheme.bodySmall),
                         ],
                       ),
@@ -142,12 +162,22 @@ class HomeScreen extends StatelessWidget {
                         children: [
                           Text('Sun',
                               style: Theme.of(context).textTheme.labelSmall),
-                          Image.network(
-                            'https://openweathermap.org/img/wn/10d@2x.png',
+                          Center(
+                              child: Container(
+                            margin: const EdgeInsets.symmetric(vertical: 2),
                             width: 30,
                             height: 30,
-                          ),
-                          Text('20C',
+                            decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.5),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(30))),
+                            child: Image.network(
+                              'https://openweathermap.org/img/wn/10d@2x.png',
+                              width: 25,
+                              height: 25,
+                            ),
+                          )),
+                          Text('20 ℃',
                               style: Theme.of(context).textTheme.bodySmall),
                         ],
                       ),
@@ -155,12 +185,22 @@ class HomeScreen extends StatelessWidget {
                         children: [
                           Text('Mon',
                               style: Theme.of(context).textTheme.labelSmall),
-                          Image.network(
-                            'https://openweathermap.org/img/wn/10d@2x.png',
+                          Center(
+                              child: Container(
+                            margin: const EdgeInsets.symmetric(vertical: 2),
                             width: 30,
                             height: 30,
-                          ),
-                          Text('20C',
+                            decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.5),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(30))),
+                            child: Image.network(
+                              'https://openweathermap.org/img/wn/10d@2x.png',
+                              width: 25,
+                              height: 25,
+                            ),
+                          )),
+                          Text('20 ℃',
                               style: Theme.of(context).textTheme.bodySmall),
                         ],
                       ),
