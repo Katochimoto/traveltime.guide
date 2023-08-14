@@ -5,12 +5,12 @@ class CardHorizontalContainer extends StatelessWidget {
   const CardHorizontalContainer({
     super.key,
     required this.child,
-    required this.tap,
+    this.tap,
     this.color,
   });
 
   final Widget child;
-  final void Function() tap;
+  final void Function()? tap;
   final Color? color;
 
   @override

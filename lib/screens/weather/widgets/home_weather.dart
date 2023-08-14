@@ -1,8 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:relative_time/relative_time.dart';
 import 'package:traveltime/constants/routes.dart';
 import 'package:traveltime/constants/theme.dart';
+import 'package:traveltime/providers/current_weather.dart';
 import 'package:traveltime/providers/weather.dart';
 import 'package:traveltime/widgets/card/card_horizontal.dart';
 
@@ -16,152 +20,104 @@ class HomeWeatherContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final detailsLabel = Theme.of(context).textTheme.labelSmall;
+    final detailsValue =
+        Theme.of(context).textTheme.bodySmall!.copyWith(height: 1);
+    final dateTimeValue =
+        Theme.of(context).textTheme.bodySmall!.copyWith(height: 1, fontSize: 8);
+    final mainValue =
+        Theme.of(context).textTheme.headlineSmall!.copyWith(height: 1);
     return CardHorizontalContainer(
       tap: () {
         context.pushNamed(Routes.article, pathParameters: {'id': '123'});
       },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: UIGap.g4),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Flexible(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 70,
-                    height: 70,
-                    decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.5),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(35))),
-                    child: Image.network(
-                      'https://openweathermap.org/img/wn/10d@2x.png',
-                      width: 50,
-                      height: 50,
-                    ),
-                  ),
-                  const SizedBox(width: UIGap.g2),
-                  Flexible(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          weather.name,
-                          style: Theme.of(context).textTheme.titleMedium,
-                          softWrap: true,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.baseline,
-                          textBaseline: TextBaseline.alphabetic,
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: UIGap.g1, vertical: 2.0),
+              child: Text(
+                  RelativeTime(context,
+                          timeUnits: [TimeUnit.hour, TimeUnit.minute])
+                      .format(weather.dateTime.toLocal()),
+                  style: dateTimeValue),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: UIGap.g5),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Flexible(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 70,
+                        height: 70,
+                        decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.5),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(35))),
+                        child: Image.network(weather.weatherIcon,
+                            width: 50, height: 50),
+                      ),
+                      const SizedBox(width: UIGap.g2),
+                      Flexible(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '27 ℃',
-                              style: Theme.of(context).textTheme.headlineSmall,
+                              weather.address,
+                              style: Theme.of(context).textTheme.titleMedium,
+                              softWrap: true,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            const SizedBox(width: UIGap.g1),
-                            // Transform.rotate(
-                            //   angle: 180 * pi / 180,
-                            //   child: const Icon(Icons.arrow_right_alt, size: 20),
-                            // ),
-                            // Text(
-                            //   '10m/c',
-                            //   style: Theme.of(context).textTheme.bodySmall,
-                            // ),
-                            Text(
-                              'Cloudy',
-                              style: Theme.of(context).textTheme.bodyMedium,
+                            Wrap(
+                              spacing: UIGap.g1,
+                              crossAxisAlignment: WrapCrossAlignment.end,
+                              // textBaseline: TextBaseline.alphabetic,
+                              children: [
+                                Text('${weather.temp} ℃', style: mainValue),
+                                Row(
+                                  children: [
+                                    Text(
+                                      weather.weatherMain,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(height: 1.2),
+                                    ),
+                                    const SizedBox(width: UIGap.g1),
+                                    Transform.rotate(
+                                      angle: weather.windDeg * pi / 180,
+                                      child: const Icon(Icons.arrow_right_alt,
+                                          size: 20),
+                                    ),
+                                    Text(
+                                      '${weather.windSpeed} m/c',
+                                      style: detailsValue,
+                                    ),
+                                  ],
+                                )
+                              ],
                             ),
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-            const SizedBox(width: UIGap.g2),
-            Table(
-              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-              columnWidths: const <int, TableColumnWidth>{
-                0: IntrinsicColumnWidth(),
-                1: FixedColumnWidth(40),
-                2: IntrinsicColumnWidth(),
-              },
-              children: [
-                TableRow(
-                  children: [
-                    Text('Sat', style: Theme.of(context).textTheme.labelSmall),
-                    Center(
-                        child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 2),
-                      width: 30,
-                      height: 30,
-                      decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.5),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(30))),
-                      child: Image.network(
-                        'https://openweathermap.org/img/wn/10d@2x.png',
-                        width: 25,
-                        height: 25,
-                      ),
-                    )),
-                    Text('20 ℃', style: Theme.of(context).textTheme.bodySmall),
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    Text('Sun', style: Theme.of(context).textTheme.labelSmall),
-                    Center(
-                        child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 2),
-                      width: 30,
-                      height: 30,
-                      decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.5),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(30))),
-                      child: Image.network(
-                        'https://openweathermap.org/img/wn/10d@2x.png',
-                        width: 25,
-                        height: 25,
-                      ),
-                    )),
-                    Text('20 ℃', style: Theme.of(context).textTheme.bodySmall),
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    Text('Mon', style: Theme.of(context).textTheme.labelSmall),
-                    Center(
-                        child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 2),
-                      width: 30,
-                      height: 30,
-                      decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.5),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(30))),
-                      child: Image.network(
-                        'https://openweathermap.org/img/wn/10d@2x.png',
-                        width: 25,
-                        height: 25,
-                      ),
-                    )),
-                    Text('20 ℃', style: Theme.of(context).textTheme.bodySmall),
-                  ],
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -173,10 +129,73 @@ class HomeWeather extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final weather = ref.watch(currentWeatherProvider);
-    return weather.when(
-      loading: () => const CircularProgressIndicator(),
-      error: (err, stack) => Text('Error $err'),
-      data: (data) => HomeWeatherContent(weather: data),
-    );
+    if (weather == null) {
+      return const CardHorizontalContainer(
+          child: Center(child: CircularProgressIndicator()));
+    }
+    return HomeWeatherContent(weather: weather);
   }
 }
+
+// const SizedBox(width: UIGap.g2),
+            // Table(
+            //   defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+            //   columnWidths: const <int, TableColumnWidth>{
+            //     0: IntrinsicColumnWidth(),
+            //     1: FixedColumnWidth(5),
+            //     2: IntrinsicColumnWidth(),
+            //   },
+            //   children: [
+            //     TableRow(
+            //       children: [
+            //         Text('Feels', style: detailsLabel),
+            //         const SizedBox.shrink(),
+            //         Text('${weather.tempFeelsLike} ℃', style: detailsValue),
+            //       ],
+            //     ),
+            //     TableRow(
+            //       children: [
+            //         Text('Humidity', style: detailsLabel),
+            //         const SizedBox.shrink(),
+            //         Text('${weather.humidity.toInt()} %', style: detailsValue),
+            //       ],
+            //     ),
+            //     TableRow(
+            //       children: [
+            //         Text('Pressure', style: detailsLabel),
+            //         const SizedBox.shrink(),
+            //         Text('${weather.pressure.toInt()} hPa',
+            //             style: detailsValue),
+            //       ],
+            //     ),
+            //     TableRow(
+            //       children: [
+            //         Text('Cloudiness', style: detailsLabel),
+            //         const SizedBox.shrink(),
+            //         Text('${weather.cloudiness.toInt()} %',
+            //             style: detailsValue),
+            //       ],
+            //     ),
+            //     TableRow(
+            //       children: [
+            //         Text('Visibility', style: detailsLabel),
+            //         const SizedBox.shrink(),
+            //         Text('${weather.visibility.toInt()} m',
+            //             style: detailsValue),
+            //       ],
+            //     ),
+            //   ],
+            // ),
+
+/*
+const SizedBox(width: UIGap.g1),
+                            Transform.rotate(
+                              angle: 180 * pi / 180,
+                              child:
+                                  const Icon(Icons.arrow_right_alt, size: 20),
+                            ),
+                            Text(
+                              '10m/c',
+                              style: detailsValue,
+                            ),
+                            */

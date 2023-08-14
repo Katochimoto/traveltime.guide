@@ -79,6 +79,7 @@ dependencies:
   logger: ^2.0.1
   collection: ^1.17.1
   filesize: ^2.0.1
+  relative_time: ^4.0.1
 
 dev_dependencies:
   flutter_test:
