@@ -112,26 +112,40 @@ class HomeScreen extends StatelessWidget {
               },
             ),
             NavbarCategorieButton(
-                icon: Icons.filter_drama, title: 'Weather', onPressed: () {}),
+              icon: Icons.filter_drama,
+              title: 'Weather',
+              onPressed: () {
+                context.goNamed(Routes.weather);
+              },
+            ),
             NavbarCategorieButton(
               icon: Icons.hiking,
               title: 'Activities',
+              onPressed: () {
+                context.goNamed(Routes.activities);
+              },
+            ),
+            NavbarCategorieButton(
+              icon: Icons.route,
+              title: 'Routes',
+              onPressed: () {
+                context.goNamed(Routes.routes);
+              },
+            ),
+            NavbarCategorieButton(
+              icon: Icons.set_meal_sharp,
+              title: 'Food',
               onPressed: () {
                 context.goNamed(Routes.articles);
               },
             ),
             NavbarCategorieButton(
-                icon: Icons.route, title: 'Routes', onPressed: () {}),
-            NavbarCategorieButton(
-                icon: Icons.change_circle, title: 'Currency', onPressed: () {}),
-            NavbarCategorieButton(
-                icon: Icons.set_meal_sharp, title: 'Food', onPressed: () {}),
-            NavbarCategorieButton(
-                icon: Icons.newspaper, title: 'News', onPressed: () {}),
-            NavbarCategorieButton(
-                icon: Icons.description, title: 'Visa', onPressed: () {}),
-            NavbarCategorieButton(
-                icon: Icons.coronavirus, title: 'COVID', onPressed: () {}),
+              icon: Icons.newspaper,
+              title: 'News',
+              onPressed: () {
+                context.goNamed(Routes.articles);
+              },
+            ),
           ],
         ),
       ),

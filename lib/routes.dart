@@ -124,5 +124,12 @@ final router = GoRouter(
         routeName: Routes.routes,
       ),
     ),
+    GoRoute(
+      name: Routes.weather,
+      path: '/weather',
+      builder: (context, state) => const NotFoundScreen(
+        routeName: Routes.weather,
+      ),
+    ),
   ],
 );

@@ -80,6 +80,10 @@ dependencies:
   collection: ^1.17.1
   filesize: ^2.0.1
   relative_time: ^4.0.1
+  geolocator: ^9.0.2
+  geolocator_apple: ^2.2.7
+  geolocator_android: ^4.2.2
+  permission_handler: ^10.4.3
 
 dev_dependencies:
   flutter_test:

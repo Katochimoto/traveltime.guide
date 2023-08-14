@@ -48,71 +48,53 @@ class HomeWeatherContent extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: UIGap.g5),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Flexible(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 70,
-                        height: 70,
-                        decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.5),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(35))),
-                        child: Image.network(weather.weatherIcon,
-                            width: 50, height: 50),
-                      ),
-                      const SizedBox(width: UIGap.g2),
-                      Flexible(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              weather.address,
-                              style: Theme.of(context).textTheme.titleMedium,
-                              softWrap: true,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Wrap(
-                              spacing: UIGap.g1,
-                              crossAxisAlignment: WrapCrossAlignment.end,
-                              // textBaseline: TextBaseline.alphabetic,
-                              children: [
-                                Text('${weather.temp} ℃', style: mainValue),
-                                Row(
-                                  children: [
-                                    Text(
-                                      weather.weatherMain,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium!
-                                          .copyWith(height: 1.2),
-                                    ),
-                                    const SizedBox(width: UIGap.g1),
-                                    Transform.rotate(
-                                      angle: weather.windDeg * pi / 180,
-                                      child: const Icon(Icons.arrow_right_alt,
-                                          size: 20),
-                                    ),
-                                    Text(
-                                      '${weather.windSpeed} m/c',
-                                      style: detailsValue,
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ],
+                Container(
+                  width: 70,
+                  height: 70,
+                  decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.5),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(35))),
+                  child:
+                      Image.network(weather.weatherIcon, width: 50, height: 50),
+                ),
+                const SizedBox(width: UIGap.g4),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      weather.address,
+                      style: Theme.of(context).textTheme.titleMedium,
+                      softWrap: true,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text('${weather.temp} ℃', style: mainValue),
+                    Row(
+                      children: [
+                        Text(
+                          weather.weatherMain,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(height: 1.2),
                         ),
-                      ),
-                    ],
-                  ),
+                        const SizedBox(width: UIGap.g1),
+                        Transform.rotate(
+                          angle: weather.windDeg * pi / 180,
+                          child: const Icon(Icons.arrow_right_alt, size: 20),
+                        ),
+                        Text(
+                          '${weather.windSpeed} m/c',
+                          style: detailsValue,
+                        ),
+                      ],
+                    )
+                  ],
                 ),
               ],
             ),

@@ -15,4 +15,5 @@ class Routes {
   static const String terms = 'terms';
   static const String activities = 'activities';
   static const String routes = 'routes';
+  static const String weather = 'weather';
 }
