@@ -47,14 +47,14 @@ class MapScreenBody extends ConsumerWidget {
         },
       ),
       nonRotatedChildren: const [
-        MapTilesSelect(),
+        // MapTilesSelect(),
         MapCurrentLocationSelect(),
         Attribution(),
         Popover(),
       ],
       children: [
         const OSMTileLayer(),
-        const WeatherTiles(),
+        // const WeatherTiles(),
         // const MapRoutes(),
         const MapCurrentLocation(),
         const MapMarkers(),

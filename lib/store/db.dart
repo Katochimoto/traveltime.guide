@@ -339,17 +339,19 @@ final routeLegsByRouteProvider = StreamProvider.autoDispose
 
 final mapObjectsProvider =
     StreamProvider.autoDispose<List<models.MapObject>>((ref) async* {
-  final filters = ref.watch(mapObjectsFiltersProvider);
+  // final filters = ref.watch(mapObjectsFiltersProvider);
   final points = await ref.watch(pointsProvider.future);
-  final routes = await ref.watch(routesProvider.future);
+  // final routes = await ref.watch(routesProvider.future);
 
-  if (filters.routes) {
-    yield routes;
-  } else if (filters.categories.isNotEmpty) {
-    yield points;
-  } else {
-    yield [...points, ...routes];
-  }
+  yield points;
+
+  // if (filters.routes) {
+  //   yield routes;
+  // } else if (filters.categories.isNotEmpty) {
+  //   yield points;
+  // } else {
+  //   yield [...points, ...routes];
+  // }
 });
 
 final pageProvider = StreamProvider.autoDispose
