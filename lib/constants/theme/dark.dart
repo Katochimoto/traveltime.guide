@@ -249,7 +249,7 @@ final ThemeData darkTheme = ThemeData(
         models.EventCategory.notPublicHoliday: darken(Colors.yellow[500]!, 0.4),
       },
       eventCategoryDeepColor: {
-        models.EventCategory.event: null,
+        models.EventCategory.event: const Color(0xFF004D44),
         models.EventCategory.holiday: Colors.blue[500],
         models.EventCategory.nationalHoliday: Colors.blue[500],
         models.EventCategory.regionalHoliday: Colors.green[500],

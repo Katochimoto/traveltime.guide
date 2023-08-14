@@ -31,5 +31,6 @@
 	"aboutTitle": "About",
 	"disclaimerTitle": "Disclaimer",
 	"policyTitle": "Privacy Policy",
-	"termsTitle": "Terms and Conditions"
+	"termsTitle": "Terms and Conditions",
+	"eventCategory": "{choice, select, event {Event} holiday {Holiday} nationalHoliday {National holiday} regionalHoliday {Regional holiday} governmentHoliday {Government holiday} notPublicHoliday {Not public holiday} other {Unknown}}"
 }

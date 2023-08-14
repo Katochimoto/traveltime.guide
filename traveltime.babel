@@ -125,6 +125,21 @@
 						</translations>
 					</concept_node>
 					<concept_node>
+						<name>eventCategory</name>
+						<description/>
+						<comment/>
+						<translations>
+							<translation>
+								<language>en-US</language>
+								<approved>false</approved>
+							</translation>
+							<translation>
+								<language>th-TH</language>
+								<approved>false</approved>
+							</translation>
+						</translations>
+					</concept_node>
+					<concept_node>
 						<name>eventsTitle</name>
 						<description/>
 						<comment/>

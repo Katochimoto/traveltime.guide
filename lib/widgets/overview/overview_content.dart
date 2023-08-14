@@ -3,6 +3,12 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:traveltime/constants/theme.dart';
 import 'package:traveltime/utils/url_launch.dart';
 
+class OverviewContentTag {
+  OverviewContentTag({required this.text, this.color});
+  final String text;
+  final Color? color;
+}
+
 class OverviewContent extends StatelessWidget {
   const OverviewContent({
     super.key,
@@ -13,6 +19,7 @@ class OverviewContent extends StatelessWidget {
     this.content,
     this.coverImage,
     this.extra,
+    this.tags,
   });
 
   final ScrollController? sc;
@@ -22,11 +29,14 @@ class OverviewContent extends StatelessWidget {
   final String? coverImage;
   final List<Widget>? actions;
   final List<Widget>? extra;
+  final List<OverviewContentTag>? tags;
 
   @override
   Widget build(BuildContext context) {
     final textStyle =
         Theme.of(context).textTheme.merge(Typography.whiteCupertino);
+    final tagStyle =
+        Theme.of(context).textTheme.merge(Typography.whiteCupertino).bodySmall;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -57,6 +67,27 @@ class OverviewContent extends StatelessWidget {
                   children: [
                     if (title != null)
                       Text(title!, style: textStyle.headlineSmall),
+                    if (tags?.isNotEmpty == true)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: UIGap.g1),
+                        child: Row(
+                          children: [
+                            for (final tag in tags!)
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: tag.color,
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(UIGap.g1))),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: UIGap.g2),
+                                child: Text(
+                                  tag.text,
+                                  style: tagStyle,
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
                     if (subtitle != null)
                       Text(subtitle!, style: textStyle.bodySmall),
                     if (actions != null && actions!.isNotEmpty)

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:traveltime/constants/theme.dart';
+import 'package:traveltime/constants/theme/custom_colors.dart';
 import 'package:traveltime/screens/event/event_points.dart';
 import 'package:traveltime/store/models.dart' as models;
 import 'package:traveltime/widgets/overview/overview_content.dart';
@@ -13,6 +15,8 @@ class EventDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+    final colors = Theme.of(context).extension<CustomColors>();
     final instance = event.instanceOnDay(date ?? DateTime.now());
     final upcomingInstance = event.upcomingInstanceFrom(date ?? DateTime.now());
 
@@ -24,6 +28,12 @@ class EventDetails extends StatelessWidget {
       content: event.description,
       actions: [
         if (event.web != null) OverviewWeb(url: event.web!),
+      ],
+      tags: [
+        OverviewContentTag(
+          text: loc.eventCategory(event.category.name),
+          color: colors!.eventCategoryDeepColor[event.category],
+        )
       ],
       extra: [
         const SizedBox(height: UIGap.g2),

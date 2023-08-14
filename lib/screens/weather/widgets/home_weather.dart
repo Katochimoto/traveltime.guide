@@ -61,7 +61,7 @@ class HomeWeatherContent extends StatelessWidget {
                   child:
                       Image.network(weather.weatherIcon, width: 50, height: 50),
                 ),
-                const SizedBox(width: UIGap.g4),
+                const SizedBox(width: UIGap.g5),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,

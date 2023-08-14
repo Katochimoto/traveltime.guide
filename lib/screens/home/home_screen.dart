@@ -112,6 +112,13 @@ class HomeScreen extends StatelessWidget {
               },
             ),
             NavbarCategorieButton(
+              icon: Icons.event,
+              title: 'Events',
+              onPressed: () {
+                context.goNamed(Routes.events);
+              },
+            ),
+            NavbarCategorieButton(
               icon: Icons.filter_drama,
               title: 'Weather',
               onPressed: () {

@@ -28,5 +28,6 @@
 	"aboutTitle": "",
 	"disclaimerTitle": "",
 	"policyTitle": "",
-	"termsTitle": ""
+	"termsTitle": "",
+	"eventCategory": ""
 }
