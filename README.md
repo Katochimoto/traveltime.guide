@@ -52,3 +52,8 @@ flutter build apk --split-per-abi --obfuscate --split-debug-info=.tmp
 flutter build appbundle --obfuscate --split-debug-info=.tmp
 flutter run --release
 ```
+
+
+```
+keytool -genkey -v -keystore android/traveltime_upload.jks -storetype JKS -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+```
